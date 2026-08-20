@@ -1,0 +1,185 @@
+@charset "UTF-8";
+
+:root{
+
+    /*_____________ PALETA DE COLORES _____________*/
+
+    --color-primario-darker:#4600A9;
+    --color-primario-dark:#6E29D9;
+    --color-primario-regular:#9654F4;
+    --color-primario-light:#CEB0FA;
+    --color-primario-lighter:#EFE6FD;
+    
+    --color-secundario-darker:#B57100;
+    --color-secundario-dark:#FF9F00;
+    --color-secundario-regular:#FFBF54;
+    --color-secundario-light:#FFE1B0;
+    --color-secundario-lighter:#FFF5E6;
+
+    --color-neutral-darkest:#000000;
+    --color-neutral-darker:#353535;
+    --color-neutral-dark:#757575;
+    --color-neutral-light:#D0D0D0;
+    --color-neutral-lighter:#F6F6F6;
+    --color-neutral-lightest:#FFFFFF;
+
+    --color-acento:#10C9CB;
+        
+    /*________________ TIPOGRAFÍAS ________________*/
+    --fuente-heading:"Lexend", sans-serif;
+    --fuente-body:"Noto Sans", sans-serif;
+
+    /*___________________ HERO ____________________*/
+    --peso-hero: 700;
+    --tamano-fuente-hero: 56px;
+    --interlineado-hero: 64px;
+
+    /*_____________ TÍTULOS DE PÁGINA _____________*/
+    --peso-titulo: 700;
+    --tamano-fuente-titulo: 40px;
+    --interlineado-titulo: 48px;
+
+    /*_________________ SECCIONES _________________*/
+    --peso-secciones: 600;
+    --tamano-fuente-secciones: 32px;
+    --interlineado-secciones: 40px;
+
+    /*________________ SUBSECCIONES _______________*/
+    --peso-subsecciones: 600;
+    --tamano-fuente-subsecciones: 24px;
+    --interlineado-subsecciones: 32px;
+
+    /*__________________ PÁRRAFOS _________________*/
+    --peso-parrafos: 400;
+    --tamano-fuente-parrafos: 16px;
+    --interlineado-parrafos: 24px;
+
+    /*____________________ SMALL __________________*/
+    --peso-small: 400;
+    --tamano-fuente-small: 14px;
+    --interlineado-small: 20px;
+}
+
+/* CUERPO */
+body{
+    margin: 0px;
+    background-color: var(--color-secundario-lighter);
+}
+
+header{
+    background-color: var(--color-primario-darker);
+}
+
+/* MENU NAVEGACION */
+nav{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-titulo);
+    font-size: var(--tamano-fuente-parrafos);
+    color: var(--color-secundario-light);
+    background-color: var(--color-primario-darker);
+
+    position: sticky;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/*ENLACES DE LA NAVEGACIÓN*/
+.header-nav a{
+    padding: 5px 15px;
+    color: var(--color-secundario-light);
+    text-decoration: none;
+}
+
+.header-nav a[aria-current="pagina-actual"] {
+    border-bottom: 3px solid var(--color-secundario-dark);
+    color: var(--color-secundario-dark);
+}
+
+.header-nav a:hover{
+    color: var(--color-secundario-dark);
+}
+
+/*ÚLTIMO ENLACE DE LA NAVEGACIÓN*/
+.header-nav a:last-child{
+    margin-right: 85px;
+}
+
+/*LOGO DEL ENCABEZADO*/
+.header-logo{
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+/*IMAGEN DEL LOGO DEL ENCABEZADO*/
+.header-logo img{
+    height: 60px;
+    width: auto;
+    display: block;
+    padding-left: 100px;
+}
+
+
+body section{
+    padding: 0px 100px;
+}
+
+/* TITULOS */
+h1{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-titulo);
+    font-size: var(--tamano-fuente-titulo);
+    line-height: var(--interlineado-titulo);
+    color: var(--color-primario-darker);
+    background-color: var(--color-secundario-lighter);
+}
+
+/* SECCIONES */
+h2{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-secciones);
+    font-size: var(--tamano-fuente-secciones);
+    line-height: var(--interlineado-secciones);
+    color: var(--color-primario-darker);
+    background-color: var(--color-secundario-lighter);
+}
+
+/* SUBSECCIONES */
+h3{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-subsecciones);
+    font-size: var(--tamano-fuente-subsecciones);
+    line-height: var(--interlineado-subsecciones);
+    color: var(--color-primario-darker);
+    background-color: var(--color-secundario-lighter);
+}
+
+/* PÁRRAFOS */
+p{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-parrafos);
+    font-size: var(--tamano-fuente-parrafos);
+    line-height: var(--interlineado-parrafos);
+    color: var(--color-neutral-darkest);
+    background-color: var(--color-secundario-lighter);
+}
+
+/* PIE DE PÁGINA */
+footer{
+    background-color: var(--color-primario-darker);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer p{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-small);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-secundario-dark);
+    background-color: var(--color-primario-darker);   
+}
