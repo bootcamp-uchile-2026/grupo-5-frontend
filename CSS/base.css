@@ -121,7 +121,6 @@ nav{
     padding-left: 100px;
 }
 
-
 body section{
     padding: 0px 100px;
 }
@@ -180,6 +179,6 @@ footer p{
     font-weight: var(--peso-small);
     font-size: var(--tamano-fuente-small);
     line-height: var(--interlineado-small);
-    color: var(--color-secundario-dark);
+    color: var(--color-secundario-lighter);
     background-color: var(--color-primario-darker);   
 }
