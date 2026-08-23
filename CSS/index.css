@@ -119,11 +119,13 @@
     flex-direction: column;
     gap: 20px;
     justify-content: space-evenly;
+    width: 100%;
 }
 
 .coleccion-tarjetas{
     background-color: var(--color-primario-light);
     display: flex;
+    justify-content: space-evenly;
     gap: 20px;
 }
 
