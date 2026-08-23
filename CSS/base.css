@@ -63,12 +63,17 @@
 /*BODY*/
 body{
     margin: 0px;
-    background-color: var(--color-secundario-lighter);
+    background-color: var(--color-primario-light);
 }
 /*------------------------------------------------------------------------------------------*/
-/*HEADER*/
-header{
+/*BARRA DE NAVEGACION*/
+.barra-navegacion{
     background-color: var(--color-primario-darker);
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 /*------------------------------------------------------------------------------------------*/
 /*BANNER*/
@@ -99,7 +104,6 @@ nav{
     color: var(--color-secundario-light);
     background-color: var(--color-primario-darker);
 
-    position: sticky;
     height: 80px;
     display: flex;
     align-items: center;
