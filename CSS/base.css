@@ -60,12 +60,13 @@
     --interlineado-small: 20px;
 }
 
-/* CUERPO */
+/*BODY*/
 body{
     margin: 0px;
     background-color: var(--color-secundario-lighter);
 }
 
+/*HEADER*/
 header{
     background-color: var(--color-primario-darker);
 }
@@ -85,7 +86,7 @@ nav{
     justify-content: space-between;
 }
 
-/*ENLACES DE LA NAVEGACIÓN*/
+    /*ENLACES DE LA NAVEGACIÓN*/
 .header-nav a{
     padding: 5px 15px;
     color: var(--color-secundario-light);
@@ -101,19 +102,19 @@ nav{
     color: var(--color-secundario-dark);
 }
 
-/*ÚLTIMO ENLACE DE LA NAVEGACIÓN*/
+    /*ÚLTIMO ENLACE DE LA NAVEGACIÓN*/
 .header-nav a:last-child{
     margin-right: 85px;
 }
 
-/*LOGO DEL ENCABEZADO*/
+    /*LOGO DEL ENCABEZADO*/
 .header-logo{
     height: 80px;
     display: flex;
     align-items: center;
 }
 
-/*IMAGEN DEL LOGO DEL ENCABEZADO*/
+    /*IMAGEN DEL LOGO DEL ENCABEZADO*/
 .header-logo img{
     height: 60px;
     width: auto;
@@ -121,7 +122,8 @@ nav{
     padding-left: 100px;
 }
 
-body section{
+/*HERO*/
+.hero{
     padding: 0px 100px;
 }
 
@@ -135,7 +137,7 @@ h1{
     background-color: var(--color-secundario-lighter);
 }
 
-/* SECCIONES */
+    /* SECCIONES */
 h2{
     font-family: var(--fuente-heading);
     font-weight: var(--peso-secciones);
@@ -145,7 +147,7 @@ h2{
     background-color: var(--color-secundario-lighter);
 }
 
-/* SUBSECCIONES */
+    /* SUBSECCIONES */
 h3{
     font-family: var(--fuente-heading);
     font-weight: var(--peso-subsecciones);
@@ -155,7 +157,7 @@ h3{
     background-color: var(--color-secundario-lighter);
 }
 
-/* PÁRRAFOS */
+    /* PÁRRAFOS */
 p{
     font-family: var(--fuente-body);
     font-weight: var(--peso-parrafos);
@@ -165,20 +167,90 @@ p{
     background-color: var(--color-secundario-lighter);
 }
 
-/* PIE DE PÁGINA */
+/*FOOTER*/
 footer{
     background-color: var(--color-primario-darker);
 
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-evenly;
+    align-items: space-between;
+    gap: 100px;
 }
 
-footer p{
+.footer-contenedor{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    flex-wrap: nowrap;
+    gap: 40px;
+    
+    width: 90%;
+    margin: 0 auto;
+}
+
+.footer-contenedor section{
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-contenedor h3{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-subsecciones);
+    font-size: var(--tamano-fuente-parrafos);
+    line-height: var(--interlineado-subsecciones);
+    color: var(--color-secundario-lighter);
+    background-color: var(--color-primario-darker);
+}
+
+.footer-contenedor a{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-parrafos);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-parrafos);
+    color: var(--color-secundario-lighter);
+    background-color: var(--color-primario-darker);
+    text-decoration: none;
+}
+
+.footer-contenedor a:hover{
+    text-decoration:underline;
+}
+
+.footer-contenedor .footer-logo{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.footer-logo img {    
+    height: 100px;
+    width: auto;
+}
+
+.footer-contenedor .redes-sociales{
+    display: flex;
+    flex-direction: column;
+}
+
+.iconos-contenedor{
+        display: flex;
+        flex-flow: row wrap;
+        gap: 12px;
+}
+
+/*FOOTER LEGAL*/
+.footer-legal p{
     font-family: var(--fuente-heading);
     font-weight: var(--peso-small);
     font-size: var(--tamano-fuente-small);
     line-height: var(--interlineado-small);
     color: var(--color-secundario-lighter);
-    background-color: var(--color-primario-darker);   
+    background-color: var(--color-primario-darker);
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
