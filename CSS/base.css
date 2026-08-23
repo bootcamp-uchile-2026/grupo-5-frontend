@@ -71,6 +71,26 @@ header{
     background-color: var(--color-primario-darker);
 }
 
+/*BANNER*/
+.banner-contenedor{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    background-color: var(--color-secundario-regular);
+}
+
+.banner{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-hero);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-primario-darker);
+    background-color: var(--color-secundario-regular);
+    
+    margin: 0px;
+}
+
 /* MENU NAVEGACION */
 nav{
     font-family: var(--fuente-heading);
