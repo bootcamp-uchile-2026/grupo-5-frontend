@@ -1,0 +1,288 @@
+.root{
+    margin: 0px;
+}
+
+/*-----------------------------------------------------------*/
+/*HERO*/
+.hero{
+    background-color: var(--color-primario-light);
+    margin: 0px;
+}
+
+.hero-contenedor{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-contenido{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-titulo h2{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-hero);
+    font-size: var(--tamano-fuente-hero);
+    line-height: var(--interlineado-hero);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
+.hero-pie p{
+    padding: 0px 20%;
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-subsecciones);
+    font-size: var(--tamano-fuente-subsecciones);
+    line-height: var(--interlineado-subsecciones);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
+.hero-botones{
+    display: flex;
+    justify-content: center;
+}
+
+.boton{
+    margin: 0% 3%;
+    height: 30px;
+    width: 120px;
+}
+
+.hero-caracteristicas{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.hero-caracteristicas-contenedor{
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-caracteristicas-contenedor h3{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-subsecciones);
+    font-size: var(--tamano-fuente-parrafos);
+    line-height: var(--interlineado-parrafos);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
+.hero-caracteristicas-contenedor p{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-parrafos);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
+/*-----------------------------------------------------------*/
+
+/*CARRUSEL RECOMENDACIONES LIBRERO*/
+
+.carrusel-recomendaciones{
+    background-color: var(--color-primario-light);
+    padding: 5%;
+}
+
+.carrusel-recomendaciones-encabezado{ 
+    background-color: var(--color-primario-light);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.carrusel-recomendaciones-titulo{
+    background-color: var(--color-primario-light);
+}
+
+.carrusel-recomendaciones-acciones{
+    display: flex;
+    gap: 20px;
+}
+
+.carrusel-recomendaciones-contenedor{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.coleccion-tarjetas{
+    background-color: var(--color-primario-light);
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+.carrusel-recomendaciones-tarjeta{
+    background-color: var(--color-primario-light);
+    position: relative;
+}
+
+.tarjeta-header-curador{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    
+    background-color: var(--color-neutral-lightest);
+    padding: 10px;
+    border-radius: 25px/50%;
+
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.tarjeta-imagen-curador{
+    border-radius: 50%;
+}
+
+.tarjeta-nombre-curador{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-subsecciones);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-primario-darker);
+    
+    padding-left: 10px;
+}
+
+.tarjeta-libro-info{
+    background-color: var(--color-neutral-lightest);
+}
+
+.tarjeta-libro-info-titulo{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-titulo);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-neutral-darkest);
+    margin-left: 10px;
+}
+
+.tarjeta-libro-info-autor{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-small);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-neutral-darkest);
+    margin-left: 10px;
+}
+
+.tarjeta-libro-info-precio{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-small);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-neutral-darkest);
+    margin-left: 10px;
+}
+
+.tarjeta-libro-info-favorito{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-titulo);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-primario-darker);
+    margin-right: 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+
+    background: none;
+    border: none;
+    padding: 0;
+    color: #e74c3c;
+}
+
+.tarjeta-libro-info-favorito span{
+    cursor: pointer;
+    display: inline-block;
+}
+
+.controles-carrusel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.controles-carrusel span{
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+    background-color: var(--color-neutral-light);
+}
+
+/*-----------------------------------------------------------*/
+
+/*COMUNIDAD LECTORA*/
+
+.hero{
+    background-color: var(--color-primario-light);
+    margin: 0px;
+}
+
+.comunidad-lectora-contenedor{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comunidad-lectora-contenido{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.comunidad-lectora-titulo h2{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-hero);
+    font-size: var(--tamano-fuente-hero);
+    line-height: var(--interlineado-hero);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
+.comunidad-lectora-pie p{
+    padding: 0px 20%;
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-subsecciones);
+    font-size: var(--tamano-fuente-subsecciones);
+    line-height: var(--interlineado-subsecciones);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
+.comunidad-lectora-botones{
+    display: flex;
+    justify-content: center;
+}
+
+.boton{
+    margin: 0% 3%;
+    height: 30px;
+    width: 120px;
+}
