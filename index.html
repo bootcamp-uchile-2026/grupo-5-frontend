@@ -16,11 +16,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <!--Descarga de fuentes-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans:wght@400&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans:wght@400&display=swap">
 
     <!--ESTILOS CSS-->
     <link rel="stylesheet" href="CSS/base.css">
+    <link rel="stylesheet" href="CSS/index.css">
 </head>
+<!------------------------------------------------------------------------------------------>
 
 <body>
 
@@ -29,17 +32,19 @@
 
         <!--BANNER-->
         <div class="banner-contenedor">
-<p class="banner">&lt;&lt; Noticias destacadas, anuncios, ofertas &gt;&gt;</p>        </div>
+            <p class="banner">&lt;&lt; Noticias destacadas, anuncios, ofertas &gt;&gt;</p>
+        </div>
 
         <!-- BARRA DE NAVEGACIÓN -->
         <nav>
             <!--LOGO-->
             <div class="header-logo">
                 <a href="index.html">
-                    <img src="imagenes/Logos/09-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Logo de la marca">
+                    <img src="imagenes/Logos/09-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg"
+                        alt="Logo de la marca">
                 </a>
             </div>
-            
+
             <!--NAVEGACIÓN-->
             <div class="header-nav">
                 <a href="index.html" aria-current="pagina-actual">Inicio</a>
@@ -52,30 +57,54 @@
             </div>
         </nav>
     </header>
-
+    <!------------------------------------------------------------------------------------------>
     <!--AQUÍ IRÁ EL CONTENIDO PRINCIPAL-->
     <section class="hero">
-        <h1>LeeConNos (Así se ve un h1)</h1>
-        <h2>Libros Elegidos por Personas, no por Algoritmos (así se ve un h2)</h2>
-        <h3>Así se ve un h3</h3>
-        <p>Así se ve un párrafo</p>
-        <p>En LeeConNos cada recomendación tiene nombre y apellido: el de
-            nuestros libreros.</p>
-        <p>Explora el catálogo, conoce a quien lo eligió
-            para ti y únete a nuestro club de lectura.</p>
+        <div class="hero-contenedor">
+            <div class="hero-contenido">
+                <div class="hero-titulo">
+                    <h2>Encuentra ese libro que aún no conoces</h2>
+                </div>
+                <div class="hero-pie">
+                    <p>Descubre tu próxima lectura y conecta con una comunidad de lectores como tú.</p>
+                </div>
+                <div class="hero-botones">
+                    <button class="boton">Botón 1</button>
+                    <button class="boton">Botón 2</button>
+                </div>
+                <div class="hero-caracteristicas">
+                    <div class="hero-caracteristicas-contenedor">
+                        <h3>Libros</h3>
+                        <p>Encuentra tu próximo favorito</p>
+                    </div>
+                    <div class="hero-caracteristicas-contenedor">
+                        <h3>Curadores Expertos</h3>
+                        <p>Encuentra tu próximo favorito</p>
+                    </div>
+                    <div class="hero-caracteristicas-contenedor">
+                        <h3>Comunidad</h3>
+                        <p>Encuentra tu próximo favorito</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-imagen">
+                <img src="https://placehold.co/600x400" alt="placehold">
+            </div>
+        </div>
     </section>
-
+    <!------------------------------------------------------------------------------------------>
     <!-- PIE DE PÁGINA -->
     <footer class="footer">
-        
+
         <!--Contenedor General para el diseño en columnas-->
         <div class="footer-contenedor">
-        
+
             <!--Contenedor del logo-->
             <section class="footer-logo">
-                <img src="imagenes/Logos/09-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Nombre y logo de la librería.">
+                <img src="imagenes/Logos/09-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg"
+                    alt="Nombre y logo de la librería.">
             </section>
-            
+
             <!--Contenedor de Información-->
             <section class="footer-info">
                 <h3>Información</h3>
@@ -85,7 +114,7 @@
                 <a href="">Políticas de despacho</a>
                 <a href="">Políticas de retiro en tienda</a>
             </section>
-            
+
             <!--Contenedor de LeeConNos-->
             <section class="lee-con-nos">
                 <h3>LeeConNos</h3>
@@ -100,20 +129,21 @@
                 <h3>Síguenos en</h3>
 
                 <!-- Contenedor de íconos de RRSS-->
-                <div class ="iconos-contenedor">
+                <div class="iconos-contenedor">
                     <img src="imagenes/iconos/01-facebook-negative.svg" alt="Ícono de Facebook">
                     <img src="imagenes/iconos/02-instagram-negative.svg" alt="Ícono de Instagram">
                     <img src="imagenes/iconos/03-x-negative.svg" alt="Ícono de X">
                     <img src="imagenes/iconos/04-youtube-negative.svg" alt="Ícono de YouTube">
                     <img src="imagenes/iconos/05-whatsapp-negative.svg" alt="Ícono de Whatsapp">
                 </div>
-            
+
             </section>
         </div>
-        
+
         <!--Contenedor Legal-->
-        <div class="footer-legal" >
-            <p>(C)2026 leeconnos.cl - Todos los derechos reservados - Legión Atenea - Equipo 5 - Bootcamp Universidad de Chile</p>
+        <div class="footer-legal">
+            <p>(C)2026 leeconnos.cl - Todos los derechos reservados - Legión Atenea - Equipo 5 - Bootcamp Universidad de
+                Chile</p>
         </div>
 
     </footer>

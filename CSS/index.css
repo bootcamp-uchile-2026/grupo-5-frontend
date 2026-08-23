@@ -1,0 +1,88 @@
+.root{
+    margin: 0px;
+}
+
+
+/*HERO*/
+.hero{
+    background-color: var(--color-primario-light);
+    margin: 0px;
+}
+
+.hero-contenedor{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero.contenido{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-titulo h2{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-hero);
+    font-size: var(--tamano-fuente-hero);
+    line-height: var(--interlineado-hero);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
+.hero-pie p{
+    padding: 0px 20%;
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-subsecciones);
+    font-size: var(--tamano-fuente-subsecciones);
+    line-height: var(--interlineado-subsecciones);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
+.hero-botones{
+    display: flex;
+    justify-content: center;
+}
+
+.boton{
+    margin: 0% 3%;
+    height: 30px;
+    width: 120px;
+}
+
+.hero-caracteristicas{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.hero-caracteristicas-contenedor{
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-caracteristicas-contenedor h3{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-subsecciones);
+    font-size: var(--tamano-fuente-parrafos);
+    line-height: var(--interlineado-parrafos);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
+.hero-caracteristicas-contenedor p{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-parrafos);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}

@@ -24,7 +24,7 @@
     --color-neutral-lightest:#FFFFFF;
 
     --color-acento:#10C9CB;
-        
+
     /*________________ TIPOGRAFÍAS ________________*/
     --fuente-heading:"Lexend", sans-serif;
     --fuente-body:"Noto Sans", sans-serif;
@@ -59,18 +59,18 @@
     --tamano-fuente-small: 14px;
     --interlineado-small: 20px;
 }
-
+/*------------------------------------------------------------------------------------------*/
 /*BODY*/
 body{
     margin: 0px;
     background-color: var(--color-secundario-lighter);
 }
-
+/*------------------------------------------------------------------------------------------*/
 /*HEADER*/
 header{
     background-color: var(--color-primario-darker);
 }
-
+/*------------------------------------------------------------------------------------------*/
 /*BANNER*/
 .banner-contenedor{
     display: flex;
@@ -90,7 +90,7 @@ header{
     
     margin: 0px;
 }
-
+/*------------------------------------------------------------------------------------------*/
 /* MENU NAVEGACION */
 nav{
     font-family: var(--fuente-heading);
@@ -141,12 +141,7 @@ nav{
     display: block;
     padding-left: 100px;
 }
-
-/*HERO*/
-.hero{
-    padding: 0px 100px;
-}
-
+/*------------------------------------------------------------------------------------------*/
 /* TITULOS */
 h1{
     font-family: var(--fuente-heading);
@@ -156,7 +151,7 @@ h1{
     color: var(--color-primario-darker);
     background-color: var(--color-secundario-lighter);
 }
-
+/*------------------------------------------------------------------------------------------*/
     /* SECCIONES */
 h2{
     font-family: var(--fuente-heading);
@@ -165,8 +160,10 @@ h2{
     line-height: var(--interlineado-secciones);
     color: var(--color-primario-darker);
     background-color: var(--color-secundario-lighter);
-}
 
+    margin: 0px;
+}
+/*------------------------------------------------------------------------------------------*/
     /* SUBSECCIONES */
 h3{
     font-family: var(--fuente-heading);
@@ -176,7 +173,7 @@ h3{
     color: var(--color-primario-darker);
     background-color: var(--color-secundario-lighter);
 }
-
+/*------------------------------------------------------------------------------------------*/
     /* PÁRRAFOS */
 p{
     font-family: var(--fuente-body);
@@ -186,7 +183,7 @@ p{
     color: var(--color-neutral-darkest);
     background-color: var(--color-secundario-lighter);
 }
-
+/*------------------------------------------------------------------------------------------*/
 /*FOOTER*/
 footer{
     background-color: var(--color-primario-darker);
