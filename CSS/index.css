@@ -110,13 +110,21 @@
 }
 
 .carrusel-recomendaciones-acciones{
-    background-color: var(--color-primario-light);
     display: flex;
     gap: 20px;
 }
+
 .carrusel-recomendaciones-contenedor{
     display: flex;
+    flex-direction: column;
+    gap: 20px;
     justify-content: space-evenly;
+}
+
+.coleccion-tarjetas{
+    background-color: var(--color-primario-light);
+    display: flex;
+    gap: 20px;
 }
 
 .carrusel-recomendaciones-tarjeta{
@@ -205,4 +213,19 @@
 .tarjeta-libro-info-favorito span{
     cursor: pointer;
     display: inline-block;
+}
+
+.controles-carrusel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.controles-carrusel span{
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+    background-color: var(--color-neutral-light);
 }
