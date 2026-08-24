@@ -235,17 +235,12 @@
 /*-----------------------------------------------------------*/
 
 /*COMUNIDAD LECTORA*/
-
-.hero{
-    background-color: var(--color-primario-light);
-    margin: 0px;
-}
-
 .comunidad-lectora-contenedor{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 30px;
 }
 
 .comunidad-lectora-contenido{
