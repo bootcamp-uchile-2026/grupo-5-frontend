@@ -223,12 +223,20 @@ footer{
     background-color: var(--color-primario-darker);
 
     text-decoration: none;   
+}
 
+.iconos-contenedor{
+    display: flex;
+    gap: 15px;
 }
 
 .imagen-logo{
     height: auto;
     width: 300px;
+}
+
+.iconos-contenedor:hover{
+    cursor: pointer;
 }
 
 footer p{
