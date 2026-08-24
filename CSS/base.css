@@ -71,6 +71,12 @@ header{
 }
 
 /* BANNER */
+.barra-navegacion{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
 .banner{
     font-family: var(--fuente-heading);
     font-weight: var(--peso-titulo);
@@ -92,7 +98,6 @@ nav{
     color: var(--color-secundario-light);
     background-color: var(--color-primario-darker);
 
-    position: sticky;
     height: 80px;
     display: flex;
     align-items: center;
