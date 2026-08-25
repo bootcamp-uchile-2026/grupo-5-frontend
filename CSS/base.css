@@ -31,8 +31,8 @@
 
     /*___________________ HERO ____________________*/
     --peso-hero: 700;
-    --tamano-fuente-hero: 56px;
-    --interlineado-hero: 64px;
+    --tamano-fuente-hero: 65px;
+    --interlineado-hero: 70px;
 
     /*_____________ TÍTULOS DE PÁGINA _____________*/
     --peso-titulo: 700;
@@ -88,51 +88,152 @@ header{
 nav{
     font-family: var(--fuente-heading);
     font-weight: var(--peso-titulo);
-    font-size: var(--tamano-fuente-parrafos);
-    color: var(--color-secundario-light);
+    font-size: var(--tamano-fuente-small);
+    color: var(--color-neutral-lighter);
     background-color: var(--color-primario-darker);
 
     position: sticky;
-    height: 80px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 24px;
 }
 
 /*ENLACES DE LA NAVEGACIÓN*/
 .header-nav a{
-    padding: 5px 15px;
-    color: var(--color-secundario-light);
+    padding: 4px 10px;
+    color: var(--color-neutral-lighter);
     text-decoration: none;
 }
 
 .header-nav a[aria-current="pagina-actual"] {
     border-bottom: 3px solid var(--color-secundario-dark);
-    color: var(--color-secundario-dark);
+    color: var(--color-neutral-lighter);
 }
 
 .header-nav a:hover{
-    color: var(--color-secundario-dark);
-}
-
-/*ÚLTIMO ENLACE DE LA NAVEGACIÓN*/
-.header-nav a:last-child{
-    margin-right: 85px;
+    color: var(--color-neutral-lighter);
 }
 
 /*LOGO DEL ENCABEZADO*/
 .header-logo{
-    height: 80px;
+    height: 64px;
     display: flex;
     align-items: center;
 }
 
 /*IMAGEN DEL LOGO DEL ENCABEZADO*/
 .header-logo img{
-    height: 60px;
+    height: 46px;
     width: auto;
     display: block;
-    padding-left: 100px;
+    padding-left: 24px;
+}
+
+.header-nav{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.header-acciones{
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-right: 16px;
+}
+
+.header-busqueda{
+    display: flex;
+    align-items: center;
+    width: 210px;
+    height: 24px;
+    margin-right: 24px;
+    padding: 0 8px 0 11px;
+    border: 2px solid var(--color-neutral-lighter);
+    border-radius: 18px;
+    background-color: var(--color-neutral-lighter);
+}
+
+.header-busqueda input{
+    min-width: 0;
+    flex: 1;
+    border: 0;
+    outline: 0;
+    font-family: var(--fuente-body);
+    font-size: var(--tamano-fuente-small);
+    color: var(--color-neutral-darker);
+    background: transparent;
+}
+
+.header-busqueda button,
+.header-icono{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    color: var(--color-neutral-lighter);
+    background: transparent;
+    cursor: pointer;
+}
+
+.header-busqueda button{
+    color: var(--color-neutral-darker);
+}
+
+.header-icono .bi,
+.header-busqueda .bi{
+    font-size: 18px;
+    line-height: 1;
+}
+
+@media (max-width: 1100px){
+    .header-nav a{
+        padding: 4px 6px;
+        font-size: var(--tamano-fuente-small);
+    }
+
+    .header-busqueda{
+        width: 170px;
+    }
+}
+
+@media (max-width: 760px){
+    nav{
+        height: auto;
+        min-height: 64px;
+        flex-wrap: wrap;
+        padding: 8px 0;
+    }
+
+    .header-logo img{
+        height: 38px;
+        padding-left: 16px;
+    }
+
+    .header-acciones{
+        padding-right: 16px;
+        gap: 8px;
+    }
+
+    .header-busqueda{
+        order: 3;
+        width: calc(100vw - 32px);
+        margin: 0 16px;
+    }
+
+    .header-nav{
+        order: 4;
+        width: 100%;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 4px 8px;
+    }
 }
 
 /* TITULOS */
