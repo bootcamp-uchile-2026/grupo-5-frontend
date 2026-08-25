@@ -4,6 +4,10 @@
 
 /*-----------------------------------------------------------*/
 /*HERO*/
+body h1{
+    background-color: var(--color-primario-light);
+}
+
 .hero{
     background-color: var(--color-primario-light);
     margin: 0px;

@@ -22,40 +22,111 @@
     <link rel="stylesheet" href="../CSS/base.css">
 </head>
 
+<!------------------------------------------------------------------------------------------>
+
 <body>
-
     <!--ENCABEZADO-->
-    <header>
-
-        <!-- BARRA DE NAVEGACIÓN -->
-        <nav>
-            <!--LOGO-->
-            <div class="header-logo">
-                <a href="../index.html">
-                    <img src="../Logos/07-Imagen-Amarillo.svg" alt="Logo de la marca">
-                </a>
+    <section class="barra-navegacion">
+        <header>
+            <!--BANNER-->
+            <div class="banner-contenedor">
+                <p class="banner">&lt;&lt; Noticias destacadas, anuncios, ofertas &gt;&gt;</p>
             </div>
 
-            <!--NAVEGACIÓN-->
-            <div class="header-nav">
-                <a href="../index.html">Inicio</a>
-                <a href="../paginas/catalogo.html">Catálogo</a>
-                <a href="../paginas/comunidad.html">Comunidad</a>
-                <a href="../paginas/descubrir.html">Descubrir</a>
-                <a href="../paginas/recomendaciones.html">Recomendaciones</a>
-                <a href="../paginas/biblioteca.html">Biblioteca</a>
-                <a href="../paginas/mi-cuenta.html" aria-current="pagina-actual">Mi Cuenta</a>
+            <!-- BARRA DE NAVEGACIÓN -->
+            <nav>
+                <!--LOGO-->
+                <div class="header-logo">
+                    <a href="index.html">
+                        <img src="../Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Logo de la marca">
+                    </a>
+                </div>
+
+                <!--NAVEGACIÓN-->
+                <div class="header-nav">
+                    <a href="../index.html">Inicio</a>
+                    <a href="../paginas/catalogo.html">Catálogo</a>
+                    <a href="../paginas/comunidad.html">Comunidad</a>
+                    <a href="../paginas/descubrir.html">Descubrir</a>
+                    <a href="../paginas/recomendaciones.html">Recomendaciones</a>
+                    <a href="../paginas/biblioteca.html">Biblioteca</a>
+                    <a href="../paginas/mi-cuenta.html" aria-current="pagina-actual">Mi Cuenta</a>
+                </div>
+            </nav>
+        </header>
+    </section>
+<!------------------------------------------------------------------------------------------>
+
+<!-- HERO -->
+    <section class="hero">
+        <!-- HERO CONTENEDOR-->
+        <div class="hero-contenedor">
+            <!-- HERO CENTENIDO-->
+            <div class="hero-contenido">
+                <!-- HERO TÍTULO-->
+                <div class="hero-titulo">
+                    <h2>Mi Cuenta</h2>
+                </div>
             </div>
-        </nav>
-    </header>
-    
-    <!--AQUÍ IRÁ EL CONTENIDO PRINCIPAL-->
-    <h1>Mi Cuenta</h1>
+        </div>
+    </section>
+
+<!------------------------------------------------------------------------------------------>
 
     <!-- PIE DE PÁGINA -->
-    <footer>
-        <p>2026 LeeConNos - Librería Independiente, Barrio Italia, Santiago</p>
-        <p>Taller de Bootcamps, Universidad de Chile - Legión Atenea</p>
+    <footer class="footer">
+        <!--Contenedor General para el diseño en columnas-->
+        <div class="footer-contenedor">
+            <!--Contenedor del logo-->
+            <section class="footer-logo">
+                <img class="imagen-logo" src="../Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Nombre y logo de la librería.">
+            </section>
+
+            <!--Contenedor de Información-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">Información</h3>
+                <div class="columna-lista">
+                    <a href="">Contáctanos</a>
+                    <a href="">FAQ's</a>
+                    <a href="">Devoluciones y garantía</a>
+                    <a href="">Políticas de despacho</a>
+                    <a href="">Políticas de retiro en tienda</a>
+                </div>
+            </section>
+
+            <!--Contenedor de LeeConNos-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">LeeConNos</h3>
+                <div class="columna-lista">
+                    <a href="">Mi Cuenta</a>
+                    <a href="">Biblioteca</a>
+                    <a href="">Gift Cards</a>
+                    <a href="">Nuestro Equipo</a>
+                </div>
+            </section>
+
+            <!--Contenedor de Redes Sociales-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">Síguenos en</h3>
+
+                <!-- Contenedor de íconos de RRSS-->
+                <div class="iconos-contenedor">
+                    <img src="../imagenes/iconos/01-facebook-negative.svg" alt="Ícono de Facebook">
+                    <img src="../imagenes/iconos/02-instagram-negative.svg" alt="Ícono de Instagram">
+                    <img src="../imagenes/iconos/03-x-negative.svg" alt="Ícono de X">
+                    <img src="../imagenes/iconos/04-youtube-negative.svg" alt="Ícono de YouTube">
+                    <img src="../imagenes/iconos/05-whatsapp-negative.svg" alt="Ícono de Whatsapp">
+                </div>
+
+            </section>
+        </div>
+
+        <!--Contenedor Legal-->
+        <div class="footer-legal">
+            <p>(C)2026 leeconnos.cl - Todos los derechos reservados - Legión Atenea - Equipo 5 - Bootcamp Universidad de
+                Chile</p>
+        </div>
+
     </footer>
 </body>
 
