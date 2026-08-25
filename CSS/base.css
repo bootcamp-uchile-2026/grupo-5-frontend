@@ -71,6 +71,12 @@ header{
 }
 
 /* BANNER */
+.barra-navegacion{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
 .banner{
     font-family: var(--fuente-heading);
     font-weight: var(--peso-titulo);
@@ -92,7 +98,6 @@ nav{
     color: var(--color-secundario-light);
     background-color: var(--color-primario-darker);
 
-    position: sticky;
     height: 80px;
     display: flex;
     align-items: center;
@@ -136,6 +141,16 @@ nav{
 }
 
 /* TITULOS */
+.hero-titulo h2{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-hero);
+    font-size: var(--tamano-fuente-hero);
+    line-height: var(--interlineado-hero);
+    color: var(--color-primario-darker);
+    background-color: var(--color-primario-light);
+    text-align: center;
+}
+
 h1{
     font-family: var(--fuente-heading);
     font-weight: var(--peso-titulo);
