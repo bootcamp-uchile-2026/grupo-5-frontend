@@ -63,11 +63,25 @@
 /* CUERPO */
 body{
     margin: 0px;
-    background-color: var(--color-secundario-lighter);
+    background-color: var(--color-primario-light);
 }
 
 header{
     background-color: var(--color-primario-darker);
+}
+
+/* BANNER */
+.banner{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-titulo);
+    font-size: var(--tamano-fuente-small);
+    color: var(--color-primario-darker);
+    background-color: var(--color-secundario-regular);
+
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0px;
 }
 
 /* MENU NAVEGACION */
@@ -121,11 +135,6 @@ nav{
     padding-left: 100px;
 }
 
-
-body section{
-    padding: 0px 100px;
-}
-
 /* TITULOS */
 h1{
     font-family: var(--fuente-heading);
@@ -173,6 +182,61 @@ footer{
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+}
+
+.footer-contenedor{
+    display: flex;
+    justify-content: space-between;
+    gap: 100px;
+    padding-top: 30px;
+}
+
+.footer-columna{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.columna-encabezado{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-hero);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-primario-lighter);
+    background-color: var(--color-primario-darker);   
+}
+
+.columna-lista{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+
+    gap: 5px;
+}
+
+.columna-lista a{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-small);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-primario-lighter);
+    background-color: var(--color-primario-darker);
+
+    text-decoration: none;   
+}
+
+.iconos-contenedor{
+    display: flex;
+    gap: 15px;
+}
+
+.imagen-logo{
+    height: auto;
+    width: 300px;
+}
+
+.iconos-contenedor:hover{
+    cursor: pointer;
 }
 
 footer p{
@@ -180,6 +244,10 @@ footer p{
     font-weight: var(--peso-small);
     font-size: var(--tamano-fuente-small);
     line-height: var(--interlineado-small);
-    color: var(--color-secundario-dark);
-    background-color: var(--color-primario-darker);   
+    color: var(--color-primario-lighter);
+    background-color: var(--color-primario-darker);
+
+    margin: 0px;
+    padding-top: 100px;
+    padding-bottom: 30px;
 }
