@@ -1,25 +1,55 @@
-# Grupo 5 — Frontend
+# Grupo 5 - Frontend
 
-Bienvenido a tu repositorio de frontend. A partir de aquí pueden comenzar a trabajar en sus proyectos de taller.
+Proyecto frontend de LeeConNos, desarrollado a partir de la rama `develop`.
 
-## Rama 73: Página de Inicio
+## Rama 73
 
-Esta rama parte de `develop` y contiene únicamente los cambios asociados a la página de Inicio.
+La rama `73` conserva el estado base de `develop` y agrega los cambios realizados para la página de Inicio. También incorpora el mismo banner, header y footer en las páginas internas.
 
-### Cambios incluidos
+### Página de Inicio
 
-- Actualización del header de Inicio con navegación, búsqueda e iconos Bootstrap.
-- Reorganización responsive del hero en dos columnas.
-- Secciones de recomendaciones, lanzamientos y comentarios con tarjetas de libros.
-- Sección de comunidad lectora.
-- Sección de suscripción al newsletter.
-- Footer completo de la página de Inicio.
-- Ajustes de tipografía, colores, espaciado y distribución en `CSS/base.css` y `CSS/index.css`.
+- Hero organizado en dos columnas: contenido a la izquierda e imagen a la derecha.
+- Separación visual entre el header, el hero y las secciones siguientes.
+- Características del hero distribuidas horizontalmente con iconos Bootstrap.
+- Carruseles de recomendaciones, lanzamientos, más vendidos y comentarios de la comunidad.
+- Tarjetas de libros con portada, curador, título, autor, precio y favorito.
+- Ajustes de color, tipografía, espaciado, bordes y proporciones de las tarjetas.
+- Sección Comunidad Lectora con contenido e imagen en dos columnas.
+- Sección de suscripción al newsletter con email y botón de suscripción.
+- Footer completo con logo, enlaces informativos, enlaces de LeeConNos, redes sociales y texto legal.
 
-### Archivos principales
+### Header compartido
+
+- Banner superior con noticias, anuncios y ofertas.
+- Logo alineado a la izquierda.
+- Menú de navegación centrado.
+- Buscador e iconos Bootstrap de cuenta, favoritos y bolsa a la derecha.
+- Header responsive para pantallas pequeñas.
+
+### Páginas internas
+
+Las páginas internas conservan su contenido de `develop` y utilizan el mismo header y footer de Inicio:
+
+- `paginas/catalogo.html`
+- `paginas/comunidad.html`
+- `paginas/descubrir.html`
+- `paginas/recomendaciones.html`
+- `paginas/biblioteca.html`
+- `paginas/mi-cuenta.html`
+
+El desarrollo específico del contenido del Catálogo no forma parte de esta rama.
+
+### Archivos modificados
 
 - `index.html`
 - `CSS/base.css`
 - `CSS/index.css`
+- `README.md`
+- `paginas/catalogo.html`
+- `paginas/comunidad.html`
+- `paginas/descubrir.html`
+- `paginas/recomendaciones.html`
+- `paginas/biblioteca.html`
+- `paginas/mi-cuenta.html`
 
-Los cambios del Catálogo no forman parte de esta rama; deben trabajarse en una rama independiente basada en `develop`.
+No se agregaron archivos adicionales para implementar estos cambios.
