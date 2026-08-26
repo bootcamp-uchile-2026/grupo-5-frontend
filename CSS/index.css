@@ -569,12 +569,18 @@ body h1{
 /*CARRUSEL LANZAMIENTOS*/
 
 .carrusel-mas-vendidos{
-    background-color: var(--color-primario-light);
-    padding: 5%;
+    background-color: var(--color-neutral-lightest);
+    width: calc(100% - 32px);
+    max-width: 1500px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 42px 8% 36px;
+    border: 0;
+    border-radius: 0;
 }
 
 .carrusel-mas-vendidos-encabezado{ 
-    background-color: var(--color-primario-light);
+    background-color: var(--color-neutral-lightest);
 
     display: flex;
     justify-content: space-between;
@@ -583,7 +589,7 @@ body h1{
 }
 
 .carrusel-mas-vendidos-titulo{
-    background-color: var(--color-primario-light);
+    background-color: var(--color-neutral-lightest);
 }
 
 .carrusel-mas-vendidos-acciones{
@@ -607,8 +613,34 @@ body h1{
 }
 
 .carrusel-mas-vendidos-tarjeta{
-    background-color: var(--color-primario-light);
+    background-color: var(--color-neutral-lightest);
     position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.carrusel-mas-vendidos .coleccion-tarjetas,
+.carrusel-mas-vendidos .carrusel-mas-vendidos-contenedor{
+    background-color: var(--color-neutral-lightest);
+}
+
+.carrusel-mas-vendidos-tarjeta .tarjeta-portada-imagen{
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
+}
+
+.carrusel-mas-vendidos .tarjeta-libro-info{
+    background-color: var(--color-primario-light);
+}
+
+.carrusel-mas-vendidos .tarjeta-libro-info-titulo,
+.carrusel-mas-vendidos .tarjeta-libro-info-autor,
+.carrusel-mas-vendidos .tarjeta-libro-info-precio,
+.carrusel-mas-vendidos .tarjeta-libro-info-favorito{
+    color: var(--color-primario-darker);
 }
 
 .tarjeta-header-curador{
@@ -1154,6 +1186,12 @@ body h1{
 }
 
 @media (max-width: 760px){
+    .carrusel-mas-vendidos{
+        width: calc(100% - 24px);
+        padding: 32px 20px;
+        border-radius: 12px;
+    }
+
     .carrusel-lanzamiento,
     .carrusel-comentados{
         width: calc(100% - 24px);
