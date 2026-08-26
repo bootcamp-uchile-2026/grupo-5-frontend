@@ -63,7 +63,7 @@
 /* CUERPO */
 body{
     margin: 0px;
-    background-color: var(--color-primario-light);
+    background-color: var(--color-neutral-lightest);
 }
 
 body.detalle-vacio{
@@ -272,7 +272,7 @@ h1{
     font-size: var(--tamano-fuente-titulo);
     line-height: var(--interlineado-titulo);
     color: var(--color-primario-darker);
-    background-color: var(--color-secundario-lighter);
+    background-color: transparent;
 }
 
 /* SECCIONES */
@@ -282,7 +282,7 @@ h2{
     font-size: var(--tamano-fuente-secciones);
     line-height: var(--interlineado-secciones);
     color: var(--color-primario-darker);
-    background-color: var(--color-secundario-lighter);
+    background-color: transparent;
 }
 
 /* SUBSECCIONES */
@@ -292,7 +292,7 @@ h3{
     font-size: var(--tamano-fuente-subsecciones);
     line-height: var(--interlineado-subsecciones);
     color: var(--color-primario-darker);
-    background-color: var(--color-secundario-lighter);
+    background-color: transparent;
 }
 
 /* PÁRRAFOS */
@@ -302,7 +302,7 @@ p{
     font-size: var(--tamano-fuente-parrafos);
     line-height: var(--interlineado-parrafos);
     color: var(--color-neutral-darkest);
-    background-color: var(--color-secundario-lighter);
+    background-color: transparent;
 }
 
 /* PIE DE PÁGINA */
