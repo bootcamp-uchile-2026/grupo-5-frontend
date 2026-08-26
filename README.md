@@ -1,55 +1,33 @@
 # Grupo 5 - Frontend
 
-Proyecto frontend de LeeConNos, desarrollado a partir de la rama `develop`.
+Proyecto frontend de LeeConNos.
 
-## Rama 73
+## Feature-27
 
-La rama `73` conserva el estado base de `develop` y agrega los cambios realizados para la página de Inicio. También incorpora el mismo banner, header y footer en las páginas internas.
+Esta rama continúa el trabajo de `73-1` y contiene exclusivamente el desarrollo inicial del Catálogo y la preparación de la página de detalle de libros.
 
-### Página de Inicio
+### Catálogo
 
-- Hero organizado en dos columnas: contenido a la izquierda e imagen a la derecha.
-- Separación visual entre el header, el hero y las secciones siguientes.
-- Características del hero distribuidas horizontalmente con iconos Bootstrap.
-- Carruseles de recomendaciones, lanzamientos, más vendidos y comentarios de la comunidad.
-- Tarjetas de libros con portada, curador, título, autor, precio y favorito.
-- Ajustes de color, tipografía, espaciado, bordes y proporciones de las tarjetas.
-- Sección Comunidad Lectora con contenido e imagen en dos columnas.
-- Sección de suscripción al newsletter con email y botón de suscripción.
-- Footer completo con logo, enlaces informativos, enlaces de LeeConNos, redes sociales y texto legal.
+- Se incorporó una grilla responsive de tarjetas de libros.
+- Se agregaron controles de filtrado, ordenamiento y contador de resultados.
+- Las tarjetas muestran portada, título, autor, precio, etiquetas y acciones de compra.
+- Se incorporaron portadas mock mediante URLs de Open Library.
+- Todas las tarjetas permiten acceder a una única página de detalle.
+- Se mantuvo el banner, header y footer heredados de `73-1`.
 
-### Header compartido
+### Página de detalle
 
-- Banner superior con noticias, anuncios y ofertas.
-- Logo alineado a la izquierda.
-- Menú de navegación centrado.
-- Buscador e iconos Bootstrap de cuenta, favoritos y bolsa a la derecha.
-- Header responsive para pantallas pequeñas.
+- Se creó `paginas/detalle-libro.html` como destino común de todas las tarjetas.
+- La página queda vacía para un desarrollo posterior.
+- Actualmente contiene únicamente el banner, header y footer compartidos.
+- Se dejó espacio vertical entre header y footer para el futuro contenido.
 
-### Páginas internas
+### Archivos incorporados o modificados
 
-Las páginas internas conservan su contenido de `develop` y utilizan el mismo header y footer de Inicio:
+- `paginas/catalogo.html`: vista del Catálogo y navegación hacia el detalle.
+- `CSS/catalogo.css`: estilos propios de la grilla, tarjetas, filtros y newsletter.
+- `paginas/detalle-libro.html`: página base vacía para el detalle.
+- `CSS/base.css`: estilos compartidos necesarios para la estructura transversal.
 
-- `paginas/catalogo.html`
-- `paginas/comunidad.html`
-- `paginas/descubrir.html`
-- `paginas/recomendaciones.html`
-- `paginas/biblioteca.html`
-- `paginas/mi-cuenta.html`
+No se modificó el desarrollo de la página de Inicio perteneciente a `73-1`.
 
-El desarrollo específico del contenido del Catálogo no forma parte de esta rama.
-
-### Archivos modificados
-
-- `index.html`
-- `CSS/base.css`
-- `CSS/index.css`
-- `README.md`
-- `paginas/catalogo.html`
-- `paginas/comunidad.html`
-- `paginas/descubrir.html`
-- `paginas/recomendaciones.html`
-- `paginas/biblioteca.html`
-- `paginas/mi-cuenta.html`
-
-No se agregaron archivos adicionales para implementar estos cambios.

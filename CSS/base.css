@@ -66,6 +66,16 @@ body{
     background-color: var(--color-primario-light);
 }
 
+body.detalle-vacio{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.detalle-vacio footer{
+    margin-top: auto;
+}
+
 header{
     background-color: var(--color-primario-darker);
 }

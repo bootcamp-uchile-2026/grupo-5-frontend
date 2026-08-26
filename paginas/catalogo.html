@@ -20,6 +20,7 @@
 
     <!--ESTILOS CSS-->
     <link rel="stylesheet" href="../CSS/base.css">
+    <link rel="stylesheet" href="../CSS/catalogo.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
@@ -64,18 +65,36 @@
     </section>
 <!------------------------------------------------------------------------------------------>
 
-<!-- HERO -->
-    <section class="hero">
-        <!-- HERO CONTENEDOR-->
-        <div class="hero-contenedor">
-            <!-- HERO CENTENIDO-->
-            <div class="hero-contenido">
-                <!-- HERO TÍTULO-->
-                <div class="hero-titulo">
-                    <h2>Catálogo</h2>
-                </div>
-            </div>
+<main class="catalogo">
+    <div class="catalogo-filtros">
+        <div class="catalogo-filtros-grupo">
+            <label>Filtrar:</label><select aria-label="Filtrar por categorías"><option>Categorías</option></select><select aria-label="Filtrar por descuento"><option>% Descuento</option></select><select aria-label="Filtrar por precio"><option>% Precio</option></select><select aria-label="Filtrar por autor"><option>Autor</option></select><select aria-label="Filtrar por editorial"><option>Editorial</option></select>
         </div>
+        <div class="catalogo-orden"><label for="orden">Ordenar por:</label><select id="orden" aria-label="Ordenar catálogo"><option>Relevancia</option><option>Precio menor</option><option>Precio mayor</option></select></div>
+        <span class="catalogo-resultados">67 resultados</span>
+    </div>
+    <section class="catalogo-grilla" aria-label="Libros del catálogo">
+        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg" alt="Portada de El principito"><h2 class="catalogo-titulo">El principito</h2><p class="catalogo-autor">Antoine de Saint-Exupéry</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$20.150</span><span class="catalogo-precio-anterior">$26.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
+        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg" alt="Portada de Cien años de soledad"><h2 class="catalogo-titulo">Cien años de soledad</h2><p class="catalogo-autor">Gabriel García Márquez</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$22.900</span><span class="catalogo-precio-anterior">$26.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
+        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg" alt="Portada de Don Quijote de la Mancha"><h2 class="catalogo-titulo">Don Quijote de la Mancha</h2><p class="catalogo-autor">Miguel de Cervantes</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$25.600</span><span class="catalogo-precio-anterior">$31.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
+        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg" alt="Portada de Rayuela"><h2 class="catalogo-titulo">Rayuela</h2><p class="catalogo-autor">Julio Cortázar</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$19.990</span><span class="catalogo-precio-anterior">$24.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
+        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780553213690-L.jpg" alt="Portada de La metamorfosis"><h2 class="catalogo-titulo">La metamorfosis</h2><p class="catalogo-autor">Franz Kafka</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$15.500</span><span class="catalogo-precio-anterior">$18.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
+        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg" alt="Portada de Orgullo y prejuicio"><h2 class="catalogo-titulo">Orgullo y prejuicio</h2><p class="catalogo-autor">Jane Austen</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$21.300</span><span class="catalogo-precio-anterior">$27.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
+        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780802130303-L.jpg" alt="Portada de Ficciones"><h2 class="catalogo-titulo">Ficciones</h2><p class="catalogo-autor">Jorge Luis Borges</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$18.700</span><span class="catalogo-precio-anterior">$22.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
+        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg" alt="Portada de 1984"><h2 class="catalogo-titulo">1984</h2><p class="catalogo-autor">George Orwell</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$17.800</span><span class="catalogo-precio-anterior">$23.500</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
+    </section>
+</main>
+
+<!------------------------------------------------------------------------------------------>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter">
+        <h2 class="newsletter-titulo">Suscríbete a nuestro newsletter</h2>
+        <p class="newsletter-pie">Entérate de recomendaciones,<br>novedades y más</p>
+        <form class="newsletter-formulario">
+            <input type="email" placeholder="Ingresa tu e-mail" aria-label="Ingresa tu e-mail" required>
+            <button class="newsletter-boton" type="submit">Suscribirme</button>
+        </form>
     </section>
 
 <!------------------------------------------------------------------------------------------>
@@ -135,6 +154,23 @@
         </div>
 
     </footer>
+    <script>
+        document.querySelectorAll('.catalogo-tarjeta').forEach(function (tarjeta) {
+            tarjeta.addEventListener('click', function (evento) {
+                if (!evento.target.closest('button, a, select')) {
+                    window.location.href = 'detalle-libro.html';
+                }
+            });
+            tarjeta.addEventListener('keydown', function (evento) {
+                if ((evento.key === 'Enter' || evento.key === ' ') && !evento.target.closest('button, a, select')) {
+                    evento.preventDefault();
+                    window.location.href = 'detalle-libro.html';
+                }
+            });
+            tarjeta.setAttribute('tabindex', '0');
+            tarjeta.setAttribute('role', 'link');
+        });
+    </script>
 </body>
 
 </html>
