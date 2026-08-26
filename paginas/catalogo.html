@@ -158,13 +158,13 @@
         document.querySelectorAll('.catalogo-tarjeta').forEach(function (tarjeta) {
             tarjeta.addEventListener('click', function (evento) {
                 if (!evento.target.closest('button, a, select')) {
-                    window.location.href = 'detalle-libro.html';
+                    window.location.href = 'ficha-libro.html';
                 }
             });
             tarjeta.addEventListener('keydown', function (evento) {
                 if ((evento.key === 'Enter' || evento.key === ' ') && !evento.target.closest('button, a, select')) {
                     evento.preventDefault();
-                    window.location.href = 'detalle-libro.html';
+                    window.location.href = 'ficha-libro.html';
                 }
             });
             tarjeta.setAttribute('tabindex', '0');

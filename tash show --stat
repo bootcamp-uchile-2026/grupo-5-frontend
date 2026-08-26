@@ -1,0 +1,31 @@
+*   [33m85beccb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Merge remote-tracking branch 'origin/develop'
+[31m|[m[32m\[m  
+[31m|[m * [33md9776a0[m[33m ([m[1;31morigin/develop[m[33m)[m Feature 27: Implementación del catálogo (#119)
+[31m|[m * [33m6e6b583[m 73-1 Modificaciones en la visualización de Inicio (#118)
+[31m|[m * [33mf3730d5[m 95 (#117)
+[31m|[m [32m|[m *   [33m531f87f[m[33m ([m[1;35mrefs/stash[m[33m)[m WIP on main: fca297a página de inicio con navegación (#86)
+[31m|[m [32m|[m[31m/[m[34m|[m[35m\[m  
+[31m|[m[31m/[m[32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m * [33m5766f2b[m untracked files on main: fca297a página de inicio con navegación (#86)
+[31m|[m [32m|[m * [33m5236351[m index on main: fca297a página de inicio con navegación (#86)
+[31m|[m [32m|[m[31m/[m  
+[31m|[m[31m/[m[32m|[m   
+[31m|[m [32m|[m * [33m55a52f7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m 100 (#116)
+[31m|[m [32m|[m[31m/[m  
+[31m|[m[31m/[m[32m|[m   
+[31m|[m [32m|[m *   [33mf8f2150[m[33m ([m[1;31morigin/97[m[33m)[m Merge branch 'develop' into 97
+[31m|[m [32m|[m [1;31m|[m[32m\[m  
+[31m|[m [32m|[m [1;31m|[m[32m/[m  
+[31m|[m [32m|[m[32m/[m[1;31m|[m   
+[31m|[m [32m|[m * [33m9728714[m Creación de Seccion Nuevos Lanzamientos
+[31m|[m [32m|[m * [33mf76d2be[m[33m ([m[1;31morigin/94[m[33m)[m eliminacion respaldo.html
+[31m|[m [32m|[m * [33me07a364[m Reconstrucción de estructura
+[31m|[m [32m|[m *   [33m534c200[m Merge branch 'main' into 94
+[31m|[m [32m|[m [1;33m|[m[31m\[m  
+[31m|[m [32m|[m[31m_[m[1;33m|[m[31m/[m  
+[31m|[m[31m/[m[32m|[m [1;33m|[m   
+[31m|[m [32m|[m * [33mdebee4a[m Comunidad Lectora #94 desde develop
+[31m|[m [32m|[m [1;34m|[m *   [33m0945b65[m[33m ([m[1;31morigin/73[m[33m)[m Merge branch 'develop' into 73
+[31m|[m [32m|[m [1;34m|[m [1;35m|[m[32m\[m  
+[31m|[m [32m|[m [1;34m|[m[32m_[m[1;35m|[m[32m/[m  
+[31m|[m [32m|[m[32m/[m[1;34m|[m [1;35m|[m   
