@@ -18,6 +18,7 @@
     <!--Descarga de fuentes-->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans:wght@400&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!--ESTILOS CSS-->
     <link rel="stylesheet" href="CSS/base.css">
@@ -55,6 +56,15 @@
                     <a href="paginas/biblioteca.html">Biblioteca</a>
                     <a href="paginas/mi-cuenta.html">Mi Cuenta</a>
                 </div>
+                <div class="header-acciones">
+                    <form class="header-busqueda" role="search">
+                        <input type="search" placeholder="Buscar libros ..." aria-label="Buscar libros">
+                        <button type="submit" aria-label="Buscar"><i class="bi bi-search" aria-hidden="true"></i></button>
+                    </form>
+                    <button class="header-icono" type="button" aria-label="Mi cuenta"><i class="bi bi-person-circle" aria-hidden="true"></i></button>
+                    <button class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart" aria-hidden="true"></i></button>
+                    <button class="header-icono" type="button" aria-label="Bolsa de compras"><i class="bi bi-bag" aria-hidden="true"></i></button>
+                </div>
             </nav>
         </header>
     </section>
@@ -83,14 +93,17 @@
                 <div class="hero-caracteristicas">
                     <!-- HERO CARACTERÍSTICAS CONTENEDORES-->
                     <div class="hero-caracteristicas-contenedor">
+                        <i class="bi bi-circle-fill hero-caracteristica-icono" aria-hidden="true"></i>
                         <h3>Libros</h3>
                         <p>Encuentra tu próximo favorito</p>
                     </div>
                     <div class="hero-caracteristicas-contenedor">
+                        <i class="bi bi-circle-fill hero-caracteristica-icono" aria-hidden="true"></i>
                         <h3>Curadores Expertos</h3>
                         <p>Encuentra tu próximo favorito</p>
                     </div>
                     <div class="hero-caracteristicas-contenedor">
+                        <i class="bi bi-circle-fill hero-caracteristica-icono" aria-hidden="true"></i>
                         <h3>Comunidad</h3>
                         <p>Encuentra tu próximo favorito</p>
                     </div>
@@ -112,7 +125,7 @@
         <header class="carrusel-recomendaciones-encabezado">
             <!-- TÍTULO -->
             <h3 class="carrusel-recomendaciones-titulo">
-                Reccomendados por Nuestros Libreros
+                Recomendados por Nuestros Libreros
             </h3>
             <!-- ACCIONES -->
             <div class="carrusel-recomendaciones-acciones">
@@ -147,7 +160,7 @@
                             $13.200
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -174,7 +187,7 @@
                             $22.900
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -201,7 +214,7 @@
                             $25.600
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -228,7 +241,7 @@
                             $14.400
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -274,6 +287,152 @@
         </div>
     </section>
 
+
+    <!------------------------------------------------------------------------------------------>
+
+    <!-- CARRUSEL MAS VENDIDOS LANZAMIENTOS -->
+
+    <section class="carrusel-mas-vendidos">
+        <!-- ENCABEZADO -->
+        <header class="carrusel-mas-vendidos-encabezado">
+            <!-- TÍTULO -->
+            <h3 class="carrusel-mas-vendidos-titulo">
+                Más Vendidos
+            </h3>
+            <!-- ACCIONES -->
+            <div class="carrusel-mas-vendidos-acciones">
+                <a href="">Ver más</a>
+                <button type="button" aria-label="anterior">&lt;</button>
+                <button type="button" aria-label="siguiente">&gt;</button>
+            </div>
+        </header>
+        <!-- CONTENEDOR RECOMENDACIONES-->
+        <div class="carrusel-mas-vendidos-contenedor">
+            <!-- CONTENEDOR TARJETAS-->
+            <div class="coleccion-tarjetas">
+                <!-- TARJETA #1 -->
+                <article class="carrusel-mas-vendidos-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Luciano H.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            El Principito
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Antoine de Saint-Exupéry
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $13.200
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- TARJETA #2 -->
+                <article class="carrusel-mas-vendidos-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Tania G.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Cien años de soledad
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Gabriel García Márquez
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $22.900
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #3 -->
+                <article class="carrusel-mas-vendidos-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Daniela C.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Don Quijote de la Mancha
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Miguel de Cervantes
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $25.600
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #4 -->
+                <article class="carrusel-mas-vendidos-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Alexis M.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            1984
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            George Orwell
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $14.400
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="controles-carrusel">
+                <button type="button" aria-label="anterior">&lt;</button>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <button type="button" aria-label="siguiente">&gt;</button>
+
+            </div>
+        </div>
+    </section>
+
+
     <!------------------------------------------------------------------------------------------>
 
     <!-- CARRUSEL NUEVOS LANZAMIENTOS -->
@@ -283,7 +442,7 @@
         <header class="carrusel-lanzamiento-encabezado">
             <!-- TÍTULO -->
             <h3 class="carrusel-lanzamiento-titulo">
-                Reccomendados por Nuestros Libreros
+                Nuevos Lanzamientos
             </h3>
             <!-- ACCIONES -->
             <div class="carrusel-lanzamiento-acciones">
@@ -318,7 +477,7 @@
                             $13.200
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -345,7 +504,7 @@
                             $22.900
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -372,7 +531,7 @@
                             $25.600
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -399,7 +558,7 @@
                             $14.400
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -462,7 +621,7 @@
                             $13.200
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -489,7 +648,7 @@
                             $22.900
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -516,7 +675,7 @@
                             $25.600
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -543,7 +702,7 @@
                             $14.400
                         </div>
                         <div class="tarjeta-libro-info-favorito">
-                            <span>♡</span>
+                            <i class="bi bi-heart" aria-hidden="true"></i>
                         </div>
                     </div>
                 </article>
@@ -563,16 +722,16 @@
     </section>
 
 <!------------------------------------------------------------------------------------------>
+
     <!-- NEWSLETTER -->
     <section class="newsletter">
-        <h3 class="newsletter-titulo">Suscríbete a Nuestro Newsletter</h3>
-        <div class="newsletter-pie">Entérate de recomendaciones, novedades y más</div>
-        <div class="newsletter-boton">
-            <button type="button">Ingresa tu e-mail</button>
-        </div>
+        <h2 class="newsletter-titulo">Suscríbete a nuestro newsletter</h2>
+        <p class="newsletter-pie">Entérate de recomendaciones,<br>novedades y más</p>
+        <form class="newsletter-formulario">
+            <input type="email" placeholder="Ingresa tu e-mail" aria-label="Ingresa tu e-mail" required>
+            <button class="newsletter-boton" type="submit">Suscribirme</button>
+        </form>
     </section>
-
-<!------------------------------------------------------------------------------------------>
 
     <!-- PIE DE PÁGINA -->
     <footer class="footer">
