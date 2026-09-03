@@ -16,55 +16,777 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <!--Descarga de fuentes-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans:wght@400&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans:wght@400&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!--ESTILOS CSS-->
     <link rel="stylesheet" href="CSS/base.css">
+    <link rel="stylesheet" href="CSS/index.css">
 </head>
+
+<!------------------------------------------------------------------------------------------>
 
 <body>
 
     <!--ENCABEZADO-->
-    <header>
-
-        <!-- BARRA DE NAVEGACIÓN -->
-        <nav>
-            <!--LOGO-->
-            <div class="header-logo">
-                <a href="index.html">
-                    <img src="Logos/07-Imagen-Amarillo.svg" alt="Logo de la marca">
-                </a>
+    <section class="barra-navegacion">
+        <header>
+            <!--BANNER-->
+            <div class="banner-contenedor">
+                <p class="banner">&lt;&lt; Noticias destacadas, anuncios, ofertas &gt;&gt;</p>
             </div>
-            
-            <!--NAVEGACIÓN-->
-            <div class="header-nav">
-                <a href="index.html" aria-current="pagina-actual">Inicio</a>
-                <a href="paginas/catalogo.html">Catálogo</a>
-                <a href="paginas/comunidad.html">Comunidad</a>
-                <a href="paginas/descubrir.html">Descubrir</a>
-                <a href="paginas/recomendaciones.html">Recomendaciones</a>
-                <a href="paginas/biblioteca.html">Biblioteca</a>
-                <a href="paginas/mi-cuenta.html">Mi Cuenta</a>
-            </div>
-        </nav>
-    </header>
 
-    <!--AQUÍ IRÁ EL CONTENIDO PRINCIPAL-->
-    <section>
-        <h1>LeeConNos (Así se ve un h1)</h1>
-        <h2>Libros Elegidos por Personas, no por Algoritmos (así se ve un h2)</h2>
-        <h3>Así se ve un h3</h3>
-        <p>Así se ve un párrafo</p>
-        <p>En LeeConNos cada recomendación tiene nombre y apellido: el de
-            nuestros libreros.</p>
-        <p>Explora el catálogo, conoce a quien lo eligió
-            para ti y únete a nuestro club de lectura.</p>
+            <!-- BARRA DE NAVEGACIÓN -->
+            <nav>
+                <!--LOGO-->
+                <div class="header-logo">
+                    <a href="index.html">
+                        <img src="Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Logo de la marca">
+                    </a>
+                </div>
+
+                <!--NAVEGACIÓN-->
+                <div class="header-nav">
+                    <a href="index.html" aria-current="pagina-actual">Inicio</a>
+                    <a href="paginas/catalogo.html">Catálogo</a>
+                    <a href="paginas/comunidad.html">Comunidad</a>
+                    <a href="paginas/descubrir.html">Descubrir</a>
+                    <a href="paginas/recomendaciones.html">Recomendaciones</a>
+                    <a href="paginas/biblioteca.html">Biblioteca</a>
+                    <a href="paginas/mi-cuenta.html">Mi Cuenta</a>
+                </div>
+                <div class="header-acciones">
+                    <form class="header-busqueda" role="search">
+                        <input type="search" placeholder="Buscar libros ..." aria-label="Buscar libros">
+                        <button type="submit" aria-label="Buscar"><i class="bi bi-search" aria-hidden="true"></i></button>
+                    </form>
+                    <button class="header-icono" type="button" aria-label="Mi cuenta"><i class="bi bi-person-circle" aria-hidden="true"></i></button>
+                    <button class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart" aria-hidden="true"></i></button>
+                    <button class="header-icono" type="button" aria-label="Bolsa de compras"><i class="bi bi-bag" aria-hidden="true"></i></button>
+                </div>
+            </nav>
+        </header>
+    </section>
+    <!------------------------------------------------------------------------------------------>
+
+    <!-- HERO -->
+    <section class="hero">
+        <!-- HERO CONTENEDOR-->
+        <div class="hero-contenedor">
+            <!-- HERO CENTENIDO-->
+            <div class="hero-contenido">
+                <!-- HERO TÍTULO-->
+                <div class="hero-titulo">
+                    <h2>Encuentra ese libro que aún no conoces</h2>
+                </div>
+                <!-- HERO PIE-->
+                <div class="hero-pie">
+                    <p>Descubre tu próxima lectura y conecta con una comunidad de lectores como tú</p>
+                </div>
+                <!-- HERO BOTONES-->
+                <div class="hero-botones">
+                    <button class="boton">Botón 1</button>
+                    <button class="boton">Botón 2</button>
+                </div>
+                <!-- HERO CARACTERÍSTICAS-->
+                <div class="hero-caracteristicas">
+                    <!-- HERO CARACTERÍSTICAS CONTENEDORES-->
+                    <div class="hero-caracteristicas-contenedor">
+                        <i class="bi bi-circle-fill hero-caracteristica-icono" aria-hidden="true"></i>
+                        <h3>Libros</h3>
+                        <p>Encuentra tu próximo favorito</p>
+                    </div>
+                    <div class="hero-caracteristicas-contenedor">
+                        <i class="bi bi-circle-fill hero-caracteristica-icono" aria-hidden="true"></i>
+                        <h3>Curadores Expertos</h3>
+                        <p>Encuentra tu próximo favorito</p>
+                    </div>
+                    <div class="hero-caracteristicas-contenedor">
+                        <i class="bi bi-circle-fill hero-caracteristica-icono" aria-hidden="true"></i>
+                        <h3>Comunidad</h3>
+                        <p>Encuentra tu próximo favorito</p>
+                    </div>
+                </div>
+            </div>
+            <!-- HERO IMAGEN-->
+            <div class="hero-imagen">
+                <img src="https://placehold.co/600x400" alt="placehold">
+            </div>
+        </div>
+    </section>
+
+    <!------------------------------------------------------------------------------------------>
+
+    <!-- CARRUSEL RECOMENDACIONES LIBRERO -->
+
+    <section class="carrusel-recomendaciones">
+        <!-- ENCABEZADO -->
+        <header class="carrusel-recomendaciones-encabezado">
+            <!-- TÍTULO -->
+            <h3 class="carrusel-recomendaciones-titulo">
+                Recomendados por Nuestros Libreros
+            </h3>
+            <!-- ACCIONES -->
+            <div class="carrusel-recomendaciones-acciones">
+                <a href="">Ver más</a>
+                <button type="button" aria-label="anterior">&lt;</button>
+                <button type="button" aria-label="siguiente">&gt;</button>
+            </div>
+        </header>
+        <!-- CONTENEDOR RECOMENDACIONES-->
+        <div class="carrusel-recomendaciones-contenedor">
+            <!-- CONTENEDOR TARJETAS-->
+            <div class="coleccion-tarjetas">
+                <!-- TARJETA #1 -->
+                <article class="carrusel-recomendaciones-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Luciano H.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            El Principito
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Antoine de Saint-Exupéry
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $13.200
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- TARJETA #2 -->
+                <article class="carrusel-recomendaciones-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Tania G.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Cien años de soledad
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Gabriel García Márquez
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $22.900
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #3 -->
+                <article class="carrusel-recomendaciones-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Daniela C.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Don Quijote de la Mancha
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Miguel de Cervantes
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $25.600
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #4 -->
+                <article class="carrusel-recomendaciones-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Alexis M.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            1984
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            George Orwell
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $14.400
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="controles-carrusel">
+                <button type="button" aria-label="anterior">&lt;</button>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <button type="button" aria-label="siguiente">&gt;</button>
+
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------>
+
+    <!-- COMUNIDAD LECTORA -->
+    <section class="comunidad-lectora">
+        <!-- CONTENEDOR-->
+        <div class="comunidad-lectora-contenedor">
+            <!-- COMUNIDAD LECTORA CONTENIDO-->
+            <div class="comunidad-lectora-contenido">
+                <!-- COMUNIDAD LECTORA TÍTULO-->
+                <div class="comunidad-lectora-titulo">
+                    <h2>Únete a nuestra comunidad lectora</h2>
+                </div>
+                <!-- COMUNIDAD LECTORA PIE-->
+                <div class="comunidad-lectora-pie">
+                    <p>Comparte reseñas y descubre recomendaciones de la comunidad</p>
+                </div>
+                <!-- COMUNIDAD LECTORA BOTONES-->
+                <div class="comunidad-lectora-botones">
+                    <button class="boton">Botón 3</button>
+                </div>
+            </div>
+            <!-- COMUNIDAD LECTORA IMAGEN-->
+            <div class="comunidad-lectora-imagen">
+                <img src="https://placehold.co/600x300" alt="placehold">
+            </div>
+        </div>
+    </section>
+
+
+    <!------------------------------------------------------------------------------------------>
+
+    <!-- CARRUSEL MAS VENDIDOS LANZAMIENTOS -->
+
+    <section class="carrusel-mas-vendidos">
+        <!-- ENCABEZADO -->
+        <header class="carrusel-mas-vendidos-encabezado">
+            <!-- TÍTULO -->
+            <h3 class="carrusel-mas-vendidos-titulo">
+                Más Vendidos
+            </h3>
+            <!-- ACCIONES -->
+            <div class="carrusel-mas-vendidos-acciones">
+                <a href="">Ver más</a>
+                <button type="button" aria-label="anterior">&lt;</button>
+                <button type="button" aria-label="siguiente">&gt;</button>
+            </div>
+        </header>
+        <!-- CONTENEDOR RECOMENDACIONES-->
+        <div class="carrusel-mas-vendidos-contenedor">
+            <!-- CONTENEDOR TARJETAS-->
+            <div class="coleccion-tarjetas">
+                <!-- TARJETA #1 -->
+                <article class="carrusel-mas-vendidos-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Luciano H.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            El Principito
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Antoine de Saint-Exupéry
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $13.200
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- TARJETA #2 -->
+                <article class="carrusel-mas-vendidos-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Tania G.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Cien años de soledad
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Gabriel García Márquez
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $22.900
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #3 -->
+                <article class="carrusel-mas-vendidos-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Daniela C.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Don Quijote de la Mancha
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Miguel de Cervantes
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $25.600
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #4 -->
+                <article class="carrusel-mas-vendidos-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Alexis M.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            1984
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            George Orwell
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $14.400
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="controles-carrusel">
+                <button type="button" aria-label="anterior">&lt;</button>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <button type="button" aria-label="siguiente">&gt;</button>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!------------------------------------------------------------------------------------------>
+
+    <!-- CARRUSEL NUEVOS LANZAMIENTOS -->
+
+    <section class="carrusel-lanzamiento">
+        <!-- ENCABEZADO -->
+        <header class="carrusel-lanzamiento-encabezado">
+            <!-- TÍTULO -->
+            <h3 class="carrusel-lanzamiento-titulo">
+                Nuevos Lanzamientos
+            </h3>
+            <!-- ACCIONES -->
+            <div class="carrusel-lanzamiento-acciones">
+                <a href="">Ver más</a>
+                <button type="button" aria-label="anterior">&lt;</button>
+                <button type="button" aria-label="siguiente">&gt;</button>
+            </div>
+        </header>
+        <!-- CONTENEDOR RECOMENDACIONES-->
+        <div class="carrusel-lanzamiento-contenedor">
+            <!-- CONTENEDOR TARJETAS-->
+            <div class="coleccion-tarjetas">
+                <!-- TARJETA #1 -->
+                <article class="carrusel-lanzamiento-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Luciano H.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            El Principito
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Antoine de Saint-Exupéry
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $13.200
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- TARJETA #2 -->
+                <article class="carrusel-lanzamiento-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Tania G.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Cien años de soledad
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Gabriel García Márquez
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $22.900
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #3 -->
+                <article class="carrusel-lanzamiento-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Daniela C.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Don Quijote de la Mancha
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Miguel de Cervantes
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $25.600
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #4 -->
+                <article class="carrusel-lanzamiento-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Alexis M.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            1984
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            George Orwell
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $14.400
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="controles-carrusel">
+                <button type="button" aria-label="anterior">&lt;</button>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <button type="button" aria-label="siguiente">&gt;</button>
+
+            </div>
+        </div>
+    </section>
+
+    <!------------------------------------------------------------------------------------------>
+
+    <!-- CARRUSEL MÁS COMENTADOS DE LA COMUNIDAD -->
+
+    <section class="carrusel-comentados">
+        <!-- ENCABEZADO -->
+        <header class="carrusel-comentados-encabezado">
+            <!-- TÍTULO -->
+            <h3 class="carrusel-comentados-titulo">
+                Más Comentados por la Comunidad
+            </h3>
+            <!-- ACCIONES -->
+            <div class="carrusel-comentados-acciones">
+                <a href="">Ver más</a>
+                <button type="button" aria-label="anterior">&lt;</button>
+                <button type="button" aria-label="siguiente">&gt;</button>
+            </div>
+        </header>
+        <!-- CONTENEDOR RECOMENDACIONES-->
+        <div class="carrusel-comentados-contenedor">
+            <!-- CONTENEDOR TARJETAS-->
+            <div class="coleccion-tarjetas">
+                <!-- TARJETA #1 -->
+                <article class="carrusel-comentados-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Luciano H.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            El Principito
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Antoine de Saint-Exupéry
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $13.200
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- TARJETA #2 -->
+                <article class="carrusel-comentados-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Tania G.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Cien años de soledad
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Gabriel García Márquez
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $22.900
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #3 -->
+                <article class="carrusel-comentados-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Daniela C.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            Don Quijote de la Mancha
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            Miguel de Cervantes
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $25.600
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA #4 -->
+                <article class="carrusel-comentados-tarjeta">
+                    <div class="tarjeta-header-curador">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
+                        <div class="tarjeta-nombre-curador">
+                            Alexis M.
+                        </div>
+                    </div>
+                    <div class="tarjeta-libro-portada">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
+                    </div>
+                    <div class="tarjeta-libro-info">
+                        <div class="tarjeta-libro-info-titulo">
+                            1984
+                        </div>
+                        <div class="tarjeta-libro-info-autor">
+                            George Orwell
+                        </div>                    
+                        <div class="tarjeta-libro-info-precio">
+                            $14.400
+                        </div>
+                        <div class="tarjeta-libro-info-favorito">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="controles-carrusel">
+                <button type="button" aria-label="anterior">&lt;</button>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <button type="button" aria-label="siguiente">&gt;</button>
+
+            </div>
+        </div>
+    </section>
+
+<!------------------------------------------------------------------------------------------>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter">
+        <h2 class="newsletter-titulo">Suscríbete a nuestro newsletter</h2>
+        <p class="newsletter-pie">Entérate de recomendaciones,<br>novedades y más</p>
+        <form class="newsletter-formulario">
+            <input type="email" placeholder="Ingresa tu e-mail" aria-label="Ingresa tu e-mail" required>
+            <button class="newsletter-boton" type="submit">Suscribirme</button>
+        </form>
     </section>
 
     <!-- PIE DE PÁGINA -->
-    <footer>
-        <p>2026 LeeConNos - Librería Independiente, Barrio Italia, Santiago</p>
-        <p>Taller de Bootcamps, Universidad de Chile - Legión Atenea</p>
+    <footer class="footer">
+        <!--Contenedor General para el diseño en columnas-->
+        <div class="footer-contenedor">
+            <!--Contenedor del logo-->
+            <section class="footer-logo">
+                <img class="imagen-logo" src="Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Nombre y logo de la librería.">
+            </section>
+
+            <!--Contenedor de Información-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">Información</h3>
+                <div class="columna-lista">
+                    <a href="">Contáctanos</a>
+                    <a href="">FAQ's</a>
+                    <a href="">Devoluciones y garantía</a>
+                    <a href="">Políticas de despacho</a>
+                    <a href="">Políticas de retiro en tienda</a>
+                </div>
+            </section>
+
+            <!--Contenedor de LeeConNos-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">LeeConNos</h3>
+                <div class="columna-lista">
+                    <a href="">Mi Cuenta</a>
+                    <a href="">Biblioteca</a>
+                    <a href="">Gift Cards</a>
+                    <a href="">Nuestro Equipo</a>
+                </div>
+            </section>
+
+            <!--Contenedor de Redes Sociales-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">Síguenos en</h3>
+
+                <!-- Contenedor de íconos de RRSS-->
+                <div class="iconos-contenedor">
+                    <img src="imagenes/iconos/01-facebook-negative.svg" alt="Ícono de Facebook">
+                    <img src="imagenes/iconos/02-instagram-negative.svg" alt="Ícono de Instagram">
+                    <img src="imagenes/iconos/03-x-negative.svg" alt="Ícono de X">
+                    <img src="imagenes/iconos/04-youtube-negative.svg" alt="Ícono de YouTube">
+                    <img src="imagenes/iconos/05-whatsapp-negative.svg" alt="Ícono de Whatsapp">
+                </div>
+
+            </section>
+        </div>
+
+        <!--Contenedor Legal-->
+        <div class="footer-legal">
+            <p>(C)2026 leeconnos.cl - Todos los derechos reservados - Legión Atenea - Equipo 5 - Bootcamp Universidad de
+                Chile</p>
+        </div>
+
     </footer>
 
 </body>
