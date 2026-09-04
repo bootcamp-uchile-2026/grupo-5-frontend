@@ -151,6 +151,7 @@
 
 .carrito-pago{
     display: block;
+    box-sizing: border-box;
     width: 100%;
     padding: 12px;
     border: 0;
