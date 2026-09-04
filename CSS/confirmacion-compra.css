@@ -1,0 +1,78 @@
+@import url("base.css");
+@import url("catalogo.css");
+
+/* CONTENIDO CONFIRMACIÓN DE COMPRA RUTA */
+
+.confirmacion-compra {
+    padding: 5px 100px;
+    align-items: flex-start;
+}
+
+.ruta-categoria {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ruta-categoria p {
+    margin: 0;
+}
+
+.home {
+    display: flex;
+}
+
+.home img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20%;
+}
+
+
+/* CONTENIDO CONFIRMACIÓN DE COMPRA BLOQUE 1 */
+
+.texto-confirmacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    background-color: var(--color-primario-light);
+    padding: 40px 60px;
+    border-radius: 20px;
+}
+
+.encabezado-confirmacion {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+}
+
+.encabezado-confirmacion img {
+    width: 100px;
+    height: 100px;
+}
+
+.contenido-confirmacion {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100px;
+}
+
+.contenido-confirmacion h1,
+.contenido-confirmacion p {
+    margin: 0;
+}
+
+.detalles-pedido {
+    margin-top: 30px;
+    padding: 20px 60px;
+    color: var(--color-primario);
+}
+
+.detalles-pedido h2,
+.detalles-pedido p {
+    margin: 0 0 10px;
+}
