@@ -26,8 +26,12 @@
     --color-acento:#10C9CB;
         
     /*________________ TIPOGRAFÍAS ________________*/
+    /*Fuente primaria: Lexend (encabezados y UI general)*/
     --fuente-heading:"Lexend", sans-serif;
-    --fuente-body:"Noto Sans", sans-serif;
+    /*Fuente secundaria o de marca: Bree Serif*/
+    --fuente-brand:"Bree Serif", serif;
+    /*Alias heredado: el cuerpo de texto usa la fuente primaria*/
+    --fuente-body:var(--fuente-heading);
 
     /*___________________ HERO ____________________*/
     --peso-hero: 700;
