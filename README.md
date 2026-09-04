@@ -1,33 +1,91 @@
-# Grupo 5 - Frontend
+# LeeConNos — Frontend
 
-Proyecto frontend de LeeConNos.
+Proyecto Frontend del e-commerce **LeeConNos**, librería independiente ficticia con curaduría de libreros y club de lectura. Desarrollado en el marco del Taller de Bootcamps (DCC, Universidad de Chile) por el equipo **Legión Atenea**.
 
-## Feature-27
+> "Conectamos personas con libros a través de recomendaciones humanas y una comunidad que comparte la pasión por leer."
 
-Esta rama continúa el trabajo de `73-1` y contiene exclusivamente el desarrollo inicial del Catálogo y la preparación de la página de detalle de libros.
+## Estado del proyecto
 
-### Catálogo
+La aplicación se encuentra en etapa de maquetación y construcción de su base visual, utilizando HTML y CSS puro (sin framework ni bundler) a partir de los wireframes y lineamientos entregados por UX/UI. Se usan datos e imágenes simuladas mientras se avanza en la futura integración con Backend. Las vistas actuales no representan una versión final del producto.
 
-- Se incorporó una grilla responsive de tarjetas de libros.
-- Se agregaron controles de filtrado, ordenamiento y contador de resultados.
-- Las tarjetas muestran portada, título, autor, precio, etiquetas y acciones de compra.
-- Se incorporaron portadas mock mediante URLs de Open Library.
-- Todas las tarjetas permiten acceder a una única página de detalle.
-- Se mantuvo el banner, header y footer heredados de `73-1`.
+## Tecnologías
 
-### Página de detalle
+- HTML5
+- CSS3 (sin preprocesadores ni frameworks)
+- [Bootstrap Icons](https://icons.getbootstrap.com/) (vía CDN)
+- Google Fonts: Lexend (fuente primaria) y Bree Serif (fuente secundaria/de marca), vía CDN
+- Portadas de libro simuladas mediante la API pública de [Open Library](https://openlibrary.org/dev/docs/api/covers)
 
-- Se creó `paginas/detalle-libro.html` como destino común de todas las tarjetas.
-- La página queda vacía para un desarrollo posterior.
-- Actualmente contiene únicamente el banner, header y footer compartidos.
-- Se dejó espacio vertical entre header y footer para el futuro contenido.
+No se utiliza Node.js, npm ni ninguna herramienta de build: el proyecto es HTML y CSS estático.
 
-### Archivos incorporados o modificados
+## Estructura del repositorio
 
-- `paginas/catalogo.html`: vista del Catálogo y navegación hacia el detalle.
-- `CSS/catalogo.css`: estilos propios de la grilla, tarjetas, filtros y newsletter.
-- `paginas/detalle-libro.html`: página base vacía para el detalle.
-- `CSS/base.css`: estilos compartidos necesarios para la estructura transversal.
+```
+grupo-5-frontend/
+├─ index.html                  # Página de Inicio
+├─ CSS/
+│  ├─ base.css                 # Paleta, tipografías y estilos globales compartidos
+│  ├─ index.css                # Estilos específicos de Inicio
+│  ├─ catalogo.css             # Estilos específicos de Catálogo
+│  └─ ficha-libro.css          # Estilos específicos de Ficha de libro
+├─ paginas/
+│  ├─ catalogo.html            # Catálogo de libros
+│  ├─ ficha-libro.html         # Ficha de detalle de un libro
+│  ├─ biblioteca.html
+│  ├─ comunidad.html
+│  ├─ descubrir.html
+│  ├─ recomendaciones.html
+│  └─ mi-cuenta.html
+├─ imagenes/
+│  └─ iconos/                  # Íconos de redes sociales (footer)
+├─ Logos/                      # Variantes del logo de LeeConNos
+└─ LICENSE
+```
 
-No se modificó el desarrollo de la página de Inicio perteneciente a `73-1`.
+### Convenciones
 
+- Nombres de archivo en español, en minúsculas y separados por guiones (ej. `ficha-libro.html`, `catalogo.css`).
+- Cada vista principal tiene su propia hoja de estilos con el mismo nombre.
+- Los estilos transversales (paleta de colores, tipografía, escala tipográfica, header, footer) se centralizan en `base.css`.
+- Los recursos gráficos se separan por tipo en `imagenes/` y `Logos/`.
+
+## Cómo ejecutar el proyecto
+
+No requiere instalación ni dependencias.
+
+**Opción 1 — Abrir directamente**
+Abrir `index.html` haciendo doble clic desde el explorador de archivos.
+
+**Opción 2 — Live Server (recomendada)**
+1. Abrir la carpeta del proyecto en VS Code.
+2. Instalar la extensión [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer), si no está instalada.
+3. Clic derecho sobre `index.html` → **Open with Live Server** (o el botón **Go Live** en la barra inferior).
+
+Se recomienda esta segunda opción para que las rutas relativas entre páginas y estilos se sirvan correctamente.
+
+### Navegadores probados
+
+- Google Chrome
+- Microsoft Edge
+
+## Navegación
+
+Desde el header se accede a: Inicio, Catálogo, Comunidad, Descubrir, Recomendaciones, Biblioteca y Mi Cuenta. Desde las tarjetas de libro (en Inicio y Catálogo) se accede a la ficha de detalle del libro (`ficha-libro.html`).
+
+## Componentes reutilizables
+
+| Componente | Uso |
+|---|---|
+| `.tarjeta-libro-*` (portada, título, autor, precio, favorito) | Inicio, Catálogo, Ficha de libro |
+| `.tarjeta-*-curador` (imagen, header, nombre) | Perfiles de librero en Inicio |
+| `.catalogo-tarjeta`, `.catalogo-etiqueta`, `.catalogo-precio-actual` / `.catalogo-precio-anterior` | Grilla del Catálogo |
+| `.header-icono`, `.footer-columna` | Navegación y footer, compartidos en todas las vistas |
+
+## Datos simulados
+
+Los datos de ejemplo (títulos, autores, precios, etiquetas) están escritos directamente en el HTML. Las portadas de libro se obtienen mediante URLs de la API pública de Open Library (`covers.openlibrary.org`). No existe aún un archivo de datos independiente (JSON u otro); su consistencia con las interfaces de Backend queda pendiente de validar una vez definidos los contratos de datos (DTOs).
+
+
+## Licencia
+
+Ver [LICENSE](./LICENSE).
