@@ -13,7 +13,7 @@ La aplicación se encuentra en etapa de maquetación y construcción de su base 
 - HTML5
 - CSS3 (sin preprocesadores ni frameworks)
 - [Bootstrap Icons](https://icons.getbootstrap.com/) (vía CDN)
-- Google Fonts: Lexend (títulos) y Noto Sans (cuerpo), vía CDN
+- Google Fonts: Lexend (fuente primaria) y Bree Serif (fuente secundaria/de marca), vía CDN
 - Portadas de libro simuladas mediante la API pública de [Open Library](https://openlibrary.org/dev/docs/api/covers)
 
 No se utiliza Node.js, npm ni ninguna herramienta de build: el proyecto es HTML y CSS estático.

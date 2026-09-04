@@ -26,8 +26,12 @@
     --color-acento:#10C9CB;
         
     /*________________ TIPOGRAFÍAS ________________*/
+    /*Fuente primaria: Lexend (encabezados y UI general)*/
     --fuente-heading:"Lexend", sans-serif;
-    --fuente-body:"Noto Sans", sans-serif;
+    /*Fuente secundaria o de marca: Bree Serif*/
+    --fuente-brand:"Bree Serif", serif;
+    /*Alias heredado: el cuerpo de texto usa la fuente primaria*/
+    --fuente-body:var(--fuente-heading);
 
     /*___________________ HERO ____________________*/
     --peso-hero: 700;
@@ -305,6 +309,140 @@ p{
     background-color: transparent;
 }
 
+/* FORMULARIO INICIO DE SESION */
+
+.modal-overlay {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.45);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 2000;
+}
+
+.modal-overlay.activo {
+    display: flex;
+}
+
+.modal-inicio-sesion{
+    background-color: #FFFFFF;
+    padding: 10px 30px;
+    border-radius: 20px;
+}
+
+.modal-inicio-sesion-encabezado{
+    background-color: transparent;
+}
+
+#titulo-login{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-titulo);
+    font-size: var(--tamano-fuente-parrafos);
+    line-height: var(--interlineado-parrafos);
+    color: var(--color-neutral-darker);
+    background-color: transparent;
+}
+
+.modal-inicio-sesion-registro{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-parrafos);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-neutral-darker);
+    background-color: transparent;    
+}
+
+.modal-inicio-sesion-registro a{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-titulo);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-neutral-darker);
+    text-decoration: none;
+    background-color: transparent;    
+}
+
+.modal-inicio-sesion-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.campo-formulario{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-parrafos);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-neutral-darker);
+
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0px;
+}
+
+.campo-formulario label{
+    margin: 5px;
+}
+
+.campo-formulario input{
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: var(--color-neutral-light);
+    border: none;
+    border-radius: 15px;
+}
+
+.boton-login{
+    margin-top: 20px;
+    padding: 10px 0px;
+    color: var(--color-neutral-lightest);
+    background-color: var(--color-neutral-darkest);
+    border: none;
+    border-radius: 15px;    
+}
+
+.boton-crear-cuenta{
+    margin-top: 20px;
+    padding: 10px 0px;
+    color: var(--color-neutral-darkest);
+    background-color: var(--color-neutral-lightest);
+    border: 1px solid;
+    border-color: var(--color-neutral-darkest);
+    border-radius: 15px;    
+}
+
+.recuperar-contrasena{
+    font-family: var(--fuente-heading);
+    font-weight: var(--peso-titulo);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-neutral-darker);    
+    
+    margin-top: 20px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.separador-login{
+    margin-top: 10px;
+    text-align: center;
+}
+
+.opciones-login-social{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.boton-social{
+    margin: 10px;
+    padding: 5px 30px;
+}
 /* PIE DE PÁGINA */
 footer{
     background-color: var(--color-primario-darker);
