@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- TITULO DE LA PESTANA-->
+    <title>¡Compra realizada!</title>
+
+    <!--DESCARGA DE FUENTES-->
+    <!--Conector rápido de datos-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <!--Conector rápido de archivos pesados-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!--Descarga de fuentes-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans:wght@400&display=swap">
+
+    <!--ESTILOS CSS-->
+    <link rel="stylesheet" href="../CSS/base.css">
+    <link rel="stylesheet" href="../CSS/carrito.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../CSS/confirmacion-compra.css">
+</head>
+
+<!------------------------------------------------------------------------------------------>
+
+<body>
+    <!--ENCABEZADO-->
+    <section class="barra-navegacion">
+        <header>
+            <!--BANNER-->
+            <div class="banner-contenedor">
+                <p class="banner">&lt;&lt; Noticias destacadas, anuncios, ofertas &gt;&gt;</p>
+            </div>
+
+            <!-- BARRA DE NAVEGACIÓN -->
+            <nav>
+                <!--LOGO-->
+                <div class="header-logo">
+                    <a href="index.html">
+                        <img src="../Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Logo de la marca">
+                    </a>
+                </div>
+
+                <!--NAVEGACIÓN-->
+                <div class="header-nav">
+                    <a href="../index.html">Inicio</a>
+                    <a href="../paginas/catalogo.html">Catálogo</a>
+                    <a href="../paginas/comunidad.html">Comunidad</a>
+                    <a href="../paginas/descubrir.html">Descubrir</a>
+                    <a href="../paginas/recomendaciones.html">Recomendaciones</a>
+                    <a href="../paginas/biblioteca.html">Biblioteca</a>
+                    <a href="../paginas/mi-cuenta.html">Mi Cuenta</a>
+                </div>
+                <div class="header-acciones"><form class="header-busqueda" role="search"><input type="search" placeholder="Buscar libros ..." aria-label="Buscar libros"><button type="submit" aria-label="Buscar"><i class="bi bi-search" aria-hidden="true"></i></button></form><a class="header-icono" href="mi-cuenta.html" aria-label="Inicio de sesión"><i class="bi bi-person-circle" aria-hidden="true"></i></a><button class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart" aria-hidden="true"></i></button><button class="header-icono" id="boton-carrito" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="carrito-overlay" aria-label="Bolsa de compras"><i class="bi bi-bag" aria-hidden="true"></i></button></div>
+            </nav>
+        </header>
+    </section>
+<!------------------------------------------------------------------------------------------>
+
+<!--RUTA DE CATEGORÍA-->
+<main class="confirmacion-compra">
+        <div class="ruta-categoria">
+            <a class="home" href="../index.html" aria-label="Volver al home">
+                <img src="https://placehold.co/40x40" alt="Icono de casa">
+            </a>
+            <p> > Carro > Check out > Confirmación de compra</p>
+        </div>
+        
+        <!--CONFIRMACIÓN DE COMPRA-->
+        <section class="texto-confirmacion">
+            <div class="encabezado-confirmacion">
+                <img src="https://placehold.co/200x200" alt="Icono de check">
+                <div class="contenido-confirmacion">
+                    <h1>¡Compra realizada, Nombre!</h1>
+                    <p>Tu pedido ha sido procesado con éxito.</p>
+                    <p>Te enviaremos un correo electrónico con los detalles de tu compra y la información de seguimiento.</p>
+                    <p>Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.</p>
+                </div>
+            </div>
+        </section>
+        
+        <div class="pedido-informacion">
+
+            <!--DETALLES DEL PEDIDO-->
+            <section class="detalles-pedido">
+                <h2>Detalles del pedido</h2>
+                <div class="detalle-item">
+                    <img src="https://placehold.co/40x40" alt="Imagen del número del pedido">
+                    <div class="detalle-texto">
+                        <strong>Número de pedido</strong>
+                        <span>123456789</span>
+                    </div>
+                </div>
+                <div class="detalle-item">
+                    <img src="https://placehold.co/40x40" alt="Imagen de fecha y hora">
+                    <div class="detalle-texto">
+                        <strong>Fecha y hora</strong>
+                        <span>21 de agosto 2026, 13:40 hrs.</span>
+                    </div>
+                </div>
+                <div class="detalle-item">
+                    <img src="https://placehold.co/40x40" alt="Imagen del método de entrega">
+                    <div class="detalle-texto">
+                        <strong>Método de entrega</strong>
+                        <span>Despacho a domicilio</span>
+                    </div>
+                </div>
+                <div class="detalle-item">
+                    <img src="https://placehold.co/40x40" alt="Imagen de la dirección de entrega">
+                    <div class="detalle-texto">
+                        <strong>Dirección de entrega</strong>
+                        <span>Lorem ipsum dolor sit amet,<br>Lorem ipsum dolor sit amet.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!--RESUMEN DEL PEDIDO-->
+            <section class="resumen-pedido">
+                <div class="cabecera-resumen">
+                    <h2>Resumen del pedido</h2>
+                    <span>2 productos</span>
+                </div>
+                <div class="resumen-superior">
+                    <img src="https://placehold.co/100x100" alt="Imagen del libro">
+                    <div class="contenido-resumen">
+                        <div class="datos-libro">
+                            <h3>Nombre del libro</h3>
+                            <p><strong>Nombre del autor</strong></p>
+                            <p class="dato-con-separador dato-cantidad"><strong>Cantidad:</strong> <span>2</span></p>
+                        </div>
+                    </div>
+                    <p class="precio-libro">$40.000</p>
+                </div>
+
+                <div class="resumen-financiero">
+                    <div class="fila-resumen">
+                        <span>Subtotal</span>
+                        <strong>$40.000</strong>
+                    </div>
+                    <div class="fila-resumen">
+                        <span>Envío</span>
+                        <strong>$3.000</strong>
+                    </div>
+                    <div class="fila-resumen">
+                        <span>Descuento</span>
+                        <strong>$0</strong>
+                    </div>
+                </div>
+
+                <div class="total-a-pagar">
+                    <h3>Total a pagar</h3>
+                    <h3 class="monto-total">$43.000</h3>
+                </div>
+
+                <div class="metodo-de-pago">
+                    <p><strong>Método de pago:</strong> Método de pago</p>
+                </div>
+            </section>
+        </div>
+
+        <!--MENÚ FINAL-->
+        <section class="menu-final">
+            <!--VER MI PEDIDO-->
+            <div class="ver-mi-pedido">
+                <a href="../index.html" aria-label="Volver al home">  <!--CAMBIAR POR PANTALLA CORRECTA A FUTURO-->
+                    <img src="https://placehold.co/40x40" alt="icono ver pedido">
+                </a>
+                <h3>Ver mi pedido</h3>
+                <p>Lore ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+
+            <!--SEGUIR COMPRANDO-->
+            <div class="seguir-comprando">
+                <a href="../index.html" aria-label="Volver al home">
+                    <img src="https://placehold.co/40x40" alt="seguir comprando">
+                </a>
+                <h3>Seguir comprando</h3>
+                <p>Lore ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+
+            <!--CONOCE NUESTRA COMUNIDAD-->
+            <div class="conoce-comunidad">
+                <a href="../comunidad.html" aria-label="Conoce nuestra comunidad">
+                    <img src="https://placehold.co/40x40" alt="conoce comunidad">
+                </a>
+                <h3>Conoce nuestra comunidad</h3>
+                <p>Lore ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+        </section>
+    </main>
+
+<!------------------------------------------------------------------------------------------>
+
+    <!--CARRITO (VISTA SUPERPUESTA)-->
+    <div class="carrito-overlay" id="carrito-overlay" hidden>
+        <aside class="carrito-panel" aria-label="Carrito de compras">
+            <div class="carrito-encabezado">
+                <h3>Carrito</h3>
+                <button class="carrito-cerrar" id="carrito-cerrar" type="button" aria-label="Cerrar carrito"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+            </div>
+            <div class="carrito-item">
+                <div class="carrito-item-foto">Foto<br>libro</div>
+                <div class="carrito-item-datos">
+                    <div class="carrito-item-fila">
+                        <span class="carrito-item-titulo">Título del libro</span>
+                        <div class="carrito-item-cantidad"><button type="button" aria-label="Disminuir cantidad">-</button><span>1</span><button type="button" aria-label="Aumentar cantidad">+</button></div>
+                        <button class="carrito-item-eliminar" type="button" aria-label="Eliminar producto"><i class="bi bi-x" aria-hidden="true"></i></button>
+                    </div>
+                    <span class="carrito-item-precio">$99.999</span>
+                </div>
+            </div>
+            <hr class="carrito-separador">
+            <div class="carrito-sumario">
+                <div class="carrito-sumario-fila"><span>Sumario:</span><span>1 Item</span></div>
+                <div class="carrito-sumario-fila"><span>Subtotal:</span><span>$99.999</span></div>
+            </div>
+            <a class="carrito-pago" href="checkout.html">Pago seguro</a>
+            <p class="carrito-envio-nota">El envío se calcula en el checkout</p>
+        </aside>
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+<footer class="footer">
+        <!--Contenedor General para el diseño en columnas-->
+    <div class="footer-contenedor">
+            <!--Contenedor del logo-->
+            <section class="footer-logo">
+                <img class="imagen-logo" src="../Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Nombre y logo de la librería.">
+            </section>
+
+            <!--Contenedor de Información-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">Información</h3>
+                <div class="columna-lista">
+                    <a href="">Contáctanos</a>
+                    <a href="">FAQ's</a>
+                    <a href="">Devoluciones y garantía</a>
+                    <a href="">Políticas de despacho</a>
+                    <a href="">Políticas de retiro en tienda</a>
+                </div>
+            </section>
+
+            <!--Contenedor de LeeConNos-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">LeeConNos</h3>
+                <div class="columna-lista">
+                    <a href="">Mi Cuenta</a>
+                    <a href="">Biblioteca</a>
+                    <a href="">Gift Cards</a>
+                    <a href="">Nuestro Equipo</a>
+                </div>
+            </section>
+
+            <!--Contenedor de Redes Sociales-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">Síguenos en</h3>
+
+                <!-- Contenedor de íconos de RRSS-->
+                <div class="iconos-contenedor">
+                    <img src="../imagenes/iconos/01-facebook-negative.svg" alt="Ícono de Facebook">
+                    <img src="../imagenes/iconos/02-instagram-negative.svg" alt="Ícono de Instagram">
+                    <img src="../imagenes/iconos/03-x-negative.svg" alt="Ícono de X">
+                    <img src="../imagenes/iconos/04-youtube-negative.svg" alt="Ícono de YouTube">
+                    <img src="../imagenes/iconos/05-whatsapp-negative.svg" alt="Ícono de Whatsapp">
+                </div>
+
+            </section>
+        </div>
+
+        <!--Contenedor Legal-->
+        <div class="footer-legal">
+            <p>(C)2026 leeconnos.cl - Todos los derechos reservados - Legión Atenea - Equipo 5 - Bootcamp Universidad de
+                Chile</p>
+        </div>
+
+    </footer>
+    <script src="../js/carrito.js"></script>
+</body>
+
+</html>

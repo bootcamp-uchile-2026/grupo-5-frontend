@@ -17,7 +17,7 @@
 
     <!--Descarga de fuentes-->
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Lexend:wght@400;600;700&display=swap">
+        href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans:wght@400&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!--ESTILOS CSS-->
@@ -60,15 +60,11 @@
                 <div class="header-acciones">
                     <form class="header-busqueda" role="search">
                         <input type="search" placeholder="Buscar libros ..." aria-label="Buscar libros">
-                        <button type="submit" aria-label="Buscar"><i class="bi bi-search"
-                                aria-hidden="true"></i></button>
+                        <button type="submit" aria-label="Buscar"><i class="bi bi-search" aria-hidden="true"></i></button>
                     </form>
-                    <button id="boton-iniciar-sesion" class="header-icono" type="button" aria-label="Mi cuenta"><i
-                            class="bi bi-person-circle" aria-hidden="true"></i></button>
-                    <button class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart"
-                            aria-hidden="true"></i></button>
-                    <button class="header-icono" type="button" aria-label="Bolsa de compras"><i class="bi bi-bag"
-                            aria-hidden="true"></i></button>
+                    <a class="header-icono" href="paginas/mi-cuenta.html" aria-label="Inicio de sesión"><i class="bi bi-person-circle" aria-hidden="true"></i></a>
+                    <button class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart" aria-hidden="true"></i></button>
+                    <a class="header-icono" href="paginas/checkout.html" aria-label="Bolsa de compras"><i class="bi bi-bag" aria-hidden="true"></i></a>
                 </div>
             </nav>
         </header>
@@ -146,15 +142,13 @@
                 <!-- TARJETA #1 -->
                 <article class="carrusel-recomendaciones-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Luciano H.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -162,7 +156,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Antoine de Saint-Exupéry
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $13.200
                         </div>
@@ -171,19 +165,17 @@
                         </div>
                     </div>
                 </article>
-
+                
                 <!-- TARJETA #2 -->
                 <article class="carrusel-recomendaciones-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Tania G.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -191,7 +183,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Gabriel García Márquez
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $22.900
                         </div>
@@ -204,15 +196,13 @@
                 <!-- TARJETA #3 -->
                 <article class="carrusel-recomendaciones-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Daniela C.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -220,7 +210,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Miguel de Cervantes
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $25.600
                         </div>
@@ -233,15 +223,13 @@
                 <!-- TARJETA #4 -->
                 <article class="carrusel-recomendaciones-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Alexis M.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -249,7 +237,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             George Orwell
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $14.400
                         </div>
@@ -326,15 +314,13 @@
                 <!-- TARJETA #1 -->
                 <article class="carrusel-mas-vendidos-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Luciano H.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -342,7 +328,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Antoine de Saint-Exupéry
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $13.200
                         </div>
@@ -351,19 +337,17 @@
                         </div>
                     </div>
                 </article>
-
+                
                 <!-- TARJETA #2 -->
                 <article class="carrusel-mas-vendidos-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Tania G.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -371,7 +355,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Gabriel García Márquez
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $22.900
                         </div>
@@ -384,15 +368,13 @@
                 <!-- TARJETA #3 -->
                 <article class="carrusel-mas-vendidos-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Daniela C.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -400,7 +382,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Miguel de Cervantes
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $25.600
                         </div>
@@ -413,15 +395,13 @@
                 <!-- TARJETA #4 -->
                 <article class="carrusel-mas-vendidos-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Alexis M.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -429,7 +409,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             George Orwell
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $14.400
                         </div>
@@ -479,15 +459,13 @@
                 <!-- TARJETA #1 -->
                 <article class="carrusel-lanzamiento-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Luciano H.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -495,7 +473,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Antoine de Saint-Exupéry
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $13.200
                         </div>
@@ -504,19 +482,17 @@
                         </div>
                     </div>
                 </article>
-
+                
                 <!-- TARJETA #2 -->
                 <article class="carrusel-lanzamiento-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Tania G.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -524,7 +500,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Gabriel García Márquez
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $22.900
                         </div>
@@ -537,15 +513,13 @@
                 <!-- TARJETA #3 -->
                 <article class="carrusel-lanzamiento-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Daniela C.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -553,7 +527,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Miguel de Cervantes
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $25.600
                         </div>
@@ -566,15 +540,13 @@
                 <!-- TARJETA #4 -->
                 <article class="carrusel-lanzamiento-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Alexis M.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -582,7 +554,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             George Orwell
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $14.400
                         </div>
@@ -631,15 +603,13 @@
                 <!-- TARJETA #1 -->
                 <article class="carrusel-comentados-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Luciano H.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -647,7 +617,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Antoine de Saint-Exupéry
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $13.200
                         </div>
@@ -656,19 +626,17 @@
                         </div>
                     </div>
                 </article>
-
+                
                 <!-- TARJETA #2 -->
                 <article class="carrusel-comentados-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Tania G.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -676,7 +644,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Gabriel García Márquez
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $22.900
                         </div>
@@ -689,15 +657,13 @@
                 <!-- TARJETA #3 -->
                 <article class="carrusel-comentados-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Daniela C.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -705,7 +671,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             Miguel de Cervantes
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $25.600
                         </div>
@@ -718,15 +684,13 @@
                 <!-- TARJETA #4 -->
                 <article class="carrusel-comentados-tarjeta">
                     <div class="tarjeta-header-curador">
-                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff"
-                            alt="miniatura del librero">
+                        <img class="tarjeta-imagen-curador" src="https://placehold.co/30/000000/ffffff" alt="miniatura del librero">
                         <div class="tarjeta-nombre-curador">
                             Alexis M.
                         </div>
                     </div>
                     <div class="tarjeta-libro-portada">
-                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200"
-                            alt="imagen de portada del libro">
+                        <img class="tarjeta-portada-imagen" src="https://placehold.co/250x200" alt="imagen de portada del libro">
                     </div>
                     <div class="tarjeta-libro-info">
                         <div class="tarjeta-libro-info-titulo">
@@ -734,7 +698,7 @@
                         </div>
                         <div class="tarjeta-libro-info-autor">
                             George Orwell
-                        </div>
+                        </div>                    
                         <div class="tarjeta-libro-info-precio">
                             $14.400
                         </div>
@@ -757,141 +721,20 @@
             </div>
         </div>
     </section>
-    <!------------------------------------------------------------------------------------------>
-
-    <!-- FORMULARIO INICIO DE SESION -->
-
-    <div class="modal-overlay" id="modal-inicio-sesion">
-
-        <section class="modal-inicio-sesion" aria-labelledby="titulo-login">
-
-            <header class="modal-inicio-sesion-encabezado">
-                <h2 id="titulo-login">Iniciar sesión</h2>
-
-                <p class="modal-inicio-sesion-registro">
-                    ¿Nuevo en LeeConNos?
-                    <a href="#">Crear cuenta</a>
-                </p>
-            </header>
-
-            <form class="modal-inicio-sesion-form">
-
-                <div class="campo-formulario">
-                    <label for="correo">Correo electrónico</label>
-
-                    <input id="correo" type="email" name="correo" placeholder="Correo electrónico" required>
-                    <label for="contrasena">Contraseña</label>
-
-                    <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
-
-                    <button class="boton-login" type="submit">
-                        Iniciar sesión
-                    </button>
-
-                    <button class="boton-crear-cuenta" type="button">
-                        Crear una cuenta
-                    </button>
-
-                    <a class="recuperar-contrasena" href="#">
-                        Olvidé mi contraseña
-                    </a>
-
-                    <div class="separador-login">
-                        <span>o continuar con</span>
-                    </div>
-
-                    <div class="opciones-login-social">
-
-                        <button class="boton-social" type="button" aria-label="Continuar con Google">
-                            Gmail
-                        </button>
-
-                        <button class="boton-social" type="button" aria-label="Continuar con otra cuenta">
-                            Cuenta
-                        </button>
-
-                    </div>
-                
-                </div>
-
-            </form>
-
-        </section>
-
-    </div>
-    <script type="module" src="js/inicio-sesion.js"></script>
-
-</body>
 
 <!------------------------------------------------------------------------------------------>
 
-<!-- NEWSLETTER -->
-<section class="newsletter">
-    <h2 class="newsletter-titulo">Suscríbete a nuestro newsletter</h2>
-    <p class="newsletter-pie">Entérate de recomendaciones,<br>novedades y más</p>
-    <form class="newsletter-formulario">
-        <input type="email" placeholder="Ingresa tu e-mail" aria-label="Ingresa tu e-mail" required>
-        <button class="newsletter-boton" type="submit">Suscribirme</button>
-    </form>
-</section>
+    <!-- NEWSLETTER -->
+    <section class="newsletter">
+        <h2 class="newsletter-titulo">Suscríbete a nuestro newsletter</h2>
+        <p class="newsletter-pie">Entérate de recomendaciones,<br>novedades y más</p>
+        <form class="newsletter-formulario">
+            <input type="email" placeholder="Ingresa tu e-mail" aria-label="Ingresa tu e-mail" required>
+            <button class="newsletter-boton" type="submit">Suscribirme</button>
+        </form>
+    </section>
 
-<!-- PIE DE PÁGINA -->
-<footer class="footer">
-    <!--Contenedor General para el diseño en columnas-->
-    <div class="footer-contenedor">
-        <!--Contenedor del logo-->
-        <section class="footer-logo">
-            <img class="imagen-logo" src="Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg"
-                alt="Nombre y logo de la librería.">
-        </section>
-
-        <!--Contenedor de Información-->
-        <section class="footer-columna">
-            <h3 class="columna-encabezado">Información</h3>
-            <div class="columna-lista">
-                <a href="">Contáctanos</a>
-                <a href="">FAQ's</a>
-                <a href="">Devoluciones y garantía</a>
-                <a href="">Políticas de despacho</a>
-                <a href="">Políticas de retiro en tienda</a>
-            </div>
-        </section>
-
-        <!--Contenedor de LeeConNos-->
-        <section class="footer-columna">
-            <h3 class="columna-encabezado">LeeConNos</h3>
-            <div class="columna-lista">
-                <a href="">Mi Cuenta</a>
-                <a href="">Biblioteca</a>
-                <a href="">Gift Cards</a>
-                <a href="">Nuestro Equipo</a>
-            </div>
-        </section>
-
-        <!--Contenedor de Redes Sociales-->
-        <section class="footer-columna">
-            <h3 class="columna-encabezado">Síguenos en</h3>
-
-            <!-- Contenedor de íconos de RRSS-->
-            <div class="iconos-contenedor">
-                <img src="imagenes/iconos/01-facebook-negative.svg" alt="Ícono de Facebook">
-                <img src="imagenes/iconos/02-instagram-negative.svg" alt="Ícono de Instagram">
-                <img src="imagenes/iconos/03-x-negative.svg" alt="Ícono de X">
-                <img src="imagenes/iconos/04-youtube-negative.svg" alt="Ícono de YouTube">
-                <img src="imagenes/iconos/05-whatsapp-negative.svg" alt="Ícono de Whatsapp">
-            </div>
-
-        </section>
-    </div>
-
-    <!--Contenedor Legal-->
-    <div class="footer-legal">
-        <p>(C)2026 leeconnos.cl - Todos los derechos reservados - Legión Atenea - Equipo 5 - Bootcamp Universidad de
-            Chile</p>
-    </div>
-
-</footer>
-
+    <!-- PIE DE PÁGINA -->
     <!--CARRITO (VISTA SUPERPUESTA)-->
     <div class="carrito-overlay" id="carrito-overlay" hidden>
         <aside class="carrito-panel" aria-label="Carrito de compras">
@@ -899,37 +742,83 @@
                 <h3>Carrito</h3>
                 <button class="carrito-cerrar" id="carrito-cerrar" type="button" aria-label="Cerrar carrito"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
             </div>
-
             <div class="carrito-item">
                 <div class="carrito-item-foto">Foto<br>libro</div>
                 <div class="carrito-item-datos">
                     <div class="carrito-item-fila">
                         <span class="carrito-item-titulo">Título del libro</span>
-                        <div class="carrito-item-cantidad">
-                            <button type="button" aria-label="Disminuir cantidad">-</button>
-                            <span>1</span>
-                            <button type="button" aria-label="Aumentar cantidad">+</button>
-                        </div>
+                        <div class="carrito-item-cantidad"><button type="button" aria-label="Disminuir cantidad">-</button><span>1</span><button type="button" aria-label="Aumentar cantidad">+</button></div>
                         <button class="carrito-item-eliminar" type="button" aria-label="Eliminar producto"><i class="bi bi-x" aria-hidden="true"></i></button>
                     </div>
                     <span class="carrito-item-precio">$99.999</span>
                 </div>
             </div>
-
             <hr class="carrito-separador">
-
             <div class="carrito-sumario">
                 <div class="carrito-sumario-fila"><span>Sumario:</span><span>1 Item</span></div>
                 <div class="carrito-sumario-fila"><span>Subtotal:</span><span>$99.999</span></div>
             </div>
-
             <a class="carrito-pago" href="paginas/checkout.html">Pago seguro</a>
             <p class="carrito-envio-nota">El envío se calcula en el checkout</p>
         </aside>
     </div>
 
-    <script src="js/carrito.js"></script>
+    <footer class="footer">
+        <!--Contenedor General para el diseño en columnas-->
+        <div class="footer-contenedor">
+            <!--Contenedor del logo-->
+            <section class="footer-logo">
+                <img class="imagen-logo" src="Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Nombre y logo de la librería.">
+            </section>
 
+            <!--Contenedor de Información-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">Información</h3>
+                <div class="columna-lista">
+                    <a href="">Contáctanos</a>
+                    <a href="">FAQ's</a>
+                    <a href="">Devoluciones y garantía</a>
+                    <a href="">Políticas de despacho</a>
+                    <a href="">Políticas de retiro en tienda</a>
+                </div>
+            </section>
+
+            <!--Contenedor de LeeConNos-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">LeeConNos</h3>
+                <div class="columna-lista">
+                    <a href="">Mi Cuenta</a>
+                    <a href="">Biblioteca</a>
+                    <a href="">Gift Cards</a>
+                    <a href="">Nuestro Equipo</a>
+                </div>
+            </section>
+
+            <!--Contenedor de Redes Sociales-->
+            <section class="footer-columna">
+                <h3 class="columna-encabezado">Síguenos en</h3>
+
+                <!-- Contenedor de íconos de RRSS-->
+                <div class="iconos-contenedor">
+                    <img src="imagenes/iconos/01-facebook-negative.svg" alt="Ícono de Facebook">
+                    <img src="imagenes/iconos/02-instagram-negative.svg" alt="Ícono de Instagram">
+                    <img src="imagenes/iconos/03-x-negative.svg" alt="Ícono de X">
+                    <img src="imagenes/iconos/04-youtube-negative.svg" alt="Ícono de YouTube">
+                    <img src="imagenes/iconos/05-whatsapp-negative.svg" alt="Ícono de Whatsapp">
+                </div>
+
+            </section>
+        </div>
+
+        <!--Contenedor Legal-->
+        <div class="footer-legal">
+            <p>(C)2026 leeconnos.cl - Todos los derechos reservados - Legión Atenea - Equipo 5 - Bootcamp Universidad de
+                Chile</p>
+        </div>
+
+    </footer>
+
+    <script src="js/carrito.js"></script>
 </body>
 
 </html>
