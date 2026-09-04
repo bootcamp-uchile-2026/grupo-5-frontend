@@ -51,10 +51,10 @@
                     <a href="../paginas/comunidad.html">Comunidad</a>
                     <a href="../paginas/descubrir.html">Descubrir</a>
                     <a href="../paginas/recomendaciones.html">Recomendaciones</a>
-                    <a href="../paginas/biblioteca.html" aria-current="pagina-actual">Biblioteca</a>
+                    <a href="../paginas/biblioteca.html">Biblioteca</a>
                     <a href="../paginas/mi-cuenta.html">Mi Cuenta</a>
                 </div>
-                <div class="header-acciones"><form class="header-busqueda" role="search"><input type="search" placeholder="Buscar libros ..." aria-label="Buscar libros"><button type="submit" aria-label="Buscar"><i class="bi bi-search" aria-hidden="true"></i></button></form><button class="header-icono" type="button" aria-label="Mi cuenta"><i class="bi bi-person-circle" aria-hidden="true"></i></button><button class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart" aria-hidden="true"></i></button><a class="header-icono" href="confirmacion-compra.html" aria-label="Bolsa de compras"><i class="bi bi-bag" aria-hidden="true"></i></a></div>
+                <div class="header-acciones"><form class="header-busqueda" role="search"><input type="search" placeholder="Buscar libros ..." aria-label="Buscar libros"><button type="submit" aria-label="Buscar"><i class="bi bi-search" aria-hidden="true"></i></button></form><button class="header-icono" type="button" aria-label="Mi cuenta"><i class="bi bi-person-circle" aria-hidden="true"></i></button><button class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart" aria-hidden="true"></i></button><a class="header-icono" href="confirmacion-compra.html" aria-current="pagina-actual" aria-label="Bolsa de compras"><i class="bi bi-bag" aria-hidden="true"></i></a></div>
             </nav>
         </header>
     </section>
@@ -82,34 +82,88 @@
             </div>
         </section>
         
-        <!--DETALLES DEL PEDIDO-->
-        <section class="detalles-pedido">
-            <h2>Detalles del pedido</h2>
-            <p><strong>Número de pedido:</strong> 123456789</p>
-            <p><strong>Fecha y hora:</strong> 21 de agosto 2026 - 13:40 hrs.</p>
-            <p><strong>Método de entrega:</strong> Despacho a domicilio</p>
-            <p><strong>Dirección de la entrega:</strong> Lorem ipsum dolor sit amet.</p>
-        </section>
-        
-        <!--RESUMEN DEL PEDIDO-->
-        <section class="resumen-pedido">
-            <img src="https://placehold.co/200x200" alt="imagen libro">
-            <h2>Resumen del pedido</h2>
-            <h3>Nombre del libro</h3>
-            <p><strong>Nombre del autor</strong></p>
-            <p><strong>Cantidad:</strong> 2</p>
-            <p><strong>Subtotal:</strong> $40.000</p>
-            <p><strong>Envío:</strong> $3.000</p>
-            <h3>Total a pagar</h3>
-            <p>$43.000</p>
+        <div class="pedido-informacion">
 
-            <div class="total-pedido">
-                <p><strong>Total:</strong> $60.000</p>
-            </div>
-        </section>
+            <!--DETALLES DEL PEDIDO-->
+            <section class="detalles-pedido">
+                <h2>Detalles del pedido</h2>
+                <div class="detalle-item">
+                    <img src="https://placehold.co/40x40" alt="Imagen del número del pedido">
+                    <div class="detalle-texto">
+                        <strong>Número de pedido</strong>
+                        <span>123456789</span>
+                    </div>
+                </div>
+                <div class="detalle-item">
+                    <img src="https://placehold.co/40x40" alt="Imagen de fecha y hora">
+                    <div class="detalle-texto">
+                        <strong>Fecha y hora</strong>
+                        <span>21 de agosto 2026, 13:40 hrs.</span>
+                    </div>
+                </div>
+                <div class="detalle-item">
+                    <img src="https://placehold.co/40x40" alt="Imagen del método de entrega">
+                    <div class="detalle-texto">
+                        <strong>Método de entrega</strong>
+                        <span>Despacho a domicilio</span>
+                    </div>
+                </div>
+                <div class="detalle-item">
+                    <img src="https://placehold.co/40x40" alt="Imagen de la dirección de entrega">
+                    <div class="detalle-texto">
+                        <strong>Dirección de entrega</strong>
+                        <span>Lorem ipsum dolor sit amet,<br>Lorem ipsum dolor sit amet.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!--RESUMEN DEL PEDIDO-->
+            <section class="resumen-pedido">
+                <div class="cabecera-resumen">
+                    <h2>Resumen del pedido</h2>
+                    <span>2 productos</span>
+                </div>
+                <div class="resumen-superior">
+                    <img src="https://placehold.co/100x100" alt="Imagen del libro">
+                    <div class="contenido-resumen">
+                        <div class="datos-libro">
+                            <h3>Nombre del libro</h3>
+                            <p><strong>Nombre del autor</strong></p>
+                            <p class="dato-con-separador dato-cantidad"><strong>Cantidad:</strong> <span>2</span></p>
+                        </div>
+                    </div>
+                    <p class="precio-libro">$40.000</p>
+                </div>
+
+                <div class="resumen-financiero">
+                    <div class="fila-resumen">
+                        <span>Subtotal</span>
+                        <strong>$40.000</strong>
+                    </div>
+                    <div class="fila-resumen">
+                        <span>Envío</span>
+                        <strong>$3.000</strong>
+                    </div>
+                    <div class="fila-resumen">
+                        <span>Descuento</span>
+                        <strong>$0</strong>
+                    </div>
+                </div>
+
+                <div class="total-a-pagar">
+                    <h3>Total a pagar</h3>
+                    <h3 class="monto-total">$43.000</h3>
+                </div>
+
+                <div class="metodo-de-pago">
+                    <p><strong>Método de pago:</strong> Método de pago</p>
+                </div>
+            </section>
+        </div>
 
         <!--MENÚ FINAL-->
         <section class="menu-final">
+            <!--VER MI PEDIDO-->
             <div class="ver-mi-pedido">
                 <a href="../index.html" aria-label="Volver al home">  <!--CAMBIAR POR PANTALLA CORRECTA A FUTURO-->
                     <img src="https://placehold.co/40x40" alt="icono ver pedido">
@@ -117,17 +171,19 @@
                 <h3>Ver mi pedido</h3>
                 <p>Lore ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </div>
-            
+
+            <!--SEGUIR COMPRANDO-->
             <div class="seguir-comprando">
-                <a href="../index.html" aria-label="Volver al home">  <!--CAMBIAR POR PANTALLA CORRECTA A FUTURO-->
+                <a href="../index.html" aria-label="Volver al home">
                     <img src="https://placehold.co/40x40" alt="seguir comprando">
                 </a>
                 <h3>Seguir comprando</h3>
                 <p>Lore ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </div>
 
+            <!--CONOCE NUESTRA COMUNIDAD-->
             <div class="conoce-comunidad">
-                <a href="../index.html" aria-label="Volver al home">  <!--CAMBIAR POR PANTALLA CORRECTA A FUTURO-->
+                <a href="../comunidad.html" aria-label="Conoce nuestra comunidad">
                     <img src="https://placehold.co/40x40" alt="conoce comunidad">
                 </a>
                 <h3>Conoce nuestra comunidad</h3>
