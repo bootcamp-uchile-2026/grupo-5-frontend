@@ -17,7 +17,7 @@
 
     <!--Descarga de fuentes-->
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Lexend:wght@400;600;700&display=swap">
+        href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans:wght@400&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!--ESTILOS CSS-->
@@ -816,10 +816,40 @@
 
             </form>
 
+<script type="module" src="js/inicio-sesion.js"></script>
+                <!--CARRITO (VISTA SUPERPUESTA)-->
+            <div class="carrito-overlay" id="carrito-overlay" hidden>
+                <aside class="carrito-panel" aria-label="Carrito de compras">
+                    <div class="carrito-encabezado">
+                        <h3>Carrito</h3>
+                        <button class="carrito-cerrar" id="carrito-cerrar" type="button" aria-label="Cerrar carrito"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="carrito-item">
+                        <div class="carrito-item-foto">Foto<br>libro</div>
+                        <div class="carrito-item-datos">
+                            <div class="carrito-item-fila">
+                                <span class="carrito-item-titulo">Título del libro</span>
+                                <div class="carrito-item-cantidad"><button type="button" aria-label="Disminuir cantidad">-</button><span>1</span><button type="button" aria-label="Aumentar cantidad">+</button></div>
+                                <button class="carrito-item-eliminar" type="button" aria-label="Eliminar producto"><i class="bi bi-x" aria-hidden="true"></i></button>
+                            </div>
+                            <span class="carrito-item-precio">$99.999</span>
+                        </div>
+                    </div>
+                    <hr class="carrito-separador">
+                    <div class="carrito-sumario">
+                        <div class="carrito-sumario-fila"><span>Sumario:</span><span>1 Item</span></div>
+                        <div class="carrito-sumario-fila"><span>Subtotal:</span><span>$99.999</span></div>
+                    </div>
+                    <a class="carrito-pago" href="paginas/checkout.html">Pago seguro</a>
+                    <p class="carrito-envio-nota">El envío se calcula en el checkout</p>
+                </aside>
+            </div>
+
         </section>
 
     </div>
-    <script type="module" src="js/inicio-sesion.js"></script>
+
+    <script src="js/carrito.js"></script>
 
 </body>
 
@@ -892,43 +922,6 @@
 
 </footer>
 
-    <!--CARRITO (VISTA SUPERPUESTA)-->
-    <div class="carrito-overlay" id="carrito-overlay" hidden>
-        <aside class="carrito-panel" aria-label="Carrito de compras">
-            <div class="carrito-encabezado">
-                <h3>Carrito</h3>
-                <button class="carrito-cerrar" id="carrito-cerrar" type="button" aria-label="Cerrar carrito"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
-            </div>
-
-            <div class="carrito-item">
-                <div class="carrito-item-foto">Foto<br>libro</div>
-                <div class="carrito-item-datos">
-                    <div class="carrito-item-fila">
-                        <span class="carrito-item-titulo">Título del libro</span>
-                        <div class="carrito-item-cantidad">
-                            <button type="button" aria-label="Disminuir cantidad">-</button>
-                            <span>1</span>
-                            <button type="button" aria-label="Aumentar cantidad">+</button>
-                        </div>
-                        <button class="carrito-item-eliminar" type="button" aria-label="Eliminar producto"><i class="bi bi-x" aria-hidden="true"></i></button>
-                    </div>
-                    <span class="carrito-item-precio">$99.999</span>
-                </div>
-            </div>
-
-            <hr class="carrito-separador">
-
-            <div class="carrito-sumario">
-                <div class="carrito-sumario-fila"><span>Sumario:</span><span>1 Item</span></div>
-                <div class="carrito-sumario-fila"><span>Subtotal:</span><span>$99.999</span></div>
-            </div>
-
-            <a class="carrito-pago" href="paginas/checkout.html">Pago seguro</a>
-            <p class="carrito-envio-nota">El envío se calcula en el checkout</p>
-        </aside>
-    </div>
-
-    <script src="js/carrito.js"></script>
 
 </body>
 
