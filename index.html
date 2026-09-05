@@ -67,8 +67,8 @@
                             class="bi bi-person-circle" aria-hidden="true"></i></button>
                     <button class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart"
                             aria-hidden="true"></i></button>
-                    <button class="header-icono" type="button" aria-label="Bolsa de compras"><i class="bi bi-bag"
-                            aria-hidden="true"></i></button>
+                    <button id="boton-carrito" class="header-icono" type="button" aria-label="Bolsa de compras"><i
+                            class="bi bi-bag" aria-hidden="true"></i></button>
                 </div>
             </nav>
         </header>
@@ -759,97 +759,200 @@
     </section>
     <!------------------------------------------------------------------------------------------>
 
-    <!-- FORMULARIO INICIO DE SESION -->
+<!-- *FORMULARIO INICIO DE SESION* -->
 
-    <div class="modal-overlay" id="modal-inicio-sesion">
+<div class="modal-overlay" id="modal-inicio-sesion">
 
-        <section class="modal-inicio-sesion" aria-labelledby="titulo-login">
+    <section class="modal-inicio-sesion" aria-labelledby="titulo-login">
 
-            <header class="modal-inicio-sesion-encabezado">
-                <h2 id="titulo-login">Iniciar sesión</h2>
+        <header class="modal-inicio-sesion-encabezado">
 
-                <p class="modal-inicio-sesion-registro">
-                    ¿Nuevo en LeeConNos?
-                    <a href="#">Crear cuenta</a>
-                </p>
-            </header>
+            <h2 id="titulo-login">Iniciar sesión</h2>
 
-            <form class="modal-inicio-sesion-form">
+            <p class="modal-inicio-sesion-registro">
+                ¿Nuevo en LeeConNos?
+                <a href="#">Crear cuenta</a>
+            </p>
 
-                <div class="campo-formulario">
-                    <label for="correo">Correo electrónico</label>
+        </header>
 
-                    <input id="correo" type="email" name="correo" placeholder="Correo electrónico" required>
-                    <label for="contrasena">Contraseña</label>
+        <form class="modal-inicio-sesion-form">
 
-                    <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+            <div class="campo-formulario">
 
-                    <button class="boton-login" type="submit">
-                        Iniciar sesión
-                    </button>
+                <label for="correo">Correo electrónico</label>
 
-                    <button class="boton-crear-cuenta" type="button">
-                        Crear una cuenta
-                    </button>
+                <input
+                    id="correo"
+                    type="email"
+                    name="correo"
+                    placeholder="Correo electrónico"
+                    required
+                >
 
-                    <a class="recuperar-contrasena" href="#">
-                        Olvidé mi contraseña
-                    </a>
+                <label for="contrasena">Contraseña</label>
 
-                    <div class="separador-login">
-                        <span>o continuar con</span>
-                    </div>
+                <input
+                    type="password"
+                    id="contrasena"
+                    name="contrasena"
+                    placeholder="Contraseña"
+                    required
+                >
 
-                    <div class="opciones-login-social">
+                <button class="boton-login" type="submit">
+                    Iniciar sesión
+                </button>
 
-                        <button class="boton-social" type="button" aria-label="Continuar con Google">
-                            Gmail
-                        </button>
+                <button class="boton-crear-cuenta" type="button">
+                    Crear una cuenta
+                </button>
 
-                        <button class="boton-social" type="button" aria-label="Continuar con otra cuenta">
-                            Cuenta
-                        </button>
+                <a class="recuperar-contrasena" href="#">
+                    Olvidé mi contraseña
+                </a>
 
-                    </div>
-                
+                <div class="separador-login">
+                    <span>o continuar con</span>
                 </div>
 
-            </form>
+                <div class="opciones-login-social">
 
-<script type="module" src="js/inicio-sesion.js"></script>
-                <!--CARRITO (VISTA SUPERPUESTA)-->
-            <div class="carrito-overlay" id="carrito-overlay" hidden>
-                <aside class="carrito-panel" aria-label="Carrito de compras">
-                    <div class="carrito-encabezado">
-                        <h3>Carrito</h3>
-                        <button class="carrito-cerrar" id="carrito-cerrar" type="button" aria-label="Cerrar carrito"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
-                    </div>
-                    <div class="carrito-item">
-                        <div class="carrito-item-foto">Foto<br>libro</div>
-                        <div class="carrito-item-datos">
-                            <div class="carrito-item-fila">
-                                <span class="carrito-item-titulo">Título del libro</span>
-                                <div class="carrito-item-cantidad"><button type="button" aria-label="Disminuir cantidad">-</button><span>1</span><button type="button" aria-label="Aumentar cantidad">+</button></div>
-                                <button class="carrito-item-eliminar" type="button" aria-label="Eliminar producto"><i class="bi bi-x" aria-hidden="true"></i></button>
-                            </div>
-                            <span class="carrito-item-precio">$99.999</span>
-                        </div>
-                    </div>
-                    <hr class="carrito-separador">
-                    <div class="carrito-sumario">
-                        <div class="carrito-sumario-fila"><span>Sumario:</span><span>1 Item</span></div>
-                        <div class="carrito-sumario-fila"><span>Subtotal:</span><span>$99.999</span></div>
-                    </div>
-                    <a class="carrito-pago" href="paginas/checkout.html">Pago seguro</a>
-                    <p class="carrito-envio-nota">El envío se calcula en el checkout</p>
-                </aside>
+                    <button
+                        class="boton-social"
+                        type="button"
+                        aria-label="Continuar con Google"
+                    >
+                        Gmail
+                    </button>
+
+                    <button
+                        class="boton-social"
+                        type="button"
+                        aria-label="Continuar con otra cuenta"
+                    >
+                        Cuenta
+                    </button>
+
+                </div>
+
             </div>
 
-        </section>
+        </form>
 
-    </div>
+    </section>
 
-    <script src="js/carrito.js"></script>
+</div>
+
+
+<!-- *CARRITO (VISTA SUPERPUESTA)* -->
+
+<div class="carrito-overlay" id="carrito-overlay" hidden>
+
+    <aside class="carrito-panel" aria-label="Carrito de compras">
+
+        <div class="carrito-encabezado">
+
+            <h3>Carrito</h3>
+
+            <button
+                class="carrito-cerrar"
+                id="carrito-cerrar"
+                type="button"
+                aria-label="Cerrar carrito"
+            >
+                <i class="bi bi-x-lg" aria-hidden="true"></i>
+            </button>
+
+        </div>
+
+        <div class="carrito-item">
+
+            <div class="carrito-item-foto">
+                Foto<br>libro
+            </div>
+
+            <div class="carrito-item-datos">
+
+                <div class="carrito-item-fila">
+
+                    <span class="carrito-item-titulo">
+                        Título del libro
+                    </span>
+
+                    <div class="carrito-item-cantidad">
+
+                        <button
+                            type="button"
+                            aria-label="Disminuir cantidad"
+                        >
+                            -
+                        </button>
+
+                        <span>1</span>
+
+                        <button
+                            type="button"
+                            aria-label="Aumentar cantidad"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                    <button
+                        class="carrito-item-eliminar"
+                        type="button"
+                        aria-label="Eliminar producto"
+                    >
+                        <i class="bi bi-x" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+
+                <span class="carrito-item-precio">
+                    $99.999
+                </span>
+
+            </div>
+
+        </div>
+
+        <hr class="carrito-separador">
+
+        <div class="carrito-sumario">
+
+            <div class="carrito-sumario-fila">
+                <span>Sumario:</span>
+                <span>1 Item</span>
+            </div>
+
+            <div class="carrito-sumario-fila">
+                <span>Subtotal:</span>
+                <span>$99.999</span>
+            </div>
+
+        </div>
+
+        <a class="carrito-pago" href="paginas/checkout.html">
+            Pago seguro
+        </a>
+
+        <p class="carrito-envio-nota">
+            El envío se calcula en el checkout
+        </p>
+
+    </aside>
+
+</div>
+
+
+<!-- *SCRIPTS* -->
+
+<script type="module" src="js/inicio-sesion.js"></script>
+<script src="js/carrito.js"></script>
+
+
 
 </body>
 
