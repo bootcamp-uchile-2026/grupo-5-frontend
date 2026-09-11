@@ -12,6 +12,7 @@ La aplicación se encuentra en etapa de maquetación y construcción de su base 
 
 - HTML5
 - CSS3 (sin preprocesadores ni frameworks)
+- JavaScript (básico)
 - [Bootstrap Icons](https://icons.getbootstrap.com/) (vía CDN)
 - Google Fonts: Lexend (fuente primaria) y Bree Serif (fuente secundaria/de marca), vía CDN
 - Portadas de libro simuladas mediante la API pública de [Open Library](https://openlibrary.org/dev/docs/api/covers)
@@ -24,18 +25,29 @@ No se utiliza Node.js, npm ni ninguna herramienta de build: el proyecto es HTML 
 grupo-5-frontend/
 ├─ index.html                  # Página de Inicio
 ├─ CSS/
-│  ├─ base.css                 # Paleta, tipografías y estilos globales compartidos
-│  ├─ index.css                # Estilos específicos de Inicio
-│  ├─ catalogo.css             # Estilos específicos de Catálogo
-│  └─ ficha-libro.css          # Estilos específicos de Ficha de libro
+│  ├─ base.css                 # Paleta, tipografías y estilos globales compartidos
+│  ├─ carrito.css              # Estilos específicos de Carrito
+│  ├─ catalogo.css             # Estilos específicos de Catálogo
+│  ├─ checkout.css             # Estilos específicos de Check out
+│  ├─ confirmacion-compra.css  # Estilos específicos de Confirmacion de compra
+│  ├─ ficha-libro.css          # Estilos específicos de Ficha de libro
+│  ├─ inicio-sesion.css        # Estilos específicos de Inicio de sesión
+│  └─ index.css                # Estilos específicos de Inicio
 ├─ paginas/
-│  ├─ catalogo.html            # Catálogo de libros
-│  ├─ ficha-libro.html         # Ficha de detalle de un libro
-│  ├─ biblioteca.html
-│  ├─ comunidad.html
-│  ├─ descubrir.html
-│  ├─ recomendaciones.html
-│  └─ mi-cuenta.html
+│  ├─ biblioteca.html
+│  ├─ catalogo.html
+│  ├─ checkout.html
+│  ├─ comunidad.html
+│  ├─ confirmacion-compra.html
+│  ├─ descubrir.html
+│  ├─ inicio-sesion.html
+│  ├─ ficha-libro.html
+│  ├─ mi-cuenta.html
+│  ├─ biblioteca.html
+│  └─ recomendaciones.html
+├─ js
+│  ├─ carrito.js
+│  └─ inicio-sesion.js
 ├─ imagenes/
 │  └─ iconos/                  # Íconos de redes sociales (footer)
 ├─ Logos/                      # Variantes del logo de LeeConNos
@@ -70,7 +82,25 @@ Se recomienda esta segunda opción para que las rutas relativas entre páginas y
 
 ## Navegación
 
-Desde el header se accede a: Inicio, Catálogo, Comunidad, Descubrir, Recomendaciones, Biblioteca y Mi Cuenta. Desde las tarjetas de libro (en Inicio y Catálogo) se accede a la ficha de detalle del libro (`ficha-libro.html`).
+Desde el header se accede a: Inicio, Catálogo, Comunidad, Descubrir, Recomendaciones, Biblioteca, Mi Cuenta, Inicio de sesión y Carrito.
+Desde el ícono de persona, se puede acceder a inicio de sesión (`inicio-sesion.html`).
+└─> Inicio > Inicio de sesión
+Desde las tarjetas de libro (en Inicio y Catálogo) se accede a la ficha de detalle del libro (`ficha-libro.html`).
+└─> Inicio > Ficha libro
+└─> Catálogo > Ficha libro
+
+Desde el ícono de bolsa de comprar (`Carrito.html`), se puede acceder al Check out (`checkout.html`), además, desde el Check out se puede acceder a la Confirmación de la compra (`confirmacion-compra.html`) **sólo si es que se llenan todos los campos obligatorios correctamente.**
+└─> Inicio > Carrito > Check out > Confirmación compra
+└─> Catálogo > Carrito > Check out > Confirmación compra
+└─> Comunidad > Carrito > Check out > Confirmación compra
+└─> Descubrir > Carrito > Check out > Confirmación compra
+└─> Recomendaciones > Carrito > Check out > Confirmación compra
+└─> Biblioteca > Carrito > Check out > Confirmación compra
+└─> Mi cuenta > Carrito > Check out > Confirmación compra
+
+Además, desde la Confirmación de compra se puede ir al inicio para "volver a comprar" o ir a Comunidad.
+└─> Confirmación compra > Inicio
+└─> Confirmación compra > Comunidad
 
 ## Componentes reutilizables
 
