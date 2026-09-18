@@ -1,10 +1,9 @@
 import './App.css'
-import Index from "./paginas/index";
+import Catalogo from "./paginas/catalogo";
 
 function App() {
-  
-  return <Index />
-  
+  return <Catalogo />
 }
 
 export default App
+
