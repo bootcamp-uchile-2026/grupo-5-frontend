@@ -1,9 +1,8 @@
-import './App.css'
-import Catalogo from "./paginas/catalogo";
+import "./App.css";
+import Comunidad from "./paginas/comunidad";
 
 function App() {
-  return <Catalogo />
+  return <Comunidad />;
 }
 
-export default App
-
+export default App;
