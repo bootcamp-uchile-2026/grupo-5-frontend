@@ -1,8 +1,8 @@
 import "./App.css";
-import MiCuenta from "./paginas/mi-cuenta";
+import Checkout from "./paginas/checkout";
 
 function App() {
-  return <MiCuenta />;
+  return <Checkout />;
 }
 
 export default App;
