@@ -7,7 +7,7 @@ import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 
 import "../estilos/carrito.css";
 
-function Comunidad() {
+function Descubrir() {
   return (
     <>
       <section className="barra-navegacion">
@@ -36,10 +36,8 @@ function Comunidad() {
             <div className="header-nav">
               <a href="index.html">Inicio</a>
               <a href="paginas/catalogo.html">Catálogo</a>
-              <a href="paginas/comunidad.html" aria-current="page">
-                Comunidad
-              </a>
-              <a href="paginas/descubrir.html">Descubrir</a>
+              <a href="paginas/comunidad.html">Comunidad</a>
+              <a href="paginas/descubrir.html" aria-current="page">Descubrir</a>
               <a href="paginas/recomendaciones.html">Recomendaciones</a>
               <a href="paginas/biblioteca.html">Biblioteca</a>
               <a href="paginas/mi-cuenta.html">Mi Cuenta</a>
@@ -96,9 +94,9 @@ function Comunidad() {
         <div className="hero-contenedor">
           {/* HERO CENTENIDO */}
           <div className="hero-contenido">
-            {/*< HERO TÍTULO */}
+            {/* HERO TÍTULO */}
             <div className="hero-titulo">
-              <h2>Comunidad</h2>
+              <h2>Descubrir</h2>
             </div>
           </div>
         </div>
@@ -247,4 +245,4 @@ function Comunidad() {
   );
 }
 
-export default Comunidad;
+export default Descubrir;

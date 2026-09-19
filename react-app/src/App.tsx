@@ -1,8 +1,8 @@
 import "./App.css";
-import Comunidad from "./paginas/comunidad";
+import Descubrir from "./paginas/descubrir";
 
 function App() {
-  return <Comunidad />;
+  return <Descubrir />;
 }
 
 export default App;
