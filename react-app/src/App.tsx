@@ -1,8 +1,8 @@
 import "./App.css";
-import Recomendaciones from "./paginas/recomendaciones";
+import Biblioteca from "./paginas/biblioteca";
 
 function App() {
-  return <Recomendaciones />;
+  return <Biblioteca />;
 }
 
 export default App;
