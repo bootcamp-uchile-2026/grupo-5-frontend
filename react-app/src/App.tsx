@@ -1,8 +1,8 @@
 import "./App.css";
-import Checkout from "./paginas/checkout";
+import ConfirmacionCompra from "./paginas/confirmacion-compra";
 
 function App() {
-  return <Checkout />;
+  return <ConfirmacionCompra />;
 }
 
 export default App;
