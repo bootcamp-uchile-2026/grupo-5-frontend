@@ -1,8 +1,9 @@
-import "./App.css";
-import MiCuenta from "./paginas/mi-cuenta";
+import './App.css'
+import Catalogo from "./paginas/catalogo";
 
 function App() {
-  return <MiCuenta />;
+  return <Catalogo />
 }
 
-export default App;
+export default App
+
