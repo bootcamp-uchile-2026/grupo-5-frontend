@@ -5,8 +5,6 @@ import x from "../assets/iconos/03-x-negative.svg";
 import youtube from "../assets/iconos/04-youtube-negative.svg";
 import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 
-import "../estilos/carrito.css";
-
 function Comunidad() {
   return (
     <>

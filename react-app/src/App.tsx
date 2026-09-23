@@ -1,8 +1,9 @@
-import "./App.css";
-import Checkout from "./paginas/checkout";
+import './App.css'
+import Catalogo from "./paginas/catalogo";
 
 function App() {
-  return <Checkout />;
+  return <Catalogo />
 }
 
-export default App;
+export default App
+
