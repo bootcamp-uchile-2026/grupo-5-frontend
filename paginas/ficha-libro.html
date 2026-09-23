@@ -16,7 +16,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <!--Descarga de fuentes-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Lexend:wght@400;600;700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Lexend:wght@400;600;700&display=swap">
 
     <!--ESTILOS CSS-->
     <link rel="stylesheet" href="../CSS/base.css">
@@ -29,7 +30,7 @@
 <body>
 
     <!--ENCABEZADO-->
-        <section class="barra-navegacion">
+    <section class="barra-navegacion">
         <header>
             <!--BANNER-->
             <div class="banner-contenedor">
@@ -57,7 +58,16 @@
                     <a href="../paginas/biblioteca.html" aria-current="pagina-actual">Biblioteca</a>
                     <a href="../paginas/mi-cuenta.html">Mi Cuenta</a>
                 </div>
-                <div class="header-acciones"><form class="header-busqueda" role="search"><input type="search" placeholder="Buscar libros ..." aria-label="Buscar libros"><button type="submit" aria-label="Buscar"><i class="bi bi-search" aria-hidden="true"></i></button></form><a class="header-icono" href="mi-cuenta.html" aria-label="Inicio de sesión"><i class="bi bi-person-circle" aria-hidden="true"></i></a><button class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart" aria-hidden="true"></i></button><button class="header-icono" id="boton-carrito" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="carrito-overlay" aria-label="Bolsa de compras"><i class="bi bi-bag" aria-hidden="true"></i></button></div>
+                <div class="header-acciones">
+                    <form class="header-busqueda" role="search"><input type="search" placeholder="Buscar libros ..."
+                            aria-label="Buscar libros"><button type="submit" aria-label="Buscar"><i class="bi bi-search"
+                                aria-hidden="true"></i></button></form><a class="header-icono" href="mi-cuenta.html"
+                        aria-label="Inicio de sesión"><i class="bi bi-person-circle" aria-hidden="true"></i></a><button
+                        class="header-icono" type="button" aria-label="Favoritos"><i class="bi bi-heart"
+                            aria-hidden="true"></i></button><button class="header-icono" id="boton-carrito"
+                        type="button" aria-haspopup="true" aria-expanded="false" aria-controls="carrito-overlay"
+                        aria-label="Bolsa de compras"><i class="bi bi-bag" aria-hidden="true"></i></button>
+                </div>
             </nav>
         </header>
     </section>
@@ -71,7 +81,7 @@
             </a>
             <p> > Categoría > Arte, Arquitectura y Diseño</p>
         </div>
-        
+
         <section class="ficha-libro">
             <div class="galeria-libro">
                 <div class="imagen_libro">
@@ -99,7 +109,18 @@
                 <h1>Nombre del libro</h1>
                 <h3>Nombre Editorial / Nombre Autor</h3>
                 <p class="titulo-descripcion">Descripción del libro</p>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero.,</p>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
+                    massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                    quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+                    Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+                    imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.
+                    Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
+                    porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis,
+                    feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean
+                    imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
+                    rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
+                    adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.
+                    Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero.,</p>
                 <div class="precio">
                     <h2>$27.990</h2>
                     <div class="disponibilidad">
@@ -110,144 +131,236 @@
                 <div class="cantidad">
                     <p class="titulo-cantidad">Cantidad</p>
                     <div class="botones">
-                    <button type="button" id="menos-cantidad" aria-label="Disminuir cantidad">−</button>
-                    <input type="number" name="cantidad" id="cantidad" min="1" max="10" value="1">
-                    <button type="button" id="mas-cantidad" aria-label="Aumentar cantidad">+</button>
+                        <button type="button" id="menos-cantidad" aria-label="Disminuir cantidad">−</button>
+                        <input type="number" name="cantidad" id="cantidad" min="1" max="10" value="1">
+                        <button type="button" id="mas-cantidad" aria-label="Aumentar cantidad">+</button>
                     </div>
-                <button type="button" id="agregar-carrito" aria-label="Agregar al carrito">Agregar al carrito</button>
+                    <button type="button" id="agregar-carrito" aria-label="Agregar al carrito">Agregar al
+                        carrito</button>
                 </div>
-            <div class="especificaciones">
-                <hr>
-                <div class="titulo-especificaciones">
-                    <h3>Especificaciones</h3>
-                    <h3>&gt;</h3>
+                <div class="especificaciones">
+                    <hr>
+                    <div class="titulo-especificaciones">
+                        <h3>Especificaciones</h3>
+                        <h3>&gt;</h3>
+                    </div>
+                    <hr>
+                    <div class="etiquetas">
+                        <button type="button" aria-label="Etiqueta 1">#Etiqueta 1</button>
+                        <button type="button" aria-label="Etiqueta 2">#Etiqueta 2</button>
+                        <button type="button" aria-label="Etiqueta 3">#Etiqueta 3</button>
+                        <button type="button" aria-label="Etiqueta 4">#Etiqueta 4</button>
+                    </div>
                 </div>
-                <hr>
-            <div class="etiquetas">
-                <button type="button" aria-label="Etiqueta 1">#Etiqueta 1</button>
-                <button type="button" aria-label="Etiqueta 2">#Etiqueta 2</button>
-                <button type="button" aria-label="Etiqueta 3">#Etiqueta 3</button>
-                <button type="button" aria-label="Etiqueta 4">#Etiqueta 4</button>
-            </div>
+        </section>
+
+
+        <!--CONTENIDO RECOMENDACION LEECONNOS-->
+        <section class="recomendacion-libro">
+            <h2>Recomendación LeeConNos</h2>
+            <h3>Nombre del curador</h3>
+            <div class="contenido-recomendacion">
+                <div class="video_recomendacion">
+                    <img src="https://placehold.co/1080x920" alt="video_recomendacion">
+                </div>
+                <div class="texto-recomendacion">
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                        Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo,
+                        rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
+                        Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend
+                        tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
+                    </p>
+                    <div class="explora-mas">
+                        <p>Explora más</p>
+                    </div>
+                    <div class="imagenes-explora">
+                        <img src="https://placehold.co/600x400" alt="Libro recomendado 1">
+                        <img src="https://placehold.co/600x400" alt="Libro recomendado 2">
+                        <img src="https://placehold.co/600x400" alt="Libro recomendado 3">
+                    </div>
+                </div>
             </div>
         </section>
 
 
-    <!--CONTENIDO RECOMENDACION LEECONNOS-->
-    <section class="recomendacion-libro">
-        <h2>Recomendación LeeConNos</h2>
-        <h3>Nombre del curador</h3>
-        <div class="contenido-recomendacion">
-            <div class="video_recomendacion">
-                <img src="https://placehold.co/1080x920" alt="video_recomendacion">
+        <!--VALORACION LIBRO-->
+        <section class="valoracion-libro">
+            <hr>
+            <div class="puntaje-valoracion">
+                <h1>4,99</h1>
+                <h2>Favorito entre lectores</h2>
+                <p>Este libro está en el 5% de los libros de arte mejor valorados, según las valoraciones, las reseñas y
+                    la confiabilidad.</p>
             </div>
-            <div class="texto-recomendacion">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,</p>
-                <div class="explora-mas">
-                    <p>Explora más</p>
-                </div>
-                <div class="imagenes-explora">
-                    <img src="https://placehold.co/600x400" alt="Libro recomendado 1">
-                    <img src="https://placehold.co/600x400" alt="Libro recomendado 2">
-                    <img src="https://placehold.co/600x400" alt="Libro recomendado 3">
-                </div>
-            </div>
-        </div>
-    </section>
+            <hr>
+        </section>
 
-
-    <!--VALORACION LIBRO-->
-    <section class="valoracion-libro">
-        <hr>
-        <div class="puntaje-valoracion">
-            <h1>4,99</h1>
-            <h2>Favorito entre lectores</h2>
-            <p>Este libro está en el 5% de los libros de arte mejor valorados, según las valoraciones, las reseñas y la confiabilidad.</p>
-        </div>
-        <hr>
-    </section>
-
-    <!--RESEÑAS LIBRO-->
-    <section class="reseñas-libro">
-        <div class="reseñas-contenedor">
-            <div class="reseña">
-                <div class="encabezado-reseña">
-                    <div class="perfil">
-                        <img src="https://placehold.co/100x100" alt="Foto de perfil del lector">
-                        <div class="datos-perfil">
-                            <h3>Nombre del lector</h3>
-                            <p>Ubicación</p>
+        <!--RESEÑAS LIBRO-->
+        <section class="reseñas-libro">
+            <div class="reseñas-contenedor">
+                <div class="reseña">
+                    <div class="encabezado-reseña">
+                        <div class="perfil">
+                            <img src="https://placehold.co/100x100" alt="Foto de perfil del lector">
+                            <div class="datos-perfil">
+                                <h3>Nombre del lector</h3>
+                                <p>Ubicación</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="meta-reseña">★★★★★ <span>Fecha de la reseña + otro dato</span></div>
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                        Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo,
+                        rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
+                        Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend
+                        tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante.
+                    </p>
+                    <a class="mostrar-mas" href="#">Mostrar más</a>
                 </div>
-                <div class="meta-reseña">★★★★★ <span>Fecha de la reseña + otro dato</span></div>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante.</p>
-                <a class="mostrar-mas" href="#">Mostrar más</a>
-            </div>
-            <div class="reseña">
-                <div class="encabezado-reseña">
-                    <div class="perfil">
-                        <img src="https://placehold.co/100x100" alt="Foto de perfil del lector">
-                        <div class="datos-perfil">
-                            <h3>Nombre del lector</h3>
-                            <p>Ubicación</p>
+                <div class="reseña">
+                    <div class="encabezado-reseña">
+                        <div class="perfil">
+                            <img src="https://placehold.co/100x100" alt="Foto de perfil del lector">
+                            <div class="datos-perfil">
+                                <h3>Nombre del lector</h3>
+                                <p>Ubicación</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="meta-reseña">★★★★★ <span>Fecha de la reseña + otro dato</span></div>
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                        Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo,
+                        rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
+                        Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend
+                        tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante.
+                    </p>
+                    <a class="mostrar-mas" href="#">Mostrar más</a>
                 </div>
-                <div class="meta-reseña">★★★★★ <span>Fecha de la reseña + otro dato</span></div>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante.</p>
-                <a class="mostrar-mas" href="#">Mostrar más</a>
-            </div>
-            <div class="reseña">
-                <div class="encabezado-reseña">
-                    <div class="perfil">
-                        <img src="https://placehold.co/100x100" alt="Foto de perfil del lector">
-                        <div class="datos-perfil">
-                            <h3>Nombre del lector</h3>
-                            <p>Ubicación</p>
+                <div class="reseña">
+                    <div class="encabezado-reseña">
+                        <div class="perfil">
+                            <img src="https://placehold.co/100x100" alt="Foto de perfil del lector">
+                            <div class="datos-perfil">
+                                <h3>Nombre del lector</h3>
+                                <p>Ubicación</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="meta-reseña">★★★★★ <span>Fecha de la reseña + otro dato</span></div>
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                        Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo,
+                        rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
+                        Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend
+                        tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante.
+                    </p>
+                    <a class="mostrar-mas" href="#">Mostrar más</a>
                 </div>
-                <div class="meta-reseña">★★★★★ <span>Fecha de la reseña + otro dato</span></div>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante.</p>
-                <a class="mostrar-mas" href="#">Mostrar más</a>
-            </div>
-            <div class="reseña">
-                <div class="encabezado-reseña">
-                    <div class="perfil">
-                        <img src="https://placehold.co/100x100" alt="Foto de perfil del lector">
-                        <div class="datos-perfil">
-                            <h3>Nombre del lector</h3>
-                            <p>Ubicación</p>
+                <div class="reseña">
+                    <div class="encabezado-reseña">
+                        <div class="perfil">
+                            <img src="https://placehold.co/100x100" alt="Foto de perfil del lector">
+                            <div class="datos-perfil">
+                                <h3>Nombre del lector</h3>
+                                <p>Ubicación</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="meta-reseña">★★★★★ <span>Fecha de la reseña + otro dato</span></div>
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                        Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                        mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo,
+                        rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
+                        Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend
+                        tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante.
+                    </p>
+                    <a class="mostrar-mas" href="#">Mostrar más</a>
                 </div>
-                <div class="meta-reseña">★★★★★ <span>Fecha de la reseña + otro dato</span></div>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante.</p>
-                <a class="mostrar-mas" href="#">Mostrar más</a>
             </div>
-        </div>
-    </section>
-    <hr class="separador-reseñas-catalogo">
+        </section>
+        <hr class="separador-reseñas-catalogo">
 
 
-    <!--MINI CATALOGO-->
-    <section class="catalogo-grilla" aria-label="Libros del catálogo">
-        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg" alt="Portada de El principito"><h2 class="catalogo-titulo">El principito</h2><p class="catalogo-autor">Antoine de Saint-Exupéry</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$20.150</span><span class="catalogo-precio-anterior">$26.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
-        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg" alt="Portada de Cien años de soledad"><h2 class="catalogo-titulo">Cien años de soledad</h2><p class="catalogo-autor">Gabriel García Márquez</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$22.900</span><span class="catalogo-precio-anterior">$26.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
-        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg" alt="Portada de Don Quijote de la Mancha"><h2 class="catalogo-titulo">Don Quijote de la Mancha</h2><p class="catalogo-autor">Miguel de Cervantes</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$25.600</span><span class="catalogo-precio-anterior">$31.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
-        <article class="catalogo-tarjeta"><img class="catalogo-portada" src="https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg" alt="Portada de Rayuela"><h2 class="catalogo-titulo">Rayuela</h2><p class="catalogo-autor">Julio Cortázar</p><div class="catalogo-precio"><span class="catalogo-precio-actual">$19.990</span><span class="catalogo-precio-anterior">$24.900</span></div><div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span class="catalogo-etiqueta">Recomendado</span><span class="catalogo-etiqueta oscuro">Agotado</span><span class="catalogo-etiqueta oscuro">Novedad</span><span class="catalogo-etiqueta oscuro">Oferta</span></div><div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div></article>
-    </section>
-</main>
+        <!--MINI CATALOGO-->
+        <section class="catalogo-grilla" aria-label="Libros del catálogo">
+            <article class="catalogo-tarjeta"><img class="catalogo-portada"
+                    src="https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg" alt="Portada de El principito">
+                <h2 class="catalogo-titulo">El principito</h2>
+                <p class="catalogo-autor">Antoine de Saint-Exupéry</p>
+                <div class="catalogo-precio"><span class="catalogo-precio-actual">$20.150</span><span
+                        class="catalogo-precio-anterior">$26.900</span></div>
+                <div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span
+                        class="catalogo-etiqueta">Recomendado</span><span
+                        class="catalogo-etiqueta oscuro">Agotado</span><span
+                        class="catalogo-etiqueta oscuro">Novedad</span><span
+                        class="catalogo-etiqueta oscuro">Oferta</span></div>
+                <div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al
+                        carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div>
+            </article>
+            <article class="catalogo-tarjeta"><img class="catalogo-portada"
+                    src="https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg"
+                    alt="Portada de Cien años de soledad">
+                <h2 class="catalogo-titulo">Cien años de soledad</h2>
+                <p class="catalogo-autor">Gabriel García Márquez</p>
+                <div class="catalogo-precio"><span class="catalogo-precio-actual">$22.900</span><span
+                        class="catalogo-precio-anterior">$26.900</span></div>
+                <div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span
+                        class="catalogo-etiqueta">Recomendado</span><span
+                        class="catalogo-etiqueta oscuro">Agotado</span><span
+                        class="catalogo-etiqueta oscuro">Novedad</span><span
+                        class="catalogo-etiqueta oscuro">Oferta</span></div>
+                <div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al
+                        carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div>
+            </article>
+            <article class="catalogo-tarjeta"><img class="catalogo-portada"
+                    src="https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg"
+                    alt="Portada de Don Quijote de la Mancha">
+                <h2 class="catalogo-titulo">Don Quijote de la Mancha</h2>
+                <p class="catalogo-autor">Miguel de Cervantes</p>
+                <div class="catalogo-precio"><span class="catalogo-precio-actual">$25.600</span><span
+                        class="catalogo-precio-anterior">$31.900</span></div>
+                <div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span
+                        class="catalogo-etiqueta">Recomendado</span><span
+                        class="catalogo-etiqueta oscuro">Agotado</span><span
+                        class="catalogo-etiqueta oscuro">Novedad</span><span
+                        class="catalogo-etiqueta oscuro">Oferta</span></div>
+                <div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al
+                        carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div>
+            </article>
+            <article class="catalogo-tarjeta"><img class="catalogo-portada"
+                    src="https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg" alt="Portada de Rayuela">
+                <h2 class="catalogo-titulo">Rayuela</h2>
+                <p class="catalogo-autor">Julio Cortázar</p>
+                <div class="catalogo-precio"><span class="catalogo-precio-actual">$19.990</span><span
+                        class="catalogo-precio-anterior">$24.900</span></div>
+                <div class="catalogo-etiquetas"><span class="catalogo-etiqueta">Reseñado</span><span
+                        class="catalogo-etiqueta">Recomendado</span><span
+                        class="catalogo-etiqueta oscuro">Agotado</span><span
+                        class="catalogo-etiqueta oscuro">Novedad</span><span
+                        class="catalogo-etiqueta oscuro">Oferta</span></div>
+                <div class="catalogo-acciones"><button class="catalogo-carrito" type="button">Agregar al
+                        carrito</button><a class="catalogo-comprar" href="#">Comprar ahora</a></div>
+            </article>
+        </section>
+    </main>
 
 
-        <!-- PIE DE PÁGINA -->
+    <!-- PIE DE PÁGINA -->
     <footer class="footer">
         <!--Contenedor General para el diseño en columnas-->
         <div class="footer-contenedor">
             <!--Contenedor del logo-->
             <section class="footer-logo">
-                <img class="imagen-logo" src="../Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg" alt="Nombre y logo de la librería.">
+                <img class="imagen-logo" src="../Logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg"
+                    alt="Nombre y logo de la librería.">
             </section>
 
             <!--Contenedor de Información-->
@@ -302,7 +415,8 @@
         <aside class="carrito-panel" aria-label="Carrito de compras">
             <div class="carrito-encabezado">
                 <h3>Carrito</h3>
-                <button class="carrito-cerrar" id="carrito-cerrar" type="button" aria-label="Cerrar carrito"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+                <button class="carrito-cerrar" id="carrito-cerrar" type="button" aria-label="Cerrar carrito"><i
+                        class="bi bi-x-lg" aria-hidden="true"></i></button>
             </div>
 
             <div class="carrito-item">
@@ -315,7 +429,8 @@
                             <span>1</span>
                             <button type="button" aria-label="Aumentar cantidad">+</button>
                         </div>
-                        <button class="carrito-item-eliminar" type="button" aria-label="Eliminar producto"><i class="bi bi-x" aria-hidden="true"></i></button>
+                        <button class="carrito-item-eliminar" type="button" aria-label="Eliminar producto"><i
+                                class="bi bi-x" aria-hidden="true"></i></button>
                     </div>
                     <span class="carrito-item-precio">$99.999</span>
                 </div>
