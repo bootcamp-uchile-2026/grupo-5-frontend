@@ -1,8 +1,9 @@
-import "./App.css";
-import Descubrir from "./paginas/descubrir";
+import './App.css'
+import Catalogo from "./paginas/catalogo";
 
 function App() {
-  return <Descubrir />;
+  return <Catalogo />
 }
 
-export default App;
+export default App
+
