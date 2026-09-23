@@ -1,8 +1,9 @@
-import "./App.css";
-import FichaLibro from "./paginas/ficha-libro";
+import './App.css'
+import Catalogo from "./paginas/catalogo";
 
 function App() {
-  return <FichaLibro />;
+  return <Catalogo />
 }
 
-export default App;
+export default App
+
