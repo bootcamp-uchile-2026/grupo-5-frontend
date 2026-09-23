@@ -1,8 +1,9 @@
-import "./App.css";
-import Biblioteca from "./paginas/biblioteca";
+import './App.css'
+import Catalogo from "./paginas/catalogo";
 
 function App() {
-  return <Biblioteca />;
+  return <Catalogo />
 }
 
-export default App;
+export default App
+
