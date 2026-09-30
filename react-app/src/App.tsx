@@ -1,8 +1,8 @@
 import './App.css'
-import Catalogo from "./paginas/catalogo";
+import Index from "./paginas/index";
 
 function App() {
-  return <Catalogo />
+  return <Index />
 }
 
 export default App
