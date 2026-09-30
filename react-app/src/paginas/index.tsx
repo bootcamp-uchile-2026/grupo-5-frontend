@@ -8,6 +8,7 @@ import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 import "../estilos/index.css";
 import "../estilos/base.css";
 import "../estilos/carrito.css";
+import { Banner } from "../componentes/Banner";
 
 function Index() {
   return (
@@ -18,11 +19,8 @@ function Index() {
           <header>
             {/* BANNER */}
 
-            <div className="banner-contenedor">
-              <p className="banner">
-                &lt;&lt; Noticias destacadas, anuncios, ofertas &gt;&gt;
-              </p>
-            </div>
+            < Banner />
+
 
             {/* BARRA DE NAVEGACIÓN */}
 
