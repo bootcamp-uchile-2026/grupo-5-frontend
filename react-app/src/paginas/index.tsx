@@ -8,6 +8,7 @@ import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 import "../estilos/index.css";
 import "../estilos/base.css";
 import "../estilos/carrito.css";
+import { Banner } from "../componentes/Banner";
 
 import { Banner } from "../componentes/Banner";
 import { TarjetaLibro } from "../componentes/TarjetaLibro";
@@ -21,7 +22,8 @@ function Index() {
           <header>
             {/* BANNER */}
 
-            <Banner />
+            < Banner />
+
 
             {/* BARRA DE NAVEGACIÓN */}
 
