@@ -8,7 +8,9 @@ import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 import "../estilos/index.css";
 import "../estilos/base.css";
 import "../estilos/carrito.css";
+
 import { Banner } from "../componentes/Banner";
+import { TarjetaLibro } from "../componentes/TarjetaLibro";
 
 function Index() {
   return (
@@ -19,8 +21,7 @@ function Index() {
           <header>
             {/* BANNER */}
 
-            < Banner />
-
+            <Banner />
 
             {/* BARRA DE NAVEGACIÓN */}
 
@@ -179,146 +180,49 @@ function Index() {
             {/* CONTENEDOR TARJETAS */}
             <div className="coleccion-tarjetas">
               {/* TARJETA 1 */}
-              <article className="carrusel-recomendaciones-tarjeta">
-                <div className="tarjeta-header-curador">
-                  <img
-                    className="tarjeta-imagen-curador"
-                    src="https://placehold.co/30/000000/ffffff"
-                    alt="miniatura del librero"
-                  />
 
-                  <div className="tarjeta-nombre-curador">Luciano H.</div>
-                </div>
-
-                <div className="tarjeta-libro-portada">
-                  <img
-                    className="tarjeta-portada-imagen"
-                    src="https://placehold.co/250x200"
-                    alt="imagen de portada del libro"
-                  />
-                </div>
-
-                <div className="tarjeta-libro-info">
-                  <div className="tarjeta-libro-info-titulo">El Principito</div>
-
-                  <div className="tarjeta-libro-info-autor">
-                    Antoine de Saint-Exupéry
-                  </div>
-
-                  <div className="tarjeta-libro-info-precio">$13.200</div>
-
-                  <div className="tarjeta-libro-info-favorito">
-                    <i className="bi bi-heart" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </article>
+              <TarjetaLibro
+                nombreCurador="Luciano H."
+                imagenCurador="https://placehold.co/30/000000/ffffff"
+                portada="https://placehold.co/250x200"
+                titulo="El Principito"
+                autor="Antoine de Saint-Exupéry"
+                precio={13200}
+              />
 
               {/* TARJETA 2 */}
-              <article className="carrusel-recomendaciones-tarjeta">
-                <div className="tarjeta-header-curador">
-                  <img
-                    className="tarjeta-imagen-curador"
-                    src="https://placehold.co/30/000000/ffffff"
-                    alt="miniatura del librero"
-                  />
 
-                  <div className="tarjeta-nombre-curador">Tania G.</div>
-                </div>
-
-                <div className="tarjeta-libro-portada">
-                  <img
-                    className="tarjeta-portada-imagen"
-                    src="https://placehold.co/250x200"
-                    alt="imagen de portada del libro"
-                  />
-                </div>
-
-                <div className="tarjeta-libro-info">
-                  <div className="tarjeta-libro-info-titulo">
-                    Cien años de soledad
-                  </div>
-
-                  <div className="tarjeta-libro-info-autor">
-                    Gabriel García Márquez
-                  </div>
-
-                  <div className="tarjeta-libro-info-precio">$22.900</div>
-
-                  <div className="tarjeta-libro-info-favorito">
-                    <i className="bi bi-heart" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </article>
+              <TarjetaLibro
+                nombreCurador="Tania G."
+                imagenCurador="https://placehold.co/30/000000/ffffff"
+                portada="https://placehold.co/250x200"
+                titulo="Cien años de soledad"
+                autor="Gabriel García Márquez"
+                precio={22900}
+              />
 
               {/* TARJETA 3 */}
-              <article className="carrusel-recomendaciones-tarjeta">
-                <div className="tarjeta-header-curador">
-                  <img
-                    className="tarjeta-imagen-curador"
-                    src="https://placehold.co/30/000000/ffffff"
-                    alt="miniatura del librero"
-                  />
 
-                  <div className="tarjeta-nombre-curador">Daniela C.</div>
-                </div>
-
-                <div className="tarjeta-libro-portada">
-                  <img
-                    className="tarjeta-portada-imagen"
-                    src="https://placehold.co/250x200"
-                    alt="imagen de portada del libro"
-                  />
-                </div>
-
-                <div className="tarjeta-libro-info">
-                  <div className="tarjeta-libro-info-titulo">
-                    Don Quijote de la Mancha
-                  </div>
-
-                  <div className="tarjeta-libro-info-autor">
-                    Miguel de Cervantes
-                  </div>
-
-                  <div className="tarjeta-libro-info-precio">$25.600</div>
-
-                  <div className="tarjeta-libro-info-favorito">
-                    <i className="bi bi-heart" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </article>
+              <TarjetaLibro
+                nombreCurador="Daniela C."
+                imagenCurador="https://placehold.co/30/000000/ffffff"
+                portada="https://placehold.co/250x200"
+                titulo="Don Quijote de la Mancha"
+                autor="Miguel de Cervantes"
+                precio={25600}
+              />
 
               {/* TARJETA 4 */}
-              <article className="carrusel-recomendaciones-tarjeta">
-                <div className="tarjeta-header-curador">
-                  <img
-                    className="tarjeta-imagen-curador"
-                    src="https://placehold.co/30/000000/ffffff"
-                    alt="miniatura del librero"
-                  />
 
-                  <div className="tarjeta-nombre-curador">Alexis M.</div>
-                </div>
+              <TarjetaLibro
+                nombreCurador="Alexis M."
+                imagenCurador="https://placehold.co/30/000000/ffffff"
+                portada="https://placehold.co/250x200"
+                titulo="1984"
+                autor="George Orwell"
+                precio={14400}
+              />
 
-                <div className="tarjeta-libro-portada">
-                  <img
-                    className="tarjeta-portada-imagen"
-                    src="https://placehold.co/250x200"
-                    alt="imagen de portada del libro"
-                  />
-                </div>
-
-                <div className="tarjeta-libro-info">
-                  <div className="tarjeta-libro-info-titulo">1984</div>
-
-                  <div className="tarjeta-libro-info-autor">George Orwell</div>
-
-                  <div className="tarjeta-libro-info-precio">$14.400</div>
-
-                  <div className="tarjeta-libro-info-favorito">
-                    <i className="bi bi-heart" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </article>
             </div>
 
             {/* CONTROLES CARRUSEL */}
