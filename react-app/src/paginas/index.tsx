@@ -8,91 +8,12 @@ import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 import "../estilos/index.css";
 import "../estilos/base.css";
 import "../estilos/carrito.css";
-import { Banner } from "../componentes/Banner";
-
-import { Banner } from "../componentes/Banner";
 import { TarjetaLibro } from "../componentes/TarjetaLibro";
 
 function Index() {
   return (
     <>
-      {/* ENCABEZADO */}
       <body>
-        <section className="barra-navegacion">
-          <header>
-            {/* BANNER */}
-
-            < Banner />
-
-
-            {/* BARRA DE NAVEGACIÓN */}
-
-            <nav>
-              {/* LOGO */}
-
-              <div className="header-logo">
-                <a href="index.html">
-                  <img src={logo} alt="Logo de la marca" />
-                </a>
-              </div>
-
-              {/* NAVEGACIÓN */}
-
-              <div className="header-nav">
-                <a href="index.html" aria-current="page">
-                  Inicio
-                </a>
-                <a href="paginas/catalogo.html">Catálogo</a>
-                <a href="paginas/comunidad.html">Comunidad</a>
-                <a href="paginas/descubrir.html">Descubrir</a>
-                <a href="paginas/recomendaciones.html">Recomendaciones</a>
-                <a href="paginas/biblioteca.html">Biblioteca</a>
-                <a href="paginas/mi-cuenta.html">Mi Cuenta</a>
-              </div>
-
-              <div className="header-acciones">
-                <form className="header-busqueda" role="search">
-                  <input
-                    type="search"
-                    placeholder="Buscar libros ..."
-                    aria-label="Buscar libros"
-                  />
-
-                  <button type="submit" aria-label="Buscar">
-                    <i className="bi bi-search" aria-hidden="true"></i>
-                  </button>
-                </form>
-
-                <button
-                  id="boton-iniciar-sesion"
-                  className="header-icono"
-                  type="button"
-                  aria-label="Mi cuenta"
-                >
-                  <i className="bi bi-person-circle" aria-hidden="true"></i>
-                </button>
-
-                <button
-                  className="header-icono"
-                  type="button"
-                  aria-label="Favoritos"
-                >
-                  <i className="bi bi-heart" aria-hidden="true"></i>
-                </button>
-
-                <button
-                  id="boton-carrito"
-                  className="header-icono"
-                  type="button"
-                  aria-label="Bolsa de compras"
-                >
-                  <i className="bi bi-bag" aria-hidden="true"></i>
-                </button>
-              </div>
-            </nav>
-          </header>
-        </section>
-
         {/* HERO */}
         <section className="hero">
           {/* HERO CONTENEDOR */}
