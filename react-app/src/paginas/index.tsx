@@ -8,7 +8,43 @@ import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 import "../estilos/index.css";
 import "../estilos/base.css";
 import "../estilos/carrito.css";
+import { Carrusel } from "../componentes/Carrusel";
 import { TarjetaLibro } from "../componentes/TarjetaLibro";
+
+const librosDestacados = [
+  {
+    nombreCurador: "Luciano H.",
+    imagenCurador: "https://placehold.co/30/000000/ffffff",
+    portada: "https://placehold.co/250x200",
+    titulo: "El Principito",
+    autor: "Antoine de Saint-Exupéry",
+    precio: 13200,
+  },
+  {
+    nombreCurador: "Tania G.",
+    imagenCurador: "https://placehold.co/30/000000/ffffff",
+    portada: "https://placehold.co/250x200",
+    titulo: "Cien años de soledad",
+    autor: "Gabriel García Márquez",
+    precio: 22900,
+  },
+  {
+    nombreCurador: "Daniela C.",
+    imagenCurador: "https://placehold.co/30/000000/ffffff",
+    portada: "https://placehold.co/250x200",
+    titulo: "Don Quijote de la Mancha",
+    autor: "Miguel de Cervantes",
+    precio: 25600,
+  },
+  {
+    nombreCurador: "Alexis M.",
+    imagenCurador: "https://placehold.co/30/000000/ffffff",
+    portada: "https://placehold.co/250x200",
+    titulo: "1984",
+    autor: "George Orwell",
+    precio: 14400,
+  },
+];
 
 function Index() {
   return (
@@ -77,95 +113,15 @@ function Index() {
           </div>
         </section>
 
-        {/* CARRUSEL RECOMENDACIONES LIBRERO */}
-        <section className="carrusel-recomendaciones">
-          {/* ENCABEZADO */}
-          <header className="carrusel-recomendaciones-encabezado">
-            <h3 className="carrusel-recomendaciones-titulo">
-              Recomendados por Nuestros Libreros
-            </h3>
-
-            <div className="carrusel-recomendaciones-acciones">
-              <a href="">Ver más</a>
-
-              <button type="button" aria-label="anterior">
-                &lt;
-              </button>
-
-              <button type="button" aria-label="siguiente">
-                &gt;
-              </button>
-            </div>
-          </header>
-
-          {/* CONTENEDOR RECOMENDACIONES */}
-          <div className="carrusel-recomendaciones-contenedor">
-            {/* CONTENEDOR TARJETAS */}
-            <div className="coleccion-tarjetas">
-              {/* TARJETA 1 */}
-
-              <TarjetaLibro
-                nombreCurador="Luciano H."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="El Principito"
-                autor="Antoine de Saint-Exupéry"
-                precio={13200}
-              />
-
-              {/* TARJETA 2 */}
-
-              <TarjetaLibro
-                nombreCurador="Tania G."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="Cien años de soledad"
-                autor="Gabriel García Márquez"
-                precio={22900}
-              />
-
-              {/* TARJETA 3 */}
-
-              <TarjetaLibro
-                nombreCurador="Daniela C."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="Don Quijote de la Mancha"
-                autor="Miguel de Cervantes"
-                precio={25600}
-              />
-
-              {/* TARJETA 4 */}
-
-              <TarjetaLibro
-                nombreCurador="Alexis M."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="1984"
-                autor="George Orwell"
-                precio={14400}
-              />
-            </div>
-
-            {/* CONTROLES CARRUSEL */}
-            <div className="controles-carrusel">
-              <button type="button" aria-label="anterior">
-                &lt;
-              </button>
-
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-
-              <button type="button" aria-label="siguiente">
-                &gt;
-              </button>
-            </div>
-          </div>
-        </section>
+        <Carrusel titulo="Recomendados por Nuestros Libreros" variante="recomendaciones">
+          {librosDestacados.map((libro) => (
+            <TarjetaLibro
+              key={libro.titulo}
+              {...libro}
+              className="carrusel-recomendaciones-tarjeta"
+            />
+          ))}
+        </Carrusel>
 
         {/* COMUNIDAD LECTORA */}
         <section className="comunidad-lectora">
@@ -198,271 +154,38 @@ function Index() {
           </div>
         </section>
 
-        {/* CARRUSEL MÁS VENDIDOS */}
-        <section className="carrusel-mas-vendidos">
-          {/* ENCABEZADO */}
-          <header className="carrusel-mas-vendidos-encabezado">
-            <h3 className="carrusel-mas-vendidos-titulo">Más Vendidos</h3>
+        <Carrusel titulo="Más Vendidos" variante="mas-vendidos">
+          {librosDestacados.map((libro) => (
+            <TarjetaLibro
+              key={libro.titulo}
+              {...libro}
+              className="carrusel-mas-vendidos-tarjeta"
+            />
+          ))}
+        </Carrusel>
 
-            <div className="carrusel-mas-vendidos-acciones">
-              <a href="">Ver más</a>
+        <Carrusel titulo="Nuevos Lanzamientos" variante="lanzamiento">
+          {librosDestacados.map((libro) => (
+            <TarjetaLibro
+              key={libro.titulo}
+              {...libro}
+              className="carrusel-lanzamiento-tarjeta"
+            />
+          ))}
+        </Carrusel>
 
-              <button type="button" aria-label="anterior">
-                &lt;
-              </button>
-
-              <button type="button" aria-label="siguiente">
-                &gt;
-              </button>
-            </div>
-          </header>
-
-          {/* CONTENEDOR */}
-          <div className="carrusel-mas-vendidos-contenedor">
-            {/* COLECCIÓN DE TARJETAS */}
-            <div className="coleccion-tarjetas">
-              {/* TARJETA 1 */}
-
-              <TarjetaLibro
-                nombreCurador="Luciano H."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="El Principito"
-                autor="Antoine de Saint-Exupéry"
-                precio={13200}
-              />
-
-              {/* TARJETA 2 */}
-
-              <TarjetaLibro
-                nombreCurador="Tania G."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="Cien años de soledad"
-                autor="Gabriel García Márquez"
-                precio={22900}
-              />
-
-              {/* TARJETA 3 */}
-
-              <TarjetaLibro
-                nombreCurador="Daniela C."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="Don Quijote de la Mancha"
-                autor="Miguel de Cervantes"
-                precio={25600}
-              />
-
-              {/* TARJETA 4 */}
-
-              <TarjetaLibro
-                nombreCurador="Alexis M."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="1984"
-                autor="George Orwell"
-                precio={14400}
-              />
-            </div>
-
-            {/* CONTROLES */}
-            <div className="controles-carrusel">
-              <button type="button" aria-label="anterior">
-                &lt;
-              </button>
-
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-
-              <button type="button" aria-label="siguiente">
-                &gt;
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* CARRUSEL NUEVOS LANZAMIENTOS */}
-        <section className="carrusel-lanzamiento">
-          {/* ENCABEZADO */}
-          <header className="carrusel-lanzamiento-encabezado">
-            <h3 className="carrusel-lanzamiento-titulo">Nuevos Lanzamientos</h3>
-
-            <div className="carrusel-lanzamiento-acciones">
-              <a href="">Ver más</a>
-
-              <button type="button" aria-label="anterior">
-                &lt;
-              </button>
-
-              <button type="button" aria-label="siguiente">
-                &gt;
-              </button>
-            </div>
-          </header>
-
-          {/* CONTENEDOR */}
-          <div className="carrusel-lanzamiento-contenedor">
-            {/* COLECCIÓN DE TARJETAS */}
-            <div className="coleccion-tarjetas">
-              {/* TARJETA 1 */}
-
-              <TarjetaLibro
-                nombreCurador="Luciano H."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="El Principito"
-                autor="Antoine de Saint-Exupéry"
-                precio={13200}
-              />
-
-              {/* TARJETA 2 */}
-
-              <TarjetaLibro
-                nombreCurador="Tania G."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="Cien años de soledad"
-                autor="Gabriel García Márquez"
-                precio={22900}
-              />
-
-              {/* TARJETA 3 */}
-
-              <TarjetaLibro
-                nombreCurador="Daniela C."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="Don Quijote de la Mancha"
-                autor="Miguel de Cervantes"
-                precio={25600}
-              />
-
-              {/* TARJETA 4 */}
-
-              <TarjetaLibro
-                nombreCurador="Alexis M."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="1984"
-                autor="George Orwell"
-                precio={14400}
-              />
-            </div>
-
-            {/* CONTROLES */}
-            <div className="controles-carrusel">
-              <button type="button" aria-label="anterior">
-                &lt;
-              </button>
-
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-
-              <button type="button" aria-label="siguiente">
-                &gt;
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* CARRUSEL MÁS COMENTADOS DE LA COMUNIDAD */}
-        <section className="carrusel-comentados">
-          {/* ENCABEZADO */}
-          <header className="carrusel-comentados-encabezado">
-            <h3 className="carrusel-comentados-titulo">
-              Más Comentados por la Comunidad
-            </h3>
-
-            <div className="carrusel-comentados-acciones">
-              <a href="">Ver más</a>
-
-              <button type="button" aria-label="anterior">
-                &lt;
-              </button>
-
-              <button type="button" aria-label="siguiente">
-                &gt;
-              </button>
-            </div>
-          </header>
-
-          {/* CONTENEDOR */}
-          <div className="carrusel-comentados-contenedor">
-            {/* COLECCIÓN DE TARJETAS */}
-            <div className="coleccion-tarjetas">
-              {/* TARJETA 1 */}
-
-              <TarjetaLibro
-                nombreCurador="Luciano H."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="El Principito"
-                autor="Antoine de Saint-Exupéry"
-                precio={13200}
-              />
-
-              {/* TARJETA 2 */}
-
-              <TarjetaLibro
-                nombreCurador="Tania G."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="Cien años de soledad"
-                autor="Gabriel García Márquez"
-                precio={22900}
-              />
-
-              {/* TARJETA 3 */}
-
-              <TarjetaLibro
-                nombreCurador="Daniela C."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="Don Quijote de la Mancha"
-                autor="Miguel de Cervantes"
-                precio={25600}
-              />
-
-              {/* TARJETA 4 */}
-
-              <TarjetaLibro
-                nombreCurador="Alexis M."
-                imagenCurador="https://placehold.co/30/000000/ffffff"
-                portada="https://placehold.co/250x200"
-                titulo="1984"
-                autor="George Orwell"
-                precio={14400}
-              />
-            </div>
-
-            {/* CONTROLES */}
-            <div className="controles-carrusel">
-              <button type="button" aria-label="anterior">
-                &lt;
-              </button>
-
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-
-              <button type="button" aria-label="siguiente">
-                &gt;
-              </button>
-            </div>
-          </div>
-        </section>
+        <Carrusel
+          titulo="Más Comentados por la Comunidad"
+          variante="comentados"
+        >
+          {librosDestacados.map((libro) => (
+            <TarjetaLibro
+              key={libro.titulo}
+              {...libro}
+              className="carrusel-comentados-tarjeta"
+            />
+          ))}
+        </Carrusel>
 
         {/* FORMULARIO INICIO DE SESIÓN */}
         <div className="modal-overlay" id="modal-inicio-sesion">
