@@ -126,7 +126,7 @@ nav{
     text-decoration: none;
 }
 
-.header-nav a[aria-current="pagina-actual"] {
+.header-nav a[aria-current="page"] {
     border-bottom: 3px solid var(--color-secundario-dark);
     color: var(--color-neutral-lighter);
 }
