@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { BarraNavegacion } from "./componentes/BarraNavegacion";
+import { Footer } from "./componentes/Footer";
 import Biblioteca from "./paginas/biblioteca";
 import Catalogo from "./paginas/catalogo";
 import Checkout from "./paginas/checkout";
@@ -31,6 +32,7 @@ function App() {
           element={<ConfirmacionCompra />}
         />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
