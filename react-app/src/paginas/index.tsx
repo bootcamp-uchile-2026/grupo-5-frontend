@@ -332,6 +332,44 @@ function Index() {
 
       <Newsletter />
 
+      {/* PIE DE PÁGINA */}
+      <footer className="footer">
+        {/* CONTENEDOR GENERAL */}
+        <div className="footer-contenedor">
+          {/* LOGO */}
+          <section className="footer-logo">
+            <img
+              className="imagen-logo"
+              src={logo}
+              alt="Nombre y logo de la librería."
+            />
+          </section>
+
+          {/* INFORMACIÓN */}
+          <section className="footer-columna">
+            <h3 className="columna-encabezado">Información</h3>
+
+            <div className="columna-lista">
+              <a href="">Contáctanos</a>
+              <a href="">FAQ's</a>
+              <a href="">Devoluciones y garantía</a>
+              <a href="">Políticas de despacho</a>
+              <a href="">Políticas de retiro en tienda</a>
+            </div>
+          </section>
+
+          {/* LEECONNOS */}
+          <section className="footer-columna">
+            <h3 className="columna-encabezado">LeeConNos</h3>
+
+            <div className="columna-lista">
+              <a href="">Mi Cuenta</a>
+              <a href="">Biblioteca</a>
+              <a href="">Gift Cards</a>
+              <a href="">Nuestro Equipo</a>
+            </div>
+          </section>
+
     </>
   );
 }
