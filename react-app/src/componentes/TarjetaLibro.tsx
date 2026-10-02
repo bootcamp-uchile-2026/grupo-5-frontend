@@ -5,6 +5,7 @@ export type TarjetaLibroProps = {
   titulo: string;
   autor: string;
   precio: number;
+  className?: string;
 };
 
 export function TarjetaLibro({
@@ -14,9 +15,10 @@ export function TarjetaLibro({
   titulo,
   autor,
   precio,
+  className = "carrusel-recomendaciones-tarjeta",
 }: TarjetaLibroProps) {
   return (
-    <article className="carrusel-recomendaciones-tarjeta">
+    <article className={`${className} carrusel-tarjeta`}>
       <div className="tarjeta-header-curador">
         <img
           className="tarjeta-imagen-curador"

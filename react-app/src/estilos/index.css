@@ -469,12 +469,81 @@ body h1{
     gap: 20px;
 }
 
-.controles-carrusel span{
+.carrusel-viewport{
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+}
+
+.carrusel-viewport::-webkit-scrollbar{
+    display: none;
+}
+
+.carrusel-viewport .coleccion-tarjetas{
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 24px;
+    background-color: transparent;
+}
+
+.carrusel-item{
+    flex: 0 0 calc((100% - 48px) / 3);
+    min-width: 0;
+    scroll-snap-align: start;
+}
+
+.carrusel-item > *{
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.controles-carrusel button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-primario-darker);
+    cursor: pointer;
+}
+
+.controles-carrusel button:disabled{
+    color: var(--color-neutral-dark);
+    cursor: default;
+}
+
+.controles-carrusel button:focus-visible,
+.carrusel-punto:focus-visible{
+    outline: 2px solid var(--color-secundario-dark);
+    outline-offset: 3px;
+}
+
+.controles-carrusel button.carrusel-punto{
+    flex: 0 0 12px;
     width: 12px;
     height: 12px;
-
+    padding: 0;
+    border: 0;
     border-radius: 50%;
     background-color: var(--color-neutral-light);
+    cursor: pointer;
+}
+
+.carrusel-punto[aria-current="true"]{
+    background-color: var(--color-primario-darker);
+}
+
+@media (max-width: 760px){
+    .carrusel-item{
+        flex-basis: min(72vw, 270px);
+    }
 }
 
 @media (max-width: 760px){
