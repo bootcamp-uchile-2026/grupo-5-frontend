@@ -337,29 +337,7 @@ function Index() {
         </div>
       </body>
 
-      {/* NEWSLETTER */}
-      <section className="newsletter">
-        <h2 className="newsletter-titulo">Suscríbete a nuestro newsletter</h2>
-
-        <p className="newsletter-pie">
-          Entérate de recomendaciones,
-          <br />
-          novedades y más
-        </p>
-
-        <form className="newsletter-formulario">
-          <input
-            type="email"
-            placeholder="Ingresa tu e-mail"
-            aria-label="Ingresa tu e-mail"
-            required
-          />
-
-          <button className="newsletter-boton" type="submit">
-            Suscribirme
-          </button>
-        </form>
-      </section>
+      <Newsletter />
 
       {/* PIE DE PÁGINA */}
       <footer className="footer">

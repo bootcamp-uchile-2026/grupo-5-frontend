@@ -7,6 +7,7 @@ import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 
 import "../estilos/catalogo.css";
 import "../estilos/carrito.css";
+import { Newsletter } from "../componentes/Newsletter";
 
 function Catalogo() {
   return (
@@ -269,29 +270,7 @@ function Catalogo() {
           </article>
         </section>
       </main>
-        {/* NEWSLETTER */}
-        <section className="newsletter">
-          <h2 className="newsletter-titulo">Suscríbete a nuestro newsletter</h2>
-
-          <p className="newsletter-pie">
-            Entérate de recomendaciones,
-            <br />
-            novedades y más
-          </p>
-
-          <form className="newsletter-formulario">
-            <input
-              type="email"
-              placeholder="Ingresa tu e-mail"
-              aria-label="Ingresa tu e-mail"
-              required
-            />
-
-            <button className="newsletter-boton" type="submit">
-              Suscribirme
-            </button>
-          </form>
-        </section>
+        <Newsletter />
 
         <footer className="footer">
           {/* CONTENEDOR GENERAL */}
