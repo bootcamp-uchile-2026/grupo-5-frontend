@@ -1,10 +1,3 @@
-import logo from "../assets/logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg";
-import facebook from "../assets/iconos/01-facebook-negative.svg";
-import instagram from "../assets/iconos/02-instagram-negative.svg";
-import x from "../assets/iconos/03-x-negative.svg";
-import youtube from "../assets/iconos/04-youtube-negative.svg";
-import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
-
 import "../estilos/catalogo.css";
 import "../estilos/carrito.css";
 import { Newsletter } from "../componentes/Newsletter";
