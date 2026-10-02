@@ -1,8 +1,6 @@
 import "../estilos/index.css";
 import "../estilos/base.css";
 import "../estilos/carrito.css";
-import { Carrusel } from "../componentes/Carrusel";
-import { Newsletter } from "../componentes/Newsletter";
 import { TarjetaLibro } from "../componentes/TarjetaLibro";
 
 const librosDestacados = [
