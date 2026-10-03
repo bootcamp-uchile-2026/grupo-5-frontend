@@ -31,7 +31,7 @@ If you are developing a production application, we recommend enabling type-aware
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
 
-## Carrito (Hito 2)
+## Carrito (Feature-36, Hito 2)
 
 - Ejecutar: `pnpm install` y `pnpm dev` (http://localhost:5173).
 - Estado: Zustand en `src/estado/carritoStore.ts`, persistido en `localStorage`.
@@ -48,7 +48,7 @@ See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rule
 | Inicio de sesión / compra como invitado (checkout) | Sí | Sí | No (dummy) |
 | Usuario con sesión: saludo y dirección guardada | Sí | Sí | No (dummy) |
 | Pop-up de confirmación al eliminar producto | Sí | Sí (Guardar en favoritos sin acción) | No |
-| Confirmación de compra con N° de pedido y total | Sí | Parcial (resto estático) | No (dummy) |
+| Confirmación de compra (Feature-35) | Sí | Sí | No (dummy) |
 
 ## Checkout (Feature-33, Hito 2)
 
@@ -69,3 +69,10 @@ See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rule
 | `POST /pedidos` | `CheckoutRequest` | `CheckoutResponse` | No |
 
 DTOs en `src/tipos/checkout.ts`; servicios dummy en `src/servicios/checkoutServicio.ts` (reemplazar por HTTP/REST cuando Backend los exponga).
+
+## Confirmación de compra (Feature-35, Hito 2)
+
+- Ruta: `/confirmacion-compra` (React Router). Vista: `src/paginas/confirmacion-compra.tsx`; estilos: `src/estilos/confirmacion-compra.css`.
+- Layout según wireframe: ruta de navegación, banner de confirmación con el nombre del comprador, tarjetas "Detalles del pedido" y "Resumen del pedido", y barra con tres acciones (Ver mi pedido, Seguir comprando, Conoce nuestra comunidad).
+- Datos dinámicos: el checkout navega con el pedido (`ConfirmacionPedido`, en `src/tipos/checkout.ts`) como estado del router, tras `POST /pedidos` (dummy). Incluye N° de pedido, fecha y hora, método y dirección de entrega (solo despacho), productos, subtotal, envío, descuento, total y método de pago.
+- Si se entra directo a la ruta (sin pedido), muestra un mensaje con enlace al catálogo.
