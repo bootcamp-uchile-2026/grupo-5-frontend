@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { BarraNavegacion } from "./componentes/BarraNavegacion";
+import { Carrito } from "./componentes/Carrito";
 import Biblioteca from "./paginas/biblioteca";
 import Catalogo from "./paginas/catalogo";
 import Checkout from "./paginas/checkout";
@@ -16,6 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <BarraNavegacion />
+      <Carrito />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/catalogo" element={<Catalogo />} />

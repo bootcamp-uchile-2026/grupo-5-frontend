@@ -1,6 +1,7 @@
 import logo from "../assets/logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg";
 import { Banner } from "./Banner";
 import { NavLink } from "react-router-dom";
+import { useCarritoStore } from "../estado/carritoStore";
 
 const enlaces = [
   { id: "inicio", texto: "Inicio", href: "/" },
@@ -17,6 +18,9 @@ const enlaces = [
 ] as const;
 
 export function BarraNavegacion() {
+  const abrirCarrito = useCarritoStore((s) => s.abrir);
+  const carritoAbierto = useCarritoStore((s) => s.abierto);
+
   return (
     <section className="barra-navegacion">
       <header>
@@ -76,6 +80,8 @@ export function BarraNavegacion() {
               className="header-icono"
               type="button"
               aria-label="Bolsa de compras"
+              aria-expanded={carritoAbierto}
+              onClick={abrirCarrito}
             >
               <i className="bi bi-bag" aria-hidden="true"></i>
             </button>

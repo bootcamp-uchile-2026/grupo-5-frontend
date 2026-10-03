@@ -1,6 +1,8 @@
 import "../estilos/index.css";
 import "../estilos/base.css";
-import "../estilos/carrito.css";
+import { Carrusel } from "../componentes/Carrusel";
+import { Footer } from "../componentes/Footer";
+import { Newsletter } from "../componentes/Newsletter";
 import { TarjetaLibro } from "../componentes/TarjetaLibro";
 
 const librosDestacados = [
@@ -41,7 +43,7 @@ const librosDestacados = [
 function Index() {
   return (
     <>
-      <body>
+      <main>
         {/* HERO */}
         <section className="hero">
           {/* HERO CONTENEDOR */}
@@ -253,123 +255,10 @@ function Index() {
           </section>
         </div>
 
-        {/* CARRITO (VISTA SUPERPUESTA) */}
-        <div className="carrito-overlay" id="carrito-overlay" hidden>
-          <aside className="carrito-panel" aria-label="Carrito de compras">
-            <div className="carrito-encabezado">
-              <h3>Carrito</h3>
-
-              <button
-                className="carrito-cerrar"
-                id="carrito-cerrar"
-                type="button"
-                aria-label="Cerrar carrito"
-              >
-                <i className="bi bi-x-lg" aria-hidden="true"></i>
-              </button>
-            </div>
-
-            <div className="carrito-item">
-              <div className="carrito-item-foto">
-                Foto
-                <br />
-                libro
-              </div>
-
-              <div className="carrito-item-datos">
-                <div className="carrito-item-fila">
-                  <span className="carrito-item-titulo">Título del libro</span>
-
-                  <div className="carrito-item-cantidad">
-                    <button type="button" aria-label="Disminuir cantidad">
-                      -
-                    </button>
-
-                    <span>1</span>
-
-                    <button type="button" aria-label="Aumentar cantidad">
-                      +
-                    </button>
-                  </div>
-
-                  <button
-                    className="carrito-item-eliminar"
-                    type="button"
-                    aria-label="Eliminar producto"
-                  >
-                    <i className="bi bi-x" aria-hidden="true"></i>
-                  </button>
-                </div>
-
-                <span className="carrito-item-precio">$99.999</span>
-              </div>
-            </div>
-
-            <hr className="carrito-separador" />
-
-            <div className="carrito-sumario">
-              <div className="carrito-sumario-fila">
-                <span>Sumario:</span>
-                <span>1 Item</span>
-              </div>
-
-              <div className="carrito-sumario-fila">
-                <span>Subtotal:</span>
-                <span>$99.999</span>
-              </div>
-            </div>
-
-            <a className="carrito-pago" href="paginas/checkout.html">
-              Pago seguro
-            </a>
-
-            <p className="carrito-envio-nota">
-              El envío se calcula en el checkout
-            </p>
-          </aside>
-        </div>
-      </body>
+      </main>
 
       <Newsletter />
-
-      {/* PIE DE PÁGINA */}
-      <footer className="footer">
-        {/* CONTENEDOR GENERAL */}
-        <div className="footer-contenedor">
-          {/* LOGO */}
-          <section className="footer-logo">
-            <img
-              className="imagen-logo"
-              src={logo}
-              alt="Nombre y logo de la librería."
-            />
-          </section>
-
-          {/* INFORMACIÓN */}
-          <section className="footer-columna">
-            <h3 className="columna-encabezado">Información</h3>
-
-            <div className="columna-lista">
-              <a href="">Contáctanos</a>
-              <a href="">FAQ's</a>
-              <a href="">Devoluciones y garantía</a>
-              <a href="">Políticas de despacho</a>
-              <a href="">Políticas de retiro en tienda</a>
-            </div>
-          </section>
-
-          {/* LEECONNOS */}
-          <section className="footer-columna">
-            <h3 className="columna-encabezado">LeeConNos</h3>
-
-            <div className="columna-lista">
-              <a href="">Mi Cuenta</a>
-              <a href="">Biblioteca</a>
-              <a href="">Gift Cards</a>
-              <a href="">Nuestro Equipo</a>
-            </div>
-          </section>
-
+      <Footer />
     </>
   );
 }
