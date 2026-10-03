@@ -58,17 +58,16 @@ export const useCarritoStore = create<CarritoState>()(
         }),
       cambiarCantidad: (idLibro, delta) =>
         set((estado) => ({
-          items: estado.items.map((item) =>
-            item.idLibro === idLibro
-              ? {
-                  ...item,
-                  cantidad: Math.min(
-                    Math.max(item.cantidad + delta, 1),
-                    CANTIDAD_MAXIMA,
-                  ),
-                }
-              : item,
-          ),
+          items: estado.items
+            .map((item) =>
+              item.idLibro === idLibro
+                ? {
+                    ...item,
+                    cantidad: Math.min(item.cantidad + delta, CANTIDAD_MAXIMA),
+                  }
+                : item,
+            )
+            .filter((item) => item.cantidad > 0),
         })),
       eliminar: (idLibro) =>
         set((estado) => ({

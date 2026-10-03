@@ -20,6 +20,9 @@ const enlaces = [
 export function BarraNavegacion() {
   const abrirCarrito = useCarritoStore((s) => s.abrir);
   const carritoAbierto = useCarritoStore((s) => s.abierto);
+  const totalItems = useCarritoStore((s) =>
+    s.items.reduce((total, item) => total + item.cantidad, 0),
+  );
 
   return (
     <section className="barra-navegacion">
@@ -79,11 +82,20 @@ export function BarraNavegacion() {
               id="boton-carrito"
               className="header-icono"
               type="button"
-              aria-label="Bolsa de compras"
+              aria-label={
+                totalItems > 0
+                  ? `Bolsa de compras, ${totalItems} en el carrito`
+                  : "Bolsa de compras"
+              }
               aria-expanded={carritoAbierto}
               onClick={abrirCarrito}
             >
               <i className="bi bi-bag" aria-hidden="true"></i>
+              {totalItems > 0 && (
+                <span className="header-carrito-contador" aria-hidden="true">
+                  {totalItems}
+                </span>
+              )}
             </button>
           </div>
         </nav>

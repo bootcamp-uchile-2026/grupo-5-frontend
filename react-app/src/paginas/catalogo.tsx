@@ -1,3 +1,4 @@
+import { agregarAlCarrito } from "../servicios/carritoServicio";
 import "../estilos/catalogo.css";
 import { Footer } from "../componentes/Footer";
 import { Newsletter } from "../componentes/Newsletter";
@@ -57,7 +58,19 @@ function Catalogo() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "el-principito",
+                    titulo: "El principito",
+                    precioUnitario: 20150,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -85,7 +98,19 @@ function Catalogo() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "cien-a-os-de-soledad",
+                    titulo: "Cien años de soledad",
+                    precioUnitario: 22900,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -113,7 +138,19 @@ function Catalogo() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "don-quijote-de-la-mancha",
+                    titulo: "Don Quijote de la Mancha",
+                    precioUnitario: 25600,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -141,7 +178,19 @@ function Catalogo() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "rayuela",
+                    titulo: "Rayuela",
+                    precioUnitario: 19990,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -169,7 +218,19 @@ function Catalogo() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "la-metamorfosis",
+                    titulo: "La metamorfosis",
+                    precioUnitario: 15500,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780553213690-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -197,7 +258,19 @@ function Catalogo() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "orgullo-y-prejuicio",
+                    titulo: "Orgullo y prejuicio",
+                    precioUnitario: 21300,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -225,7 +298,19 @@ function Catalogo() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "ficciones",
+                    titulo: "Ficciones",
+                    precioUnitario: 18700,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780802130303-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -253,7 +338,19 @@ function Catalogo() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "1984",
+                    titulo: "1984",
+                    precioUnitario: 17800,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">

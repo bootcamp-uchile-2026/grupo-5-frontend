@@ -30,3 +30,18 @@ If you are developing a production application, we recommend enabling type-aware
 ```
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+
+## Carrito (Hito 2)
+
+- Ejecutar: `pnpm install` y `pnpm dev` (http://localhost:5173).
+- Estado: Zustand en `src/estado/carritoStore.ts`, persistido en `localStorage`.
+- DTO: `src/tipos/carrito.ts` (`AgregarAlCarritoRequest`, `CarritoResponse`).
+- Servicio dummy: `src/servicios/carritoServicio.ts` (sin Backend aún; reemplazar por HTTP/REST).
+- UI: `src/componentes/Carrito.tsx`, se abre desde la bolsa de la barra de navegación.
+
+| Elemento | Diseñado | Implementado | Integrado con Backend |
+| --- | --- | --- | --- |
+| Vista carrito (overlay) | Sí | Sí | No (dummy) |
+| Agregar desde catálogo / ficha | Sí | Sí | No (dummy) |
+| Modificar cantidad / eliminar | Sí | Sí | No (dummy) |
+| Checkout con formulario validado | Sí | Pendiente | No |
