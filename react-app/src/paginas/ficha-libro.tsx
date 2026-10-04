@@ -1,10 +1,7 @@
+import { agregarAlCarrito } from "../servicios/carritoServicio";
 import "../estilos/ficha-libro.css";
-import { useCarritoStore } from "../estado/carritoStore";
 
 function FichaLibro() {
-  const agregar = useCarritoStore((s) => s.agregar);
-  const abrir = useCarritoStore((s) => s.abrir);
-
   return (
     <>
       {/*--------------------------------------------------------------------------------------*/}
@@ -131,13 +128,12 @@ function FichaLibro() {
                     (document.getElementById("cantidad") as HTMLInputElement)
                       ?.value,
                   );
-                  agregar({
+                  void agregarAlCarrito({
                     idLibro: "libro-demo",
                     titulo: "Nombre del libro",
                     precioUnitario: 27990,
                     cantidad: cantidad >= 1 ? cantidad : 1,
                   });
-                  abrir();
                 }}
               >
                 Agregar al carrito
@@ -389,7 +385,19 @@ function FichaLibro() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "el-principito",
+                    titulo: "El principito",
+                    precioUnitario: 20150,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -417,7 +425,19 @@ function FichaLibro() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "cien-a-os-de-soledad",
+                    titulo: "Cien años de soledad",
+                    precioUnitario: 22900,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -445,7 +465,19 @@ function FichaLibro() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "don-quijote-de-la-mancha",
+                    titulo: "Don Quijote de la Mancha",
+                    precioUnitario: 25600,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">
@@ -473,7 +505,19 @@ function FichaLibro() {
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
             <div className="catalogo-acciones">
-              <button className="catalogo-carrito" type="button">
+              <button
+                className="catalogo-carrito"
+                type="button"
+                onClick={() =>
+                  void agregarAlCarrito({
+                    idLibro: "rayuela",
+                    titulo: "Rayuela",
+                    precioUnitario: 19990,
+                    cantidad: 1,
+                    portada: "https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg",
+                  })
+                }
+              >
                 Agregar al carrito
               </button>
               <a className="catalogo-comprar" href="#">

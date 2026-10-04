@@ -177,3 +177,28 @@
     font-size: 11px;
     color: var(--color-neutral-dark);
 }
+
+/* CONTADOR EN LA BOLSA */
+#boton-carrito{
+    position: relative;
+}
+
+.header-carrito-contador{
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: var(--color-secundario-dark);
+    color: var(--color-neutral-darkest);
+    font-family: var(--fuente-body);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
