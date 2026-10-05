@@ -1,6 +1,15 @@
+import { useLocation } from "react-router-dom";
 import "../estilos/confirmacion-compra.css";
 
-function confirmacionCompra() {
+function ConfirmacionCompra() {
+  const estado = useLocation().state as
+    | { idPedido?: string; total?: number }
+    | null;
+  const idPedido = estado?.idPedido ?? "123456789";
+  const total =
+    estado?.total !== undefined
+      ? `$${estado.total.toLocaleString("es-CL")}`
+      : "$43.000";
   return (
     <>
       {/*--------------------------------------------------------------------------------------*/}
@@ -44,7 +53,7 @@ function confirmacionCompra() {
               />
               <div className="detalle-texto">
                 <strong>Número de pedido</strong>
-                <span>123456789</span>
+                <span>{idPedido}</span>
               </div>
             </div>
             <div className="detalle-item">
@@ -122,7 +131,7 @@ function confirmacionCompra() {
 
             <div className="total-a-pagar">
               <h3>Total a pagar</h3>
-              <h3 className="monto-total">$43.000</h3>
+              <h3 className="monto-total">{total}</h3>
             </div>
 
             <div className="metodo-de-pago">
@@ -173,4 +182,4 @@ function confirmacionCompra() {
   );
 }
 
-export default confirmacionCompra;
+export default ConfirmacionCompra;
