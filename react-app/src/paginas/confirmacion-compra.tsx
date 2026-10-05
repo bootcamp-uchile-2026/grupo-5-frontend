@@ -1,5 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
-import { Footer } from "../componentes/Footer";
+import { useLocation } from "react-router-dom";
 import "../estilos/confirmacion-compra.css";
 import type { ConfirmacionPedido, MetodoPago } from "../tipos/checkout";
 
@@ -41,6 +40,15 @@ function ConfirmacionCompra() {
   }).format(new Date(pedido.fecha));
   const direccion = pedido.direccionEntrega;
 
+function ConfirmacionCompra() {
+  const estado = useLocation().state as
+    | { idPedido?: string; total?: number }
+    | null;
+  const idPedido = estado?.idPedido ?? "123456789";
+  const total =
+    estado?.total !== undefined
+      ? `$${estado.total.toLocaleString("es-CL")}`
+      : "$43.000";
   return (
     <>
       <main className="confirmacion-compra">
@@ -72,21 +80,28 @@ function ConfirmacionCompra() {
           </div>
         </section>
 
-        <div className="confirmacion-pedido">
-          <section
-            className="confirmacion-detalles"
-            aria-labelledby="titulo-detalles-pedido"
-          >
-            <h2 id="titulo-detalles-pedido">Detalles del pedido</h2>
-            <dl className="confirmacion-lista-detalles">
-              <div className="confirmacion-detalle">
-                <span className="confirmacion-detalle-icono" aria-hidden="true">
-                  <i className="bi bi-receipt"></i>
-                </span>
-                <div>
-                  <dt>Número de pedido</dt>
-                  <dd>{pedido.idPedido}</dd>
-                </div>
+        <div className="pedido-informacion">
+          {/*DETALLES DEL PEDIDO*/}
+          <section className="detalles-pedido">
+            <h2>Detalles del pedido</h2>
+            <div className="detalle-item">
+              <img
+                src="https://placehold.co/40x40"
+                alt="Imagen del número del pedido"
+              />
+              <div className="detalle-texto">
+                <strong>Número de pedido</strong>
+                <span>{idPedido}</span>
+              </div>
+            </div>
+            <div className="detalle-item">
+              <img
+                src="https://placehold.co/40x40"
+                alt="Imagen de fecha y hora"
+              />
+              <div className="detalle-texto">
+                <strong>Fecha y hora</strong>
+                <span>21 de agosto 2026, 13:40 hrs.</span>
               </div>
               <div className="confirmacion-detalle">
                 <span className="confirmacion-detalle-icono" aria-hidden="true">
@@ -184,7 +199,12 @@ function ConfirmacionCompra() {
                 <dt>Descuento</dt>
                 <dd>-{formatoPrecio(pedido.descuento)}</dd>
               </div>
-            </dl>
+            </div>
+
+            <div className="total-a-pagar">
+              <h3>Total a pagar</h3>
+              <h3 className="monto-total">{total}</h3>
+            </div>
 
             <div className="confirmacion-total">
               <h3>Total pagado</h3>

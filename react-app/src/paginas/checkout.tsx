@@ -12,7 +12,6 @@ import {
   validarDescuento,
 } from "../servicios/checkoutServicio";
 import type {
-  ConfirmacionPedido,
   DescuentoResponse,
   MetodoEnvio,
   MetodoPago,
@@ -172,42 +171,9 @@ function Checkout() {
         codigoDescuento: descuento?.codigo,
         items: items.map((i) => ({ idLibro: i.idLibro, cantidad: i.cantidad })),
       });
-      const direccionPedido =
-        metodoEnvio === "despacho"
-          ? usandoGuardada && guardada
-            ? guardada
-            : direccion
-          : undefined;
-      const confirmacion: ConfirmacionPedido = {
-        idPedido: respuesta.idPedido,
-        fecha: new Date().toISOString(),
-        nombreComprador: usuario
-          ? `${usuario.nombre} ${usuario.apellido}`.trim()
-          : emailActual.split("@")[0],
-        emailComprador: emailActual,
-        items: items.map((item) => ({ ...item })),
-        totalItems,
-        subtotal,
-        envio,
-        descuento: montoDescuento,
-        total,
-        metodoEnvio,
-        metodoPago,
-        ...(direccionPedido
-          ? {
-              direccionEntrega: {
-                direccion: direccionPedido.direccion,
-                numero: direccionPedido.numero,
-                depto: direccionPedido.depto,
-                region: direccionPedido.region,
-                comuna: direccionPedido.comuna,
-              },
-            }
-          : {}),
-      };
       vaciar();
       navegar("/confirmacion-compra", {
-        state: confirmacion,
+        state: { idPedido: respuesta.idPedido, total },
       });
     } catch {
       setErrores({ general: "No se pudo procesar el pago. Intenta nuevamente." });
