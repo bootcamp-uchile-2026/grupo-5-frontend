@@ -1,0 +1,503 @@
+/* PERFIL DEL LIBRERO */
+.perfil-librero {
+  --perfil-tinta: #20201e;
+  --perfil-papel: #f5f5f3;
+  --perfil-linea: #d8d8d5;
+  color: var(--perfil-tinta);
+  font-family: var(--fuente-body);
+}
+
+/* PRESENTACION DEL LIBRERO */
+.perfil-presentacion {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.92fr) minmax(0, 1.08fr);
+  min-height: 390px;
+}
+
+.perfil-introduccion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 44px clamp(28px, 8.5vw, 136px);
+}
+
+/* ETIQUETAS DE GENEROS */
+.perfil-generos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.perfil-etiqueta {
+  padding: 4px 10px;
+  border: 1px solid #a9a9a5;
+  border-radius: 20px;
+  font-size: 11px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* NOMBRE, CITA Y BIOGRAFIA */
+.perfil-introduccion h1 {
+  margin: 15px 0 18px;
+  color: var(--perfil-tinta);
+  background: transparent;
+  font-family: var(--fuente-brand);
+  font-size: clamp(36px, 4vw, 54px);
+  font-weight: 400;
+  line-height: 1.08;
+}
+
+.perfil-cita {
+  max-width: 330px;
+  margin: 0 0 20px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.perfil-biografia {
+  max-width: 380px;
+  margin: 0;
+  color: #555550;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+/* ACCIONES DEL PERFIL */
+.perfil-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-top: 23px;
+}
+
+.perfil-boton,
+.perfil-compartir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.perfil-boton-principal {
+  color: white;
+  background: #161615;
+}
+
+.perfil-boton-texto {
+  padding-inline: 2px;
+  color: var(--perfil-tinta);
+  background: transparent;
+}
+
+/* FOTO Y BOTON COMPARTIR */
+.perfil-foto {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 390px;
+  overflow: hidden;
+  padding: 34px;
+  color: #666660;
+  background: #f1f1ef;
+}
+
+.perfil-foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.perfil-compartir {
+  position: absolute;
+  z-index: 1;
+  right: 24px;
+  bottom: 24px;
+  min-height: 34px;
+  color: #222;
+  background: white;
+}
+
+/* LIBROS INDISPENSABLES Y PREFERENCIAS */
+.perfil-descubrimiento {
+  display: grid;
+  grid-template-columns: 1fr 0.92fr;
+  gap: clamp(38px, 6vw, 96px);
+  padding: 40px clamp(28px, 8.5vw, 136px) 44px;
+  background: var(--perfil-papel);
+}
+
+.perfil-descubrimiento h2,
+.perfil-colecciones h2 {
+  margin: 0 0 18px;
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+/* LISTA DE LIBROS Y FAVORITOS */
+.perfil-libros {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.perfil-libro {
+  display: grid;
+  grid-template-columns: 34px 34px minmax(0, 1fr) 32px;
+  align-items: center;
+  min-height: 59px;
+  padding: 5px 10px;
+  border: 1px solid #e4e4e1;
+  border-radius: 7px;
+  background: white;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 5%);
+}
+
+.perfil-libro-numero {
+  font-family: var(--fuente-brand);
+  font-size: 18px;
+}
+
+.perfil-libro-portada {
+  width: 28px;
+  height: 40px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #ededeb 0 45%, #d8d8d4 45% 48%, #f7f7f4 48%);
+}
+
+.perfil-libro-info {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.perfil-libro-info strong {
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.perfil-libro-info small {
+  color: #666660;
+  font-size: 10px;
+}
+
+.perfil-favorito {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  color: #4f4f4a;
+  background: transparent;
+  cursor: pointer;
+}
+
+.perfil-favorito[aria-pressed="true"] {
+  color: #a33c36;
+}
+
+/* ESTILOS LITERARIOS */
+.perfil-generos-seccion h2 {
+  margin-bottom: 18px;
+}
+
+.perfil-generos-completos {
+  gap: 8px;
+}
+
+/* AUTORES FAVORITOS Y PAGINACION */
+.perfil-autores-seccion {
+  margin-top: 35px;
+}
+
+.perfil-autores-seccion h2 {
+  margin-bottom: 16px;
+}
+
+.perfil-autores {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.perfil-paginacion {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.perfil-paginacion span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d1ce;
+}
+
+.perfil-paginacion .activo {
+  background: #858580;
+}
+
+/* CARRUSEL DE ULTIMAS RECOMENDACIONES */
+.perfil-ultimas-recomendaciones .carrusel-recomendaciones {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 32px clamp(24px, 8.5vw, 136px) 36px;
+}
+
+.perfil-ultimas-recomendaciones .carrusel-recomendaciones-encabezado,
+.perfil-ultimas-recomendaciones .carrusel-recomendaciones-titulo {
+  color: var(--perfil-tinta);
+  background: transparent;
+}
+
+.perfil-ultimas-recomendaciones .carrusel-recomendaciones-titulo {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.perfil-ultimas-recomendaciones .carrusel-item {
+  flex-basis: calc((100% - 36px) / 4);
+}
+
+/* TARJETAS DE AUTORES */
+.perfil-autor {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  text-align: center;
+}
+
+.perfil-autor-retrato {
+  display: grid;
+  width: 100%;
+  max-width: 82px;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 6px;
+  color: rgb(255 255 255 / 90%);
+  background: #829184;
+  font-family: var(--fuente-brand);
+  font-size: 21px;
+}
+
+.retrato-2 { background: #a18b72; }
+.retrato-3 { background: #737e80; }
+.retrato-4 { background: #8a7569; }
+
+.perfil-autor span {
+  max-width: 90px;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+/* COLECCIONES DEL LIBRERO */
+.perfil-colecciones {
+  padding: 38px clamp(28px, 8.5vw, 136px) 56px;
+}
+
+.perfil-colecciones h2 {
+  margin-bottom: 15px;
+}
+
+.perfil-colecciones-lista {
+  border-top: 1px solid var(--perfil-linea);
+}
+
+.perfil-coleccion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px 170px;
+  align-items: center;
+  gap: 24px;
+  min-height: 82px;
+  border-bottom: 1px solid var(--perfil-linea);
+}
+
+.perfil-coleccion-texto h3 {
+  margin: 0 0 5px;
+  font-family: var(--fuente-brand);
+  font-size: 17px;
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.perfil-coleccion-texto p,
+.perfil-coleccion time {
+  margin: 0;
+  color: #555550;
+  font-size: 11px;
+}
+
+.perfil-guardar-coleccion {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  border: 0;
+  color: var(--perfil-tinta);
+  background: transparent;
+  font: inherit;
+  font-size: 11px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* BOTON PARA EXPANDIR COLECCIONES */
+.perfil-ver-mas {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 16px;
+  padding: 0;
+  border: 0;
+  color: var(--perfil-tinta);
+  background: transparent;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* AVISO DE RECOMENDACION ALEATORIA */
+.perfil-recomendacion-toast {
+  position: fixed;
+  z-index: 5;
+  right: 24px;
+  bottom: 18px;
+  padding: 12px 18px;
+  border: 1px solid #e1e1dd;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 5px 22px rgb(0 0 0 / 10%);
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.perfil-recomendacion-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* AJUSTES PARA TABLET */
+@media (max-width: 800px) {
+  .perfil-presentacion {
+    grid-template-columns: 1fr 1fr;
+    min-height: 340px;
+  }
+
+  .perfil-introduccion {
+    padding: 36px 24px;
+  }
+
+  .perfil-foto {
+    min-height: 340px;
+    padding: 24px;
+  }
+
+  .perfil-descubrimiento {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding-inline: 7%;
+  }
+
+  .perfil-preferencias {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .perfil-autores-seccion {
+    margin-top: 0;
+  }
+
+
+}
+
+/* AJUSTES PARA MOVIL */
+@media (max-width: 560px) {
+  .perfil-presentacion {
+    grid-template-columns: 1fr;
+  }
+
+  .perfil-introduccion {
+    padding: 34px 24px 38px;
+  }
+
+  .perfil-introduccion h1 {
+    font-size: 42px;
+  }
+
+  .perfil-foto {
+    min-height: 250px;
+  }
+
+  .perfil-descubrimiento {
+    padding: 32px 20px;
+  }
+
+  .perfil-preferencias {
+    grid-template-columns: 1fr;
+  }
+
+  .perfil-autores-seccion {
+    margin-top: 12px;
+  }
+
+  .perfil-autores {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .perfil-ultimas-recomendaciones .carrusel-item {
+    flex-basis: min(72vw, 270px);
+  }
+
+  .perfil-colecciones {
+    padding: 32px 20px 44px;
+  }
+
+  .perfil-coleccion {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px 14px;
+    padding: 14px 0;
+  }
+
+  .perfil-coleccion time {
+    grid-column: 1;
+  }
+
+  .perfil-guardar-coleccion {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .perfil-recomendacion-toast {
+    right: 12px;
+    bottom: 12px;
+    max-width: calc(100vw - 56px);
+  }
+}
