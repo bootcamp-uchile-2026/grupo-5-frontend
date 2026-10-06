@@ -18,7 +18,11 @@ const enlaces = [
   { id: "mi-cuenta", texto: "Mi Cuenta", href: "/mi-cuenta" },
 ] as const;
 
-export function BarraNavegacion() {
+type BarraNavegacionProps = {
+  onAbrirAutenticacion: () => void;
+};
+
+export function BarraNavegacion({ onAbrirAutenticacion }: BarraNavegacionProps) {
   const abrirCarrito = useCarritoStore((s) => s.abrir);
   const carritoAbierto = useCarritoStore((s) => s.abierto);
 
@@ -64,6 +68,8 @@ export function BarraNavegacion() {
               className="header-icono"
               type="button"
               aria-label="Mi cuenta"
+              aria-haspopup="dialog"
+              onClick={onAbrirAutenticacion}
             >
               <i className="bi bi-person-circle" aria-hidden="true"></i>
             </button>

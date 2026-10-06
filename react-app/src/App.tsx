@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { BarraNavegacion } from "./componentes/BarraNavegacion";
 import { Carrito } from "./componentes/Carrito";
+import { ModalInicioSesionRegistro } from "./componentes/ModalInicioSesionRegistro";
 import Biblioteca from "./paginas/biblioteca";
 import Catalogo from "./paginas/catalogo";
 import Checkout from "./paginas/checkout";
@@ -15,10 +17,16 @@ import PerfilLibrero from "./paginas/perfil-librero";
 import Recomendaciones from "./paginas/recomendaciones";
 
 function App() {
+  const [autenticacionAbierta, setAutenticacionAbierta] = useState(false);
+
   return (
     <BrowserRouter>
-      <BarraNavegacion />
+      <BarraNavegacion onAbrirAutenticacion={() => setAutenticacionAbierta(true)} />
       <Carrito />
+      <ModalInicioSesionRegistro
+        abierto={autenticacionAbierta}
+        onCerrar={() => setAutenticacionAbierta(false)}
+      />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/catalogo" element={<Catalogo />} />
