@@ -137,19 +137,27 @@ nav{
     }
 
     .header-acciones{
+        order: 2;
+        flex: 1 1 auto;
+        min-width: 0;
+        flex-wrap: wrap;
+        justify-content: flex-end;
         padding-right: 16px;
         gap: 8px;
     }
 
     .header-busqueda{
-        order: 3;
-        width: calc(100vw - 32px);
-        margin: 0 16px;
+        order: 2;
+        flex: 0 0 100%;
+        box-sizing: border-box;
+        width: auto;
+        margin: 0;
     }
 
     .header-nav{
-        order: 4;
+        order: 3;
         width: 100%;
+        min-width: 0;
         overflow-x: auto;
         justify-content: flex-start;
         padding: 4px 8px;

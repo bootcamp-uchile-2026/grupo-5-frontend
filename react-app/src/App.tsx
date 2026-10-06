@@ -11,6 +11,7 @@ import Descubrir from "./paginas/descubrir";
 import FichaLibro from "./paginas/ficha-libro";
 import Index from "./paginas/index";
 import MiCuenta from "./paginas/mi-cuenta";
+import PerfilLibrero from "./paginas/perfil-librero";
 import Recomendaciones from "./paginas/recomendaciones";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/recomendaciones" element={<Recomendaciones />} />
         <Route path="/biblioteca" element={<Biblioteca />} />
         <Route path="/mi-cuenta" element={<MiCuenta />} />
+        <Route path="/perfil-librero" element={<PerfilLibrero />} />
         <Route path="/ficha-libro" element={<FichaLibro />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route

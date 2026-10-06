@@ -8,6 +8,7 @@ const enlaces = [
   { id: "catalogo", texto: "Catálogo", href: "/catalogo" },
   { id: "comunidad", texto: "Comunidad", href: "/comunidad" },
   { id: "descubrir", texto: "Descubrir", href: "/descubrir" },
+  { id: "curaduria", texto: "Curaduría", href: "/perfil-librero" },
   {
     id: "recomendaciones",
     texto: "Recomendaciones",
