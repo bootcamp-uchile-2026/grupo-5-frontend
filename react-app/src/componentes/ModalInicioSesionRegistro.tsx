@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Icono } from "./Icono";
 import "../estilos/modal-autenticacion.css";
 
 type ModalInicioSesionRegistroProps = {
@@ -61,7 +62,7 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 					aria-label="Cerrar ventana"
 					onClick={onCerrar}
 				>
-					<i className="bi bi-x-lg" aria-hidden="true" />
+					<Icono nombre="cerrar" />
 				</button>
 
 				{/*TITULO Y CAMBIO ENTRE INICIO DE SESION Y REGISTRO*/}
@@ -149,8 +150,8 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 				<div className="autenticacion-separador"><span>o continuar con</span></div>
 				{/*BOTONES DE ACCESO SOCIAL*/}
 				<div className="autenticacion-social">
-					<button type="button"><i className="bi bi-google" aria-hidden="true" />Google</button>
-					<button type="button"><i className="bi bi-facebook" aria-hidden="true" />Facebook</button>
+					<button type="button"><Icono nombre="google" />Google</button>
+					<button type="button"><Icono nombre="facebook" />Facebook</button>
 				</div>
 			</section>
 		</div>

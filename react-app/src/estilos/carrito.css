@@ -170,6 +170,11 @@
     background-color: var(--color-neutral-light);
 }
 
+.carrito-pago:disabled{
+    color: var(--color-neutral-dark);
+    cursor: not-allowed;
+}
+
 .carrito-envio-nota{
     margin: 0;
     text-align: center;

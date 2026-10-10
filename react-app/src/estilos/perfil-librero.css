@@ -1,8 +1,8 @@
 /* PERFIL DEL LIBRERO */
 .perfil-librero {
-  --perfil-tinta: #20201e;
-  --perfil-papel: #f5f5f3;
-  --perfil-linea: #d8d8d5;
+  --perfil-tinta: var(--color-neutral-800);
+  --perfil-papel: var(--color-neutral-50);
+  --perfil-linea: var(--color-neutral-200);
   color: var(--perfil-tinta);
   font-family: var(--fuente-body);
 }
@@ -31,8 +31,8 @@
 
 .perfil-etiqueta {
   padding: 4px 10px;
-  border: 1px solid #a9a9a5;
-  border-radius: 20px;
+  border: var(--stroke-default) solid var(--color-neutral-400);
+  border-radius: var(--radius-full);
   font-size: 11px;
   line-height: 1.1;
   white-space: nowrap;
@@ -60,7 +60,7 @@
 .perfil-biografia {
   max-width: 380px;
   margin: 0;
-  color: #555550;
+  color: var(--color-neutral-700);
   font-size: 12px;
   line-height: 1.65;
 }
@@ -92,7 +92,7 @@
 
 .perfil-boton-principal {
   color: white;
-  background: #161615;
+  background: var(--color-neutral-900);
 }
 
 .perfil-boton-texto {
@@ -110,8 +110,8 @@
   min-height: 390px;
   overflow: hidden;
   padding: 34px;
-  color: #666660;
-  background: #f1f1ef;
+  color: var(--color-neutral-500);
+  background: var(--color-neutral-50);
 }
 
 .perfil-foto img {
@@ -128,8 +128,8 @@
   right: 24px;
   bottom: 24px;
   min-height: 34px;
-  color: #222;
-  background: white;
+  color: var(--color-neutral-800);
+  background: var(--color-neutral-0);
 }
 
 /* LIBROS INDISPENSABLES Y PREFERENCIAS */
@@ -164,10 +164,10 @@
   align-items: center;
   min-height: 59px;
   padding: 5px 10px;
-  border: 1px solid #e4e4e1;
-  border-radius: 7px;
-  background: white;
-  box-shadow: 0 2px 5px rgb(0 0 0 / 5%);
+  border: var(--stroke-default) solid var(--color-neutral-100);
+  border-radius: var(--radius-lg);
+  background: var(--color-neutral-0);
+  box-shadow: var(--shadow-1);
 }
 
 .perfil-libro-numero {
@@ -178,8 +178,13 @@
 .perfil-libro-portada {
   width: 28px;
   height: 40px;
-  border-radius: 3px;
-  background: linear-gradient(135deg, #ededeb 0 45%, #d8d8d4 45% 48%, #f7f7f4 48%);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    135deg,
+    var(--color-neutral-100) 0 45%,
+    var(--color-neutral-200) 45% 48%,
+    var(--color-neutral-50) 48%
+  );
 }
 
 .perfil-libro-info {
@@ -197,7 +202,7 @@
 }
 
 .perfil-libro-info small {
-  color: #666660;
+  color: var(--color-neutral-500);
   font-size: 10px;
 }
 
@@ -205,13 +210,13 @@
   width: 30px;
   height: 30px;
   border: 0;
-  color: #4f4f4a;
+  color: var(--color-neutral-700);
   background: transparent;
   cursor: pointer;
 }
 
 .perfil-favorito[aria-pressed="true"] {
-  color: #a33c36;
+  color: var(--color-red-alert-600);
 }
 
 /* ESTILOS LITERARIOS */
@@ -249,11 +254,11 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #d1d1ce;
+  background: var(--color-neutral-300);
 }
 
 .perfil-paginacion .activo {
-  background: #858580;
+  background: var(--color-neutral-500);
 }
 
 /* CARRUSEL DE ULTIMAS RECOMENDACIONES */
@@ -347,7 +352,7 @@
 .perfil-coleccion-texto p,
 .perfil-coleccion time {
   margin: 0;
-  color: #555550;
+  color: var(--color-neutral-700);
   font-size: 11px;
 }
 
@@ -387,10 +392,10 @@
   right: 24px;
   bottom: 18px;
   padding: 12px 18px;
-  border: 1px solid #e1e1dd;
-  border-radius: 24px;
-  background: white;
-  box-shadow: 0 5px 22px rgb(0 0 0 / 10%);
+  border: var(--stroke-default) solid var(--color-neutral-100);
+  border-radius: var(--radius-3xl);
+  background: var(--color-neutral-0);
+  box-shadow: var(--shadow-3);
   font-size: 12px;
   opacity: 0;
   pointer-events: none;
