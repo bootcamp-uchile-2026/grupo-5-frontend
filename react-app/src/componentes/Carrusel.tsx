@@ -1,5 +1,6 @@
 import { Children, useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { Icono } from "./Icono";
 
 const estilos = {
   recomendaciones: "carrusel-recomendaciones",
@@ -126,7 +127,7 @@ export function Carrusel({
             onClick={() => desplazar(-1)}
             disabled={!puedeIrAtras}
           >
-            <i className="bi bi-chevron-left" aria-hidden="true"></i>
+            <Icono nombre="anterior" />
           </button>
 
           {Array.from({ length: cantidadPaginas }, (_, pagina) => (
@@ -146,7 +147,7 @@ export function Carrusel({
             onClick={() => desplazar(1)}
             disabled={!puedeIrAdelante}
           >
-            <i className="bi bi-chevron-right" aria-hidden="true"></i>
+            <Icono nombre="siguiente" />
           </button>
         </div>
       </div>

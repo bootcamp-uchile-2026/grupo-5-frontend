@@ -58,6 +58,13 @@
     cursor: pointer;
 }
 
+.newsletter-mensaje{
+    margin: 0;
+    text-align: center;
+    color: var(--color-neutral-darker);
+    font-size: var(--tamano-fuente-small);
+}
+
 @media (max-width: 600px){
     .newsletter-formulario{
         flex-direction: column;

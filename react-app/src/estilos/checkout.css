@@ -55,7 +55,7 @@
     flex-direction: column;
     gap: 24px;
     padding: 24px 32px 64px;
-    background-color: #fff;
+    background-color: var(--color-neutral-0);
 }
 
 .checkout-tarjeta{
@@ -338,7 +338,7 @@
 /* VALIDACIÓN, SESIÓN Y SELECTS */
 .checkout-error{
     font-size: var(--tamano-fuente-small);
-    color: #b3261e;
+    color: var(--color-red-alert-600);
 }
 
 .checkout-campo select{
@@ -409,8 +409,8 @@ img.checkout-resumen-foto{
 }
 
 .checkout-tarjeta{
-    background-color: #fff;
-    border-radius: 6px;
+    background-color: var(--color-neutral-0);
+    border-radius: var(--radius-lg);
 }
 
 .checkout-tarjeta h2,
@@ -447,7 +447,7 @@ img.checkout-resumen-foto{
 .checkout-campo input,
 .checkout-campo select{
     border-radius: 4px;
-    background-color: #fff;
+    background-color: var(--color-neutral-0);
 }
 
 .checkout-boton-login{
@@ -459,13 +459,13 @@ img.checkout-resumen-foto{
 }
 
 .checkout-pago-opcion{
-    background-color: #fff;
-    border-radius: 4px;
+    background-color: var(--color-neutral-0);
+    border-radius: var(--radius-md);
     justify-content: flex-start;
 }
 
 .checkout-pago-opcion:has(input:checked){
-    background-color: #fff;
+    background-color: var(--color-neutral-0);
     border-color: var(--color-neutral-darkest);
 }
 
@@ -494,8 +494,8 @@ img.checkout-resumen-foto{
     gap: 16px;
     padding: 20px;
     border: 1px solid var(--color-neutral-light);
-    border-radius: 6px;
-    background-color: #fff;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-neutral-0);
 }
 
 .checkout-resumen-precio{
@@ -505,7 +505,7 @@ img.checkout-resumen-foto{
 }
 
 .checkout-precio-oferta{
-    color: #b3261e;
+    color: var(--color-red-alert-600);
 }
 
 .checkout-precio-tachado{
@@ -674,7 +674,7 @@ img.checkout-resumen-foto{
 }
 
 .checkout-resumen-eliminar:hover{
-    color: #b3261e;
+    color: var(--color-red-alert-600);
 }
 
 /* TARJETA COMPRAR COMO INVITADO */
@@ -765,7 +765,7 @@ img.checkout-resumen-foto{
   width: 100%;
   max-width: 520px;
   padding: 48px 32px 32px;
-  background: #f3f3f3;
+  background: var(--color-neutral-50);
   border-radius: 24px;
 }
 .checkout-modal-cerrar {
@@ -776,16 +776,16 @@ img.checkout-resumen-foto{
   height: 36px;
   border: 0;
   border-radius: 50%;
-  background: #e0e0e0;
+  background: var(--color-neutral-200);
   cursor: pointer;
 }
 .checkout-modal-icono {
   align-self: center;
   font-size: 56px;
-  color: #8b1e1e;
+  color: var(--color-red-alert-700);
 }
 .checkout-modal h2 {
-  color: #000;
+  color: var(--color-neutral-950);
   margin: 24px 0 16px;
   font-family: var(--fuente-brand);
   font-size: 28px;
@@ -806,14 +806,14 @@ img.checkout-resumen-foto{
   cursor: pointer;
 }
 .checkout-modal-eliminar {
-  border: 1px solid #555;
-  background: #666;
-  color: #fff;
+  border: var(--stroke-default) solid var(--color-neutral-600);
+  background: var(--color-neutral-600);
+  color: var(--color-neutral-0);
 }
 .checkout-modal-favoritos {
-  border: 1px solid #000;
-  background: #fff;
-  color: #000;
+  border: var(--stroke-default) solid var(--color-neutral-950);
+  background: var(--color-neutral-0);
+  color: var(--color-neutral-950);
 }
 .checkout-modal-cancelar {
   align-self: center;
@@ -847,8 +847,8 @@ img.checkout-resumen-foto{
   gap: 12px;
   padding: 12px 14px;
   margin: 8px 0 16px;
-  border: 1px solid var(--color-neutral-300, #ddd);
-  border-radius: 8px;
+  border: var(--stroke-default) solid var(--color-neutral-300);
+  border-radius: var(--radius-lg);
   font-size: 13px;
   cursor: pointer;
 }

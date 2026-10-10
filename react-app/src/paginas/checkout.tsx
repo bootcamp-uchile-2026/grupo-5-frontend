@@ -4,6 +4,7 @@ import "../estilos/checkout.css";
 import logoOnepay from "../assets/logos/onepay-transbank.png";
 import logoWebpay from "../assets/logos/webpay-transbank.svg";
 import logoMercadoPago from "../assets/logos/mercado-pago.png";
+import { Icono } from "../componentes/Icono";
 import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
 import { useSesionStore } from "../estado/sesionStore";
 import {
@@ -13,6 +14,7 @@ import {
 } from "../servicios/checkoutServicio";
 import type {
   DescuentoResponse,
+  ConfirmacionPedido,
   MetodoEnvio,
   MetodoPago,
 } from "../tipos/checkout";
@@ -85,8 +87,7 @@ function Checkout() {
   const usandoGuardada = Boolean(guardada) && usarGuardada;
   const sesionLista = Boolean(usuario) || invitado;
 
-  async function manejarLogin(e: FormEvent) {
-    e.preventDefault();
+  async function manejarLogin() {
     const nuevos: Errores = {};
     if (!REGEX_EMAIL.test(login.email)) nuevos.email = "Correo inválido";
     if (!login.password) nuevos.password = "Ingresa tu contraseña";
@@ -132,8 +133,8 @@ function Checkout() {
     }));
   }
 
-  async function pagar(e: FormEvent) {
-    e.preventDefault();
+  async function pagar(e?: FormEvent<HTMLFormElement>) {
+    e?.preventDefault();
     const nuevos: Errores = {};
     if (!sesionLista) {
       nuevos.sesion = "Inicia sesión o continúa como invitado";
@@ -158,22 +159,48 @@ function Checkout() {
 
     setProcesando(true);
     try {
+      const itemsPedido = items.map((item) => ({ ...item }));
+      const direccionEntrega =
+        metodoEnvio === "despacho"
+          ? usandoGuardada && guardada
+            ? {
+                direccion: guardada.direccion,
+                numero: guardada.numero,
+                depto: guardada.depto,
+                region: guardada.region,
+                comuna: guardada.comuna,
+              }
+            : { ...direccion }
+          : undefined;
       const respuesta = await crearPedido({
         email: emailActual,
         ...(invitado && !usuario ? { telefono: datosInvitado.telefono } : {}),
         metodoEnvio,
-        ...(metodoEnvio === "despacho"
-          ? usandoGuardada && guardada
-            ? guardada
-            : direccion
-          : {}),
+        ...(direccionEntrega ?? {}),
         metodoPago,
         codigoDescuento: descuento?.codigo,
         items: items.map((i) => ({ idLibro: i.idLibro, cantidad: i.cantidad })),
       });
+      const pedido: ConfirmacionPedido = {
+        idPedido: respuesta.idPedido,
+        nombreComprador: usuario
+          ? `${usuario.nombre} ${usuario.apellido}`
+          : "lector/a",
+        emailComprador: emailActual,
+        fecha: new Date().toISOString(),
+        metodoEnvio,
+        ...(direccionEntrega ? { direccionEntrega } : {}),
+        metodoPago,
+        items: itemsPedido,
+        totalItems,
+        subtotal,
+        envio,
+        descuento: montoDescuento,
+        total,
+      };
       vaciar();
       navegar("/confirmacion-compra", {
-        state: { idPedido: respuesta.idPedido, total },
+        state: pedido,
       });
     } catch {
       setErrores({ general: "No se pudo procesar el pago. Intenta nuevamente." });
@@ -290,7 +317,7 @@ function Checkout() {
                   type="button"
                   className="checkout-boton-login"
                   disabled={cargandoLogin}
-                  onClick={manejarLogin}
+                  onClick={() => void manejarLogin()}
                 >
                   {cargandoLogin ? "Ingresando..." : "Iniciar sesión"}
                 </button>
@@ -325,7 +352,7 @@ function Checkout() {
                   checked={metodoEnvio === "despacho"}
                   onChange={() => setMetodoEnvio("despacho")}
                 />
-                <i className="bi bi-truck" aria-hidden="true"></i>
+                <Icono nombre="envio" />
                 <span>Despacho a domicilio</span>
               </label>
               <label className="checkout-envio-opcion">
@@ -335,7 +362,7 @@ function Checkout() {
                   checked={metodoEnvio === "retiro"}
                   onChange={() => setMetodoEnvio("retiro")}
                 />
-                <i className="bi bi-shop" aria-hidden="true"></i>
+                <Icono nombre="tienda" />
                 <span>Retiro en tienda</span>
               </label>
             </div>
@@ -457,7 +484,7 @@ function Checkout() {
                     <div className="checkout-pago-detalle">
                       <Link to="/mi-cuenta">Registra tu tarjeta aquí</Link>
                       <p>
-                        <i className="bi bi-info-circle" aria-hidden="true"></i>
+                        <Icono nombre="informacion" />
                         Tus tarjetas se guardan de forma segura para que puedas
                         reutilizar el método de pago
                       </p>
@@ -516,7 +543,7 @@ function Checkout() {
                   aria-label={`Eliminar ${item.titulo} del carrito`}
                   onClick={() => setIdPorEliminar(item.idLibro)}
                 >
-                  <i className="bi bi-trash" aria-hidden="true"></i>
+                  <Icono nombre="papelera" />
                 </button>
               </span>
             </div>
@@ -579,7 +606,7 @@ function Checkout() {
             className="checkout-pagar"
             type="button"
             disabled={procesando}
-            onClick={pagar}
+            onClick={() => void pagar()}
           >
             {procesando ? "Procesando..." : "Pagar ahora"}
           </button>
@@ -607,9 +634,9 @@ function Checkout() {
               autoFocus
               onClick={() => setIdPorEliminar(null)}
             >
-              <i className="bi bi-x-lg" aria-hidden="true"></i>
+              <Icono nombre="cerrar" />
             </button>
-            <i className="bi bi-trash checkout-modal-icono" aria-hidden="true"></i>
+            <Icono nombre="papelera" className="checkout-modal-icono" />
             <h2 id="titulo-eliminar">¿Quieres eliminar este producto?</h2>
             <p>
               Este producto se eliminará de tu carrito. Si todavía lo estás

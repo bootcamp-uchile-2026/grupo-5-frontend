@@ -796,7 +796,7 @@ body h1{
     background: none;
     border: none;
     padding: 0;
-    color: #e74c3c;
+    color: var(--color-red-alert-500);
 }
 
 .tarjeta-libro-info-favorito span{
@@ -942,7 +942,7 @@ body h1{
     background: none;
     border: none;
     padding: 0;
-    color: #e74c3c;
+    color: var(--color-red-alert-500);
 }
 
 .tarjeta-libro-info-favorito span{
@@ -1088,7 +1088,7 @@ body h1{
     background: none;
     border: none;
     padding: 0;
-    color: #e74c3c;
+    color: var(--color-red-alert-500);
 }
 
 .tarjeta-libro-info-favorito span{
