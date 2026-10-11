@@ -9,7 +9,7 @@
 
 .pregunta-librero h2 {
 	margin: 0 0 10px;
-	color: #20201e;
+	color: var(--color-neutral-800);
 	background: transparent;
 	font-size: 20px;
 	font-weight: 600;
@@ -40,10 +40,10 @@
 	width: min(100%, 360px);
 	min-height: 100px;
 	padding: 12px;
-	border: 1px solid #c9c9c6;
-	border-radius: 8px;
-	color: #20201e;
-	background: #fff;
+	border: var(--stroke-default) solid var(--color-neutral-300);
+	border-radius: var(--radius-lg);
+	color: var(--color-neutral-800);
+	background: var(--color-neutral-0);
 	font-family: var(--fuente-body);
 	font-size: 12px;
 	line-height: 1.5;
@@ -51,11 +51,11 @@
 }
 
 .pregunta-librero textarea::placeholder {
-	color: #92928e;
+	color: var(--color-neutral-500);
 }
 
 .pregunta-librero textarea:focus-visible {
-	outline: 2px solid var(--color-primario-regular);
+	outline: var(--stroke-focus) solid var(--color-primario-regular);
 	outline-offset: 2px;
 }
 

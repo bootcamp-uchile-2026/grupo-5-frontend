@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
 import { BarraNavegacion } from "./componentes/BarraNavegacion";
 import { Carrito } from "./componentes/Carrito";
 import { ModalInicioSesionRegistro } from "./componentes/ModalInicioSesionRegistro";
@@ -48,4 +47,3 @@ function App() {
 }
 
 export default App;
-

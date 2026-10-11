@@ -2,37 +2,6 @@
 
 :root{
 
-    /*_____________ PALETA DE COLORES _____________*/
-
-    --color-primario-darker:#4600A9;
-    --color-primario-dark:#6E29D9;
-    --color-primario-regular:#9654F4;
-    --color-primario-light:#CEB0FA;
-    --color-primario-lighter:#EFE6FD;
-    
-    --color-secundario-darker:#B57100;
-    --color-secundario-dark:#FF9F00;
-    --color-secundario-regular:#FFBF54;
-    --color-secundario-light:#FFE1B0;
-    --color-secundario-lighter:#FFF5E6;
-
-    --color-neutral-darkest:#000000;
-    --color-neutral-darker:#353535;
-    --color-neutral-dark:#757575;
-    --color-neutral-light:#D0D0D0;
-    --color-neutral-lighter:#F6F6F6;
-    --color-neutral-lightest:#FFFFFF;
-
-    --color-acento:#10C9CB;
-        
-    /*________________ TIPOGRAFÍAS ________________*/
-    /*Fuente primaria: Lexend (encabezados y UI general)*/
-    --fuente-heading:"Lexend", sans-serif;
-    /*Fuente secundaria o de marca: Bree Serif*/
-    --fuente-brand:"Bree Serif", serif;
-    /*Alias heredado: el cuerpo de texto usa la fuente primaria*/
-    --fuente-body:var(--fuente-heading);
-
     /*___________________ HERO ____________________*/
     --peso-hero: 700;
     --tamano-fuente-hero: 56px;
@@ -217,8 +186,33 @@ nav{
 }
 
 @media (max-width: 1100px){
+    header nav{
+        height: auto;
+        min-height: 64px;
+        flex-wrap: wrap;
+        padding: 8px 0;
+    }
+
     .header-nav a{
         padding: 4px 6px;
+    }
+
+    .header-logo{
+        order: 1;
+    }
+
+    .header-acciones{
+        order: 2;
+        margin-left: auto;
+    }
+
+    .header-nav{
+        order: 3;
+        width: 100%;
+        min-width: 0;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 4px 8px;
     }
 
     .header-busqueda{
@@ -338,7 +332,7 @@ p{
 }
 
 .modal-inicio-sesion{
-    background-color: #FFFFFF;
+    background-color: var(--color-neutral-lightest);
     padding: 10px 30px;
     border-radius: 20px;
 }

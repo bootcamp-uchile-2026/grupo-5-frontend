@@ -2,6 +2,7 @@ import logo from "../assets/logos/01-Horizontal-Imagen-Texto-Fondo-Primario-Dark
 import { Banner } from "./Banner";
 import { NavLink } from "react-router-dom";
 import { useCarritoStore } from "../estado/carritoStore";
+import { Icono } from "./Icono";
 
 const enlaces = [
   { id: "inicio", texto: "Inicio", href: "/" },
@@ -62,7 +63,7 @@ export function BarraNavegacion({ onAbrirAutenticacion }: BarraNavegacionProps) 
                 aria-label="Buscar libros"
               />
               <button type="submit" aria-label="Buscar">
-                <i className="bi bi-search" aria-hidden="true"></i>
+                <Icono nombre="busqueda" />
               </button>
             </form>
 
@@ -74,7 +75,7 @@ export function BarraNavegacion({ onAbrirAutenticacion }: BarraNavegacionProps) 
               aria-haspopup="dialog"
               onClick={onAbrirAutenticacion}
             >
-              <i className="bi bi-person-circle" aria-hidden="true"></i>
+              <Icono nombre="usuario" />
             </button>
 
             <button
@@ -82,7 +83,7 @@ export function BarraNavegacion({ onAbrirAutenticacion }: BarraNavegacionProps) 
               type="button"
               aria-label="Favoritos"
             >
-              <i className="bi bi-heart" aria-hidden="true"></i>
+              <Icono nombre="favorito" />
             </button>
 
             <button
@@ -97,7 +98,7 @@ export function BarraNavegacion({ onAbrirAutenticacion }: BarraNavegacionProps) 
               aria-expanded={carritoAbierto}
               onClick={abrirCarrito}
             >
-              <i className="bi bi-bag" aria-hidden="true"></i>
+              <Icono nombre="bolsa" />
               {totalItems > 0 && (
                 <span className="header-carrito-contador" aria-hidden="true">
                   {totalItems}

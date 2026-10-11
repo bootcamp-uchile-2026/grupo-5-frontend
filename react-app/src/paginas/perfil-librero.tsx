@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Footer } from "../componentes/Footer";
 import { Carrusel } from "../componentes/Carrusel";
+import { Icono } from "../componentes/Icono";
 import { PreguntaLibrero } from "../componentes/PreguntaLibrero.tsx";
 import { TarjetaLibro } from "../componentes/TarjetaLibro";
 import "../estilos/perfil-librero.css";
@@ -62,6 +63,7 @@ function PerfilLibrero() {
 	const [libroAleatorio, setLibroAleatorio] = useState(0);
 	const [mostrarRecomendacion, setMostrarRecomendacion] = useState(false);
 	const [compartido, setCompartido] = useState(false);
+	const [errorCompartir, setErrorCompartir] = useState("");
 
 	// ACCIONES DEL PERFIL
 	function alternarGuardado(indice: number) {
@@ -78,16 +80,30 @@ function PerfilLibrero() {
 	}
 
 	async function compartirPerfil() {
-		if (navigator.share) {
-			await navigator.share({
-				title: "Gregorio Samsa | LeeConNos",
-				url: window.location.href,
-			});
-			return;
-		}
+		setCompartido(false);
+		setErrorCompartir("");
+		try {
+			if (navigator.share) {
+				await navigator.share({
+					title: "Gregorio Samsa | LeeConNos",
+					url: window.location.href,
+				});
+				return;
+			}
 
-		await navigator.clipboard?.writeText(window.location.href);
-		setCompartido(true);
+			if (!navigator.clipboard) {
+				throw new Error("Compartir no está disponible en este navegador.");
+			}
+			await navigator.clipboard.writeText(window.location.href);
+			setCompartido(true);
+		} catch (error) {
+			if (error instanceof Error && error.name === "AbortError") return;
+			setErrorCompartir(
+				error instanceof Error
+					? error.message
+					: "No se pudo compartir el perfil. Intenta nuevamente.",
+			);
+		}
 	}
 
 	const libroDestacado = libros[libroAleatorio];
@@ -127,11 +143,11 @@ function PerfilLibrero() {
 						</p>
 						<div className="perfil-acciones">
 							<a className="perfil-boton perfil-boton-principal" href="#recomendaciones">
-								<i className="bi bi-bookmark-star" aria-hidden="true" />
+								<Icono nombre="guardarFavorito" />
 								Recomendaciones
 							</a>
 							<button className="perfil-boton perfil-boton-texto" type="button" onClick={recomendarAlAzar}>
-								<i className="bi bi-arrow-repeat" aria-hidden="true" />
+								<Icono nombre="actualizar" />
 								Recomiéndame al azar
 							</button>
 						</div>
@@ -140,9 +156,14 @@ function PerfilLibrero() {
 					<div className="perfil-foto">
 						<img src="https://placehold.co/600x400" alt="Retrato de Gregorio Samsa, imagen de 600 por 400 píxeles" />
 						<button className="perfil-compartir" type="button" onClick={compartirPerfil}>
-							<i className="bi bi-share" aria-hidden="true" />
+							<Icono nombre="compartir" />
 							{compartido ? "Enlace copiado" : "Compartir"}
 						</button>
+						{(errorCompartir || compartido) && (
+							<span role="status">
+								{errorCompartir || "Enlace copiado al portapapeles."}
+							</span>
+						)}
 					</div>
 				</section>
 
@@ -167,7 +188,7 @@ function PerfilLibrero() {
 										aria-pressed={guardados.includes(indice)}
 										onClick={() => alternarGuardado(indice)}
 									>
-										<i className={`bi ${guardados.includes(indice) ? "bi-heart-fill" : "bi-heart"}`} aria-hidden="true" />
+										<Icono nombre={guardados.includes(indice) ? "favoritoActivo" : "favorito"} />
 									</button>
 								</li>
 							))}
@@ -220,7 +241,7 @@ function PerfilLibrero() {
 								<time>{coleccion.fecha}</time>
 								<button className="perfil-guardar-coleccion" type="button" onClick={() => alternarGuardado(indice + libros.length)}>
 									{guardados.includes(indice + libros.length) ? "Guardada" : "Guardar colección"}
-									<i className={`bi ${guardados.includes(indice + libros.length) ? "bi-bookmark-fill" : "bi-bookmark"}`} aria-hidden="true" />
+									<Icono nombre={guardados.includes(indice + libros.length) ? "guardarActivo" : "guardar"} />
 								</button>
 							</article>
 						))}
@@ -232,7 +253,7 @@ function PerfilLibrero() {
 						onClick={() => setMostrarColecciones((mostrar) => !mostrar)}
 					>
 						{mostrarColecciones ? "Ver menos" : "Ver más"}
-						<i className={`bi ${mostrarColecciones ? "bi-chevron-up" : "bi-chevron-down"}`} aria-hidden="true" />
+						<Icono nombre={mostrarColecciones ? "arriba" : "abajo"} />
 					</button>
 				</section>
 

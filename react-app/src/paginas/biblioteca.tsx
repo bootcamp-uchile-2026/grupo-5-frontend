@@ -1,24 +1,7 @@
+import { PaginaEnConstruccion } from "../componentes/PaginaEnConstruccion";
 
 function Biblioteca() {
-  return (
-    <>
-      {/* HERO */}
-      <section className="hero">
-        {/* HERO CONTENEDOR */}
-        <div className="hero-contenedor">
-          {/* HERO CENTENIDO */}
-          <div className="hero-contenido">
-            {/* HERO TÍTULO */}
-            <div className="hero-titulo">
-              <h2>Biblioteca</h2>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-    </>
-  );
+  return <PaginaEnConstruccion titulo="Biblioteca" />;
 }
 
 export default Biblioteca;

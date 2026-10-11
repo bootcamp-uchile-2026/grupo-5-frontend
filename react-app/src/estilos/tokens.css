@@ -1,0 +1,248 @@
+:root:root {
+  --color-violet-50: #f8f4ff;
+  --color-violet-100: #efe6fd;
+  --color-violet-200: #ceb0fa;
+  --color-violet-300: #b78af7;
+  --color-violet-400: #9654f4;
+  --color-violet-500: #8240e7;
+  --color-violet-600: #6e29d9;
+  --color-violet-700: #5a19bd;
+  --color-violet-800: #4600a9;
+  --color-violet-900: #320078;
+
+  --color-yellow-50: #fff9e5;
+  --color-yellow-100: #fff2c6;
+  --color-yellow-200: #ffe79a;
+  --color-yellow-300: #ffd454;
+  --color-yellow-400: #ffbf54;
+  --color-yellow-500: #ffad21;
+  --color-yellow-600: #ff9f00;
+  --color-yellow-700: #d98a00;
+  --color-yellow-800: #b57100;
+  --color-yellow-900: #805000;
+
+  --color-turquoise-50: #edfbfb;
+  --color-turquoise-100: #d1f4f4;
+  --color-turquoise-200: #a7e8e9;
+  --color-turquoise-300: #70d9da;
+  --color-turquoise-400: #3bcfd0;
+  --color-turquoise-500: #10c9cb;
+  --color-turquoise-600: #0aaeb1;
+  --color-turquoise-700: #078b90;
+  --color-turquoise-800: #086f73;
+  --color-turquoise-900: #07585b;
+
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f6f6f6;
+  --color-neutral-100: #ededed;
+  --color-neutral-200: #d0d0d0;
+  --color-neutral-300: #b7b7b7;
+  --color-neutral-400: #999999;
+  --color-neutral-500: #757575;
+  --color-neutral-600: #5a5a5a;
+  --color-neutral-700: #353535;
+  --color-neutral-800: #222222;
+  --color-neutral-900: #111111;
+  --color-neutral-950: #000000;
+
+  --color-red-alert-50: #fff2f1;
+  --color-red-alert-100: #fbdcda;
+  --color-red-alert-200: #f2b8b4;
+  --color-red-alert-300: #e68a84;
+  --color-red-alert-400: #d85f57;
+  --color-red-alert-500: #c93c32;
+  --color-red-alert-600: #b3261e;
+  --color-red-alert-700: #942019;
+  --color-red-alert-800: #751d18;
+  --color-red-alert-900: #571813;
+
+  --color-yellow-warning-50: #fffbe8;
+  --color-yellow-warning-100: #fff4bd;
+  --color-yellow-warning-200: #ffec83;
+  --color-yellow-warning-300: #ffdf45;
+  --color-yellow-warning-400: #f4ce20;
+  --color-yellow-warning-500: #dfba13;
+  --color-yellow-warning-600: #c4a10c;
+  --color-yellow-warning-700: #a18410;
+  --color-yellow-warning-800: #806b17;
+  --color-yellow-warning-900: #60521a;
+
+  --color-green-success-50: #f1faed;
+  --color-green-success-100: #ddf2d3;
+  --color-green-success-200: #b9e5a7;
+  --color-green-success-300: #91d778;
+  --color-green-success-400: #70c94d;
+  --color-green-success-500: #56b732;
+  --color-green-success-600: #438f26;
+  --color-green-success-700: #34701f;
+  --color-green-success-800: #295a1b;
+  --color-green-success-900: #204617;
+
+  --color-primario-darker: var(--color-violet-800);
+  --color-primario-dark: var(--color-violet-600);
+  --color-primario-regular: var(--color-violet-400);
+  --color-primario-light: var(--color-violet-200);
+  --color-primario-lighter: var(--color-violet-100);
+  --color-secundario-darker: var(--color-yellow-800);
+  --color-secundario-dark: var(--color-yellow-600);
+  --color-secundario-regular: var(--color-yellow-400);
+  --color-secundario-light: var(--color-yellow-200);
+  --color-secundario-lighter: var(--color-yellow-50);
+  --color-neutral-darkest: var(--color-neutral-950);
+  --color-neutral-darker: var(--color-neutral-700);
+  --color-neutral-dark: var(--color-neutral-500);
+  --color-neutral-light: var(--color-neutral-200);
+  --color-neutral-lighter: var(--color-neutral-50);
+  --color-neutral-lightest: var(--color-neutral-0);
+  --color-acento: var(--color-turquoise-500);
+  --color-error: var(--color-red-alert-600);
+  --color-advertencia: var(--color-yellow-warning-500);
+  --color-exito: var(--color-green-success-600);
+
+  --fuente-heading: "Lexend", sans-serif;
+  --fuente-body: "Lexend", sans-serif;
+  --fuente-brand: "Bree Serif", Georgia, serif;
+  --fuente-display: var(--fuente-brand);
+
+  --tamano-fuente-display-large: 56px;
+  --tamano-fuente-display-medium: 40px;
+  --tamano-fuente-heading-xxl: 40px;
+  --tamano-fuente-heading-xl: 32px;
+  --tamano-fuente-heading-lg: 24px;
+  --tamano-fuente-heading-md: 20px;
+  --tamano-fuente-heading-sm: 18px;
+  --tamano-fuente-label: 14px;
+  --tamano-fuente-caption: 12px;
+  --tamano-fuente-body: 16px;
+
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-4xl: 32px;
+  --radius-5xl: 48px;
+  --radius-full: 999px;
+
+  --stroke-zero: 0;
+  --stroke-default: 1px;
+  --stroke-active: 1.5px;
+  --stroke-focus: 2px;
+  --stroke-focus-ring: 4px;
+
+  --shadow-1: 0 1px 2px rgb(17 17 17 / 12%);
+  --shadow-2: 0 2px 6px rgb(17 17 17 / 14%);
+  --shadow-3: 0 4px 12px rgb(17 17 17 / 16%);
+  --shadow-4: 0 8px 24px rgb(17 17 17 / 18%);
+  --shadow-5: 0 16px 40px rgb(17 17 17 / 20%);
+}
+
+html,
+body {
+  font-family: var(--fuente-body);
+}
+
+html body h1 {
+  font-family: var(--fuente-display);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--fuente-body);
+}
+
+button {
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.boton {
+  border: var(--stroke-default) solid var(--color-violet-800);
+  border-radius: var(--radius-md);
+  color: var(--color-neutral-0);
+  background-color: var(--color-violet-800);
+  font-weight: 600;
+}
+
+.boton:hover {
+  border-color: var(--color-violet-700);
+  background-color: var(--color-violet-700);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: var(--stroke-focus) solid var(--color-violet-600);
+  outline-offset: 2px;
+}
+
+header .header-nav a[aria-current="page"] {
+  border-color: var(--color-yellow-400);
+}
+
+header .header-nav a:hover,
+header .header-nav a:focus-visible {
+  color: var(--color-yellow-200);
+}
+
+header .header-icono {
+  border-radius: var(--radius-full);
+}
+
+header .header-icono .icono,
+.icono {
+  display: inline-block;
+  flex: 0 0 auto;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+header .header-icono:hover {
+  background-color: var(--color-violet-700);
+  color: var(--color-yellow-200);
+}
+
+header .header-busqueda {
+  border-radius: var(--radius-full);
+}
+
+footer,
+header {
+  background-color: var(--color-violet-800);
+}
+
+.footer .columna-encabezado {
+  color: var(--color-yellow-300);
+}
+
+.footer .columna-lista a,
+.footer .columna-lista span {
+  color: var(--color-violet-50);
+}
+
+.footer .columna-lista a:hover,
+.footer .columna-lista a:focus-visible {
+  color: var(--color-yellow-200);
+}
+
+html body .hero-titulo h2 {
+  font-family: var(--fuente-display);
+}
+
+.catalogo-tarjeta,
+.checkout-tarjeta,
+.confirmacion-detalles,
+.confirmacion-resumen,
+.pagina-en-construccion > section {
+  border-radius: var(--radius-lg);
+}

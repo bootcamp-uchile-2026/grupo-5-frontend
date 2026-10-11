@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
+import { Icono } from "./Icono";
 import "../estilos/carrito.css";
 
 const formatoPrecio = (valor: number) => `$${valor.toLocaleString("es-CL")}`;
@@ -40,7 +41,7 @@ export function Carrito() {
             aria-label="Cerrar carrito"
             onClick={cerrar}
           >
-            <i className="bi bi-x-lg" aria-hidden="true"></i>
+            <Icono nombre="cerrar" />
           </button>
         </div>
 
@@ -88,7 +89,7 @@ export function Carrito() {
                   aria-label="Eliminar producto"
                   onClick={() => eliminar(item.idLibro)}
                 >
-                  <i className="bi bi-x" aria-hidden="true"></i>
+                  <Icono nombre="eliminar" />
                 </button>
               </div>
 
@@ -112,14 +113,15 @@ export function Carrito() {
           </div>
         </div>
 
-        <Link
-          className="carrito-pago"
-          to="/checkout"
-          onClick={cerrar}
-          aria-disabled={items.length === 0}
-        >
-          Pago seguro
-        </Link>
+        {items.length === 0 ? (
+          <button className="carrito-pago" type="button" disabled>
+            Pago seguro
+          </button>
+        ) : (
+          <Link className="carrito-pago" to="/checkout" onClick={cerrar}>
+            Pago seguro
+          </Link>
+        )}
 
         <p className="carrito-envio-nota">El envío se calcula en el checkout</p>
       </aside>

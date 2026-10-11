@@ -2,6 +2,7 @@
 export type CarritoItemDto = {
   idLibro: string;
   titulo: string;
+  autor?: string;
   precioUnitario: number;
   cantidad: number;
   portada?: string;
@@ -10,6 +11,7 @@ export type CarritoItemDto = {
 export type AgregarAlCarritoRequest = {
   idLibro: string;
   titulo: string;
+  autor?: string;
   precioUnitario: number;
   cantidad: number;
   portada?: string;

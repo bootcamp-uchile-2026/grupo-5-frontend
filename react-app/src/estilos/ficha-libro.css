@@ -54,9 +54,9 @@
     width: 40px;
     height: 40px;
     border: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background-color: rgba(0, 0, 0, 0.55);
-    color: #ffffff;
+    color: var(--color-neutral-0);
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
@@ -166,9 +166,9 @@
     aspect-ratio: 1;
     overflow: hidden;
     padding: 0;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+    background-color: var(--color-neutral-100);
+    border: var(--stroke-default) solid var(--color-neutral-300);
+    border-radius: var(--radius-2xl);
 }
 
 /* CONTENIDO CARRITO */
@@ -207,9 +207,9 @@
     padding: 10px 20px;
     font-size: 16px;
     background-color: var(--color-primario-dark);
-    color: #fff;
+    color: var(--color-neutral-0);
     border: none;
-    border-radius: 5px;
+    border-radius: var(--radius-md);
     cursor: pointer;
 }
     #agregar-carrito:hover {
@@ -266,10 +266,10 @@
 .recomendacion-libro {
     margin-top: 40px;
     padding: 20px;
-    background-color: #d9f0ff;
-    color: #3f71a6;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+    background-color: var(--color-turquoise-100);
+    color: var(--color-turquoise-800);
+    border: var(--stroke-default) solid var(--color-neutral-300);
+    border-radius: var(--radius-2xl);
     margin-bottom: 40px;
 }
 

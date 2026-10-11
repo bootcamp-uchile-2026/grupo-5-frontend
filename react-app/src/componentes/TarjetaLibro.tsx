@@ -1,3 +1,5 @@
+import { Icono } from "./Icono";
+
 export type TarjetaLibroProps = {
   nombreCurador: string;
   imagenCurador: string;
@@ -45,7 +47,7 @@ export function TarjetaLibro({
         <div className="tarjeta-libro-info-precio">${precio.toLocaleString("es-CL")}</div>
 
         <div className="tarjeta-libro-info-favorito">
-          <i className="bi bi-heart" aria-hidden="true"></i>
+          <Icono nombre="favorito" />
         </div>
       </div>
     </article>

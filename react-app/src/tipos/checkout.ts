@@ -1,3 +1,5 @@
+import type { CarritoItemDto } from "./carrito";
+
 export type MetodoEnvio = "despacho" | "retiro";
 export type MetodoPago = "onepay" | "webpay" | "mercadopago" | "transferencia";
 
@@ -35,3 +37,22 @@ export type CheckoutRequest = {
 };
 
 export type CheckoutResponse = { idPedido: string };
+
+export type ConfirmacionPedido = {
+  idPedido: string;
+  nombreComprador: string;
+  emailComprador: string;
+  fecha: string;
+  metodoEnvio: MetodoEnvio;
+  direccionEntrega?: Pick<
+    DireccionGuardada,
+    "direccion" | "numero" | "depto" | "region" | "comuna"
+  >;
+  metodoPago: MetodoPago;
+  items: CarritoItemDto[];
+  totalItems: number;
+  subtotal: number;
+  envio: number;
+  descuento: number;
+  total: number;
+};

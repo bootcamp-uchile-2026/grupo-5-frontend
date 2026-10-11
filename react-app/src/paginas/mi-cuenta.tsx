@@ -1,24 +1,7 @@
+import { PaginaEnConstruccion } from "../componentes/PaginaEnConstruccion";
 
 function MiCuenta() {
-  return (
-    <>
-      {/* HERO */}
-      <section className="hero">
-        {/* HERO CONTENEDOR */}
-        <div className="hero-contenedor">
-          {/* HERO CENTENIDO */}
-          <div className="hero-contenido">
-            {/* HERO TÍTULO */}
-            <div className="hero-titulo">
-              <h2>Mi Cuenta</h2>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-    </>
-  );
+  return <PaginaEnConstruccion titulo="Mi cuenta" />;
 }
 
 export default MiCuenta;

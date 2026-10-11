@@ -4,6 +4,7 @@ import { Carrusel } from "../componentes/Carrusel";
 import { Footer } from "../componentes/Footer";
 import { Newsletter } from "../componentes/Newsletter";
 import { TarjetaLibro } from "../componentes/TarjetaLibro";
+import { Icono } from "../componentes/Icono";
 
 const librosDestacados = [
   {
@@ -72,28 +73,19 @@ function Index() {
               {/* HERO CARACTERÍSTICAS */}
               <div className="hero-caracteristicas">
                 <div className="hero-caracteristicas-contenedor">
-                  <i
-                    className="bi bi-circle-fill hero-caracteristica-icono"
-                    aria-hidden="true"
-                  ></i>
+                  <Icono nombre="punto" className="hero-caracteristica-icono" />
                   <h3>Libros</h3>
                   <p>Encuentra tu próximo favorito</p>
                 </div>
 
                 <div className="hero-caracteristicas-contenedor">
-                  <i
-                    className="bi bi-circle-fill hero-caracteristica-icono"
-                    aria-hidden="true"
-                  ></i>
+                  <Icono nombre="punto" className="hero-caracteristica-icono" />
                   <h3>Curadores Expertos</h3>
                   <p>Encuentra tu próximo favorito</p>
                 </div>
 
                 <div className="hero-caracteristicas-contenedor">
-                  <i
-                    className="bi bi-circle-fill hero-caracteristica-icono"
-                    aria-hidden="true"
-                  ></i>
+                  <Icono nombre="punto" className="hero-caracteristica-icono" />
                   <h3>Comunidad</h3>
                   <p>Encuentra tu próximo favorito</p>
                 </div>

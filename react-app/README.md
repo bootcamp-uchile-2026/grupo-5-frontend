@@ -44,4 +44,20 @@ See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rule
 | Vista carrito (overlay) | Sí | Sí | No (dummy) |
 | Agregar desde catálogo / ficha | Sí | Sí | No (dummy) |
 | Modificar cantidad / eliminar | Sí | Sí | No (dummy) |
-| Checkout con formulario validado | Sí | Pendiente | No |
+| Checkout con formulario validado | Sí | Sí (simulado) | No |
+| Confirmación con resumen del pedido | Sí | Sí (estado de navegación) | No |
+
+Las secciones de Biblioteca, Comunidad, Descubrir, Mi cuenta y Recomendaciones
+indican que están en construcción hasta contar con sus funcionalidades.
+La suscripción al newsletter también informa que su servicio aún no está
+conectado; no confirma una suscripción inexistente.
+
+## UI Kit
+
+- Los tokens de tipografía, paleta, radios, strokes y sombras están en
+  `src/estilos/tokens.css`. Lexend se usa para UI y cuerpo; Bree Serif, para
+  títulos de marca y display.
+- Los iconos del UI Kit se reutilizan mediante `src/componentes/Icono.tsx`,
+  basado en Bootstrap Icons. Header y footer son componentes compartidos.
+- Carruseles y tarjetas de libros son componentes funcionales de la aplicación,
+  no componentes de iconografía del UI Kit.

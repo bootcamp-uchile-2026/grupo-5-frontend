@@ -1,6 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { Footer } from "../componentes/Footer";
+import { Icono } from "../componentes/Icono";
 import "../estilos/confirmacion-compra.css";
-import type { ConfirmacionPedido, MetodoPago } from "../tipos/checkout";
+import type {
+  ConfirmacionPedido,
+  MetodoPago,
+} from "../tipos/checkout";
 
 const formatoPrecio = (valor: number) => `$${valor.toLocaleString("es-CL")}`;
 
@@ -11,15 +16,38 @@ const METODOS_PAGO: Record<MetodoPago, string> = {
   transferencia: "Transferencia electrónica",
 };
 
+function esConfirmacionPedido(valor: unknown): valor is ConfirmacionPedido {
+  if (!valor || typeof valor !== "object") return false;
+  const pedido = valor as Partial<ConfirmacionPedido>;
+  return (
+    typeof pedido.idPedido === "string" &&
+    typeof pedido.nombreComprador === "string" &&
+    typeof pedido.emailComprador === "string" &&
+    typeof pedido.fecha === "string" &&
+    typeof pedido.totalItems === "number" &&
+    typeof pedido.subtotal === "number" &&
+    typeof pedido.envio === "number" &&
+    typeof pedido.descuento === "number" &&
+    typeof pedido.total === "number" &&
+    Array.isArray(pedido.items) &&
+    (pedido.metodoEnvio === "despacho" || pedido.metodoEnvio === "retiro") &&
+    (pedido.metodoPago === "onepay" ||
+      pedido.metodoPago === "webpay" ||
+      pedido.metodoPago === "mercadopago" ||
+      pedido.metodoPago === "transferencia")
+  );
+}
+
 function ConfirmacionCompra() {
-  const pedido = useLocation().state as ConfirmacionPedido | null;
+  const { state } = useLocation();
+  const pedido = esConfirmacionPedido(state) ? state : null;
 
   if (!pedido) {
     return (
       <>
         <main className="confirmacion-compra">
           <section className="confirmacion-sin-pedido">
-            <i className="bi bi-receipt" aria-hidden="true"></i>
+            <Icono nombre="detallePedido" />
             <h1>No encontramos los datos de tu compra</h1>
             <p>
               Esta confirmación está disponible justo después de completar el
@@ -38,23 +66,13 @@ function ConfirmacionCompra() {
     timeStyle: "short",
     hourCycle: "h23",
   }).format(new Date(pedido.fecha));
-  const direccion = pedido.direccionEntrega;
 
-function ConfirmacionCompra() {
-  const estado = useLocation().state as
-    | { idPedido?: string; total?: number }
-    | null;
-  const idPedido = estado?.idPedido ?? "123456789";
-  const total =
-    estado?.total !== undefined
-      ? `$${estado.total.toLocaleString("es-CL")}`
-      : "$43.000";
   return (
     <>
       <main className="confirmacion-compra">
         <nav className="confirmacion-ruta" aria-label="Ruta de navegación">
           <Link to="/" aria-label="Inicio">
-            <i className="bi bi-house-door" aria-hidden="true"></i>
+            <Icono nombre="casaPuerta" />
           </Link>
           <div className="confirmacion-ruta-pasos">
             <Link to="/catalogo">Carro</Link>
@@ -67,7 +85,7 @@ function ConfirmacionCompra() {
 
         <section className="confirmacion-exito" aria-labelledby="titulo-confirmacion">
           <div className="confirmacion-exito-icono" aria-hidden="true">
-            <i className="bi bi-check-lg"></i>
+            <Icono nombre="confirmado" />
           </div>
           <div>
             <h1 id="titulo-confirmacion">
@@ -80,43 +98,33 @@ function ConfirmacionCompra() {
           </div>
         </section>
 
-        <div className="pedido-informacion">
-          {/*DETALLES DEL PEDIDO*/}
-          <section className="detalles-pedido">
+        <div className="confirmacion-pedido">
+          <section className="confirmacion-detalles">
             <h2>Detalles del pedido</h2>
-            <div className="detalle-item">
-              <img
-                src="https://placehold.co/40x40"
-                alt="Imagen del número del pedido"
-              />
-              <div className="detalle-texto">
-                <strong>Número de pedido</strong>
-                <span>{idPedido}</span>
-              </div>
-            </div>
-            <div className="detalle-item">
-              <img
-                src="https://placehold.co/40x40"
-                alt="Imagen de fecha y hora"
-              />
-              <div className="detalle-texto">
-                <strong>Fecha y hora</strong>
-                <span>21 de agosto 2026, 13:40 hrs.</span>
-              </div>
+            <dl className="confirmacion-lista-detalles">
               <div className="confirmacion-detalle">
                 <span className="confirmacion-detalle-icono" aria-hidden="true">
-                  <i className="bi bi-calendar-event"></i>
+                  <Icono nombre="detallePedido" />
                 </span>
                 <div>
-                  <dt>Fecha y hora</dt>
-                  <dd>{fecha} hrs.</dd>
+                  <dt>Número de pedido</dt>
+                  <dd>{pedido.idPedido}</dd>
                 </div>
               </div>
               <div className="confirmacion-detalle">
                 <span className="confirmacion-detalle-icono" aria-hidden="true">
-                  <i
-                    className={`bi ${pedido.metodoEnvio === "despacho" ? "bi-truck" : "bi-shop"}`}
-                  ></i>
+                  <Icono nombre="fecha" />
+                </span>
+                <div>
+                  <dt>Fecha y hora</dt>
+                  <dd>{fecha}</dd>
+                </div>
+              </div>
+              <div className="confirmacion-detalle">
+                <span className="confirmacion-detalle-icono" aria-hidden="true">
+                  <Icono
+                    nombre={pedido.metodoEnvio === "despacho" ? "envio" : "tienda"}
+                  />
                 </span>
                 <div>
                   <dt>Método de entrega</dt>
@@ -127,18 +135,22 @@ function ConfirmacionCompra() {
                   </dd>
                 </div>
               </div>
-              {direccion && (
+              {pedido.direccionEntrega && (
                 <div className="confirmacion-detalle">
                   <span className="confirmacion-detalle-icono" aria-hidden="true">
-                    <i className="bi bi-geo-alt"></i>
+                    <Icono nombre="ubicacion" />
                   </span>
                   <div>
                     <dt>Dirección de entrega</dt>
                     <dd>
-                      {direccion.direccion} {direccion.numero}
-                      {direccion.depto ? `, ${direccion.depto}` : ""}
+                      {pedido.direccionEntrega.direccion}{" "}
+                      {pedido.direccionEntrega.numero}
+                      {pedido.direccionEntrega.depto
+                        ? `, ${pedido.direccionEntrega.depto}`
+                        : ""}
                       <br />
-                      {direccion.comuna}, {direccion.region}
+                      {pedido.direccionEntrega.comuna},{" "}
+                      {pedido.direccionEntrega.region}
                     </dd>
                   </div>
                 </div>
@@ -172,11 +184,12 @@ function ConfirmacionCompra() {
                       className="confirmacion-producto-sin-portada"
                       aria-label={`Sin portada para ${item.titulo}`}
                     >
-                      <i className="bi bi-book" aria-hidden="true"></i>
+                      <Icono nombre="libro" />
                     </span>
                   )}
                   <div className="confirmacion-producto-datos">
                     <h3>{item.titulo}</h3>
+                    {item.autor && <p>{item.autor}</p>}
                     <p>Cantidad: {item.cantidad}</p>
                   </div>
                   <strong className="confirmacion-producto-precio">
@@ -199,12 +212,7 @@ function ConfirmacionCompra() {
                 <dt>Descuento</dt>
                 <dd>-{formatoPrecio(pedido.descuento)}</dd>
               </div>
-            </div>
-
-            <div className="total-a-pagar">
-              <h3>Total a pagar</h3>
-              <h3 className="monto-total">{total}</h3>
-            </div>
+            </dl>
 
             <div className="confirmacion-total">
               <h3>Total pagado</h3>
@@ -217,30 +225,33 @@ function ConfirmacionCompra() {
           </section>
         </div>
 
-        <nav className="confirmacion-acciones" aria-label="Acciones posteriores a la compra">
+        <nav
+          className="confirmacion-acciones"
+          aria-label="Acciones posteriores a la compra"
+        >
           <Link to="/mi-cuenta" className="confirmacion-accion">
-            <i className="bi bi-receipt" aria-hidden="true"></i>
+            <Icono nombre="detallePedido" />
             <span>
               <strong>Ver mi pedido</strong>
               <small>Revisa los detalles de tu compra.</small>
             </span>
-            <i className="bi bi-chevron-right" aria-hidden="true"></i>
+            <Icono nombre="siguiente" />
           </Link>
           <Link to="/catalogo" className="confirmacion-accion">
-            <i className="bi bi-bag" aria-hidden="true"></i>
+            <Icono nombre="bolsa" />
             <span>
               <strong>Seguir comprando</strong>
               <small>Encuentra tu próxima lectura.</small>
             </span>
-            <i className="bi bi-chevron-right" aria-hidden="true"></i>
+            <Icono nombre="siguiente" />
           </Link>
           <Link to="/comunidad" className="confirmacion-accion">
-            <i className="bi bi-people" aria-hidden="true"></i>
+            <Icono nombre="comunidad" />
             <span>
               <strong>Conoce nuestra comunidad</strong>
               <small>Conecta con otros lectores.</small>
             </span>
-            <i className="bi bi-chevron-right" aria-hidden="true"></i>
+            <Icono nombre="siguiente" />
           </Link>
         </nav>
       </main>

@@ -1,369 +1,287 @@
-import { agregarAlCarrito } from "../servicios/carritoServicio";
-import "../estilos/catalogo.css";
+import { type FormEvent } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Footer } from "../componentes/Footer";
 import { Newsletter } from "../componentes/Newsletter";
+import { useCarritoStore } from "../estado/carritoStore";
+import { agregarAlCarrito } from "../servicios/carritoServicio";
+import "../estilos/catalogo.css";
+
+type LibroCatalogo = {
+  id: string;
+  titulo: string;
+  autor: string;
+  precio: number;
+  precioAnterior: number;
+  portada: string;
+  categoria: string;
+};
+
+const LIBROS: LibroCatalogo[] = [
+  {
+    id: "el-principito",
+    titulo: "El principito",
+    autor: "Antoine de Saint-Exupéry",
+    precio: 20150,
+    precioAnterior: 26900,
+    portada: "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg",
+    categoria: "Clásicos",
+  },
+  {
+    id: "cien-a-os-de-soledad",
+    titulo: "Cien años de soledad",
+    autor: "Gabriel García Márquez",
+    precio: 22900,
+    precioAnterior: 26900,
+    portada: "https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg",
+    categoria: "Narrativa",
+  },
+  {
+    id: "don-quijote-de-la-mancha",
+    titulo: "Don Quijote de la Mancha",
+    autor: "Miguel de Cervantes",
+    precio: 25600,
+    precioAnterior: 31900,
+    portada: "https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg",
+    categoria: "Clásicos",
+  },
+  {
+    id: "rayuela",
+    titulo: "Rayuela",
+    autor: "Julio Cortázar",
+    precio: 19990,
+    precioAnterior: 24900,
+    portada: "https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg",
+    categoria: "Narrativa",
+  },
+  {
+    id: "la-metamorfosis",
+    titulo: "La metamorfosis",
+    autor: "Franz Kafka",
+    precio: 15500,
+    precioAnterior: 18900,
+    portada: "https://covers.openlibrary.org/b/isbn/9780553213690-L.jpg",
+    categoria: "Clásicos",
+  },
+  {
+    id: "orgullo-y-prejuicio",
+    titulo: "Orgullo y prejuicio",
+    autor: "Jane Austen",
+    precio: 21300,
+    precioAnterior: 27900,
+    portada: "https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg",
+    categoria: "Clásicos",
+  },
+  {
+    id: "ficciones",
+    titulo: "Ficciones",
+    autor: "Jorge Luis Borges",
+    precio: 18700,
+    precioAnterior: 22900,
+    portada: "https://covers.openlibrary.org/b/isbn/9780802130303-L.jpg",
+    categoria: "Narrativa",
+  },
+  {
+    id: "1984",
+    titulo: "1984",
+    autor: "George Orwell",
+    precio: 17800,
+    precioAnterior: 23500,
+    portada: "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
+    categoria: "Narrativa",
+  },
+];
+
+const formatoPrecio = (valor: number) => `$${valor.toLocaleString("es-CL")}`;
 
 function Catalogo() {
+  const navegar = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const consultaOriginal = searchParams.get("q") ?? "";
+  const consulta = consultaOriginal.trim().toLocaleLowerCase("es-CL");
+  const categoria = searchParams.get("categoria") ?? "";
+  const descuento = searchParams.get("descuento") ?? "";
+  const autor = searchParams.get("autor") ?? "";
+  const orden = searchParams.get("orden") ?? "";
+
+  function actualizarParametro(nombre: string, valor: string) {
+    setSearchParams(
+      (actuales) => {
+        const siguientes = new URLSearchParams(actuales);
+        if (valor) siguientes.set(nombre, valor);
+        else siguientes.delete(nombre);
+        return siguientes;
+      },
+      { replace: true },
+    );
+  }
+
+  function buscar(evento: FormEvent<HTMLFormElement>) {
+    evento.preventDefault();
+    const datosFormulario = new FormData(evento.currentTarget);
+    actualizarParametro("q", String(datosFormulario.get("q") ?? "").trim());
+  }
+
+  const librosFiltrados = LIBROS.filter((libro) => {
+    const coincideBusqueda =
+      !consulta ||
+      `${libro.titulo} ${libro.autor}`.toLocaleLowerCase("es-CL").includes(consulta);
+    const coincideCategoria = !categoria || libro.categoria === categoria;
+    const tieneDescuento = libro.precio < libro.precioAnterior;
+    const coincideDescuento =
+      !descuento ||
+      (descuento === "si" ? tieneDescuento : !tieneDescuento);
+    const coincideAutor = !autor || libro.autor === autor;
+    return (
+      coincideBusqueda &&
+      coincideCategoria &&
+      coincideDescuento &&
+      coincideAutor
+    );
+  }).sort((a, b) => {
+    if (orden === "precio-menor") return a.precio - b.precio;
+    if (orden === "precio-mayor") return b.precio - a.precio;
+    return 0;
+  });
+
+  async function comprar(libro: LibroCatalogo, irAlCheckout: boolean) {
+    await agregarAlCarrito({
+      idLibro: libro.id,
+      titulo: libro.titulo,
+      autor: libro.autor,
+      precioUnitario: libro.precio,
+      cantidad: 1,
+      portada: libro.portada,
+    });
+    if (irAlCheckout) {
+      useCarritoStore.getState().cerrar();
+      navegar("/checkout");
+    }
+  }
+
   return (
     <>
       <main className="catalogo">
         <div className="catalogo-filtros">
-          <div className="catalogo-filtros-grupo">
-            <label>Filtrar:</label>
-            <select aria-label="Filtrar por categorías">
-              <option>Categorías</option>
+          <form
+            key={consultaOriginal}
+            className="catalogo-filtros-grupo"
+            onSubmit={buscar}
+            role="search"
+          >
+            <label htmlFor="catalogo-busqueda">Buscar:</label>
+            <input
+              id="catalogo-busqueda"
+              type="search"
+              name="q"
+              defaultValue={consultaOriginal}
+              placeholder="Título o autor"
+            />
+            <button type="submit">Buscar</button>
+            <label htmlFor="catalogo-categoria">Categoría:</label>
+            <select
+              id="catalogo-categoria"
+              value={categoria}
+              onChange={(evento) =>
+                actualizarParametro("categoria", evento.target.value)
+              }
+            >
+              <option value="">Todas</option>
+              <option value="Clásicos">Clásicos</option>
+              <option value="Narrativa">Narrativa</option>
             </select>
-            <select aria-label="Filtrar por descuento">
-              <option>% Descuento</option>
+            <label htmlFor="catalogo-descuento">Descuento:</label>
+            <select
+              id="catalogo-descuento"
+              value={descuento}
+              onChange={(evento) =>
+                actualizarParametro("descuento", evento.target.value)
+              }
+            >
+              <option value="">Todos</option>
+              <option value="si">Con descuento</option>
+              <option value="no">Sin descuento</option>
             </select>
-            <select aria-label="Filtrar por precio">
-              <option>% Precio</option>
+            <label htmlFor="catalogo-autor">Autor:</label>
+            <select
+              id="catalogo-autor"
+              value={autor}
+              onChange={(evento) => actualizarParametro("autor", evento.target.value)}
+            >
+              <option value="">Todos</option>
+              {Array.from(new Set(LIBROS.map((libro) => libro.autor))).map(
+                (nombreAutor) => (
+                  <option key={nombreAutor} value={nombreAutor}>
+                    {nombreAutor}
+                  </option>
+                ),
+              )}
             </select>
-            <select aria-label="Filtrar por autor">
-              <option>Autor</option>
-            </select>
-            <select aria-label="Filtrar por editorial">
-              <option>Editorial</option>
-            </select>
-          </div>
+          </form>
           <div className="catalogo-orden">
-            <label htmlFor="orden">Ordenar por:</label>
-            <select id="orden" aria-label="Ordenar catálogo">
-              <option>Relevancia</option>
-              <option>Precio menor</option>
-              <option>Precio mayor</option>
+            <label htmlFor="catalogo-orden">Ordenar por:</label>
+            <select
+              id="catalogo-orden"
+              value={orden}
+              onChange={(evento) => actualizarParametro("orden", evento.target.value)}
+            >
+              <option value="">Relevancia</option>
+              <option value="precio-menor">Precio menor</option>
+              <option value="precio-mayor">Precio mayor</option>
             </select>
           </div>
-          <span className="catalogo-resultados">67 resultados</span>
+          <span className="catalogo-resultados" aria-live="polite">
+            {librosFiltrados.length}{" "}
+            {librosFiltrados.length === 1 ? "resultado" : "resultados"}
+          </span>
         </div>
 
         <section className="catalogo-grilla" aria-label="Libros del catálogo">
-          <article className="catalogo-tarjeta">
-            <img
-              className="catalogo-portada"
-              src="https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg"
-              alt="Portada de El principito"
-            />
-            <h2 className="catalogo-titulo">El principito</h2>
-            <p className="catalogo-autor">Antoine de Saint-Exupéry</p>
-            <div className="catalogo-precio">
-              <span className="catalogo-precio-actual">$20.150</span>
-              <span className="catalogo-precio-anterior">$26.900</span>
-            </div>
-            <div className="catalogo-etiquetas">
-              <span className="catalogo-etiqueta">Reseñado</span>
-              <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
-              <span className="catalogo-etiqueta oscuro">Novedad</span>
-              <span className="catalogo-etiqueta oscuro">Oferta</span>
-            </div>
-            <div className="catalogo-acciones">
-              <button
-                className="catalogo-carrito"
-                type="button"
-                onClick={() =>
-                  void agregarAlCarrito({
-                    idLibro: "el-principito",
-                    titulo: "El principito",
-                    precioUnitario: 20150,
-                    cantidad: 1,
-                    portada: "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg",
-                  })
-                }
-              >
-                Agregar al carrito
-              </button>
-              <a className="catalogo-comprar" href="#">
-                Comprar ahora
-              </a>
-            </div>
-          </article>
-          <article className="catalogo-tarjeta">
-            <img
-              className="catalogo-portada"
-              src="https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg"
-              alt="Portada de Cien años de soledad"
-            />
-            <h2 className="catalogo-titulo">Cien años de soledad</h2>
-            <p className="catalogo-autor">Gabriel García Márquez</p>
-            <div className="catalogo-precio">
-              <span className="catalogo-precio-actual">$22.900</span>
-              <span className="catalogo-precio-anterior">$26.900</span>
-            </div>
-            <div className="catalogo-etiquetas">
-              <span className="catalogo-etiqueta">Reseñado</span>
-              <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
-              <span className="catalogo-etiqueta oscuro">Novedad</span>
-              <span className="catalogo-etiqueta oscuro">Oferta</span>
-            </div>
-            <div className="catalogo-acciones">
-              <button
-                className="catalogo-carrito"
-                type="button"
-                onClick={() =>
-                  void agregarAlCarrito({
-                    idLibro: "cien-a-os-de-soledad",
-                    titulo: "Cien años de soledad",
-                    precioUnitario: 22900,
-                    cantidad: 1,
-                    portada: "https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg",
-                  })
-                }
-              >
-                Agregar al carrito
-              </button>
-              <a className="catalogo-comprar" href="#">
-                Comprar ahora
-              </a>
-            </div>
-          </article>
-          <article className="catalogo-tarjeta">
-            <img
-              className="catalogo-portada"
-              src="https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg"
-              alt="Portada de Don Quijote de la Mancha"
-            />
-            <h2 className="catalogo-titulo">Don Quijote de la Mancha</h2>
-            <p className="catalogo-autor">Miguel de Cervantes</p>
-            <div className="catalogo-precio">
-              <span className="catalogo-precio-actual">$25.600</span>
-              <span className="catalogo-precio-anterior">$31.900</span>
-            </div>
-            <div className="catalogo-etiquetas">
-              <span className="catalogo-etiqueta">Reseñado</span>
-              <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
-              <span className="catalogo-etiqueta oscuro">Novedad</span>
-              <span className="catalogo-etiqueta oscuro">Oferta</span>
-            </div>
-            <div className="catalogo-acciones">
-              <button
-                className="catalogo-carrito"
-                type="button"
-                onClick={() =>
-                  void agregarAlCarrito({
-                    idLibro: "don-quijote-de-la-mancha",
-                    titulo: "Don Quijote de la Mancha",
-                    precioUnitario: 25600,
-                    cantidad: 1,
-                    portada: "https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg",
-                  })
-                }
-              >
-                Agregar al carrito
-              </button>
-              <a className="catalogo-comprar" href="#">
-                Comprar ahora
-              </a>
-            </div>
-          </article>
-          <article className="catalogo-tarjeta">
-            <img
-              className="catalogo-portada"
-              src="https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg"
-              alt="Portada de Rayuela"
-            />
-            <h2 className="catalogo-titulo">Rayuela</h2>
-            <p className="catalogo-autor">Julio Cortázar</p>
-            <div className="catalogo-precio">
-              <span className="catalogo-precio-actual">$19.990</span>
-              <span className="catalogo-precio-anterior">$24.900</span>
-            </div>
-            <div className="catalogo-etiquetas">
-              <span className="catalogo-etiqueta">Reseñado</span>
-              <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
-              <span className="catalogo-etiqueta oscuro">Novedad</span>
-              <span className="catalogo-etiqueta oscuro">Oferta</span>
-            </div>
-            <div className="catalogo-acciones">
-              <button
-                className="catalogo-carrito"
-                type="button"
-                onClick={() =>
-                  void agregarAlCarrito({
-                    idLibro: "rayuela",
-                    titulo: "Rayuela",
-                    precioUnitario: 19990,
-                    cantidad: 1,
-                    portada: "https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg",
-                  })
-                }
-              >
-                Agregar al carrito
-              </button>
-              <a className="catalogo-comprar" href="#">
-                Comprar ahora
-              </a>
-            </div>
-          </article>
-          <article className="catalogo-tarjeta">
-            <img
-              className="catalogo-portada"
-              src="https://covers.openlibrary.org/b/isbn/9780553213690-L.jpg"
-              alt="Portada de La metamorfosis"
-            />
-            <h2 className="catalogo-titulo">La metamorfosis</h2>
-            <p className="catalogo-autor">Franz Kafka</p>
-            <div className="catalogo-precio">
-              <span className="catalogo-precio-actual">$15.500</span>
-              <span className="catalogo-precio-anterior">$18.900</span>
-            </div>
-            <div className="catalogo-etiquetas">
-              <span className="catalogo-etiqueta">Reseñado</span>
-              <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
-              <span className="catalogo-etiqueta oscuro">Novedad</span>
-              <span className="catalogo-etiqueta oscuro">Oferta</span>
-            </div>
-            <div className="catalogo-acciones">
-              <button
-                className="catalogo-carrito"
-                type="button"
-                onClick={() =>
-                  void agregarAlCarrito({
-                    idLibro: "la-metamorfosis",
-                    titulo: "La metamorfosis",
-                    precioUnitario: 15500,
-                    cantidad: 1,
-                    portada: "https://covers.openlibrary.org/b/isbn/9780553213690-L.jpg",
-                  })
-                }
-              >
-                Agregar al carrito
-              </button>
-              <a className="catalogo-comprar" href="#">
-                Comprar ahora
-              </a>
-            </div>
-          </article>
-          <article className="catalogo-tarjeta">
-            <img
-              className="catalogo-portada"
-              src="https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg"
-              alt="Portada de Orgullo y prejuicio"
-            />
-            <h2 className="catalogo-titulo">Orgullo y prejuicio</h2>
-            <p className="catalogo-autor">Jane Austen</p>
-            <div className="catalogo-precio">
-              <span className="catalogo-precio-actual">$21.300</span>
-              <span className="catalogo-precio-anterior">$27.900</span>
-            </div>
-            <div className="catalogo-etiquetas">
-              <span className="catalogo-etiqueta">Reseñado</span>
-              <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
-              <span className="catalogo-etiqueta oscuro">Novedad</span>
-              <span className="catalogo-etiqueta oscuro">Oferta</span>
-            </div>
-            <div className="catalogo-acciones">
-              <button
-                className="catalogo-carrito"
-                type="button"
-                onClick={() =>
-                  void agregarAlCarrito({
-                    idLibro: "orgullo-y-prejuicio",
-                    titulo: "Orgullo y prejuicio",
-                    precioUnitario: 21300,
-                    cantidad: 1,
-                    portada: "https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg",
-                  })
-                }
-              >
-                Agregar al carrito
-              </button>
-              <a className="catalogo-comprar" href="#">
-                Comprar ahora
-              </a>
-            </div>
-          </article>
-          <article className="catalogo-tarjeta">
-            <img
-              className="catalogo-portada"
-              src="https://covers.openlibrary.org/b/isbn/9780802130303-L.jpg"
-              alt="Portada de Ficciones"
-            />
-            <h2 className="catalogo-titulo">Ficciones</h2>
-            <p className="catalogo-autor">Jorge Luis Borges</p>
-            <div className="catalogo-precio">
-              <span className="catalogo-precio-actual">$18.700</span>
-              <span className="catalogo-precio-anterior">$22.900</span>
-            </div>
-            <div className="catalogo-etiquetas">
-              <span className="catalogo-etiqueta">Reseñado</span>
-              <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
-              <span className="catalogo-etiqueta oscuro">Novedad</span>
-              <span className="catalogo-etiqueta oscuro">Oferta</span>
-            </div>
-            <div className="catalogo-acciones">
-              <button
-                className="catalogo-carrito"
-                type="button"
-                onClick={() =>
-                  void agregarAlCarrito({
-                    idLibro: "ficciones",
-                    titulo: "Ficciones",
-                    precioUnitario: 18700,
-                    cantidad: 1,
-                    portada: "https://covers.openlibrary.org/b/isbn/9780802130303-L.jpg",
-                  })
-                }
-              >
-                Agregar al carrito
-              </button>
-              <a className="catalogo-comprar" href="#">
-                Comprar ahora
-              </a>
-            </div>
-          </article>
-          <article className="catalogo-tarjeta">
-            <img
-              className="catalogo-portada"
-              src="https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg"
-              alt="Portada de 1984"
-            />
-            <h2 className="catalogo-titulo">1984</h2>
-            <p className="catalogo-autor">George Orwell</p>
-            <div className="catalogo-precio">
-              <span className="catalogo-precio-actual">$17.800</span>
-              <span className="catalogo-precio-anterior">$23.500</span>
-            </div>
-            <div className="catalogo-etiquetas">
-              <span className="catalogo-etiqueta">Reseñado</span>
-              <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
-              <span className="catalogo-etiqueta oscuro">Novedad</span>
-              <span className="catalogo-etiqueta oscuro">Oferta</span>
-            </div>
-            <div className="catalogo-acciones">
-              <button
-                className="catalogo-carrito"
-                type="button"
-                onClick={() =>
-                  void agregarAlCarrito({
-                    idLibro: "1984",
-                    titulo: "1984",
-                    precioUnitario: 17800,
-                    cantidad: 1,
-                    portada: "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
-                  })
-                }
-              >
-                Agregar al carrito
-              </button>
-              <a className="catalogo-comprar" href="#">
-                Comprar ahora
-              </a>
-            </div>
-          </article>
+          {librosFiltrados.map((libro) => (
+            <article className="catalogo-tarjeta" key={libro.id}>
+              <img
+                className="catalogo-portada"
+                src={libro.portada}
+                alt={`Portada de ${libro.titulo}`}
+              />
+              <h2 className="catalogo-titulo">{libro.titulo}</h2>
+              <p className="catalogo-autor">{libro.autor}</p>
+              <div className="catalogo-precio">
+                <span className="catalogo-precio-actual">
+                  {formatoPrecio(libro.precio)}
+                </span>
+                <span className="catalogo-precio-anterior">
+                  {formatoPrecio(libro.precioAnterior)}
+                </span>
+              </div>
+              <div className="catalogo-etiquetas">
+                <span className="catalogo-etiqueta">Recomendado</span>
+                <span className="catalogo-etiqueta oscuro">Oferta</span>
+              </div>
+              <div className="catalogo-acciones">
+                <button
+                  className="catalogo-carrito"
+                  type="button"
+                  onClick={() => void comprar(libro, false)}
+                >
+                  Agregar al carrito
+                </button>
+                <button
+                  className="catalogo-comprar"
+                  type="button"
+                  onClick={() => void comprar(libro, true)}
+                >
+                  Comprar ahora
+                </button>
+              </div>
+            </article>
+          ))}
+          {librosFiltrados.length === 0 && (
+            <p role="status">No encontramos libros con esos criterios.</p>
+          )}
         </section>
       </main>
-        <Newsletter />
-
-        <Footer />
-
+      <Newsletter />
+      <Footer />
     </>
   );
 }

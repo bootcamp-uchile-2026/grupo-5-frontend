@@ -1,7 +1,34 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useCarritoStore } from "../estado/carritoStore";
 import { agregarAlCarrito } from "../servicios/carritoServicio";
 import "../estilos/ficha-libro.css";
 
 function FichaLibro() {
+  const [cantidad, setCantidad] = useState(1);
+  const navegar = useNavigate();
+
+  function ajustarCantidad(delta: number) {
+    setCantidad((actual) => Math.min(10, Math.max(1, actual + delta)));
+  }
+
+  async function comprarAhora(
+    idLibro: string,
+    titulo: string,
+    precioUnitario: number,
+    portada?: string,
+  ) {
+    await agregarAlCarrito({
+      idLibro,
+      titulo,
+      precioUnitario,
+      cantidad: 1,
+      ...(portada ? { portada } : {}),
+    });
+    useCarritoStore.getState().cerrar();
+    navegar("/checkout");
+  }
+
   return (
     <>
       {/*--------------------------------------------------------------------------------------*/}
@@ -9,9 +36,9 @@ function FichaLibro() {
       {/*CONTENIDO FICHA LIBRO*/}
       <main className="contenido-libro">
         <div className="ruta-categoria">
-          <a className="home" href="../index.html" aria-label="Volver al home">
+          <Link className="home" to="/" aria-label="Volver al home">
             <img src="https://placehold.co/40x40" alt="Icono de casa" />
-          </a>
+          </Link>
           <p> &gt; Categoría &gt; Arte, Arquitectura y Diseño</p>
         </div>
 
@@ -100,6 +127,8 @@ function FichaLibro() {
                   type="button"
                   id="menos-cantidad"
                   aria-label="Disminuir cantidad"
+                  disabled={cantidad <= 1}
+                  onClick={() => ajustarCantidad(-1)}
                 >
                   −
                 </button>
@@ -107,14 +136,23 @@ function FichaLibro() {
                   type="number"
                   name="cantidad"
                   id="cantidad"
-                  min="1"
-                  max="10"
-                  defaultValue="1"
+                  min={1}
+                  max={10}
+                  step={1}
+                  value={cantidad}
+                  onChange={(evento) => {
+                    const valor = Number(evento.target.value);
+                    if (Number.isInteger(valor) && valor >= 1 && valor <= 10) {
+                      setCantidad(valor);
+                    }
+                  }}
                 />
                 <button
                   type="button"
                   id="mas-cantidad"
                   aria-label="Aumentar cantidad"
+                  disabled={cantidad >= 10}
+                  onClick={() => ajustarCantidad(1)}
                 >
                   +
                 </button>
@@ -123,18 +161,14 @@ function FichaLibro() {
                 type="button"
                 id="agregar-carrito"
                 aria-label="Agregar al carrito"
-                onClick={() => {
-                  const cantidad = Number(
-                    (document.getElementById("cantidad") as HTMLInputElement)
-                      ?.value,
-                  );
+                onClick={() =>
                   void agregarAlCarrito({
                     idLibro: "libro-demo",
                     titulo: "Nombre del libro",
                     precioUnitario: 27990,
-                    cantidad: cantidad >= 1 ? cantidad : 1,
-                  });
-                }}
+                    cantidad,
+                  })
+                }
               >
                 Agregar al carrito
               </button>
@@ -256,9 +290,6 @@ function FichaLibro() {
                 Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
                 enim. Aliquam lorem ante.
               </p>
-              <a className="mostrar-mas" href="#">
-                Mostrar más
-              </a>
             </div>
             <div className="reseña">
               <div className="encabezado-reseña">
@@ -289,9 +320,6 @@ function FichaLibro() {
                 Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
                 enim. Aliquam lorem ante.
               </p>
-              <a className="mostrar-mas" href="#">
-                Mostrar más
-              </a>
             </div>
             <div className="reseña">
               <div className="encabezado-reseña">
@@ -322,9 +350,6 @@ function FichaLibro() {
                 Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
                 enim. Aliquam lorem ante.
               </p>
-              <a className="mostrar-mas" href="#">
-                Mostrar más
-              </a>
             </div>
             <div className="reseña">
               <div className="encabezado-reseña">
@@ -355,9 +380,6 @@ function FichaLibro() {
                 Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
                 enim. Aliquam lorem ante.
               </p>
-              <a className="mostrar-mas" href="#">
-                Mostrar más
-              </a>
             </div>
           </div>
         </section>
@@ -380,7 +402,6 @@ function FichaLibro() {
             <div className="catalogo-etiquetas">
               <span className="catalogo-etiqueta">Reseñado</span>
               <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
               <span className="catalogo-etiqueta oscuro">Novedad</span>
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
@@ -400,9 +421,9 @@ function FichaLibro() {
               >
                 Agregar al carrito
               </button>
-              <a className="catalogo-comprar" href="#">
+              <button className="catalogo-comprar" type="button" onClick={() => void comprarAhora("el-principito", "El principito", 20150, "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg")}>
                 Comprar ahora
-              </a>
+              </button>
             </div>
           </article>
           <article className="catalogo-tarjeta">
@@ -420,7 +441,6 @@ function FichaLibro() {
             <div className="catalogo-etiquetas">
               <span className="catalogo-etiqueta">Reseñado</span>
               <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
               <span className="catalogo-etiqueta oscuro">Novedad</span>
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
@@ -440,9 +460,9 @@ function FichaLibro() {
               >
                 Agregar al carrito
               </button>
-              <a className="catalogo-comprar" href="#">
+              <button className="catalogo-comprar" type="button" onClick={() => void comprarAhora("cien-a-os-de-soledad", "Cien años de soledad", 22900, "https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg")}>
                 Comprar ahora
-              </a>
+              </button>
             </div>
           </article>
           <article className="catalogo-tarjeta">
@@ -460,7 +480,6 @@ function FichaLibro() {
             <div className="catalogo-etiquetas">
               <span className="catalogo-etiqueta">Reseñado</span>
               <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
               <span className="catalogo-etiqueta oscuro">Novedad</span>
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
@@ -480,9 +499,9 @@ function FichaLibro() {
               >
                 Agregar al carrito
               </button>
-              <a className="catalogo-comprar" href="#">
+              <button className="catalogo-comprar" type="button" onClick={() => void comprarAhora("don-quijote-de-la-mancha", "Don Quijote de la Mancha", 25600, "https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg")}>
                 Comprar ahora
-              </a>
+              </button>
             </div>
           </article>
           <article className="catalogo-tarjeta">
@@ -500,7 +519,6 @@ function FichaLibro() {
             <div className="catalogo-etiquetas">
               <span className="catalogo-etiqueta">Reseñado</span>
               <span className="catalogo-etiqueta">Recomendado</span>
-              <span className="catalogo-etiqueta oscuro">Agotado</span>
               <span className="catalogo-etiqueta oscuro">Novedad</span>
               <span className="catalogo-etiqueta oscuro">Oferta</span>
             </div>
@@ -520,9 +538,9 @@ function FichaLibro() {
               >
                 Agregar al carrito
               </button>
-              <a className="catalogo-comprar" href="#">
+              <button className="catalogo-comprar" type="button" onClick={() => void comprarAhora("rayuela", "Rayuela", 19990, "https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg")}>
                 Comprar ahora
-              </a>
+              </button>
             </div>
           </article>
         </section>
