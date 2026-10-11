@@ -183,27 +183,28 @@
     color: var(--color-neutral-dark);
 }
 
-/* CONTADOR EN LA BOLSA */
+/* CONTADOR EN EL CARRITO (Figma: Carro, Notif=on, node 2000:10683) */
 #boton-carrito{
     position: relative;
 }
 
 .header-carrito-contador{
     position: absolute;
-    top: -6px;
-    right: -8px;
-    min-width: 16px;
-    height: 16px;
-    padding: 0 4px;
+    top: 5px;
+    left: 29px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
-    background-color: var(--color-secundario-dark);
-    color: var(--color-neutral-darkest);
+    border-radius: var(--radius-full);
+    background-color: #6200ee;
+    box-shadow: 0 1px 3px rgb(20 20 20 / 15%);
+    color: var(--color-neutral-0);
     font-family: var(--fuente-body);
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 400;
     line-height: 1;
 }

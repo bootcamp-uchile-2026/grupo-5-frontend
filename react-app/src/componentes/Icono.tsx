@@ -6,6 +6,7 @@ const iconos = {
   favorito: "bi-heart",
   favoritoActivo: "bi-heart-fill",
   bolsa: "bi-bag",
+  carro: "bi-cart",
   envio: "bi-truck",
   tienda: "bi-shop",
   cerrar: "bi-x-lg",
