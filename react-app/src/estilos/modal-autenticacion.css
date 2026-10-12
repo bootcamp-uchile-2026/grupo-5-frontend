@@ -34,15 +34,19 @@
 	width: 88px;
 	height: 88px;
 	margin: 8px auto 18px;
-	border: 3px solid var(--color-violet-500);
-	border-radius: 18px;
-	color: var(--color-violet-700);
-	background: transparent;
 }
 
-.autenticacion-confirmacion-icono svg {
+.autenticacion-confirmacion-placeholder {
+	display: grid;
+	box-sizing: border-box;
 	width: 42px;
 	height: 42px;
+	place-items: center;
+	border: 1px dashed var(--color-neutral-500);
+	border-radius: var(--radius-sm);
+	color: var(--color-neutral-600);
+	font-size: 8px;
+	line-height: 1.2;
 }
 
 .autenticacion-confirmacion h2 {

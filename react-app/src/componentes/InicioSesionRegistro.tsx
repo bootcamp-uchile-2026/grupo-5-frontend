@@ -176,9 +176,7 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 				{registroExitoso ? (
 					<div className="autenticacion-confirmacion" aria-live="polite">
 						<div className="autenticacion-confirmacion-icono" aria-hidden="true">
-							<svg viewBox="0 0 64 64" focusable="false">
-								<path d="M14 22.5h36a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4v-18a4 4 0 0 1 4-4Zm0 0 18 14 18-14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-							</svg>
+							<span className="autenticacion-confirmacion-placeholder">42 × 42 px</span>
 						</div>
 						<h2 id="autenticacion-titulo">¡Ya casi estás dentro!</h2>
 						<p>
