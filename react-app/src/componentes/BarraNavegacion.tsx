@@ -4,6 +4,7 @@ import type { FormEvent } from "react";
 import { Banner } from "./Banner";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCarritoStore } from "../estado/carritoStore";
+import { useSesionStore } from "../estado/sesionStore";
 import { Icono } from "./Icono";
 import { MenuCatalogo } from "./MenuCatalogo";
 import { MenuComunidad } from "./MenuComunidad";
@@ -16,6 +17,7 @@ type BarraNavegacionProps = {
 };
 
 export function BarraNavegacion({ onAbrirAutenticacion }: BarraNavegacionProps) {
+  const usuario = useSesionStore((s) => s.usuario);
   const abrirCarrito = useCarritoStore((s) => s.abrir);
   const carritoAbierto = useCarritoStore((s) => s.abierto);
   const totalItems = useCarritoStore((s) =>
