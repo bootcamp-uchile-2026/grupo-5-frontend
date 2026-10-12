@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, type SubmitEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icono } from "./Icono";
 import { CuentaVerificada } from "./CuentaVerificada";
@@ -117,7 +117,7 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 	}
 
 	// ENVIO AL SERVICIO DUMMY DE AUTENTICACION (la sesión queda en Zustand)
-	async function enviarFormulario(evento: FormEvent<HTMLFormElement>) {
+	async function enviarFormulario(evento: SubmitEvent<HTMLFormElement>) {
 		evento.preventDefault();
 		const nuevos = validar(campos, esRegistro);
 		setErrores(nuevos);
