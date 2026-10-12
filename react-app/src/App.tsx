@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { BarraNavegacion } from "./componentes/BarraNavegacion";
 import { Carrito } from "./componentes/Carrito";
-import { ModalInicioSesionRegistro } from "./componentes/ModalInicioSesionRegistro";
+import { ModalInicioSesionRegistro } from "./componentes/InicioSesionRegistro";
 import { VolverArriba } from "./componentes/VolverArriba";
 import Biblioteca from "./paginas/biblioteca";
 import Catalogo from "./paginas/catalogo";
