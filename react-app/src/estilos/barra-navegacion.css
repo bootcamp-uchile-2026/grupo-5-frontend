@@ -3,7 +3,6 @@
    Colores: wireframe Home (Wireframes Desktop, node 1839:7011). */
 .barra-navegacion {
   --barra-color-primario: #6200ee;
-  --barra-color-info: #094faa;
   --barra-color-placeholder: #959595;
   --barra-sombra-buscador: 0 1px 3px rgb(20 20 20 / 15%);
 }
@@ -21,9 +20,7 @@
   justify-content: center;
   gap: 172px;
   height: 32px;
-  background-image:
-    linear-gradient(90deg, rgb(0 0 0 / 20%), rgb(0 0 0 / 20%)),
-    linear-gradient(90deg, var(--barra-color-info), var(--color-violet-800));
+  background-image: var(--degradado-banner);
 }
 
 .barra-navegacion .banner {
@@ -54,7 +51,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 28px;
-  max-width: 1360px;
+  max-width: var(--ancho-contenido);
   margin: 0 auto;
   padding: 16px 24px;
   font-family: var(--fuente-body);
@@ -264,4 +261,45 @@
     overflow-x: auto;
     justify-content: flex-start;
   }
+}
+
+/* MENÚ DEL USUARIO (con sesión iniciada) */
+.barra-navegacion .header-perfil {
+  position: relative;
+}
+
+.menu-usuario-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 900;
+  min-width: 180px;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  border-radius: var(--radius-lg);
+  background-color: #f1f1f1;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+}
+
+.menu-usuario-panel a,
+.menu-usuario-panel button {
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  border: 0;
+  background: transparent;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-label);
+  font-weight: 300;
+  line-height: 20px;
+  color: var(--color-neutral-950);
+  text-align: left;
+  text-decoration: none;
+}
+
+.menu-usuario-panel a:hover,
+.menu-usuario-panel button:hover {
+  color: var(--color-violet-800);
+  background-color: var(--color-violet-50);
 }

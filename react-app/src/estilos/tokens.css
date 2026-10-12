@@ -115,6 +115,15 @@
   --tamano-fuente-caption: 12px;
   --tamano-fuente-body: 16px;
 
+  /* Columna de contenido común a todo el sitio (barra, secciones, footer) */
+  --ancho-contenido: 1360px;
+
+  /* Degradado del banner superior; también en la franja legal del footer.
+     #094faa = Blue-info/blue-info-700 de Figma (aún no está en la paleta). */
+  --degradado-banner:
+    linear-gradient(90deg, rgb(0 0 0 / 20%), rgb(0 0 0 / 20%)),
+    linear-gradient(90deg, #094faa, var(--color-violet-800));
+
   --radius-none: 0;
   --radius-sm: 2px;
   --radius-md: 4px;
@@ -177,6 +186,18 @@ button {
   background-color: var(--color-violet-700);
 }
 
+/* Botón secundario: solo borde (wireframe Home, "Botón 2") */
+.boton.boton-secundario {
+  color: var(--color-violet-800);
+  background-color: transparent;
+}
+
+.boton.boton-secundario:hover {
+  border-color: var(--color-violet-700);
+  color: var(--color-neutral-0);
+  background-color: var(--color-violet-700);
+}
+
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
@@ -193,29 +214,10 @@ textarea:focus-visible {
   vertical-align: middle;
 }
 
-footer {
-  background-color: var(--color-violet-800);
-}
-
-.footer .columna-encabezado {
-  color: var(--color-yellow-300);
-}
-
-.footer .columna-lista a,
-.footer .columna-lista span {
-  color: var(--color-violet-50);
-}
-
-.footer .columna-lista a:hover,
-.footer .columna-lista a:focus-visible {
-  color: var(--color-yellow-200);
-}
-
 html body .hero-titulo h2 {
   font-family: var(--fuente-display);
 }
 
-.catalogo-tarjeta,
 .checkout-tarjeta,
 .confirmacion-detalles,
 .confirmacion-resumen,

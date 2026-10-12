@@ -2,128 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icono } from "./Icono";
 import { useDesplegable } from "./useDesplegable";
+import { generos, rutaDeGenero, tematicas, type Columna } from "../datos/generos";
 import "../estilos/menu-catalogo.css";
 
-type Columna = { titulo: string; opciones: string[] };
 type Seccion = "generos" | "tematicas";
-
-// Contenido del desplegable (Figma: Componentes Global, nodes 2294:20831 y 2294:20860)
-const generos: Columna[] = [
-  {
-    titulo: "Ficción",
-    opciones: [
-      "Literatura contemporánea",
-      "Misterio y thriller",
-      "Fantasía",
-      "Ciencia ficción",
-      "Romance",
-      "Terror",
-      "Clásicos",
-      "Distopía",
-    ],
-  },
-  {
-    titulo: "No ficción",
-    opciones: [
-      "Historia",
-      "Filosofía",
-      "Ciencia",
-      "Sociedad",
-      "Biografías",
-      "Ensayo",
-      "Crónica",
-      "Naturaleza",
-    ],
-  },
-  {
-    titulo: "Arte y Diseño",
-    opciones: [
-      "Arte",
-      "Diseño",
-      "Fotografía",
-      "Cine",
-      "Música",
-      "Arquitectura",
-      "Ilustración",
-      "Moda",
-    ],
-  },
-  {
-    titulo: "Bienestar",
-    opciones: [
-      "Psicología",
-      "Desarrollo personal",
-      "Esoterismo",
-      "Tarot y oráculos",
-      "Vida Saludable",
-      "Nutrición",
-      "Familia",
-      "Autoayuda",
-    ],
-  },
-  {
-    titulo: "Negocios",
-    opciones: [
-      "Emprendimiento",
-      "Finanzas",
-      "Economía",
-      "Liderazgo",
-      "Marketing",
-      "Innovación",
-      "Productividad",
-      "Tecnología",
-    ],
-  },
-];
-
-const tematicas: Columna[] = [
-  {
-    titulo: "Para cada momento",
-    opciones: [
-      "Enamorarse",
-      "Llorar",
-      "Reír",
-      "Emocionarse",
-      "Sentirse acompañado",
-      "Inquietarse",
-    ],
-  },
-  {
-    titulo: "Para pensar",
-    opciones: [
-      "Darle vueltas",
-      "Cuestionarlo todo",
-      "Cambiar de perspectiva",
-      "Entender el mundo",
-      "Conocerse mejor",
-      "Aprender algo nuevo",
-    ],
-  },
-  {
-    titulo: "Para descubrir",
-    opciones: [
-      "Joyas escondidas",
-      "Más allá del hype",
-      "Autores por descubrir",
-      "Historias que sorprenden",
-      "Favoritos inesperados",
-      "Merecen más atención",
-    ],
-  },
-  {
-    titulo: "Para compartir",
-    opciones: [
-      "Regalos",
-      "Lecturas compartidas",
-      "Para conversar",
-      "Para alguien especial",
-    ],
-  },
-];
 
 const columnasPorSeccion: Record<Seccion, Columna[]> = { generos, tematicas };
 
-// Por ahora todas las opciones llevan al catálogo completo
+// Destacados, Ofertas, Preventas y "Ver todo" llevan al catálogo completo
 const RUTA_CATALOGO = "/catalogo";
 
 export function MenuCatalogo() {
@@ -201,7 +87,7 @@ export function MenuCatalogo() {
                     <ul>
                       {columna.opciones.map((opcion) => (
                         <li key={opcion}>
-                          <Link to={RUTA_CATALOGO} onClick={cerrar}>
+                          <Link to={rutaDeGenero(opcion)} onClick={cerrar}>
                             {opcion}
                           </Link>
                         </li>

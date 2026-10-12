@@ -5,8 +5,10 @@ import logoOnepay from "../assets/logos/onepay-transbank.png";
 import logoWebpay from "../assets/logos/webpay-transbank.svg";
 import logoMercadoPago from "../assets/logos/mercado-pago.png";
 import { Icono } from "../componentes/Icono";
+import { useTituloPagina } from "../componentes/useTituloPagina";
 import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
 import { useSesionStore } from "../estado/sesionStore";
+import { REGEX_EMAIL } from "../utils/validacion";
 import {
   crearPedido,
   iniciarSesion,
@@ -18,9 +20,9 @@ import type {
   MetodoEnvio,
   MetodoPago,
 } from "../tipos/checkout";
+import { formatearPrecio } from "../utils/formato";
 
 const COSTO_DESPACHO = 1990;
-const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const COMUNAS: Record<string, string[]> = {
   "Región Metropolitana": ["Santiago", "Providencia", "Ñuñoa", "Maipú"],
@@ -37,12 +39,10 @@ const METODOS_PAGO: { valor: MetodoPago; nombre: string; logo?: string }[] = [
 
 const REGEX_TELEFONO = /^\+?[0-9\s]{8,15}$/;
 
-const formatoPrecio = (valor: number) =>
-  `$${valor.toLocaleString("es-CL")}`;
-
 type Errores = Record<string, string>;
 
 function Checkout() {
+  useTituloPagina("Checkout");
   const navegar = useNavigate();
   const items = useCarritoStore((e) => e.items);
   const vaciar = useCarritoStore((e) => e.vaciar);
@@ -529,10 +529,10 @@ function Checkout() {
               <span className={`checkout-resumen-precio${montoDescuento > 0 ? " checkout-precio-oferta" : ""}`}>
                 {montoDescuento > 0 && (
                   <s className="checkout-precio-tachado">
-                    {formatoPrecio(item.precioUnitario * item.cantidad)}
+                    {formatearPrecio(item.precioUnitario * item.cantidad)}
                   </s>
                 )}
-                {formatoPrecio(
+                {formatearPrecio(
                   Math.round(
                     item.precioUnitario * item.cantidad * (1 - montoDescuento / (subtotal || 1)),
                   ),
@@ -568,15 +568,15 @@ function Checkout() {
           <div className="checkout-resumen-filas">
             <div className="checkout-resumen-fila">
               <span>Subtotal</span>
-              <span>{formatoPrecio(subtotal)}</span>
+              <span>{formatearPrecio(subtotal)}</span>
             </div>
             <div className="checkout-resumen-fila">
               <span>Descuento</span>
-              <span>-{formatoPrecio(montoDescuento)}</span>
+              <span>-{formatearPrecio(montoDescuento)}</span>
             </div>
             <div className="checkout-resumen-fila">
               <span>Envío</span>
-              <span>{formatoPrecio(envio)}</span>
+              <span>{formatearPrecio(envio)}</span>
             </div>
           </div>
 
@@ -584,7 +584,7 @@ function Checkout() {
 
           <div className="checkout-total">
             <span>Total</span>
-            <span className="checkout-total-monto">{formatoPrecio(total)}</span>
+            <span className="checkout-total-monto">{formatearPrecio(total)}</span>
           </div>
 
           <label className="checkout-terminos">

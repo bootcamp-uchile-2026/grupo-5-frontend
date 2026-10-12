@@ -631,13 +631,14 @@ img.checkout-resumen-foto{
     }
 }
 
-/* El resumen queda debajo del menú fijo (64px) al hacer scroll */
+/* Al hacer scroll, el resumen queda pegado cerca del borde superior
+   (la barra de navegación ya no es fija, así que no hay que dejarle espacio) */
 .checkout-breadcrumb{
     position: static;
 }
 
 .checkout-resumen-tarjeta{
-    top: 88px;
+    top: 24px;
 }
 
 /* BREADCRUMB DENTRO DE LA COLUMNA IZQUIERDA, SOBRE "INICIAR SESIÓN" */

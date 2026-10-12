@@ -2,46 +2,110 @@ import "../estilos/index.css";
 import "../estilos/base.css";
 import { Carrusel } from "../componentes/Carrusel";
 import { Footer } from "../componentes/Footer";
+import { Link } from "react-router-dom";
 import { Newsletter } from "../componentes/Newsletter";
-import { TarjetaLibro } from "../componentes/TarjetaLibro";
+import { TarjetaProducto } from "../componentes/TarjetaProducto";
+import {
+  TarjetaRecomendacion,
+  type TarjetaRecomendacionProps,
+} from "../componentes/TarjetaRecomendacion";
 import { Icono } from "../componentes/Icono";
+import { useLibros } from "../componentes/useLibros";
+import { useTituloPagina } from "../componentes/useTituloPagina";
+import { propsDeTarjeta } from "../utils/libros";
+import { IMAGENES_RELLENO } from "../datos/imagenes";
 
-const librosDestacados = [
+// Datos dummy de "Recomendados de nuestros libreros" (sin Backend aún)
+
+const librosRecomendados: TarjetaRecomendacionProps[] = [
   {
-    nombreCurador: "Luciano H.",
-    imagenCurador: "https://placehold.co/30/000000/ffffff",
-    portada: "https://placehold.co/250x200",
+    nombreLibrero: "Gregorio S.",
     titulo: "El Principito",
     autor: "Antoine de Saint-Exupéry",
-    precio: 13200,
+    calificacion: 5,
+    opiniones: 12,
   },
   {
-    nombreCurador: "Tania G.",
-    imagenCurador: "https://placehold.co/30/000000/ffffff",
-    portada: "https://placehold.co/250x200",
+    nombreLibrero: "Tyler D.",
     titulo: "Cien años de soledad",
     autor: "Gabriel García Márquez",
-    precio: 22900,
+    calificacion: 4.5,
+    opiniones: 28,
   },
   {
-    nombreCurador: "Daniela C.",
-    imagenCurador: "https://placehold.co/30/000000/ffffff",
-    portada: "https://placehold.co/250x200",
+    nombreLibrero: "Clara V.",
     titulo: "Don Quijote de la Mancha",
     autor: "Miguel de Cervantes",
-    precio: 25600,
+    calificacion: 4,
+    opiniones: 9,
   },
   {
-    nombreCurador: "Alexis M.",
-    imagenCurador: "https://placehold.co/30/000000/ffffff",
-    portada: "https://placehold.co/250x200",
+    nombreLibrero: "Ana K.",
     titulo: "1984",
     autor: "George Orwell",
-    precio: 14400,
+    calificacion: 4.5,
+    opiniones: 31,
   },
-];
+  {
+    nombreLibrero: "Lisbeth S.",
+    titulo: "Rayuela",
+    autor: "Julio Cortázar",
+    calificacion: 4,
+    opiniones: 15,
+  },
+  {
+    nombreLibrero: "Aureliano B.",
+    titulo: "Pedro Páramo",
+    autor: "Juan Rulfo",
+    calificacion: 5,
+    opiniones: 22,
+  },
+  {
+    nombreLibrero: "Gregorio S.",
+    titulo: "La metamorfosis",
+    autor: "Franz Kafka",
+    calificacion: 4.5,
+    opiniones: 18,
+  },
+  {
+    nombreLibrero: "Clara V.",
+    titulo: "La casa de los espíritus",
+    autor: "Isabel Allende",
+    calificacion: 4,
+    opiniones: 11,
+  },
+].map((libro) => ({
+  ...libro,
+  imagenLibrero: IMAGENES_RELLENO.avatar,
+  portada: IMAGENES_RELLENO.portadaHorizontal,
+}));
 
 function Index() {
+  useTituloPagina("Inicio");
+  const { libros } = useLibros();
+
+  // Carruseles de productos: misma lista de libros que el Catálogo y la Ficha
+  const librosInicio = libros.map(propsDeTarjeta);
+  const carruselesProductos = [
+    {
+      titulo: "Más vendidos",
+      variante: "mas-vendidos",
+      libros: librosInicio.slice(0, 8),
+    },
+    {
+      titulo: "Nuevos lanzamientos",
+      variante: "lanzamiento",
+      libros: librosInicio.slice(8, 16),
+    },
+    {
+      titulo: "Más comentados por la comunidad",
+      variante: "comentados",
+      libros: [...librosInicio]
+        .sort((a, b) => b.opiniones - a.opiniones)
+        .slice(0, 8),
+    },
+  ] as const;
+
   return (
     <>
       <main>
@@ -67,25 +131,25 @@ function Index() {
               {/* HERO BOTONES */}
               <div className="hero-botones">
                 <button className="boton">Botón 1</button>
-                <button className="boton">Botón 2</button>
+                <button className="boton boton-secundario">Botón 2</button>
               </div>
 
               {/* HERO CARACTERÍSTICAS */}
               <div className="hero-caracteristicas">
                 <div className="hero-caracteristicas-contenedor">
-                  <Icono nombre="punto" className="hero-caracteristica-icono" />
+                  <Icono nombre="estadoVacio" className="hero-caracteristica-icono" />
                   <h3>Libros</h3>
                   <p>Encuentra tu próximo favorito</p>
                 </div>
 
                 <div className="hero-caracteristicas-contenedor">
-                  <Icono nombre="punto" className="hero-caracteristica-icono" />
-                  <h3>Curadores Expertos</h3>
+                  <Icono nombre="estadoVacio" className="hero-caracteristica-icono" />
+                  <h3>Curadores expertos</h3>
                   <p>Encuentra tu próximo favorito</p>
                 </div>
 
                 <div className="hero-caracteristicas-contenedor">
-                  <Icono nombre="punto" className="hero-caracteristica-icono" />
+                  <Icono nombre="estadoVacio" className="hero-caracteristica-icono" />
                   <h3>Comunidad</h3>
                   <p>Encuentra tu próximo favorito</p>
                 </div>
@@ -94,18 +158,19 @@ function Index() {
 
             {/* HERO IMAGEN */}
             <div className="hero-imagen">
-              <img src="https://placehold.co/600x400" alt="placehold" />
+              <img src={IMAGENES_RELLENO.hero} alt="" />
             </div>
           </div>
         </section>
 
-        <Carrusel titulo="Recomendados por Nuestros Libreros" variante="recomendaciones">
-          {librosDestacados.map((libro) => (
-            <TarjetaLibro
-              key={libro.titulo}
-              {...libro}
-              className="carrusel-recomendaciones-tarjeta"
-            />
+        <Carrusel
+          titulo="Recomendados de nuestros libreros"
+          variante="recomendaciones"
+          className="inicio-recomendados carrusel-tarjetas-recomendacion"
+          flechasEncabezado
+        >
+          {librosRecomendados.map((libro) => (
+            <TarjetaRecomendacion key={libro.titulo} {...libro} />
           ))}
         </Carrusel>
 
@@ -129,50 +194,32 @@ function Index() {
 
               {/* COMUNIDAD LECTORA BOTONES */}
               <div className="comunidad-lectora-botones">
-                <button className="boton">Botón 3</button>
+                <Link className="boton" to="/comunidad">
+                  Ir a la comunidad
+                </Link>
               </div>
             </div>
 
             {/* COMUNIDAD LECTORA IMAGEN */}
             <div className="comunidad-lectora-imagen">
-              <img src="https://placehold.co/600x300" alt="placehold" />
+              <img src={IMAGENES_RELLENO.comunidad} alt="" />
             </div>
           </div>
         </section>
 
-        <Carrusel titulo="Más Vendidos" variante="mas-vendidos">
-          {librosDestacados.map((libro) => (
-            <TarjetaLibro
-              key={libro.titulo}
-              {...libro}
-              className="carrusel-mas-vendidos-tarjeta"
-            />
-          ))}
-        </Carrusel>
-
-        <Carrusel titulo="Nuevos Lanzamientos" variante="lanzamiento">
-          {librosDestacados.map((libro) => (
-            <TarjetaLibro
-              key={libro.titulo}
-              {...libro}
-              className="carrusel-lanzamiento-tarjeta"
-            />
-          ))}
-        </Carrusel>
-
-        <Carrusel
-          titulo="Más Comentados por la Comunidad"
-          variante="comentados"
-        >
-          {librosDestacados.map((libro) => (
-            <TarjetaLibro
-              key={libro.titulo}
-              {...libro}
-              className="carrusel-comentados-tarjeta"
-            />
-          ))}
-        </Carrusel>
-
+        {carruselesProductos.map(({ titulo, variante, libros }) => (
+          <Carrusel
+            key={variante}
+            titulo={titulo}
+            variante={variante}
+            className="inicio-productos"
+            mostrarVerMas={false}
+          >
+            {libros.map((libro) => (
+              <TarjetaProducto key={libro.idLibro} {...libro} />
+            ))}
+          </Carrusel>
+        ))}
       </main>
 
       <Newsletter />

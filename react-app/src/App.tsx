@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { BarraNavegacion } from "./componentes/BarraNavegacion";
 import { Carrito } from "./componentes/Carrito";
 import { ModalInicioSesionRegistro } from "./componentes/ModalInicioSesionRegistro";
+import { VolverArriba } from "./componentes/VolverArriba";
 import Biblioteca from "./paginas/biblioteca";
 import Catalogo from "./paginas/catalogo";
 import Checkout from "./paginas/checkout";
@@ -12,6 +13,7 @@ import Descubrir from "./paginas/descubrir";
 import FichaLibro from "./paginas/ficha-libro";
 import Index from "./paginas/index";
 import MiCuenta from "./paginas/mi-cuenta";
+import NoEncontrada from "./paginas/no-encontrada";
 import PerfilLibrero from "./paginas/perfil-librero";
 import Recomendaciones from "./paginas/recomendaciones";
 
@@ -20,6 +22,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <VolverArriba />
       <BarraNavegacion onAbrirAutenticacion={() => setAutenticacionAbierta(true)} />
       <Carrito />
       <ModalInicioSesionRegistro
@@ -41,6 +44,7 @@ function App() {
           path="/confirmacion-compra"
           element={<ConfirmacionCompra />}
         />
+        <Route path="*" element={<NoEncontrada />} />
       </Routes>
     </BrowserRouter>
   );

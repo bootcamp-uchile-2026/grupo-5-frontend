@@ -4,6 +4,13 @@ export type MetodoEnvio = "despacho" | "retiro";
 export type MetodoPago = "onepay" | "webpay" | "mercadopago" | "transferencia";
 
 export type LoginRequest = { email: string; password: string };
+export type RegistroRequest = {
+  nombre: string;
+  apellido: string;
+  email: string;
+  password: string;
+  recibirNovedades: boolean;
+};
 export type DireccionGuardada = {
   direccion: string;
   numero: string;

@@ -1,6 +1,7 @@
 import "../estilos/pregunta-librero.css";
 
-export function PreguntaLibrero() {
+// El nombre del librero cambia según el perfil (por defecto, Gregorio)
+export function PreguntaLibrero({ nombre = "Gregorio" }: { nombre?: string }) {
 	return (
 		<section className="pregunta-librero" aria-labelledby="pregunta-librero-titulo">
 			<h2 id="pregunta-librero-titulo">¿No sabes qué leer? Pregúntame</h2>
@@ -19,7 +20,7 @@ export function PreguntaLibrero() {
 				aria-describedby="pregunta-librero-nota"
 			/>
 			<p className="pregunta-librero-nota" id="pregunta-librero-nota">
-				Para enviar tu pregunta necesitas una cuenta. Así Gregorio podrá responderte directamente y tendrás tus recomendaciones guardadas para volver a ellas cuando quieras.
+				Para enviar tu pregunta necesitas una cuenta. Así {nombre} podrá responderte directamente y tendrás tus recomendaciones guardadas para volver a ellas cuando quieras.
 			</p>
 		</section>
 	);

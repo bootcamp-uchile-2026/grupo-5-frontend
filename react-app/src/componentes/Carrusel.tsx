@@ -16,6 +16,10 @@ type CarruselProps = {
   variante: CarruselVariante;
   children: React.ReactNode;
   hrefVerMas?: string;
+  mostrarVerMas?: boolean;
+  // Muestra también las flechas junto a "Ver más" (encabezado)
+  flechasEncabezado?: boolean;
+  className?: string;
 };
 
 export function Carrusel({
@@ -23,6 +27,9 @@ export function Carrusel({
   variante,
   children,
   hrefVerMas = "/catalogo",
+  mostrarVerMas = true,
+  flechasEncabezado = false,
+  className,
 }: CarruselProps) {
   const idTitulo = useId();
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -93,14 +100,38 @@ export function Carrusel({
   };
 
   return (
-    <section className={claseBase} aria-labelledby={idTitulo}>
+    <section
+      className={`${claseBase}${className ? ` ${className}` : ""}`}
+      aria-labelledby={idTitulo}
+    >
       <header className={`${claseBase}-encabezado`}>
         <h3 id={idTitulo} className={`${claseBase}-titulo`}>
           {titulo}
         </h3>
 
         <div className={`${claseBase}-acciones`}>
-          <Link to={hrefVerMas}>Ver más</Link>
+          {mostrarVerMas && <Link to={hrefVerMas}>Ver más</Link>}
+
+          {flechasEncabezado && (
+            <div className="carrusel-flechas-encabezado">
+              <button
+                type="button"
+                aria-label={`Anterior: ${titulo}`}
+                onClick={() => desplazar(-1)}
+                disabled={!puedeIrAtras}
+              >
+                <Icono nombre="flechaIzquierda" />
+              </button>
+              <button
+                type="button"
+                aria-label={`Siguiente: ${titulo}`}
+                onClick={() => desplazar(1)}
+                disabled={!puedeIrAdelante}
+              >
+                <Icono nombre="flechaDerecha" />
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
