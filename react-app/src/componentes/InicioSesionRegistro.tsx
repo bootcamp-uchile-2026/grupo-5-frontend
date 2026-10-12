@@ -1,7 +1,10 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { Icono } from "./Icono";
+import { CuentaVerificada } from "./CuentaVerificada";
 import { useSesionStore } from "../estado/sesionStore";
 import { iniciarSesion, registrarse } from "../servicios/checkoutServicio";
+import type { LoginResponse } from "../tipos/checkout";
 import { LARGO_MINIMO_CONTRASENA, REGEX_EMAIL } from "../utils/validacion";
 import "../estilos/modal-autenticacion.css";
 
@@ -50,15 +53,20 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 	const [errores, setErrores] = useState<Errores>({});
 	const [enviando, setEnviando] = useState(false);
 	const [registroExitoso, setRegistroExitoso] = useState(false);
+	const [cuentaVerificada, setCuentaVerificada] = useState(false);
 	const [correoConfirmacion, setCorreoConfirmacion] = useState("");
+	const [usuarioPendiente, setUsuarioPendiente] = useState<LoginResponse | null>(null);
 	const iniciar = useSesionStore((estado) => estado.iniciar);
+	const navegar = useNavigate();
 
 	const resetearModal = () => {
 		setModo("inicio");
 		setCampos(CAMPOS_VACIOS);
 		setErrores({});
 		setRegistroExitoso(false);
+		setCuentaVerificada(false);
 		setCorreoConfirmacion("");
+		setUsuarioPendiente(null);
 	};
 
 	const cerrarModal = () => {
@@ -87,6 +95,16 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 	if (!abierto) return null;
 
 	const esRegistro = modo === "registro";
+
+	function continuarDespuesDeVerificar() {
+		if (usuarioPendiente) iniciar(usuarioPendiente);
+		setCuentaVerificada(true);
+	}
+
+	function comenzarAExplorar() {
+		cerrarModal();
+		navegar("/catalogo");
+	}
 
 	function actualizar<K extends keyof Campos>(campo: K, valor: Campos[K]) {
 		setCampos((actuales) => ({ ...actuales, [campo]: valor }));
@@ -117,13 +135,14 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 						recibirNovedades: campos.novedades,
 					})
 				: await iniciarSesion({ email: correo, password: campos.contrasena });
-			iniciar(usuario);
 			if (esRegistro) {
+				setUsuarioPendiente(usuario);
 				setCorreoConfirmacion(correo);
 				setRegistroExitoso(true);
 				setCampos(CAMPOS_VACIOS);
 				return;
 			}
+			iniciar(usuario);
 			setCampos(CAMPOS_VACIOS);
 			cerrarModal();
 		} catch (error) {
@@ -173,10 +192,12 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 					<Icono nombre="cerrar" />
 				</button>
 
-				{registroExitoso ? (
+				{cuentaVerificada ? (
+					<CuentaVerificada onComenzar={comenzarAExplorar} />
+				) : registroExitoso ? (
 					<div className="autenticacion-confirmacion" aria-live="polite">
 						<div className="autenticacion-confirmacion-icono" aria-hidden="true">
-							<span className="autenticacion-confirmacion-placeholder">42 × 42 px</span>
+							<span className="autenticacion-confirmacion-placeholder">70 × 70 px</span>
 						</div>
 						<h2 id="autenticacion-titulo">¡Ya casi estás dentro!</h2>
 						<p>
@@ -188,7 +209,7 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 							<button type="button" className="autenticacion-confirmacion-secondary">
 								Reenviar correo
 							</button>
-							<button type="button" className="autenticacion-confirmacion-primary" onClick={cerrarModal}>
+							<button type="button" className="autenticacion-confirmacion-primary" onClick={continuarDespuesDeVerificar}>
 								Continuar
 							</button>
 						</div>
