@@ -116,7 +116,7 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 		setErrores({});
 	}
 
-	// ENVIO AL SERVICIO DUMMY DE AUTENTICACION (la sesión queda en Zustand)
+	// ENVIO AL SERVICIO DE AUTENTICACION
 	async function enviarFormulario(evento: SubmitEvent<HTMLFormElement>) {
 		evento.preventDefault();
 		const nuevos = validar(campos, esRegistro);
