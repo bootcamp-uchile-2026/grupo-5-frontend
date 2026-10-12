@@ -2,19 +2,21 @@ import { Link } from "react-router-dom";
 import iconoChat from "../assets/iconos/06-mensaje-chat.svg";
 import { Icono } from "./Icono";
 import { useDesplegable } from "./useDesplegable";
+import { rutaDeLibrero } from "../datos/libreros";
 import "../estilos/menu-descubre.css";
 
 // Contenido del desplegable (Figma: Wireframes Desktop, node 1547:6030)
 const libreros = [
   "Gregorio Samsa",
-  "Anna Karenina",
+  "Ana Karenina",
   "Aureliano Buendía",
   "Lisbeth Salander",
   "Tyler Durden",
   "Clara del Valle",
 ];
 
-// Por ahora todas las opciones llevan al perfil de librero que existe
+// Cada librero lleva a su perfil; los que aún no tienen perfil diseñado,
+// y el resto de opciones, al perfil por defecto
 const RUTA_LIBREROS = "/perfil-librero";
 
 export function MenuDescubre() {
@@ -38,7 +40,7 @@ export function MenuDescubre() {
           <ul className="menu-descubre-libreros">
             {libreros.map((librero) => (
               <li key={librero}>
-                <Link to={RUTA_LIBREROS} onClick={cerrar}>
+                <Link to={rutaDeLibrero(librero)} onClick={cerrar}>
                   {librero}
                 </Link>
               </li>

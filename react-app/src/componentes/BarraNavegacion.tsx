@@ -9,6 +9,7 @@ import { Icono } from "./Icono";
 import { MenuCatalogo } from "./MenuCatalogo";
 import { MenuComunidad } from "./MenuComunidad";
 import { MenuDescubre } from "./MenuDescubre";
+import { MenuUsuario } from "./MenuUsuario";
 import "../estilos/barra-navegacion.css";
 
 type BarraNavegacionProps = {
@@ -66,22 +67,7 @@ export function BarraNavegacion({ onAbrirAutenticacion }: BarraNavegacionProps) 
               </button>
             </form>
 
-            <div className="header-perfil">
-              {usuario && (
-                <span className="header-saludo">Hola, {usuario.nombre}</span>
-              )}
-
-              <button
-                id="boton-iniciar-sesion"
-                className={`header-icono header-icono-usuario${usuario ? " header-icono-usuario-activo" : ""}`}
-                type="button"
-                aria-label="Mi cuenta"
-                aria-haspopup="dialog"
-                onClick={onAbrirAutenticacion}
-              >
-                <Icono nombre="usuario" />
-              </button>
-            </div>
+            <MenuUsuario onAbrirAutenticacion={onAbrirAutenticacion} />
 
             <button
               id="boton-carrito"

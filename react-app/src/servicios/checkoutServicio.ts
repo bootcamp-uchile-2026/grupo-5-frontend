@@ -4,6 +4,7 @@ import type {
   DescuentoResponse,
   LoginRequest,
   LoginResponse,
+  RegistroRequest,
 } from "../tipos/checkout";
 
 function nombreDesdeCorreo(email: string) {
@@ -31,6 +32,19 @@ export async function iniciarSesion(
       comuna: "Santiago",
       telefono: "961528497",
     },
+  };
+}
+
+// Registro dummy: devuelve la misma respuesta que el inicio de sesión
+export async function registrarse(
+  solicitud: RegistroRequest,
+): Promise<LoginResponse> {
+  await pausa();
+  return {
+    email: solicitud.email,
+    nombre: solicitud.nombre,
+    apellido: solicitud.apellido,
+    token: "token-dummy",
   };
 }
 

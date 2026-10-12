@@ -1,107 +1,44 @@
-import { type FormEvent } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { Desplegable } from "../componentes/Desplegable";
+import { FiltroPrecio } from "../componentes/FiltroPrecio";
 import { Footer } from "../componentes/Footer";
-import { Newsletter } from "../componentes/Newsletter";
-import { useCarritoStore } from "../estado/carritoStore";
-import { agregarAlCarrito } from "../servicios/carritoServicio";
+import { Icono } from "../componentes/Icono";
+import { RutaNavegacion, type ElementoRuta } from "../componentes/RutaNavegacion";
+import { TarjetaProducto } from "../componentes/TarjetaProducto";
+import { useLibros } from "../componentes/useLibros";
+import { useTituloPagina } from "../componentes/useTituloPagina";
+import { grupoDeGenero } from "../datos/generos";
+import { SUBGENEROS } from "../datos/libros";
+import type { LibroDto } from "../tipos/libro";
+import { propsDeTarjeta } from "../utils/libros";
 import "../estilos/catalogo.css";
 
-type LibroCatalogo = {
-  id: string;
-  titulo: string;
-  autor: string;
-  precio: number;
-  precioAnterior: number;
-  portada: string;
-  categoria: string;
-};
+// Wireframe Catálogo (Figma: Wireframes Desktop, node 1622:7933).
+// Los filtros viven en la URL: q, categoria, descuento, orden, subgenero,
+// autor, editorial (estos tres pueden repetirse), precioMin y precioMax.
 
-const LIBROS: LibroCatalogo[] = [
-  {
-    id: "el-principito",
-    titulo: "El principito",
-    autor: "Antoine de Saint-Exupéry",
-    precio: 20150,
-    precioAnterior: 26900,
-    portada: "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg",
-    categoria: "Clásicos",
-  },
-  {
-    id: "cien-a-os-de-soledad",
-    titulo: "Cien años de soledad",
-    autor: "Gabriel García Márquez",
-    precio: 22900,
-    precioAnterior: 26900,
-    portada: "https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg",
-    categoria: "Narrativa",
-  },
-  {
-    id: "don-quijote-de-la-mancha",
-    titulo: "Don Quijote de la Mancha",
-    autor: "Miguel de Cervantes",
-    precio: 25600,
-    precioAnterior: 31900,
-    portada: "https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg",
-    categoria: "Clásicos",
-  },
-  {
-    id: "rayuela",
-    titulo: "Rayuela",
-    autor: "Julio Cortázar",
-    precio: 19990,
-    precioAnterior: 24900,
-    portada: "https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg",
-    categoria: "Narrativa",
-  },
-  {
-    id: "la-metamorfosis",
-    titulo: "La metamorfosis",
-    autor: "Franz Kafka",
-    precio: 15500,
-    precioAnterior: 18900,
-    portada: "https://covers.openlibrary.org/b/isbn/9780553213690-L.jpg",
-    categoria: "Clásicos",
-  },
-  {
-    id: "orgullo-y-prejuicio",
-    titulo: "Orgullo y prejuicio",
-    autor: "Jane Austen",
-    precio: 21300,
-    precioAnterior: 27900,
-    portada: "https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg",
-    categoria: "Clásicos",
-  },
-  {
-    id: "ficciones",
-    titulo: "Ficciones",
-    autor: "Jorge Luis Borges",
-    precio: 18700,
-    precioAnterior: 22900,
-    portada: "https://covers.openlibrary.org/b/isbn/9780802130303-L.jpg",
-    categoria: "Narrativa",
-  },
-  {
-    id: "1984",
-    titulo: "1984",
-    autor: "George Orwell",
-    precio: 17800,
-    precioAnterior: 23500,
-    portada: "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
-    categoria: "Narrativa",
-  },
-];
+const valoresUnicos = (libros: LibroDto[], campo: "autor" | "editorial") =>
+  Array.from(new Set(libros.map((libro) => libro[campo]))).sort((a, b) =>
+    a.localeCompare(b, "es"),
+  );
 
-const formatoPrecio = (valor: number) => `$${valor.toLocaleString("es-CL")}`;
+// Paginación de muestra: por ahora los botones no cambian de página
+const PAGINAS = [1, 2, 3, 4, 5];
+const ULTIMA_PAGINA = 7;
 
 function Catalogo() {
-  const navegar = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { libros, cargando } = useLibros();
   const consultaOriginal = searchParams.get("q") ?? "";
   const consulta = consultaOriginal.trim().toLocaleLowerCase("es-CL");
   const categoria = searchParams.get("categoria") ?? "";
   const descuento = searchParams.get("descuento") ?? "";
-  const autor = searchParams.get("autor") ?? "";
   const orden = searchParams.get("orden") ?? "";
+  const subgeneros = searchParams.getAll("subgenero");
+  const autores = searchParams.getAll("autor");
+  const editoriales = searchParams.getAll("editorial");
+  const precioMin = Number(searchParams.get("precioMin")) || undefined;
+  const precioMax = Number(searchParams.get("precioMax")) || undefined;
 
   function actualizarParametro(nombre: string, valor: string) {
     setSearchParams(
@@ -115,172 +52,204 @@ function Catalogo() {
     );
   }
 
-  function buscar(evento: FormEvent<HTMLFormElement>) {
-    evento.preventDefault();
-    const datosFormulario = new FormData(evento.currentTarget);
-    actualizarParametro("q", String(datosFormulario.get("q") ?? "").trim());
+  // Marca o desmarca un valor de un filtro que admite varios (casillas)
+  function alternarValor(nombre: string, valor: string) {
+    setSearchParams(
+      (actuales) => {
+        const siguientes = new URLSearchParams(actuales);
+        const valores = siguientes.getAll(nombre);
+        siguientes.delete(nombre);
+        const nuevos = valores.includes(valor)
+          ? valores.filter((actual) => actual !== valor)
+          : [...valores, valor];
+        nuevos.forEach((actual) => siguientes.append(nombre, actual));
+        return siguientes;
+      },
+      { replace: true },
+    );
   }
 
-  const librosFiltrados = LIBROS.filter((libro) => {
+  function aplicarPrecio(minimo: number, maximo: number) {
+    setSearchParams(
+      (actuales) => {
+        const siguientes = new URLSearchParams(actuales);
+        siguientes.set("precioMin", String(minimo));
+        siguientes.set("precioMax", String(maximo));
+        return siguientes;
+      },
+      { replace: true },
+    );
+  }
+
+  // Libros del ámbito actual (búsqueda, género y ofertas)
+  const librosDelAmbito = libros.filter((libro) => {
     const coincideBusqueda =
       !consulta ||
       `${libro.titulo} ${libro.autor}`.toLocaleLowerCase("es-CL").includes(consulta);
     const coincideCategoria = !categoria || libro.categoria === categoria;
-    const tieneDescuento = libro.precio < libro.precioAnterior;
-    const coincideDescuento =
-      !descuento ||
-      (descuento === "si" ? tieneDescuento : !tieneDescuento);
-    const coincideAutor = !autor || libro.autor === autor;
-    return (
-      coincideBusqueda &&
-      coincideCategoria &&
-      coincideDescuento &&
-      coincideAutor
+    const tieneDescuento = Boolean(
+      libro.precioAnterior && libro.precio < libro.precioAnterior,
     );
-  }).sort((a, b) => {
-    if (orden === "precio-menor") return a.precio - b.precio;
-    if (orden === "precio-mayor") return b.precio - a.precio;
-    return 0;
+    const coincideDescuento =
+      !descuento || (descuento === "si" ? tieneDescuento : !tieneDescuento);
+    return coincideBusqueda && coincideCategoria && coincideDescuento;
   });
 
-  async function comprar(libro: LibroCatalogo, irAlCheckout: boolean) {
-    await agregarAlCarrito({
-      idLibro: libro.id,
-      titulo: libro.titulo,
-      autor: libro.autor,
-      precioUnitario: libro.precio,
-      cantidad: 1,
-      portada: libro.portada,
+  const librosSinPrecio = librosDelAmbito.filter(
+    (libro) =>
+      (!subgeneros.length || subgeneros.includes(libro.subgenero ?? "")) &&
+      (!autores.length || autores.includes(libro.autor)) &&
+      (!editoriales.length || editoriales.includes(libro.editorial)),
+  );
+
+  const librosFiltrados = librosSinPrecio
+    .filter(
+      (libro) =>
+        (!precioMin || libro.precio >= precioMin) &&
+        (!precioMax || libro.precio <= precioMax),
+    )
+    .sort((a, b) => {
+      if (orden === "precio-menor") return a.precio - b.precio;
+      if (orden === "precio-mayor") return b.precio - a.precio;
+      return 0;
     });
-    if (irAlCheckout) {
-      useCarritoStore.getState().cerrar();
-      navegar("/checkout");
-    }
-  }
+
+  const subgenerosDisponibles = SUBGENEROS[categoria] ?? [];
+  const grupo = categoria ? grupoDeGenero(categoria) : undefined;
+  const ruta: ElementoRuta[] = [
+    { texto: "Inicio", ruta: "/" },
+    { texto: "Catálogo", ruta: "/catalogo" },
+    ...(grupo ? [{ texto: grupo }] : []),
+    ...(categoria ? [{ texto: categoria }] : []),
+  ];
+  const titulo =
+    categoria ||
+    (consultaOriginal ? `Resultados para "${consultaOriginal}"` : "Catálogo");
+
+  const casillas = (nombre: string, opciones: string[], marcadas: string[]) => (
+    <ul className="filtro-casillas">
+      {opciones.map((opcion) => (
+        <li key={opcion}>
+          <label>
+            <input
+              type="checkbox"
+              checked={marcadas.includes(opcion)}
+              onChange={() => alternarValor(nombre, opcion)}
+            />
+            {opcion}
+          </label>
+        </li>
+      ))}
+    </ul>
+  );
+
+  useTituloPagina(titulo);
 
   return (
     <>
       <main className="catalogo">
-        <div className="catalogo-filtros">
-          <form
-            key={consultaOriginal}
-            className="catalogo-filtros-grupo"
-            onSubmit={buscar}
-            role="search"
-          >
-            <label htmlFor="catalogo-busqueda">Buscar:</label>
-            <input
-              id="catalogo-busqueda"
-              type="search"
-              name="q"
-              defaultValue={consultaOriginal}
-              placeholder="Título o autor"
-            />
-            <button type="submit">Buscar</button>
-            <label htmlFor="catalogo-categoria">Categoría:</label>
-            <select
-              id="catalogo-categoria"
-              value={categoria}
-              onChange={(evento) =>
-                actualizarParametro("categoria", evento.target.value)
-              }
-            >
-              <option value="">Todas</option>
-              <option value="Clásicos">Clásicos</option>
-              <option value="Narrativa">Narrativa</option>
-            </select>
-            <label htmlFor="catalogo-descuento">Descuento:</label>
-            <select
-              id="catalogo-descuento"
-              value={descuento}
-              onChange={(evento) =>
-                actualizarParametro("descuento", evento.target.value)
-              }
-            >
-              <option value="">Todos</option>
-              <option value="si">Con descuento</option>
-              <option value="no">Sin descuento</option>
-            </select>
-            <label htmlFor="catalogo-autor">Autor:</label>
-            <select
-              id="catalogo-autor"
-              value={autor}
-              onChange={(evento) => actualizarParametro("autor", evento.target.value)}
-            >
-              <option value="">Todos</option>
-              {Array.from(new Set(LIBROS.map((libro) => libro.autor))).map(
-                (nombreAutor) => (
-                  <option key={nombreAutor} value={nombreAutor}>
-                    {nombreAutor}
-                  </option>
-                ),
-              )}
-            </select>
-          </form>
-          <div className="catalogo-orden">
-            <label htmlFor="catalogo-orden">Ordenar por:</label>
-            <select
-              id="catalogo-orden"
-              value={orden}
-              onChange={(evento) => actualizarParametro("orden", evento.target.value)}
-            >
-              <option value="">Relevancia</option>
-              <option value="precio-menor">Precio menor</option>
-              <option value="precio-mayor">Precio mayor</option>
-            </select>
-          </div>
-          <span className="catalogo-resultados" aria-live="polite">
-            {librosFiltrados.length}{" "}
-            {librosFiltrados.length === 1 ? "resultado" : "resultados"}
-          </span>
-        </div>
+        <RutaNavegacion className="catalogo-ruta" elementos={ruta} />
 
-        <section className="catalogo-grilla" aria-label="Libros del catálogo">
-          {librosFiltrados.map((libro) => (
-            <article className="catalogo-tarjeta" key={libro.id}>
-              <img
-                className="catalogo-portada"
-                src={libro.portada}
-                alt={`Portada de ${libro.titulo}`}
+        <h1 className="catalogo-titulo-pagina">{titulo}</h1>
+
+        <div className="catalogo-cuerpo">
+          <aside className="catalogo-filtros" aria-label="Filtros">
+            <p className="catalogo-filtros-titulo">Filtrar:</p>
+
+            {subgenerosDisponibles.length > 0 && (
+              <Desplegable className="filtro-desplegable" titulo="Subgéneros" abiertoInicial>
+                {casillas("subgenero", subgenerosDisponibles, subgeneros)}
+              </Desplegable>
+            )}
+
+            <Desplegable className="filtro-desplegable" titulo="Precio" abiertoInicial>
+              <FiltroPrecio
+                key={`${libros.length}|${categoria}|${consulta}|${subgeneros}|${autores}|${editoriales}`}
+                precios={librosSinPrecio.map((libro) => libro.precio)}
+                minimoAplicado={precioMin}
+                maximoAplicado={precioMax}
+                onAceptar={aplicarPrecio}
               />
-              <h2 className="catalogo-titulo">{libro.titulo}</h2>
-              <p className="catalogo-autor">{libro.autor}</p>
-              <div className="catalogo-precio">
-                <span className="catalogo-precio-actual">
-                  {formatoPrecio(libro.precio)}
-                </span>
-                <span className="catalogo-precio-anterior">
-                  {formatoPrecio(libro.precioAnterior)}
-                </span>
-              </div>
-              <div className="catalogo-etiquetas">
-                <span className="catalogo-etiqueta">Recomendado</span>
-                <span className="catalogo-etiqueta oscuro">Oferta</span>
-              </div>
-              <div className="catalogo-acciones">
-                <button
-                  className="catalogo-carrito"
-                  type="button"
-                  onClick={() => void comprar(libro, false)}
+            </Desplegable>
+
+            <Desplegable className="filtro-desplegable" titulo="Autor">
+              {casillas("autor", valoresUnicos(librosDelAmbito, "autor"), autores)}
+            </Desplegable>
+
+            <Desplegable className="filtro-desplegable" titulo="Editorial">
+              {casillas(
+                "editorial",
+                valoresUnicos(librosDelAmbito, "editorial"),
+                editoriales,
+              )}
+            </Desplegable>
+          </aside>
+
+          <section className="catalogo-resultados" aria-label="Libros del catálogo">
+            <div className="catalogo-barra">
+              <div className="catalogo-orden">
+                <label htmlFor="catalogo-orden">Ordenar por:</label>
+                <select
+                  id="catalogo-orden"
+                  value={orden}
+                  onChange={(evento) =>
+                    actualizarParametro("orden", evento.target.value)
+                  }
                 >
-                  Agregar al carrito
-                </button>
-                <button
-                  className="catalogo-comprar"
-                  type="button"
-                  onClick={() => void comprar(libro, true)}
-                >
-                  Comprar ahora
-                </button>
+                  <option value="">Relevancia</option>
+                  <option value="precio-menor">Precio: menor a mayor</option>
+                  <option value="precio-mayor">Precio: mayor a menor</option>
+                </select>
               </div>
-            </article>
-          ))}
-          {librosFiltrados.length === 0 && (
-            <p role="status">No encontramos libros con esos criterios.</p>
-          )}
-        </section>
+              <span className="catalogo-cantidad" aria-live="polite">
+                {librosFiltrados.length}{" "}
+                {librosFiltrados.length === 1 ? "resultado" : "resultados"}
+              </span>
+            </div>
+
+            <div className="catalogo-productos">
+              {librosFiltrados.map((libro) => (
+                <TarjetaProducto key={libro.id} {...propsDeTarjeta(libro)} />
+              ))}
+            </div>
+            {cargando && (
+              <p className="catalogo-vacio" role="status">
+                Cargando libros...
+              </p>
+            )}
+            {!cargando && librosFiltrados.length === 0 && (
+              <p className="catalogo-vacio" role="status">
+                No encontramos libros con esos criterios.
+              </p>
+            )}
+
+            {librosFiltrados.length > 0 && (
+              <nav className="catalogo-paginacion" aria-label="Paginación">
+                <button type="button" aria-label="Página anterior" disabled>
+                  <Icono nombre="anterior" />
+                </button>
+                {PAGINAS.map((pagina) => (
+                  <button
+                    key={pagina}
+                    type="button"
+                    className="catalogo-pagina"
+                    aria-current={pagina === 1 ? "page" : undefined}
+                  >
+                    {pagina}
+                  </button>
+                ))}
+                <span aria-hidden="true">…</span>
+                <button type="button" className="catalogo-pagina">
+                  {ULTIMA_PAGINA}
+                </button>
+                <button type="button" aria-label="Página siguiente">
+                  <Icono nombre="siguiente" />
+                </button>
+              </nav>
+            )}
+          </section>
+        </div>
       </main>
-      <Newsletter />
       <Footer />
     </>
   );

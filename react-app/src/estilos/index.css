@@ -13,7 +13,9 @@ body{
 }
 
 /*-----------------------------------------------------------*/
-/*HERO*/
+/*HERO
+  Distribución según wireframe Home (Figma, Wireframes Desktop 1547:5271);
+  se mantienen los colores del sitio.*/
 body h1{
     background-color: var(--color-primario-light);
 }
@@ -21,16 +23,18 @@ body h1{
 .hero{
     background-color: var(--color-primario-light);
     margin: 0;
-    border-top: 25px solid var(--color-neutral-lightest);
-    border-bottom: 25px solid var(--color-neutral-lightest);
 }
 
 .hero-contenedor{
     display: grid;
     grid-template-columns: 45% 55%;
     align-items: stretch;
-    min-height: 360px;
+    /* 608px como el wireframe, pero dejando ver el inicio de la sección
+       siguiente en pantallas bajas (barra de 112px + ~88px visibles) */
+    min-height: clamp(440px, calc(100vh - 200px), 608px);
     margin: 0 auto;
+    /* Permite alinear el texto con la columna de contenido (cqw) */
+    container-type: inline-size;
     background-color: var(--color-primario-light);
 }
 
@@ -39,36 +43,38 @@ body h1{
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 48px 9%;
+    padding: 32px 6% 32px max(24px, calc((100cqw - var(--ancho-contenido)) / 2));
 }
 
-.hero-titulo h2{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-hero);
-    font-size: var(--tamano-fuente-hero);
-    line-height: var(--interlineado-hero);
-    color: var(--color-primario-darker);
-    background-color: var(--color-primario-light);
-    text-align: left;
+.hero .hero-titulo h2{
+    max-width: 400px;
     margin: 0 0 20px;
+    font-family: var(--fuente-display);
+    font-weight: 400;
+    font-size: var(--tamano-fuente-display-medium);
+    line-height: 48px;
+    color: var(--color-primario-darker);
+    background-color: transparent;
+    text-align: left;
 }
 
-.hero-pie p{
+.hero .hero-pie p{
+    max-width: 330px;
+    margin: 0 0 28px;
     padding: 0;
     font-family: var(--fuente-body);
-    font-weight: var(--peso-subsecciones);
-    font-size: var(--tamano-fuente-subsecciones);
-    line-height: var(--interlineado-subsecciones);
+    font-weight: var(--peso-small);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
     color: var(--color-primario-darker);
-    background-color: var(--color-primario-light);
+    background-color: transparent;
     text-align: left;
-    margin: 0 0 24px;
 }
 
 .hero-botones{
     display: flex;
     justify-content: flex-start;
-    gap: 12px;
+    gap: 24px;
 }
 
 .boton{
@@ -77,19 +83,23 @@ body h1{
     width: 120px;
 }
 
+.hero-botones .boton{
+    width: auto;
+    min-width: 95px;
+    padding: 0 24px;
+    font-size: var(--tamano-fuente-small);
+}
+
 .hero-caracteristicas{
-    width: 100%;
-    text-align: left;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    margin-top: auto;
+    margin-top: 44px;
+    text-align: left;
 }
 
 .hero-caracteristicas-contenedor{
     display: flex;
     flex-direction: column;
-    flex: 1;
     padding: 0 16px;
     border-left: 1px solid var(--color-primario-darker);
 }
@@ -101,39 +111,45 @@ body h1{
 
 .hero-caracteristica-icono{
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 14px;
     color: var(--color-primario-darker);
     font-size: 20px;
     line-height: 1;
 }
 
-.hero-caracteristicas-contenedor h3{
+.hero .hero-caracteristicas-contenedor h3{
+    margin: 0 0 8px;
     font-family: var(--fuente-body);
-    font-weight: var(--peso-subsecciones);
-    font-size: var(--tamano-fuente-parrafos);
-    line-height: var(--interlineado-parrafos);
+    font-weight: 700;
+    font-size: var(--tamano-fuente-caption);
+    line-height: 16px;
     color: var(--color-primario-darker);
-    background-color: var(--color-primario-light);
+    background-color: transparent;
     text-align: left;
-    margin: 0 0 6px;
+    white-space: nowrap;
 }
 
-.hero-caracteristicas-contenedor p{
+.hero .hero-caracteristicas-contenedor p{
+    max-width: 100px;
+    margin: 0;
     font-family: var(--fuente-body);
     font-weight: var(--peso-parrafos);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
+    font-size: var(--tamano-fuente-caption);
+    line-height: 16px;
     color: var(--color-primario-darker);
-    background-color: var(--color-primario-light);
+    background-color: transparent;
     text-align: left;
-    margin: 0;
 }
 
+/* La imagen se adapta a la altura del hero en vez de agrandarlo */
 .hero-imagen{
-    min-height: 360px;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-imagen img{
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
@@ -154,7 +170,7 @@ body h1{
         min-height: 280px;
     }
 
-    .hero-titulo h2{
+    .hero .hero-titulo h2{
         font-size: var(--tamano-fuente-secciones);
         line-height: var(--interlineado-secciones);
     }
@@ -212,110 +228,6 @@ body h1{
     display: flex;
     justify-content: space-evenly;
     gap: 24px;
-}
-
-.carrusel-recomendaciones-tarjeta{
-    background-color: var(--color-neutral-lightest);
-    position: relative;
-    flex: 1 1 0;
-    min-width: 0;
-}
-
-.carrusel-recomendaciones-tarjeta .tarjeta-portada-imagen{
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 5 / 4;
-    object-fit: cover;
-}
-
-.tarjeta-header-curador{
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    
-    background-color: var(--color-neutral-lightest);
-    padding: 10px;
-    border-radius: 25px/50%;
-
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.tarjeta-imagen-curador{
-    border-radius: 50%;
-}
-
-.tarjeta-nombre-curador{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-subsecciones);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    
-    padding-left: 10px;
-}
-
-.tarjeta-libro-info{
-    background-color: var(--color-primario-light);
-}
-
-.tarjeta-libro-info-titulo{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-titulo);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-autor{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-lightest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-precio{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-lightest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-favorito{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-titulo);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    margin-right: 20px;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-
-    background: none;
-    border: none;
-    padding: 0;
-    color: var(--color-neutral-lightest);
-}
-
-.tarjeta-libro-info-favorito span{
-    cursor: pointer;
-    display: inline-block;
-}
-
-.tarjeta-libro-info-favorito .bi{
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
 }
 
 .controles-carrusel{
@@ -410,21 +322,74 @@ body h1{
     }
 }
 
+/*RECOMENDADOS DE NUESTROS LIBREROS (HOME)
+  Tarjeta: Figma "card-recomended" (Componentes Global, node 2039:6606).
+  Aquí solo va lo propio del Home (márgenes y encabezado). La tarjeta y el
+  diseño del carrusel de tarjetas están en tarjeta-recomendacion.css.*/
+.inicio-recomendados.carrusel-recomendaciones{
+    width: 100%;
+    max-width: calc(var(--ancho-contenido) + 48px);
+    padding: 64px 24px 40px;
+}
+
+.inicio-recomendados .carrusel-recomendaciones-encabezado,
+.inicio-recomendados .carrusel-recomendaciones-titulo{
+    background-color: transparent;
+}
+
+.inicio-recomendados .carrusel-recomendaciones-encabezado{
+    margin-bottom: 28px;
+}
+
+.inicio-recomendados .carrusel-recomendaciones-titulo{
+    margin: 0;
+    font-family: var(--fuente-body);
+    font-weight: 400;
+    font-size: var(--tamano-fuente-body);
+    line-height: 24px;
+    color: var(--color-primario-darker);
+}
+
+.inicio-recomendados .carrusel-recomendaciones-acciones{
+    align-items: center;
+    gap: 40px;
+}
+
+.inicio-recomendados .carrusel-recomendaciones-acciones a{
+    font-size: var(--tamano-fuente-small);
+    color: var(--color-primario-darker);
+    text-decoration: none;
+}
+
+.inicio-recomendados .carrusel-recomendaciones-acciones a:hover{
+    text-decoration: underline;
+}
+
+@media (max-width: 760px){
+    .inicio-recomendados.carrusel-recomendaciones{
+        padding: 56px 20px 32px;
+    }
+
+    .inicio-recomendados .carrusel-recomendaciones-acciones{
+        gap: 16px;
+    }
+}
+
 /*-----------------------------------------------------------*/
 
-/*COMUNIDAD LECTORA*/
+/*COMUNIDAD LECTORA
+  Distribución según wireframe Home; se mantienen los colores del sitio.*/
 .comunidad-lectora{
-    background-color: var(--color-neutral-lightest);
-    border-top: 25px solid var(--color-neutral-lightest);
-    border-bottom: 25px solid var(--color-neutral-lightest);
+    background-color: var(--color-primario-light);
 }
 
 .comunidad-lectora-contenedor{
     display: grid;
     grid-template-columns: 45% 55%;
     align-items: stretch;
-    min-height: 300px;
+    min-height: 357px;
     background-color: var(--color-primario-light);
+    container-type: inline-size;
 }
 
 .comunidad-lectora-contenido{
@@ -432,30 +397,32 @@ body h1{
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 36px 9%;
+    padding: 32px 6% 32px max(24px, calc((100cqw - var(--ancho-contenido)) / 2));
 }
 
-.comunidad-lectora-titulo h2{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-hero);
-    font-size: var(--tamano-fuente-hero);
-    line-height: var(--interlineado-hero);
-    color: var(--color-primario-darker);
-    background-color: var(--color-primario-light);
-    text-align: left;
+.comunidad-lectora .comunidad-lectora-titulo h2{
+    max-width: 330px;
     margin: 0 0 16px;
+    font-family: var(--fuente-display);
+    font-weight: 400;
+    font-size: var(--tamano-fuente-heading-xl);
+    line-height: 40px;
+    color: var(--color-primario-darker);
+    background-color: transparent;
+    text-align: left;
 }
 
-.comunidad-lectora-pie p{
+.comunidad-lectora .comunidad-lectora-pie p{
+    max-width: 300px;
+    margin: 0 0 20px;
     padding: 0;
     font-family: var(--fuente-body);
-    font-weight: var(--peso-subsecciones);
-    font-size: var(--tamano-fuente-subsecciones);
-    line-height: var(--interlineado-subsecciones);
+    font-weight: var(--peso-small);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
     color: var(--color-primario-darker);
-    background-color: var(--color-primario-light);
+    background-color: transparent;
     text-align: left;
-    margin: 0 0 20px;
 }
 
 .comunidad-lectora-botones{
@@ -463,15 +430,27 @@ body h1{
     justify-content: flex-start;
 }
 
+.comunidad-lectora-botones .boton{
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    padding: 0 24px;
+    font-size: var(--tamano-fuente-small);
+    text-decoration: none;
+}
+
+/* La imagen se adapta a la altura de la sección */
 .comunidad-lectora-imagen{
-    min-height: 300px;
+    position: relative;
+    overflow: hidden;
 }
 
 .comunidad-lectora-imagen img{
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
-    aspect-ratio: 2 / 1;
     object-fit: cover;
 }
 
@@ -481,12 +460,12 @@ body h1{
         min-height: 0;
     }
 
-    .comunidad-lectora-imagen{
-        min-height: 0;
+    .comunidad-lectora-contenido{
+        padding: 36px 8%;
     }
 
-    .comunidad-lectora-imagen img{
-        height: auto;
+    .comunidad-lectora-imagen{
+        min-height: 220px;
     }
 }
 
@@ -538,118 +517,9 @@ body h1{
     gap: 20px;
 }
 
-.carrusel-mas-vendidos-tarjeta{
-    background-color: var(--color-neutral-lightest);
-    position: relative;
-    flex: 1 1 0;
-    min-width: 0;
-}
-
 .carrusel-mas-vendidos .coleccion-tarjetas,
 .carrusel-mas-vendidos .carrusel-mas-vendidos-contenedor{
     background-color: var(--color-neutral-lightest);
-}
-
-.carrusel-mas-vendidos-tarjeta .tarjeta-portada-imagen{
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 5 / 4;
-    object-fit: cover;
-}
-
-.carrusel-mas-vendidos .tarjeta-libro-info{
-    background-color: var(--color-primario-light);
-}
-
-.carrusel-mas-vendidos .tarjeta-libro-info-titulo,
-.carrusel-mas-vendidos .tarjeta-libro-info-autor,
-.carrusel-mas-vendidos .tarjeta-libro-info-precio,
-.carrusel-mas-vendidos .tarjeta-libro-info-favorito{
-    color: var(--color-primario-darker);
-}
-
-.tarjeta-header-curador{
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    
-    background-color: var(--color-neutral-lightest);
-    padding: 10px;
-    border-radius: 25px/50%;
-
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.tarjeta-imagen-curador{
-    border-radius: 50%;
-}
-
-.tarjeta-nombre-curador{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-subsecciones);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    
-    padding-left: 10px;
-}
-
-.tarjeta-libro-info{
-    background-color: var(--color-neutral-lightest);
-}
-
-.tarjeta-libro-info-titulo{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-titulo);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-autor{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-precio{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-favorito{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-titulo);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    margin-right: 20px;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-
-    background: none;
-    border: none;
-    padding: 0;
-    color: var(--color-red-alert-500);
-}
-
-.tarjeta-libro-info-favorito span{
-    cursor: pointer;
-    display: inline-block;
 }
 
 .controles-carrusel{
@@ -666,7 +536,6 @@ body h1{
     border-radius: 50%;
     background-color: var(--color-neutral-light);
 }
-
 
 /*-----------------------------------------------------------*/
 
@@ -710,94 +579,6 @@ body h1{
     gap: 20px;
 }
 
-.carrusel-lanzamiento-tarjeta{
-    background-color: var(--color-primario-light);
-    position: relative;
-}
-
-.tarjeta-header-curador{
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    
-    background-color: var(--color-neutral-lightest);
-    padding: 10px;
-    border-radius: 25px/50%;
-
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.tarjeta-imagen-curador{
-    border-radius: 50%;
-}
-
-.tarjeta-nombre-curador{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-subsecciones);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    
-    padding-left: 10px;
-}
-
-.tarjeta-libro-info{
-    background-color: var(--color-neutral-lightest);
-}
-
-.tarjeta-libro-info-titulo{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-titulo);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-autor{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-precio{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-favorito{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-titulo);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    margin-right: 20px;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-
-    background: none;
-    border: none;
-    padding: 0;
-    color: var(--color-red-alert-500);
-}
-
-.tarjeta-libro-info-favorito span{
-    cursor: pointer;
-    display: inline-block;
-}
-
 .controles-carrusel{
     display: flex;
     justify-content: center;
@@ -812,7 +593,6 @@ body h1{
     border-radius: 50%;
     background-color: var(--color-neutral-light);
 }
-
 
 /*-----------------------------------------------------------*/
 
@@ -854,94 +634,6 @@ body h1{
     display: flex;
     justify-content: space-evenly;
     gap: 20px;
-}
-
-.carrusel-comentados-tarjeta{
-    background-color: var(--color-primario-light);
-    position: relative;
-}
-
-.tarjeta-header-curador{
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    
-    background-color: var(--color-neutral-lightest);
-    padding: 10px;
-    border-radius: 25px/50%;
-
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.tarjeta-imagen-curador{
-    border-radius: 50%;
-}
-
-.tarjeta-nombre-curador{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-subsecciones);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    
-    padding-left: 10px;
-}
-
-.tarjeta-libro-info{
-    background-color: var(--color-neutral-lightest);
-}
-
-.tarjeta-libro-info-titulo{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-titulo);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-autor{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-precio{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    margin-left: 10px;
-}
-
-.tarjeta-libro-info-favorito{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-titulo);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    margin-right: 20px;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-
-    background: none;
-    border: none;
-    padding: 0;
-    color: var(--color-red-alert-500);
-}
-
-.tarjeta-libro-info-favorito span{
-    cursor: pointer;
-    display: inline-block;
 }
 
 .controles-carrusel{
@@ -989,128 +681,6 @@ body h1{
     background-color: var(--color-neutral-lightest);
 }
 
-.carrusel-lanzamiento-tarjeta,
-.carrusel-comentados-tarjeta{
-    flex: 1 1 0;
-    min-width: 0;
-    background-color: var(--color-neutral-lightest);
-}
-
-.carrusel-lanzamiento-tarjeta .tarjeta-portada-imagen,
-.carrusel-comentados-tarjeta .tarjeta-portada-imagen{
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 5 / 4;
-    object-fit: cover;
-}
-
-.carrusel-recomendaciones .tarjeta-libro-info,
-.carrusel-lanzamiento .tarjeta-libro-info,
-.carrusel-comentados .tarjeta-libro-info{
-    background-color: var(--color-primario-light);
-}
-
-.carrusel-lanzamiento .tarjeta-libro-info{
-    background-color: var(--color-primario-dark);
-}
-
-.carrusel-recomendaciones .tarjeta-libro-info-titulo,
-.carrusel-lanzamiento .tarjeta-libro-info-titulo,
-.carrusel-comentados .tarjeta-libro-info-titulo{
-    color: var(--color-primario-darker);
-}
-
-.carrusel-lanzamiento .tarjeta-libro-info-titulo{
-    color: var(--color-neutral-lightest);
-    font-weight: 700;
-}
-
-.carrusel-recomendaciones .tarjeta-libro-info-autor,
-.carrusel-recomendaciones .tarjeta-libro-info-precio,
-.carrusel-recomendaciones .tarjeta-libro-info-favorito,
-.carrusel-lanzamiento .tarjeta-libro-info-autor,
-.carrusel-lanzamiento .tarjeta-libro-info-precio,
-.carrusel-lanzamiento .tarjeta-libro-info-favorito,
-.carrusel-comentados .tarjeta-libro-info-autor,
-.carrusel-comentados .tarjeta-libro-info-precio,
-.carrusel-comentados .tarjeta-libro-info-favorito{
-    color: var(--color-neutral-lightest);
-}
-
-.carrusel-recomendaciones-tarjeta,
-.carrusel-lanzamiento-tarjeta,
-.carrusel-comentados-tarjeta{
-    overflow: hidden;
-    border: 1px solid var(--color-neutral-light);
-    border-radius: 5px;
-}
-
-.carrusel-recomendaciones-tarjeta .tarjeta-portada-imagen,
-.carrusel-lanzamiento-tarjeta .tarjeta-portada-imagen,
-.carrusel-comentados-tarjeta .tarjeta-portada-imagen{
-    aspect-ratio: 5 / 4;
-}
-
-.carrusel-recomendaciones-tarjeta .tarjeta-libro-info,
-.carrusel-lanzamiento-tarjeta .tarjeta-libro-info,
-.carrusel-comentados-tarjeta .tarjeta-libro-info{
-    position: relative;
-    min-height: 82px;
-    box-sizing: border-box;
-    padding: 12px 10px 10px;
-}
-
-.carrusel-recomendaciones-tarjeta .tarjeta-libro-info-titulo,
-.carrusel-lanzamiento-tarjeta .tarjeta-libro-info-titulo,
-.carrusel-comentados-tarjeta .tarjeta-libro-info-titulo,
-.carrusel-recomendaciones-tarjeta .tarjeta-libro-info-autor,
-.carrusel-lanzamiento-tarjeta .tarjeta-libro-info-autor,
-.carrusel-comentados-tarjeta .tarjeta-libro-info-autor,
-.carrusel-recomendaciones-tarjeta .tarjeta-libro-info-precio,
-.carrusel-lanzamiento-tarjeta .tarjeta-libro-info-precio,
-.carrusel-comentados-tarjeta .tarjeta-libro-info-precio{
-    margin-left: 0;
-}
-
-.carrusel-recomendaciones-tarjeta .tarjeta-libro-info-favorito,
-.carrusel-lanzamiento-tarjeta .tarjeta-libro-info-favorito,
-.carrusel-comentados-tarjeta .tarjeta-libro-info-favorito{
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    margin: 0;
-}
-
-.carrusel-recomendaciones-tarjeta .tarjeta-libro-info-titulo,
-.carrusel-lanzamiento-tarjeta .tarjeta-libro-info-titulo,
-.carrusel-comentados-tarjeta .tarjeta-libro-info-titulo{
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 700;
-}
-
-.carrusel-recomendaciones-tarjeta .tarjeta-libro-info,
-.carrusel-lanzamiento-tarjeta .tarjeta-libro-info,
-.carrusel-comentados-tarjeta .tarjeta-libro-info{
-    min-height: 96px;
-}
-
-.carrusel-recomendaciones-tarjeta .tarjeta-libro-info-titulo,
-.carrusel-lanzamiento-tarjeta .tarjeta-libro-info-titulo,
-.carrusel-comentados-tarjeta .tarjeta-libro-info-titulo{
-    margin-bottom: 5px;
-}
-
-.carrusel-recomendaciones-tarjeta .tarjeta-libro-info-autor,
-.carrusel-lanzamiento-tarjeta .tarjeta-libro-info-autor{
-    margin-bottom: 5px;
-}
-
-.carrusel-comentados-tarjeta .tarjeta-libro-info-autor{
-    margin-bottom: 5px;
-}
-
 @media (max-width: 760px){
     .carrusel-mas-vendidos{
         width: calc(100% - 24px);
@@ -1126,34 +696,88 @@ body h1{
     }
 }
 
-.carrusel-lanzamiento .tarjeta-libro-info{
-    background-color: var(--color-primario-light);
-}
-
-.carrusel-lanzamiento .tarjeta-libro-info-titulo,
-.carrusel-lanzamiento .tarjeta-libro-info-autor,
-.carrusel-lanzamiento .tarjeta-libro-info-precio,
-.carrusel-lanzamiento .tarjeta-libro-info-favorito{
-    color: var(--color-primario-darker);
-}
-
-.carrusel-recomendaciones .tarjeta-libro-info,
-.carrusel-comentados .tarjeta-libro-info{
-    background-color: var(--color-primario-light);
-}
-
 .carrusel-recomendaciones .carrusel-recomendaciones-contenedor,
 .carrusel-recomendaciones .coleccion-tarjetas{
     background-color: var(--color-neutral-lightest);
 }
 
-.carrusel-recomendaciones .tarjeta-libro-info-titulo,
-.carrusel-recomendaciones .tarjeta-libro-info-autor,
-.carrusel-recomendaciones .tarjeta-libro-info-precio,
-.carrusel-recomendaciones .tarjeta-libro-info-favorito,
-.carrusel-comentados .tarjeta-libro-info-titulo,
-.carrusel-comentados .tarjeta-libro-info-autor,
-.carrusel-comentados .tarjeta-libro-info-precio,
-.carrusel-comentados .tarjeta-libro-info-favorito{
+/*-----------------------------------------------------------*/
+
+/*CARRUSELES DE PRODUCTOS (HOME): Más vendidos, Nuevos lanzamientos y
+  Más comentados. Tarjeta: Figma "card-product" (Componentes Global,
+  node 1626:9440). Todo va bajo .inicio-productos.*/
+section.inicio-productos{
+    width: 100%;
+    max-width: calc(var(--ancho-contenido) + 48px);
+    margin: 0 auto;
+    padding: 96px 24px 0;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+section.inicio-productos:last-of-type{
+    padding-bottom: 96px;
+}
+
+.inicio-productos header,
+.inicio-productos h3{
+    background-color: transparent;
+}
+
+.inicio-productos header{
+    margin-bottom: 36px;
+}
+
+.inicio-productos header h3{
+    margin: 0;
+    font-family: var(--fuente-display);
+    font-weight: 400;
+    font-size: var(--tamano-fuente-heading-lg);
+    line-height: 32px;
     color: var(--color-primario-darker);
+}
+
+.inicio-productos .carrusel-viewport .coleccion-tarjetas{
+    gap: 24px;
+    background-color: transparent;
+}
+
+.inicio-productos .carrusel-item{
+    flex: 0 0 calc((100% - 3 * 24px) / 4);
+}
+
+.inicio-productos > div:last-child{
+    gap: 48px;
+}
+
+.inicio-productos .controles-carrusel{
+    gap: 24px;
+}
+
+.inicio-productos .controles-carrusel > button:first-child{
+    margin-right: 32px;
+}
+
+.inicio-productos .controles-carrusel > button:last-child{
+    margin-left: 32px;
+}
+
+@media (max-width: 1100px){
+    .inicio-productos .carrusel-item{
+        flex-basis: calc((100% - 2 * 24px) / 3);
+    }
+}
+
+@media (max-width: 760px){
+    section.inicio-productos{
+        padding: 56px 20px 0;
+    }
+
+    section.inicio-productos:last-of-type{
+        padding-bottom: 56px;
+    }
+
+    .inicio-productos .carrusel-item{
+        flex-basis: min(72vw, 280px);
+    }
 }

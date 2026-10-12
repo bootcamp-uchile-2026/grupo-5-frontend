@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Icono } from "./Icono";
+import { useSesionStore } from "../estado/sesionStore";
+import { iniciarSesion, registrarse } from "../servicios/checkoutServicio";
+import { LARGO_MINIMO_CONTRASENA, REGEX_EMAIL } from "../utils/validacion";
 import "../estilos/modal-autenticacion.css";
 
 type ModalInicioSesionRegistroProps = {
@@ -9,9 +12,44 @@ type ModalInicioSesionRegistroProps = {
 
 type ModoAutenticacion = "inicio" | "registro";
 
+const CAMPOS_VACIOS = {
+	nombre: "",
+	apellido: "",
+	correo: "",
+	contrasena: "",
+	confirmar: "",
+	terminos: false,
+	novedades: false,
+};
+
+type Campos = typeof CAMPOS_VACIOS;
+type Errores = Partial<Record<keyof Campos | "general", string>>;
+
+// Validación del formulario (inicio de sesión o registro)
+function validar(campos: Campos, esRegistro: boolean): Errores {
+	const errores: Errores = {};
+	if (esRegistro && !campos.nombre.trim()) errores.nombre = "Ingresa tu nombre";
+	if (esRegistro && !campos.apellido.trim()) errores.apellido = "Ingresa tu apellido";
+	if (!REGEX_EMAIL.test(campos.correo.trim())) errores.correo = "Ingresa un correo válido";
+	if (campos.contrasena.length < LARGO_MINIMO_CONTRASENA) {
+		errores.contrasena = `La contraseña debe tener al menos ${LARGO_MINIMO_CONTRASENA} caracteres`;
+	}
+	if (esRegistro && campos.confirmar !== campos.contrasena) {
+		errores.confirmar = "Las contraseñas no coinciden";
+	}
+	if (esRegistro && !campos.terminos) {
+		errores.terminos = "Debes aceptar los términos para crear tu cuenta";
+	}
+	return errores;
+}
+
 export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesionRegistroProps) {
 	// ESTADO DEL FORMULARIO ACTUAL
 	const [modo, setModo] = useState<ModoAutenticacion>("inicio");
+	const [campos, setCampos] = useState(CAMPOS_VACIOS);
+	const [errores, setErrores] = useState<Errores>({});
+	const [enviando, setEnviando] = useState(false);
+	const iniciar = useSesionStore((estado) => estado.iniciar);
 
 	// CIERRE CON ESCAPE Y BLOQUEO DEL SCROLL
 	useEffect(() => {
@@ -34,10 +72,59 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 	if (!abierto) return null;
 
 	const esRegistro = modo === "registro";
-	// PREVENIR EL ENVIO HASTA CONECTAR EL SERVICIO DE CUENTAS
-	const enviarFormulario = (evento: React.FormEvent<HTMLFormElement>) => {
+
+	function actualizar<K extends keyof Campos>(campo: K, valor: Campos[K]) {
+		setCampos((actuales) => ({ ...actuales, [campo]: valor }));
+		setErrores((actuales) => ({ ...actuales, [campo]: undefined, general: undefined }));
+	}
+
+	function cambiarModo() {
+		setModo(esRegistro ? "inicio" : "registro");
+		setErrores({});
+	}
+
+	// ENVIO AL SERVICIO DUMMY DE AUTENTICACION (la sesión queda en Zustand)
+	async function enviarFormulario(evento: FormEvent<HTMLFormElement>) {
 		evento.preventDefault();
-	};
+		const nuevos = validar(campos, esRegistro);
+		setErrores(nuevos);
+		if (Object.keys(nuevos).length) return;
+
+		setEnviando(true);
+		try {
+			const correo = campos.correo.trim();
+			const usuario = esRegistro
+				? await registrarse({
+						nombre: campos.nombre.trim(),
+						apellido: campos.apellido.trim(),
+						email: correo,
+						password: campos.contrasena,
+						recibirNovedades: campos.novedades,
+					})
+				: await iniciarSesion({ email: correo, password: campos.contrasena });
+			iniciar(usuario);
+			setCampos(CAMPOS_VACIOS);
+			onCerrar();
+		} catch (error) {
+			setErrores({
+				general: error instanceof Error ? error.message : "No pudimos procesar tu solicitud",
+			});
+		} finally {
+			setEnviando(false);
+		}
+	}
+
+	// Atributos de accesibilidad y mensaje de error de cada campo
+	const estadoCampo = (campo: keyof Campos) => ({
+		"aria-invalid": Boolean(errores[campo]) || undefined,
+		"aria-describedby": errores[campo] ? `error-${campo}` : undefined,
+	});
+	const mensajeError = (campo: keyof Campos) =>
+		errores[campo] && (
+			<span className="autenticacion-error" id={`error-${campo}`}>
+				{errores[campo]}
+			</span>
+		);
 
 	return (
 		<div
@@ -74,7 +161,7 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 						<button
 							className="autenticacion-cambiar-modo"
 							type="button"
-							onClick={() => setModo(esRegistro ? "inicio" : "registro")}
+							onClick={cambiarModo}
 						>
 							{esRegistro ? "Inicia sesión" : "Crear cuenta"}
 						</button>
@@ -82,17 +169,37 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 				</header>
 
 				{/*FORMULARIO DE INICIO DE SESION O REGISTRO*/}
-				<form className="autenticacion-formulario" onSubmit={enviarFormulario}>
+				<form className="autenticacion-formulario" onSubmit={enviarFormulario} noValidate>
 					{/*CAMPOS DE NOMBRE Y APELLIDO PARA REGISTRO*/}
 					{esRegistro && (
 						<div className="autenticacion-campos-dobles">
 							<label>
 								Nombre
-								<input type="text" name="nombre" placeholder="Nombre" autoComplete="given-name" required />
+								<input
+									type="text"
+									name="nombre"
+									placeholder="Nombre"
+									autoComplete="given-name"
+									required
+									value={campos.nombre}
+									onChange={(evento) => actualizar("nombre", evento.target.value)}
+									{...estadoCampo("nombre")}
+								/>
+								{mensajeError("nombre")}
 							</label>
 							<label>
 								Apellido
-								<input type="text" name="apellido" placeholder="Apellido" autoComplete="family-name" required />
+								<input
+									type="text"
+									name="apellido"
+									placeholder="Apellido"
+									autoComplete="family-name"
+									required
+									value={campos.apellido}
+									onChange={(evento) => actualizar("apellido", evento.target.value)}
+									{...estadoCampo("apellido")}
+								/>
+								{mensajeError("apellido")}
 							</label>
 						</div>
 					)}
@@ -100,7 +207,17 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 					{/*CAMPO DE CORREO ELECTRONICO*/}
 					<label>
 						Correo electrónico
-						<input type="email" name="correo" placeholder="Correo electrónico" autoComplete="email" required />
+						<input
+							type="email"
+							name="correo"
+							placeholder="Correo electrónico"
+							autoComplete="email"
+							required
+							value={campos.correo}
+							onChange={(evento) => actualizar("correo", evento.target.value)}
+							{...estadoCampo("correo")}
+						/>
+						{mensajeError("correo")}
 					</label>
 					{/*CAMPO DE CONTRASENA*/}
 					<label>
@@ -110,9 +227,13 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 							name="contrasena"
 							placeholder="Contraseña"
 							autoComplete={esRegistro ? "new-password" : "current-password"}
-							minLength={8}
+							minLength={LARGO_MINIMO_CONTRASENA}
 							required
+							value={campos.contrasena}
+							onChange={(evento) => actualizar("contrasena", evento.target.value)}
+							{...estadoCampo("contrasena")}
 						/>
+						{mensajeError("contrasena")}
 					</label>
 
 					{/*CAMPOS DE REGISTRO O RECUPERACION DE CONTRASENA*/}
@@ -121,16 +242,39 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 							{/*CONFIRMACION DE CONTRASENA*/}
 							<label>
 								Confirmar contraseña
-								<input type="password" name="confirmar-contrasena" placeholder="Confirmar contraseña" autoComplete="new-password" minLength={8} required />
+								<input
+									type="password"
+									name="confirmar-contrasena"
+									placeholder="Confirmar contraseña"
+									autoComplete="new-password"
+									required
+									value={campos.confirmar}
+									onChange={(evento) => actualizar("confirmar", evento.target.value)}
+									{...estadoCampo("confirmar")}
+								/>
+								{mensajeError("confirmar")}
 							</label>
 							{/*ACEPTACION DE TERMINOS Y PRIVACIDAD*/}
 							<label className="autenticacion-checkbox">
-								<input type="checkbox" name="terminos" required />
+								<input
+									type="checkbox"
+									name="terminos"
+									required
+									checked={campos.terminos}
+									onChange={(evento) => actualizar("terminos", evento.target.checked)}
+									{...estadoCampo("terminos")}
+								/>
 								<span>Acepto los términos de servicio y la política de privacidad.</span>
 							</label>
+							{mensajeError("terminos")}
 							{/*SUSCRIPCION A NOVEDADES*/}
 							<label className="autenticacion-checkbox">
-								<input type="checkbox" name="novedades" />
+								<input
+									type="checkbox"
+									name="novedades"
+									checked={campos.novedades}
+									onChange={(evento) => actualizar("novedades", evento.target.checked)}
+								/>
 								<span>Quiero recibir novedades y recomendaciones por correo.</span>
 							</label>
 						</>
@@ -141,8 +285,13 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 					)}
 
 					{/*BOTON PRINCIPAL DEL FORMULARIO*/}
-					<button className="autenticacion-enviar" type="submit">
-						{esRegistro ? "Crear cuenta" : "Iniciar sesión"}
+					{errores.general && (
+						<p className="autenticacion-error" role="alert">
+							{errores.general}
+						</p>
+					)}
+					<button className="autenticacion-enviar" type="submit" disabled={enviando}>
+						{enviando ? "Enviando..." : esRegistro ? "Crear cuenta" : "Iniciar sesión"}
 					</button>
 				</form>
 

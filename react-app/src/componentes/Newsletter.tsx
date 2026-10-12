@@ -19,9 +19,9 @@ export function Newsletter() {
       </h2>
 
       <p className="newsletter-pie">
-        Entérate de recomendaciones,
+        Si quieres enterarte de
         <br />
-        novedades y más
+        recomendaciones, novedades y más
       </p>
 
       <form className="newsletter-formulario" onSubmit={enviar}>
@@ -39,6 +39,7 @@ export function Newsletter() {
           }}
         />
 
+        {/* Oculto a la vista como en el wireframe; se envía con Enter */}
         <button className="newsletter-boton" type="submit">
           Suscribirme
         </button>

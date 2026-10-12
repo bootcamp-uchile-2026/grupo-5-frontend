@@ -1,13 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "../componentes/Footer";
 import { Icono } from "../componentes/Icono";
+import { useTituloPagina } from "../componentes/useTituloPagina";
 import "../estilos/confirmacion-compra.css";
 import type {
   ConfirmacionPedido,
   MetodoPago,
 } from "../tipos/checkout";
-
-const formatoPrecio = (valor: number) => `$${valor.toLocaleString("es-CL")}`;
+import { formatearPrecio } from "../utils/formato";
 
 const METODOS_PAGO: Record<MetodoPago, string> = {
   onepay: "Onepay",
@@ -39,6 +39,7 @@ function esConfirmacionPedido(valor: unknown): valor is ConfirmacionPedido {
 }
 
 function ConfirmacionCompra() {
+  useTituloPagina("Confirmación de compra");
   const { state } = useLocation();
   const pedido = esConfirmacionPedido(state) ? state : null;
 
@@ -193,7 +194,7 @@ function ConfirmacionCompra() {
                     <p>Cantidad: {item.cantidad}</p>
                   </div>
                   <strong className="confirmacion-producto-precio">
-                    {formatoPrecio(item.precioUnitario * item.cantidad)}
+                    {formatearPrecio(item.precioUnitario * item.cantidad)}
                   </strong>
                 </li>
               ))}
@@ -202,21 +203,21 @@ function ConfirmacionCompra() {
             <dl className="confirmacion-finanzas">
               <div>
                 <dt>Subtotal</dt>
-                <dd>{formatoPrecio(pedido.subtotal)}</dd>
+                <dd>{formatearPrecio(pedido.subtotal)}</dd>
               </div>
               <div>
                 <dt>Envío</dt>
-                <dd>{formatoPrecio(pedido.envio)}</dd>
+                <dd>{formatearPrecio(pedido.envio)}</dd>
               </div>
               <div>
                 <dt>Descuento</dt>
-                <dd>-{formatoPrecio(pedido.descuento)}</dd>
+                <dd>-{formatearPrecio(pedido.descuento)}</dd>
               </div>
             </dl>
 
             <div className="confirmacion-total">
               <h3>Total pagado</h3>
-              <strong>{formatoPrecio(pedido.total)}</strong>
+              <strong>{formatearPrecio(pedido.total)}</strong>
             </div>
             <p className="confirmacion-pago">
               <strong>Método de pago</strong>

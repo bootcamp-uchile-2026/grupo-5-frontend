@@ -1,62 +1,33 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Footer } from "../componentes/Footer";
 import { Carrusel } from "../componentes/Carrusel";
 import { Icono } from "../componentes/Icono";
 import { PreguntaLibrero } from "../componentes/PreguntaLibrero.tsx";
-import { TarjetaLibro } from "../componentes/TarjetaLibro";
+import { TarjetaRecomendacion } from "../componentes/TarjetaRecomendacion";
+import { useTituloPagina } from "../componentes/useTituloPagina";
+import { LIBREROS, buscarLibrero, type Librero } from "../datos/libreros";
 import "../estilos/perfil-librero.css";
+import { IMAGENES_RELLENO } from "../datos/imagenes";
 
-// LIBROS INDISPENSABLES DEL LIBRERO
-const libros = [
-	{ titulo: "La metamorfosis", autor: "Franz Kafka" },
-	{ titulo: "El extranjero", autor: "Albert Camus" },
-	{ titulo: "El túnel", autor: "Ernesto Sabato" },
-	{ titulo: "La náusea", autor: "Jean-Paul Sartre" },
-	{ titulo: "Ensayo sobre la ceguera", autor: "José Saramago" },
-];
-
-// AUTORES FAVORITOS DEL LIBRERO
-const autores = ["Franz Kafka", "Milan Kundera", "Han Kang", "George Orwell"];
-
-// LIBROS DE LAS ULTIMAS RECOMENDACIONES
-const ultimasRecomendaciones = libros.map((libro) => ({
-	nombreCurador: "Gregorio S.",
-	imagenCurador: "https://placehold.co/30/000000/ffffff",
-	portada: "https://placehold.co/250x200",
-	titulo: libro.titulo,
-	autor: libro.autor,
-	precio: 20150,
-}));
-// ESTILOS LITERARIOS FAVORITOS
-const generos = [
-	"Existencialismo",
-	"Distopía",
-	"Contemporáneo",
-	"Ficción psicológica",
-	"Crítica social",
-	"Terror psicológico",
-];
-
-// COLECCIONES DEL LIBRERO
-const colecciones = [
-	{
-		titulo: "Para cuando todo te parece absurdo",
-		descripcion: "5 libros para una crisis existencial",
-		fecha: "Agosto 24, 2026",
-	},
-	{
-		titulo: "Personajes difíciles de olvidar",
-		descripcion: "Historias protagonizadas por personas bastante complicadas",
-		fecha: "Marzo 05, 2026",
-	},
-	{
-		titulo: "No todo está bien",
-		descripcion: "Distopías que se parecen demasiado a nosotros",
-		fecha: "Enero 09, 2026",
-	},
-];
+// Wireframes "Perfiles de libreros" (Figma: Wireframes Desktop, nodes
+// 1547:4321, 1547:4583, 1547:4849 y 1584:4835). Muestra el librero indicado
+// en ?librero=<id>; sin id, el primero (Gregorio Samsa).
 
 function PerfilLibrero() {
+	const [searchParams] = useSearchParams();
+	const librero = buscarLibrero(searchParams.get("librero")) ?? LIBREROS[0];
+
+	// Cada perfil parte con sus estados reiniciados
+	return <PerfilContenido key={librero.id} librero={librero} />;
+}
+
+function PerfilContenido({ librero }: { librero: Librero }) {
+	const libros = librero.indispensables;
+	const generos = librero.estilos;
+
+	useTituloPagina(librero.nombre);
+
 	// ESTADOS DE INTERACCION DEL PERFIL
 	const [guardados, setGuardados] = useState<number[]>([]);
 	const [mostrarColecciones, setMostrarColecciones] = useState(false);
@@ -85,7 +56,7 @@ function PerfilLibrero() {
 		try {
 			if (navigator.share) {
 				await navigator.share({
-					title: "Gregorio Samsa | LeeConNos",
+					title: `${librero.nombre} | LeeConNos`,
 					url: window.location.href,
 				});
 				return;
@@ -108,15 +79,8 @@ function PerfilLibrero() {
 
 	const libroDestacado = libros[libroAleatorio];
 	const coleccionesVisibles = mostrarColecciones
-		? [
-				...colecciones,
-				{
-					titulo: "Lecturas para noches largas",
-					descripcion: "Libros que siguen contigo después de cerrar la última página",
-					fecha: "Octubre 18, 2025",
-				},
-			]
-		: colecciones;
+		? [...librero.colecciones, librero.coleccionExtra]
+		: librero.colecciones;
 
 	return (
 		<>
@@ -127,20 +91,13 @@ function PerfilLibrero() {
 					{/*BIOGRAFIA Y ACCIONES DEL LIBRERO*/}
 					<div className="perfil-introduccion">
 						<div className="perfil-generos" aria-label="Géneros favoritos">
-							{generos.slice(0, 3).map((genero) => (
+							{librero.etiquetas.map((genero) => (
 								<span className="perfil-etiqueta" key={genero}>{genero}</span>
 							))}
 						</div>
-						<h1 id="perfil-titulo">Gregorio Samsa</h1>
-						<p className="perfil-cita">
-							“Me gustan los libros que terminan y te dejan mirando el techo un rato.”
-						</p>
-						<p className="perfil-biografia">
-							Te recomiendo historias extrañas, incómodas y profundamente humanas.
-							Me interesan los personajes que no terminan de encajar, las sociedades
-							que parecen funcionar pero no tanto y los libros que dejan más preguntas
-							que respuestas.
-						</p>
+						<h1 id="perfil-titulo">{librero.nombre}</h1>
+						<p className="perfil-cita">{librero.cita}</p>
+						<p className="perfil-biografia">{librero.biografia}</p>
 						<div className="perfil-acciones">
 							<a className="perfil-boton perfil-boton-principal" href="#recomendaciones">
 								<Icono nombre="guardarFavorito" />
@@ -154,7 +111,7 @@ function PerfilLibrero() {
 					</div>
 					{/*FOTO DEL PERFIL*/}
 					<div className="perfil-foto">
-						<img src="https://placehold.co/600x400" alt="Retrato de Gregorio Samsa, imagen de 600 por 400 píxeles" />
+						<img src={IMAGENES_RELLENO.retrato} alt={`Retrato de ${librero.nombre}`} />
 						<button className="perfil-compartir" type="button" onClick={compartirPerfil}>
 							<Icono nombre="compartir" />
 							{compartido ? "Enlace copiado" : "Compartir"}
@@ -210,7 +167,7 @@ function PerfilLibrero() {
 						<section className="perfil-autores-seccion">
 							<h2>Autores favoritos</h2>
 							<div className="perfil-autores">
-								{autores.map((autor, indice) => (
+								{librero.autores.map((autor, indice) => (
 									<article className="perfil-autor" key={autor}>
 										<div className={`perfil-autor-retrato retrato-${indice + 1}`} aria-hidden="true">
 											{autor.split(" ").map((parte) => parte[0]).join("")}
@@ -259,18 +216,28 @@ function PerfilLibrero() {
 
 				{/*CARRUSEL DE ULTIMAS RECOMENDACIONES*/}
 				<section className="perfil-ultimas-recomendaciones">
-					<Carrusel titulo="Últimas recomendaciones" variante="recomendaciones">
-						{ultimasRecomendaciones.map((libro) => (
-							<TarjetaLibro
+					<Carrusel
+						titulo="Últimas recomendaciones"
+						variante="recomendaciones"
+						className="carrusel-tarjetas-recomendacion"
+						mostrarVerMas={false}
+					>
+						{librero.ultimasRecomendaciones.map((libro) => (
+							<TarjetaRecomendacion
 								key={libro.titulo}
-								{...libro}
-								className="carrusel-recomendaciones-tarjeta"
+								nombreLibrero={librero.nombreCorto}
+								imagenLibrero={IMAGENES_RELLENO.avatar}
+								portada={IMAGENES_RELLENO.portadaHorizontal}
+								titulo={libro.titulo}
+								autor={libro.autor}
+								calificacion={4.5}
+								opiniones={12}
 							/>
 						))}
 					</Carrusel>
 				</section>
 
-				<PreguntaLibrero />
+				<PreguntaLibrero nombre={librero.nombre.split(" ")[0]} />
 
 				{/*RECOMENDACION ALEATORIA*/}
 				<div className={`perfil-recomendacion-toast ${mostrarRecomendacion ? "visible" : ""}`} aria-live="polite">

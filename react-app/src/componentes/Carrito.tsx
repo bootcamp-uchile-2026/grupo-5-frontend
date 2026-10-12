@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
 import { Icono } from "./Icono";
 import "../estilos/carrito.css";
-
-const formatoPrecio = (valor: number) => `$${valor.toLocaleString("es-CL")}`;
+import { formatearPrecio } from "../utils/formato";
 
 export function Carrito() {
   const items = useCarritoStore((s) => s.items);
@@ -94,7 +93,7 @@ export function Carrito() {
               </div>
 
               <span className="carrito-item-precio">
-                {formatoPrecio(item.precioUnitario * item.cantidad)}
+                {formatearPrecio(item.precioUnitario * item.cantidad)}
               </span>
             </div>
           </div>
@@ -109,7 +108,7 @@ export function Carrito() {
           </div>
           <div className="carrito-sumario-fila">
             <span>Subtotal:</span>
-            <span>{formatoPrecio(subtotal)}</span>
+            <span>{formatearPrecio(subtotal)}</span>
           </div>
         </div>
 
