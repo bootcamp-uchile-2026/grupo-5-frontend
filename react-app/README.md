@@ -1,200 +1,340 @@
-# React + TypeScript + Vite
+# LeeConNos — Aplicación Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Esta es la aplicación web de LeeConNos, el e-commerce de libros que estamos
+construyendo en el Taller de Bootcamps de la Universidad de Chile. La hicimos
+con Vite, React 19 y TypeScript, a partir de los wireframes y el UI Kit que
+preparó el equipo de UX/UI en Figma, y ya está conectada con la API de
+Backend.
 
-Currently, two official plugins are available:
+## Qué pide el Hito 2 y dónde está
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Requisito de la Aplicación Web | Dónde verlo |
+| --- | --- |
+| Aplicación versionada en el repositorio del equipo | `bootcamp-uchile-2026/grupo-5-frontend`, carpeta `react-app/` |
+| Proyecto con Vite, React y TypeScript | [Cómo ejecutar](#cómo-ejecutar) |
+| Wireframes principales como componentes de React | [Wireframes diseñados vs implementados](#wireframes-diseñados-vs-implementados) |
+| Navegación entre vistas con React Router | [Navegación](#navegación) |
+| Formularios con manejo de estado y validaciones | [Formularios diseñados vs implementados](#formularios-diseñados-vs-implementados) |
+| Control de sesión y estados con Zustand | [Sesión y estado](#sesión-y-estado) |
+| Integración con los servicios HTTP/REST de Backend | [Endpoints disponibles vs integrados](#endpoints-disponibles-vs-integrados) |
+| Servicios dummy mientras no exista la versión definitiva | [Servicios dummy](#servicios-dummy) |
+| DTO de request y response | [DTO](#dto-de-request-y-response) |
+| README con instrucciones para ejecutar | [Cómo ejecutar](#cómo-ejecutar) |
 
-## React Compiler
+## Cómo ejecutar
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Necesitas Node.js 20.19 o 22.12 en adelante (es lo que pide Vite 8) y pnpm.
+Nosotros trabajamos con Node 26 y pnpm 12.
 
-## Expanding the Oxlint configuration
+Desde la carpeta `react-app`, primero instala las dependencias:
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+pnpm install
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Luego crea tu archivo `.env` copiando el ejemplo. Ahí va la URL de la API
+(`VITE_API_URL`). Este archivo no se sube al repositorio.
 
-## Carrito (Hito 2)
+```bash
+cp .env.example .env
+```
 
-- Ejecutar: `pnpm install` y `pnpm dev` (http://localhost:5173).
-- Estado: Zustand en `src/estado/carritoStore.ts`, persistido en `localStorage`.
-- DTO: `src/tipos/carrito.ts` (`AgregarAlCarritoRequest`, `CarritoResponse`).
-- Servicio dummy: `src/servicios/carritoServicio.ts` (sin Backend aún; reemplazar por HTTP/REST).
-- UI: `src/componentes/Carrito.tsx`, se abre desde el ícono de carrito de la barra de navegación.
+Y levanta la aplicación, que queda en http://localhost:5173:
 
-| Elemento | Diseñado | Implementado | Integrado con Backend |
+```bash
+pnpm dev
+```
+
+Otros comandos que usamos:
+
+| Comando | Para qué sirve |
+| --- | --- |
+| `pnpm build` | Revisa los tipos y genera la versión de producción en `dist/` |
+| `pnpm preview` | Muestra en local la versión generada con `pnpm build` |
+| `pnpm lint` | Revisa el código con Oxlint |
+
+Si dejas `VITE_API_URL` vacía (o no creas el `.env`), la aplicación igual
+funciona completa con datos de prueba locales. Es útil para trabajar cuando la
+API no está disponible. Ojo: Vite solo lee el `.env` al arrancar, así que si lo
+cambias tienes que volver a ejecutar `pnpm dev`.
+
+Para probar el flujo de compra puedes usar la cuenta de cliente que entregó el
+equipo de Backend, o crear una cuenta nueva desde "Crear cuenta".
+
+## Cómo está organizada
+
+```
+react-app/
+├─ .env.example          URL de la API (VITE_API_URL)
+└─ src/
+   ├─ App.tsx            Rutas, barra de navegación, carrito y modal de sesión
+   ├─ paginas/           Una vista por ruta (Home, Catálogo, Ficha, Checkout…)
+   ├─ componentes/       Componentes y hooks que se reutilizan
+   ├─ servicios/         Cliente de la API (api.ts) y un servicio por tema
+   ├─ tipos/             DTO de la API y tipos de la aplicación
+   ├─ estado/            Stores de Zustand (sesión, carrito y modal de sesión)
+   ├─ datos/             Datos de prueba y datos fijos (géneros, regiones…)
+   ├─ utils/             Formatos, validaciones y mensajes de error
+   ├─ estilos/           CSS de cada vista y componente, y tokens del UI Kit
+   └─ assets/            Logos e íconos
+```
+
+Las páginas no llaman a la API directamente. Le piden los datos a un servicio
+(`src/servicios`), y es el servicio el que decide si consulta la API o usa los
+datos de prueba. Así la URL de la API está en un solo lugar (`.env`) y las
+llamadas en un solo archivo (`api.ts`).
+
+## Vistas y componentes principales
+
+| Vista | Ruta | Qué la compone |
+| --- | --- | --- |
+| Home | `/` | Hero, carruseles de recomendados y de libros, comunidad y newsletter |
+| Catálogo y búsqueda | `/catalogo` | Filtros, orden, grilla de libros y paginación |
+| Ficha de libro | `/ficha-libro?libro=<id>` | Galería, compra, especificaciones, reseñas y libros relacionados |
+| Perfiles de libreros | `/perfil-librero?librero=<id>` | Perfil, libros indispensables, colecciones y "¿No sabes qué leer?" |
+| Carrito | Panel lateral, disponible en todas las vistas | Libros, cantidades y subtotal |
+| Iniciar sesión y crear cuenta | Modal, disponible en todas las vistas | Formularios de acceso y registro |
+| Checkout | `/checkout` | Sesión o invitado, envío, pago y resumen del pedido |
+| Confirmación | `/confirmacion-compra` | Detalle y resumen del pedido |
+
+Entre los componentes que se comparten están la barra de navegación con sus
+menús desplegables, el footer, las tarjetas de producto y de recomendación, el
+carrusel, la ruta de navegación ("Inicio / Catálogo / …"), las estrellas de
+calificación y los mensajes de carga y de error.
+
+## Navegación
+
+Usamos React Router. Estas son las rutas:
+
+| Ruta | Vista |
+| --- | --- |
+| `/` | Home |
+| `/catalogo` | Catálogo. Los filtros, el orden y la página quedan en la URL; la búsqueda usa `?q=` |
+| `/ficha-libro?libro=<id>` | Ficha de libro (sin id muestra el libro más reciente) |
+| `/perfil-librero?librero=<id>` | Perfil de librero |
+| `/checkout` | Checkout |
+| `/confirmacion-compra` | Confirmación de compra |
+| `/comunidad`, `/descubrir`, `/recomendaciones`, `/biblioteca`, `/mi-cuenta` | Aún no tienen wireframe; muestran una página "en construcción" |
+| Cualquier otra | Página no encontrada |
+
+Se llega a todas desde la barra de navegación y sus menús. El buscador lleva a
+`/catalogo?q=…`.
+
+## Wireframes diseñados vs implementados
+
+Seguimos la estructura y las medidas de los wireframes de Figma y mantuvimos
+la paleta de colores del sitio.
+
+| Wireframe | Diseñado | Implementado | De dónde salen los datos |
 | --- | --- | --- | --- |
-| Vista carrito (overlay) | Sí | Sí | No (dummy) |
-| Agregar desde catálogo / ficha | Sí | Sí | No (dummy) |
-| Modificar cantidad / eliminar | Sí | Sí | No (dummy) |
-| Checkout con formulario validado | Sí | Sí (simulado) | No |
-| Confirmación con resumen del pedido | Sí | Sí (estado de navegación) | No |
+| Home | Sí | Sí | Libros desde la API; hero, recomendados y comunidad son de prueba |
+| Barra de navegación y menús (Catálogo, Descubre, Comunidad) | Sí | Sí | Datos fijos |
+| Catálogo | Sí | Sí | API |
+| Búsqueda | Sí | Sí, dentro del Catálogo | API |
+| Ficha de libro | Sí | Sí | API; calificación, reseñas y video son de prueba |
+| Carrito | Sí | Sí | API con sesión iniciada; local para invitados |
+| Iniciar sesión y crear cuenta | Sí | Sí | API |
+| Cuenta creada ("¡Ya casi estás dentro!") | Sí | Sí | El correo de verificación todavía no existe |
+| Cuenta verificada | Sí | El componente está hecho, pero aún no se muestra | — |
+| Checkout | Sí | Sí | API con sesión iniciada; de prueba para invitados |
+| Confirmación de compra | Sí | Sí | API (número de pedido) |
+| Perfiles de libreros (4) | Sí | Sí | De prueba, porque Backend aún no tiene estos datos |
+| Footer y newsletter | Sí | Sí | El newsletter todavía no envía nada |
+| Versión mobile | Sí | Solo una adaptación básica | — |
 
-Las secciones de Biblioteca, Comunidad, Descubrir, Mi cuenta y Recomendaciones
-indican que están en construcción hasta contar con sus funcionalidades.
-Descubrir, Biblioteca, Mi cuenta y Recomendaciones no tienen acceso desde la
-barra de navegación.
-La suscripción al newsletter también informa que su servicio aún no está
-conectado; no confirma una suscripción inexistente.
+Hay algunas cosas que agregamos aunque no están en los wireframes, porque las
+necesitaba la integración: los filtros de Género, Formato y Disponibilidad en
+el Catálogo, el estado "Sin stock" en las tarjetas y la ficha, el año y el
+formato en la ficha, y el campo Teléfono en la dirección de envío (la API lo
+pide para despachar).
 
-## Barra de navegación (Hito 2)
+## Formularios diseñados vs implementados
 
-- UI: `src/componentes/BarraNavegacion.tsx` (banner, logo, menú, buscador,
-  usuario y carrito), con estilos en `src/estilos/barra-navegacion.css`.
-- Desplegables: `MenuCatalogo.tsx`, `MenuDescubre.tsx` y `MenuComunidad.tsx`,
-  con estilos en `src/estilos/menu-*.css`. Comparten el hook
-  `src/componentes/useDesplegable.ts` (cierre con Esc o clic fuera).
-- Sesión: lee `src/estado/sesionStore.ts` (Zustand, autenticación dummy) para
-  mostrar "Hola, {nombre}" y el ícono de usuario en morado.
-- Búsqueda: navega con React Router a `/catalogo?q=...`; ignora textos vacíos.
-- Referencias de Figma: componente Header (node `1996:9439`), wireframe Home
-  (`1839:7011`) y desplegables (`2294:20831`, `2294:20860`, `1547:6030`,
-  `1547:6136`).
+Cada formulario guarda sus campos en el estado de React y valida antes de
+enviar. Si la API responde con un error, mostramos un mensaje entendible en
+vez del código.
 
-| Elemento | Diseñado | Implementado | Integrado con Backend |
-| --- | --- | --- | --- |
-| Banner con avisos rotativos | Sí | Sí (un aviso fijo) | No |
-| Barra: logo, menú, buscador, usuario y carrito | Sí | Sí | No |
-| Saludo "Hola, {nombre}" con sesión iniciada | Sí | Sí (sesión dummy) | No (dummy) |
-| Contador del carrito | Sí | Sí | No (dummy) |
-| Desplegable Catálogo (Géneros y Temáticas) | Sí | Sí ("Misterio y thriller" va a su página filtrada; el resto, a `/catalogo`) | No |
-| Desplegable Descubre con nosotros | Sí | Sí (cada librero con perfil va a su perfil) | No |
-| Desplegable Comunidad | Sí | Sí (todas las opciones van a `/comunidad`) | No |
-| Menú del usuario (Mi cuenta / Cerrar sesión) | No | Sí | No (dummy) |
-| Barra en mobile | Sí (wireframe mobile) | Provisorio (adaptación básica) | No |
-
-Diferencias con el diseño:
-
-- El color `#6200ee` del wireframe no existe en la paleta de `tokens.css`;
-  quedó como variable local en `barra-navegacion.css`. El degradado del banner
-  (`#094faa` → violeta) es el token `--degradado-banner`, compartido con la
-  franja legal del footer.
-- Los textos de los desplegables se unificaron en 14 px (salvo los títulos de
-  columna de Catálogo, en 16 px, y "¿No sabes qué leer?", en 18 px).
-- Los géneros y temáticas están en `src/datos/generos.ts` y los libreros en
-  `src/datos/libreros.ts` (datos dummy, aún sin servicio).
-
-## Sesión y formularios (Hito 2)
-
-- Sesión: Zustand en `src/estado/sesionStore.ts`, persistida en `localStorage`,
-  con autenticación dummy (`iniciarSesion` y `registrarse` en
-  `src/servicios/checkoutServicio.ts`; DTO `LoginRequest`, `RegistroRequest` y
-  `LoginResponse` en `src/tipos/checkout.ts`).
-- Se puede iniciar sesión o crear una cuenta desde el ícono de usuario de la
-  barra (modal) o desde el checkout. Con sesión iniciada, el ícono abre un menú
-  con "Mi cuenta" y "Cerrar sesión".
-- Validaciones compartidas en `src/utils/validacion.ts`.
-
-| Formulario | Diseñado | Implementado | Validaciones | Integrado con Backend |
+| Formulario | Diseñado | Implementado | Qué valida | Conectado a Backend |
 | --- | --- | --- | --- | --- |
-| Iniciar sesión (modal) | Sí | Sí | Correo válido, contraseña de 8+ caracteres | No (dummy) |
-| Crear cuenta (modal) | Sí | Sí | Nombre, apellido, correo, contraseña, confirmación y términos | No (dummy) |
-| Checkout (sesión, invitado, envío, pago) | Sí | Sí | Correo, teléfono, dirección, términos | No (dummy) |
-| Código de descuento | Sí | Sí | Código existente (`LEE10`, `BIENVENIDO`) | No (dummy) |
-| Buscador de la barra | Sí | Sí | No permite búsquedas vacías | No |
-| Filtros del catálogo | Sí | Sí | Rango de precio mínimo ≤ máximo | No |
-| Newsletter | Sí | Sí (sin envío real) | Correo válido | No |
-| ¿No sabes qué leer? (perfil de librero) | Sí | Parcial (sin envío) | Largo máximo | No |
+| Iniciar sesión (modal) | Sí | Sí | Correo válido y contraseña de al menos 8 caracteres | Sí, `POST /auth/login` |
+| Crear cuenta (modal) | Sí | Sí | Nombre, apellido, correo, contraseña de al menos 8 caracteres, confirmación y términos | Sí, `POST /auth/registro` |
+| Iniciar sesión en el checkout | Sí | Sí | Correo válido y contraseña | Sí, `POST /auth/login` |
+| Comprar como invitado | Sí | Sí | Correo y teléfono | No, Backend aún no permite comprar sin cuenta |
+| Envío | Sí | Sí | Dirección, número, depto, región y comuna; celular chileno con sesión iniciada; que la comuna tenga despacho | Sí, `POST /envios/cotizar` y `POST /pedidos` |
+| Método de pago | Sí | Sí, la selección | Aceptar términos y condiciones | En parte: el pedido se crea, pero queda pendiente de pago |
+| Código de descuento | Sí | Sí | Que el código exista (`LEE10`, `BIENVENIDO`) | No, Backend no tiene descuentos |
+| Buscador | Sí | Sí | Al menos 2 caracteres, igual que la API | Sí, `GET /libros?q=` |
+| Filtros y orden del Catálogo | Sí | Sí | Precio mínimo menor o igual al máximo | Sí, `GET /libros` |
+| Cantidad (ficha y carrito) | Sí | Sí | Entre 1 y el stock disponible, con un máximo de 10 | Sí, `/carrito` |
+| Newsletter | Sí | Sí | Correo válido | No, Backend no tiene este servicio |
+| ¿No sabes qué leer? | Sí | Sí | Máximo 500 caracteres | No, Backend no tiene este servicio |
 
-## Catálogo, ficha y perfiles (Hito 2)
+## Sesión y estado
 
-- Catálogo (`/catalogo`): filtros a la izquierda (subgéneros, precio, autor y
-  editorial) guardados en la URL, orden, grilla de 3 columnas con la tarjeta de
-  producto y paginación de muestra (sin cambio de página).
-- Ficha de libro (`/ficha-libro?libro=<id>`): muestra el libro indicado; sin id,
-  "El perfume" (libro del wireframe).
-- Perfiles de libreros (`/perfil-librero?librero=<id>`): Gregorio Samsa,
-  Ana Karenina, Tyler Durden y Clara del Valle; sin id, Gregorio Samsa.
-- La vista vuelve arriba al cambiar de página (`VolverArriba.tsx`), cada
-  pestaña tiene su título (`useTituloPagina.ts`) y las direcciones inexistentes
-  muestran una página 404.
+Usamos Zustand para tres cosas:
 
-| Vista (wireframe) | Diseñado | Implementado | Integrado con Backend |
+| Store | Archivo | Qué guarda |
+| --- | --- | --- |
+| Sesión | `src/estado/sesionStore.ts` | El usuario y su token; se mantiene al recargar |
+| Carrito | `src/estado/carritoStore.ts` | Los libros del carrito y sus avisos |
+| Modal de sesión | `src/estado/autenticacionStore.ts` | Si el modal de inicio de sesión está abierto |
+
+Con la API configurada, el inicio de sesión y el registro son reales: Backend
+entrega un token que se envía en cada llamada privada. Sin la API, la sesión es
+simulada, como pide el Hito.
+
+Algunos detalles de cómo funciona:
+
+- Al recargar la página revisamos si el token sigue vigente (`GET /auth/me`).
+  Si ya venció, la sesión se cierra sin mostrar nada.
+- Si el token vence mientras alguien está comprando, se cierra la sesión y se
+  abre el modal para volver a entrar. Backend define la duración del token
+  (2 horas por defecto).
+- Si alguien agrega libros como invitado y después inicia sesión, esos libros
+  pasan al carrito de su cuenta. Al cerrar sesión el carrito se ve vacío, pero
+  el de la cuenta queda guardado y vuelve al entrar de nuevo.
+
+## Endpoints disponibles vs integrados
+
+La API está en `http://3.131.220.134:3000` y su documentación (Swagger) en
+`http://3.131.220.134:3000/docs`. Todas las llamadas pasan por
+`src/servicios/api.ts`, que agrega el token cuando hay sesión y traduce los
+errores de la API a mensajes claros.
+
+De los 58 endpoints que tiene la API, conectamos 13: los de catálogo,
+autenticación, carrito, envío y pedidos. El resto todavía no tiene una
+pantalla diseñada, es de administración o Backend lo guarda solo en memoria.
+
+| Endpoint | Conectado | Dónde se usa o por qué no |
+| --- | --- | --- |
+| `GET /libros` | Sí | Catálogo, búsqueda, Home y libros relacionados |
+| `GET /libros/generos` | Sí | Filtro "Género" del Catálogo |
+| `GET /libros/{id}` | Sí | Ficha de libro |
+| `POST /auth/login` | Sí | Modal de sesión y checkout |
+| `POST /auth/registro` | Sí | Crear cuenta |
+| `GET /auth/me` | Sí | Revisar la sesión al recargar |
+| `GET /carrito` | Sí | Carrito con sesión iniciada |
+| `POST /carrito/items` | Sí | Agregar al carrito |
+| `PATCH /carrito/items/{libroId}` | Sí | Cambiar cantidades |
+| `DELETE /carrito/items/{libroId}` | Sí | Quitar un libro |
+| `DELETE /carrito` | Sí | Vaciar el carrito |
+| `POST /envios/cotizar` | Sí | Costo y días de envío en el checkout |
+| `POST /pedidos` | Sí | Crear el pedido |
+| `GET /health` | Solo para probar | Lo usamos para comprobar la conexión con la API |
+| `POST /pagos`, `GET /pagos/pedido/{pedidoId}` | No | El pago con tarjeta aún no tiene wireframe |
+| `GET /pedidos`, `GET /pedidos/{id}`, `GET /pedidos/{id}/seguimiento`, `POST /pedidos/{id}/cancelar` | No | "Mi cuenta" (historial, seguimiento y cancelación) aún no tiene wireframe |
+| `GET /usuarios/{id}`, `PATCH /usuarios/{id}`, `DELETE /usuarios/{id}` | No | La gestión de la cuenta aún no tiene wireframe |
+| `GET /usuarios` | No | Es solo para administradores |
+| `POST /usuarios`, `POST /usuarios/login` | No | Son las rutas antiguas del Hito 1; usamos las de `/auth` |
+| `POST /libros`, `PATCH /libros/{id}`, `DELETE /libros/{id}`, `POST /libros/importar-isbn` | No | Son para libreros y administradores, y no tienen pantallas diseñadas |
+| `/resenas` (5 endpoints) | No | Backend las guarda en memoria y se borran al reiniciar; la ficha usa reseñas de prueba |
+| `/listas-deseos` (6 endpoints) | No | También en memoria; el botón de favoritos funciona solo en el navegador |
+| `/libreros` (7 endpoints) | No | En memoria y sin datos; los perfiles usan los contenidos de UX |
+| `/club-lectura` (9 endpoints) | No | Comunidad y club de lectura aún no tienen wireframe |
+| `GET /recomendaciones/usuario/{id}` | No | El Home muestra recomendaciones de los libreros, no recomendaciones personalizadas |
+
+## DTO de request y response
+
+Los DTO copian lo que documenta el Swagger. Cada servicio los transforma en los
+datos que usan las pantallas.
+
+| Archivo | DTO |
+| --- | --- |
+| `src/tipos/api.ts` | `ErrorRespuestaDto` (formato de error de la API) y `PaginadoDto` (listados paginados) |
+| `src/tipos/libro.ts` | `LibroResponseDto`, `GeneroDto` y `BuscarLibrosRequest` (filtros de `GET /libros`) |
+| `src/tipos/auth.ts` | `LoginRequestDto`, `RegistroRequestDto`, `AuthResponseDto` y `UsuarioResponseDto` |
+| `src/tipos/carrito.ts` | `AgregarItemRequestDto`, `ActualizarItemRequestDto`, `CarritoItemResponseDto` y `CarritoResponseDto` |
+| `src/tipos/pedido.ts` | `CotizarEnvioRequestDto`, `CotizacionEnvioDto`, `DireccionDto`, `CrearPedidoRequestDto` y `PedidoResponseDto` |
+
+## Servicios dummy
+
+Cada servicio funciona con la API o, si no está configurada, con datos de
+prueba:
+
+| Servicio | Archivo | Con la API | Sin la API |
 | --- | --- | --- | --- |
-| Home | Sí | Sí | No (dummy) |
-| Menús desplegables | Sí | Sí | No |
-| Catálogo | Sí | Sí | No (dummy) |
-| Búsqueda | Sí | Sí (dentro del catálogo) | No |
-| Ficha de libro | Sí | Sí | No (dummy) |
-| Iniciar sesión / Crear cuenta | Sí | Sí | No (dummy) |
-| Cuenta creada | Sí | No (el modal se cierra con la sesión iniciada) | No |
-| Checkout | Sí | Sí | No (dummy) |
-| Confirmación | Sí | Sí | No |
-| Perfiles de libreros (4) | Sí | Sí | No (datos dummy) |
+| Catálogo | `catalogoServicio.ts` | `/libros`, `/libros/generos`, `/libros/{id}` | 19 libros de prueba |
+| Autenticación | `authServicio.ts` | `/auth/login`, `/auth/registro`, `/auth/me` | Sesión simulada |
+| Carrito | `carritoServicio.ts` | `/carrito`, con sesión iniciada | Carrito guardado en el navegador |
+| Checkout | `checkoutServicio.ts` | `/envios/cotizar` y `/pedidos`, con sesión iniciada | Envío de costo fijo y pedido simulado |
 
-## Servicios y DTO
+Aun con la API, hay datos que siguen siendo de prueba porque UX los diseñó y
+Backend todavía no los tiene. Los dejamos separados para reemplazarlos cuando
+existan:
 
-Todos los servicios son dummy hasta que Backend exponga los endpoints.
+- De cada libro: calificación, opiniones, ventas, precio anterior (para los
+  descuentos), subgénero, encuadernación, páginas, dimensiones y etiquetas.
+  Están en `src/datos/complementosLibros.ts`.
+- Los filtros del Catálogo que la API no tiene (subgéneros, editorial, varios
+  autores a la vez y ofertas). Los aplicamos en la propia aplicación.
+- En la ficha: las reseñas de libreros y lectores, el video y la galería.
+- Los perfiles de libreros, los recomendados del Home y los géneros y
+  temáticas de los menús.
+- La compra como invitado, el código de descuento, el newsletter, la opción de
+  recibir novedades, "Olvidé mi contraseña" y el acceso con Google o Facebook.
 
-| Servicio | Endpoint esperado | DTO | Integrado |
-| --- | --- | --- | --- |
-| `catalogoServicio.obtenerLibros` | `GET /libros` | `LibroDto` (`src/tipos/libro.ts`) | No (dummy) |
-| `catalogoServicio.obtenerLibro` | `GET /libros/:id` | `LibroDto` | No (dummy) |
-| `carritoServicio.agregarAlCarrito` | `POST /carrito` | `AgregarAlCarritoRequest`, `CarritoResponse` | No (dummy) |
-| `checkoutServicio.iniciarSesion` | `POST /auth/login` | `LoginRequest`, `LoginResponse` | No (dummy) |
-| `checkoutServicio.registrarse` | `POST /auth/registro` | `RegistroRequest`, `LoginResponse` | No (dummy) |
-| `checkoutServicio.validarDescuento` | `GET /descuentos/:codigo` | `DescuentoResponse` | No (dummy) |
-| `checkoutServicio.crearPedido` | `POST /pedidos` | `CheckoutRequest`, `CheckoutResponse` | No (dummy) |
+## Pendientes y notas para el equipo
 
-Las páginas piden los libros con el hook `useLibros`; los datos dummy están en
-`src/datos/` y solo los leen los servicios (salvo libreros, géneros y
-subgéneros, que aún no tienen servicio).
+Lo que falta diseñar (Backend ya tiene los servicios):
 
-## Componentes y utilidades compartidas
+- El pago con tarjeta. Por ahora el pedido queda pendiente de pago.
+- "Mi cuenta", con el historial, el seguimiento y la cancelación de pedidos.
 
-- Tarjetas: `TarjetaProducto` (Home, Catálogo y Ficha) y `TarjetaRecomendacion`
-  (Home y Perfil de librero), cada una con su CSS.
-- `RutaNavegacion`, `Desplegable`, `BotonFavorito`, `Estrellas`, `FiltroPrecio`,
-  `PaginaEnConstruccion` (también para la página 404).
-- Hooks: `useDesplegable`, `useComprarLibro`, `useLibros`, `useTituloPagina`.
-- Utilidades: `src/utils/formato.ts` (precios y descuentos),
-  `src/utils/validacion.ts` y `src/utils/libros.ts`.
-- Imágenes de relleno centralizadas en `src/datos/imagenes.ts`.
+Para UX/UI:
 
-## Código sin uso identificado
+- La pantalla "¡Ya casi estás dentro!" dice que enviamos un correo de
+  verificación, pero ese correo todavía no existe.
+- La confirmación dice "¡Compra realizada!" aunque el pedido queda pendiente
+  de pago.
+- Agregamos estados que no estaban diseñados: "Sin stock", los mensajes de
+  carga y de error, y el aviso dentro del carrito.
 
-Pendiente de eliminar al cierre del Hito (se identificó, pero no se borró):
+Para Backend:
 
-- `src/App.css` y `public/icons.svg`: restos de la plantilla de Vite.
-- `src/componentes/FiltroDesplegable.tsx`: reemplazado por `Desplegable`.
-- Imágenes: `01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg` (logo
+- *Papelucho* (ISBN 9789561200012) y *Desolación* (ISBN 9789561100015) no
+  tienen portada en Open Library, así que mostramos una portada genérica.
+- Cada pedido descuenta stock real, y ese stock es el mismo para todo el
+  equipo. Sería bueno reiniciar la base de datos antes de la revisión del Hito.
+- La API funciona con `http://`. Si publicamos la aplicación con `https://`,
+  el navegador va a bloquear las llamadas.
+- El nombre y el apellido se guardan juntos, así que el saludo de la barra usa
+  solo la primera palabra.
+
+## Diferencias con el diseño
+
+- El color `#6200ee` del wireframe no está en la paleta de `tokens.css`, así
+  que lo dejamos como variable local en `barra-navegacion.css`. El degradado
+  del banner es el token `--degradado-banner`, que también usa la franja final
+  del footer.
+- Unificamos el texto de los menús desplegables en 14 px, salvo los títulos de
+  columna del Catálogo (16 px) y "¿No sabes qué leer?" (18 px).
+- "Misterio y thriller", del menú de UX, corresponde al género "Policial" de la
+  API. Es el único género con subgéneros diseñados.
+
+## Código sin uso
+
+Lo identificamos para borrarlo al cerrar el Hito:
+
+- `src/App.css` y `public/icons.svg`, que vienen de la plantilla de Vite.
+- `src/componentes/FiltroDesplegable.tsx`, que reemplazamos por `Desplegable`.
+- Las imágenes `01-Horizontal-Imagen-Texto-Fondo-Primario-Darker.svg` (logo
   anterior), `03-x-negative.svg` y `05-whatsapp-negative.svg`.
-- `src/estilos/base.css`: estilos del modal de inicio de sesión de la versión
-  HTML (`.modal-inicio-sesion`, `.modal-overlay`, `.campo-formulario`,
+- En `src/estilos/base.css`, los estilos del modal de la versión HTML
+  (`.modal-inicio-sesion`, `.modal-overlay`, `.campo-formulario`,
   `.boton-login`, `.boton-social`, etc.), `body.detalle-vacio` y
-  `.hero-titulo h2` (el Home usa la suya).
-- `src/estilos/index.css`: regla `.root` (no aplica a ningún elemento).
-- `src/estilos/checkout.css`: `.checkout-logo-mercadopago` y
+  `.hero-titulo h2`.
+- En `src/estilos/index.css`, la regla `.root`.
+- En `src/estilos/checkout.css`, `.checkout-logo-mercadopago` y
   `.checkout-metodo-seleccionado`.
-- `src/componentes/Icono.tsx`: 26 íconos del catálogo sin uso (se mantienen
-  como referencia del UI Kit).
+- Algunos íconos de `src/componentes/Icono.tsx` que no se usan; los dejamos
+  como referencia del UI Kit.
 
-Mejora sugerida para el Backlog: `base.css` da fondo violeta a `h1`, `h2`, `h3`
-y `p` de forma global, lo que obliga a anular el fondo en cada componente.
+Una mejora para el Backlog: `base.css` le pone fondo violeta a todos los `h1`,
+`h2`, `h3` y `p`, y eso obliga a quitarlo en cada componente.
 
 ## UI Kit
 
-- Los tokens de tipografía, paleta, radios, strokes y sombras están en
-  `src/estilos/tokens.css`. Lexend se usa para UI y cuerpo; Bree Serif, para
-  títulos de marca y display.
-- Los iconos del UI Kit se reutilizan mediante `src/componentes/Icono.tsx`,
-  basado en Bootstrap Icons. Header y footer son componentes compartidos.
-- Carruseles y tarjetas de libros son componentes funcionales de la aplicación,
-  no componentes de iconografía del UI Kit.
+Los tokens de tipografía, colores, radios, bordes y sombras están en
+`src/estilos/tokens.css`. Usamos Lexend para la interfaz y los textos, y Bree
+Serif para los títulos de marca. Los íconos salen de Bootstrap Icons a través
+de `src/componentes/Icono.tsx`.
