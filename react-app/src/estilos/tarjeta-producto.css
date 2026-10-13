@@ -172,6 +172,14 @@
   background-color: var(--color-turquoise-800);
 }
 
+/* Libro sin stock: botones deshabilitados */
+.tarjeta-producto-botones button:disabled {
+  border-color: var(--color-neutral-light);
+  color: var(--color-neutral-dark);
+  background-color: var(--color-neutral-100);
+  cursor: not-allowed;
+}
+
 /* Enlaces a la ficha del libro (imagen y título) */
 .tarjeta-producto-imagen > a {
   display: block;

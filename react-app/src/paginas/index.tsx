@@ -9,9 +9,12 @@ import {
   TarjetaRecomendacion,
   type TarjetaRecomendacionProps,
 } from "../componentes/TarjetaRecomendacion";
+import { EstadoCarga } from "../componentes/EstadoCarga";
 import { Icono } from "../componentes/Icono";
-import { useLibros } from "../componentes/useLibros";
+import { MensajeError } from "../componentes/MensajeError";
+import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
+import { obtenerLibrosInicio } from "../servicios/catalogoServicio";
 import { propsDeTarjeta } from "../utils/libros";
 import { IMAGENES_RELLENO } from "../datos/imagenes";
 
@@ -82,27 +85,24 @@ const librosRecomendados: TarjetaRecomendacionProps[] = [
 
 function Index() {
   useTituloPagina("Inicio");
-  const { libros } = useLibros();
+  const inicio = usePeticion(obtenerLibrosInicio, "inicio");
 
-  // Carruseles de productos: misma lista de libros que el Catálogo y la Ficha
-  const librosInicio = libros.map(propsDeTarjeta);
+  // Carruseles de productos (libros del catálogo; ver obtenerLibrosInicio)
   const carruselesProductos = [
     {
       titulo: "Más vendidos",
       variante: "mas-vendidos",
-      libros: librosInicio.slice(0, 8),
+      libros: inicio.datos?.masVendidos ?? [],
     },
     {
       titulo: "Nuevos lanzamientos",
       variante: "lanzamiento",
-      libros: librosInicio.slice(8, 16),
+      libros: inicio.datos?.nuevosLanzamientos ?? [],
     },
     {
       titulo: "Más comentados por la comunidad",
       variante: "comentados",
-      libros: [...librosInicio]
-        .sort((a, b) => b.opiniones - a.opiniones)
-        .slice(0, 8),
+      libros: inicio.datos?.masComentados ?? [],
     },
   ] as const;
 
@@ -207,19 +207,24 @@ function Index() {
           </div>
         </section>
 
-        {carruselesProductos.map(({ titulo, variante, libros }) => (
-          <Carrusel
-            key={variante}
-            titulo={titulo}
-            variante={variante}
-            className="inicio-productos"
-            mostrarVerMas={false}
-          >
-            {libros.map((libro) => (
-              <TarjetaProducto key={libro.idLibro} {...libro} />
-            ))}
-          </Carrusel>
-        ))}
+        {Boolean(inicio.error) && (
+          <MensajeError error={inicio.error} onReintentar={inicio.reintentar} />
+        )}
+        {inicio.cargando && <EstadoCarga texto="Cargando libros..." />}
+        {inicio.datos &&
+          carruselesProductos.map(({ titulo, variante, libros }) => (
+            <Carrusel
+              key={variante}
+              titulo={titulo}
+              variante={variante}
+              className="inicio-productos"
+              mostrarVerMas={false}
+            >
+              {libros.map((libro) => (
+                <TarjetaProducto key={libro.id} {...propsDeTarjeta(libro)} />
+              ))}
+            </Carrusel>
+          ))}
       </main>
 
       <Newsletter />

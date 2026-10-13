@@ -23,12 +23,13 @@ export function BarraNavegacion({ onAbrirAutenticacion }: BarraNavegacionProps) 
   );
   const navegar = useNavigate();
 
-  // Búsqueda con React Router (sin recargar la página); ignora textos vacíos
+  // Búsqueda con React Router (sin recargar la página). La API exige al
+  // menos 2 caracteres en "q".
   function buscar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault();
     const datosFormulario = new FormData(evento.currentTarget);
     const consulta = String(datosFormulario.get("q") ?? "").trim();
-    if (!consulta) return;
+    if (consulta.length < 2) return;
     navegar(`/catalogo?q=${encodeURIComponent(consulta)}`);
   }
 
@@ -59,6 +60,7 @@ export function BarraNavegacion({ onAbrirAutenticacion }: BarraNavegacionProps) 
                 placeholder="Buscar libros, autores, géneros..."
                 aria-label="Buscar libros, autores o géneros"
                 required
+                minLength={2}
               />
               <button type="submit" aria-label="Buscar">
                 <Icono nombre="busqueda" />

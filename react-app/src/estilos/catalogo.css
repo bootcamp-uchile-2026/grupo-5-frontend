@@ -190,6 +190,11 @@
   background-color: var(--color-violet-700);
 }
 
+.filtro-desplegable .filtro-cargando {
+  justify-content: flex-start;
+  padding: 8px 0;
+}
+
 .filtro-precio-nota {
   margin: 20px 0 0;
   font-size: var(--tamano-fuente-caption);

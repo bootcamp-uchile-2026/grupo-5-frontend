@@ -5,6 +5,7 @@ import logoOnepay from "../assets/logos/onepay-transbank.png";
 import logoWebpay from "../assets/logos/webpay-transbank.svg";
 import logoMercadoPago from "../assets/logos/mercado-pago.png";
 import { Icono } from "../componentes/Icono";
+import { Portada } from "../componentes/Portada";
 import { useTituloPagina } from "../componentes/useTituloPagina";
 import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
 import { useSesionStore } from "../estado/sesionStore";
@@ -514,7 +515,7 @@ function Checkout() {
           {items.map((item) => (
             <div className="checkout-resumen-item" key={item.idLibro}>
               {item.portada ? (
-                <img
+                <Portada
                   className="checkout-resumen-foto"
                   src={item.portada}
                   alt={item.titulo}

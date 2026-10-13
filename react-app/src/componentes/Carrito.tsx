@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
 import { Icono } from "./Icono";
+import { Portada } from "./Portada";
 import "../estilos/carrito.css";
 import { formatearPrecio } from "../utils/formato";
 
@@ -50,7 +51,7 @@ export function Carrito() {
           <div className="carrito-item" key={item.idLibro}>
             <div className="carrito-item-foto">
               {item.portada ? (
-                <img src={item.portada} alt="" width={64} height={86} />
+                <Portada src={item.portada} width={64} height={86} />
               ) : (
                 <>
                   Foto

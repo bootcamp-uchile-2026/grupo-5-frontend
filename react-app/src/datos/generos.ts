@@ -119,13 +119,32 @@ export const tematicas: Columna[] = [
 
 // Grupo al que pertenece un género (p. ej. "Misterio y thriller" → "Ficción")
 export function grupoDeGenero(genero: string) {
-  return generos.find((columna) => columna.opciones.includes(genero))?.titulo;
+  const generoUx = generoDeUx(genero);
+  return generos.find((columna) => columna.opciones.includes(generoUx))?.titulo;
 }
 
-// Por ahora solo los géneros con subgéneros diseñados tienen página filtrada;
-// el resto lleva al catálogo completo para no mostrar listas vacías.
+// Géneros de UX que en la API tienen otro nombre. Los demás se buscan tal
+// cual (Fantasía, Ciencia ficción, Historia… coinciden en ambos).
+const GENERO_EN_API: Record<string, string> = {
+  "Misterio y thriller": "Policial",
+};
+
+// Nombre del género para el parámetro "genero" de GET /libros
+export function generoEnApi(genero: string) {
+  return GENERO_EN_API[genero] ?? genero;
+}
+
+// Nombre de UX de un género de la API (p. ej. "Policial" → "Misterio y thriller")
+function generoDeUx(genero: string) {
+  return Object.keys(GENERO_EN_API).find((ux) => GENERO_EN_API[ux] === genero) ?? genero;
+}
+
+// Subgéneros diseñados para un género (con su nombre de UX o de la API)
+export function subgenerosDe(genero: string) {
+  return SUBGENEROS[generoDeUx(genero)] ?? [];
+}
+
+// Catálogo filtrado por un género del menú
 export function rutaDeGenero(genero: string) {
-  return genero in SUBGENEROS
-    ? `/catalogo?categoria=${encodeURIComponent(genero)}`
-    : "/catalogo";
+  return `/catalogo?genero=${encodeURIComponent(genero)}`;
 }
