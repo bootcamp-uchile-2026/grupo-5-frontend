@@ -196,8 +196,9 @@ Algunos detalles de cómo funciona:
 
 ## Endpoints disponibles vs integrados
 
-La API está en `http://3.131.220.134:3000` y su documentación (Swagger) en
-`http://3.131.220.134:3000/docs`. Todas las llamadas pasan por
+La URL de la API se configura en `VITE_API_URL` (ver [Cómo ejecutar](#cómo-ejecutar))
+y su documentación (Swagger) está en la ruta `/docs` de esa misma URL. Todas
+las llamadas pasan por
 `src/servicios/api.ts`, que agrega el token cuando hay sesión y traduce los
 errores de la API a mensajes claros.
 

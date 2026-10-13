@@ -1,4 +1,4 @@
-// DTO comunes de la API (Swagger: http://3.131.220.134:3000/docs)
+// DTO comunes de la API (según el Swagger de Backend, ruta /docs)
 
 // Estructura única de error de la API (ErrorResponseDto)
 export type ErrorRespuestaDto = {
