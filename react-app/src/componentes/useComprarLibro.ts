@@ -12,8 +12,8 @@ export function useComprarLibro() {
     solicitud: AgregarAlCarritoRequest,
     irAlCheckout = false,
   ) {
-    await agregarAlCarrito(solicitud);
-    if (irAlCheckout) {
+    const agregado = await agregarAlCarrito(solicitud);
+    if (agregado && irAlCheckout) {
       useCarritoStore.getState().cerrar();
       navegar("/checkout");
     }

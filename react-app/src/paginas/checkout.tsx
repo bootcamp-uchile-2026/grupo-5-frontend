@@ -10,6 +10,7 @@ import { useTituloPagina } from "../componentes/useTituloPagina";
 import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
 import { useSesionStore } from "../estado/sesionStore";
 import { REGEX_EMAIL } from "../utils/validacion";
+import { quitarDelCarrito, vaciarCarrito } from "../servicios/carritoServicio";
 import {
   crearPedido,
   iniciarSesion,
@@ -46,8 +47,6 @@ function Checkout() {
   useTituloPagina("Checkout");
   const navegar = useNavigate();
   const items = useCarritoStore((e) => e.items);
-  const vaciar = useCarritoStore((e) => e.vaciar);
-  const eliminar = useCarritoStore((e) => e.eliminar);
   const { usuario, invitado, iniciar, continuarComoInvitado, cerrar } =
     useSesionStore();
 
@@ -199,7 +198,7 @@ function Checkout() {
         descuento: montoDescuento,
         total,
       };
-      vaciar();
+      void vaciarCarrito();
       navegar("/confirmacion-compra", {
         state: pedido,
       });
@@ -647,7 +646,7 @@ function Checkout() {
               type="button"
               className="checkout-modal-eliminar"
               onClick={() => {
-                eliminar(idPorEliminar);
+                void quitarDelCarrito(idPorEliminar);
                 setIdPorEliminar(null);
               }}
             >

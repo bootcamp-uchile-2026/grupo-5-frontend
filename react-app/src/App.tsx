@@ -18,6 +18,7 @@ import NoEncontrada from "./paginas/no-encontrada";
 import PerfilLibrero from "./paginas/perfil-librero";
 import Recomendaciones from "./paginas/recomendaciones";
 import { restaurarSesion } from "./servicios/authServicio";
+import { obtenerCarrito, vigilarSesionCarrito } from "./servicios/carritoServicio";
 
 function App() {
   const autenticacionAbierta = useAutenticacionStore((estado) => estado.abierto);
@@ -25,8 +26,12 @@ function App() {
   const cerrarAutenticacion = useAutenticacionStore((estado) => estado.cerrar);
 
   // Al cargar la app se valida la sesión guardada con la API (GET /auth/me)
+  // y, si sigue vigente, se trae el carrito de la cuenta. Desde ahí, el
+  // carrito acompaña cada inicio y cierre de sesión.
   useEffect(() => {
-    void restaurarSesion();
+    const dejarDeVigilar = vigilarSesionCarrito();
+    void restaurarSesion().then(() => obtenerCarrito());
+    return dejarDeVigilar;
   }, []);
 
   return (
