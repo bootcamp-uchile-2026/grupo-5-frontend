@@ -1,8 +1,8 @@
-import type { LibroDto } from "../tipos/libro";
+import type { Libro } from "../tipos/libro";
 import { IMAGENES_RELLENO } from "./imagenes";
 
-// Datos dummy del catálogo (sin Backend aún). Solo los lee el servicio
-// servicios/catalogoServicio.ts; las páginas piden los libros al servicio.
+// Datos dummy del catálogo. Solo los usa servicios/catalogoServicio.ts cuando
+// no hay API configurada (VITE_API_URL vacía en .env).
 
 // Único género con subgéneros diseñados (wireframe Catálogo, Figma 1622:7933)
 export const SUBGENEROS: Record<string, string[]> = {
@@ -22,7 +22,7 @@ export const SUBGENEROS: Record<string, string[]> = {
 
 const PORTADA = IMAGENES_RELLENO.portada;
 
-export const LIBROS: LibroDto[] = [
+const LIBROS_BASE: Omit<Libro, "ventas" | "enStock">[] = [
   {
     // Libro del wireframe de la Ficha de libro (Figma 1547:6140)
     id: "el-perfume",
@@ -32,7 +32,7 @@ export const LIBROS: LibroDto[] = [
     precio: 10990,
     precioAnterior: 12930,
     portada: PORTADA,
-    categoria: "Clásicos",
+    genero: "Clásicos",
     calificacion: 4.8,
     opiniones: 16,
     descripcion:
@@ -51,7 +51,7 @@ export const LIBROS: LibroDto[] = [
     precio: 20150,
     precioAnterior: 26900,
     portada: "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg",
-    categoria: "Clásicos",
+    genero: "Clásicos",
     calificacion: 5,
     opiniones: 48,
   },
@@ -63,7 +63,7 @@ export const LIBROS: LibroDto[] = [
     precio: 22900,
     precioAnterior: 26900,
     portada: "https://covers.openlibrary.org/b/isbn/9780307474728-L.jpg",
-    categoria: "Narrativa",
+    genero: "Narrativa",
     calificacion: 4.5,
     opiniones: 63,
   },
@@ -75,7 +75,7 @@ export const LIBROS: LibroDto[] = [
     precio: 25600,
     precioAnterior: 31900,
     portada: "https://covers.openlibrary.org/b/isbn/9780060934347-L.jpg",
-    categoria: "Clásicos",
+    genero: "Clásicos",
     calificacion: 4,
     opiniones: 9,
   },
@@ -87,7 +87,7 @@ export const LIBROS: LibroDto[] = [
     precio: 19990,
     precioAnterior: 24900,
     portada: "https://covers.openlibrary.org/b/isbn/9780394757681-L.jpg",
-    categoria: "Narrativa",
+    genero: "Narrativa",
     calificacion: 4,
     opiniones: 15,
   },
@@ -99,7 +99,7 @@ export const LIBROS: LibroDto[] = [
     precio: 15500,
     precioAnterior: 18900,
     portada: "https://covers.openlibrary.org/b/isbn/9780553213690-L.jpg",
-    categoria: "Clásicos",
+    genero: "Clásicos",
     calificacion: 4.5,
     opiniones: 29,
   },
@@ -111,7 +111,7 @@ export const LIBROS: LibroDto[] = [
     precio: 21300,
     precioAnterior: 27900,
     portada: "https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg",
-    categoria: "Clásicos",
+    genero: "Clásicos",
     calificacion: 4.5,
     opiniones: 22,
   },
@@ -123,7 +123,7 @@ export const LIBROS: LibroDto[] = [
     precio: 18700,
     precioAnterior: 22900,
     portada: "https://covers.openlibrary.org/b/isbn/9780802130303-L.jpg",
-    categoria: "Narrativa",
+    genero: "Narrativa",
     calificacion: 5,
     opiniones: 18,
   },
@@ -135,7 +135,7 @@ export const LIBROS: LibroDto[] = [
     precio: 17800,
     precioAnterior: 23500,
     portada: "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
-    categoria: "Narrativa",
+    genero: "Narrativa",
     calificacion: 4.5,
     opiniones: 37,
   },
@@ -147,7 +147,7 @@ export const LIBROS: LibroDto[] = [
     precio: 14990,
     precioAnterior: 18900,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Misterio policial",
     calificacion: 4.5,
     opiniones: 54,
@@ -159,7 +159,7 @@ export const LIBROS: LibroDto[] = [
     editorial: "Alianza",
     precio: 13500,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Novela negra",
     calificacion: 4,
     opiniones: 12,
@@ -172,7 +172,7 @@ export const LIBROS: LibroDto[] = [
     precio: 18830,
     precioAnterior: 26900,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Thriller psicológico",
     calificacion: 4.5,
     opiniones: 71,
@@ -184,7 +184,7 @@ export const LIBROS: LibroDto[] = [
     editorial: "Planeta",
     precio: 16900,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Suspenso y tensión",
     calificacion: 4,
     opiniones: 46,
@@ -197,7 +197,7 @@ export const LIBROS: LibroDto[] = [
     precio: 24900,
     precioAnterior: 29900,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Misterio histórico",
     calificacion: 5,
     opiniones: 38,
@@ -209,7 +209,7 @@ export const LIBROS: LibroDto[] = [
     editorial: "Debolsillo",
     precio: 6380,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Thriller de acción",
     calificacion: 4,
     opiniones: 8,
@@ -222,7 +222,7 @@ export const LIBROS: LibroDto[] = [
     precio: 15900,
     precioAnterior: 19900,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Espionaje",
     calificacion: 4.5,
     opiniones: 17,
@@ -234,7 +234,7 @@ export const LIBROS: LibroDto[] = [
     editorial: "Alianza",
     precio: 9900,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Crimen y detectives",
     calificacion: 4.5,
     opiniones: 26,
@@ -247,7 +247,7 @@ export const LIBROS: LibroDto[] = [
     precio: 12900,
     precioAnterior: 16900,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Thriller legal",
     calificacion: 4,
     opiniones: 14,
@@ -260,9 +260,15 @@ export const LIBROS: LibroDto[] = [
     precio: 21900,
     precioAnterior: 27900,
     portada: PORTADA,
-    categoria: "Misterio y thriller",
+    genero: "Misterio y thriller",
     subgenero: "Misterio sobrenatural",
     calificacion: 5,
     opiniones: 92,
   },
 ];
+
+export const LIBROS: Libro[] = LIBROS_BASE.map((libro) => ({
+  ...libro,
+  ventas: libro.opiniones * 3,
+  enStock: true,
+}));

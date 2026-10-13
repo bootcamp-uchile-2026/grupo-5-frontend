@@ -5,11 +5,16 @@ import logoOnepay from "../assets/logos/onepay-transbank.png";
 import logoWebpay from "../assets/logos/webpay-transbank.svg";
 import logoMercadoPago from "../assets/logos/mercado-pago.png";
 import { Icono } from "../componentes/Icono";
+import { Portada } from "../componentes/Portada";
+import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
+import { REGIONES, comunasDe } from "../datos/regiones";
 import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
 import { useSesionStore } from "../estado/sesionStore";
 import { REGEX_EMAIL } from "../utils/validacion";
+import { quitarDelCarrito, vaciarCarrito } from "../servicios/carritoServicio";
 import {
+  cotizarEnvio,
   crearPedido,
   iniciarSesion,
   validarDescuento,
@@ -21,14 +26,7 @@ import type {
   MetodoPago,
 } from "../tipos/checkout";
 import { formatearPrecio } from "../utils/formato";
-
-const COSTO_DESPACHO = 1990;
-
-const COMUNAS: Record<string, string[]> = {
-  "Región Metropolitana": ["Santiago", "Providencia", "Ñuñoa", "Maipú"],
-  Valparaíso: ["Valparaíso", "Viña del Mar", "Quilpué"],
-  Biobío: ["Concepción", "Talcahuano", "Los Ángeles"],
-};
+import { mensajeDeError } from "../utils/mensajesError";
 
 const METODOS_PAGO: { valor: MetodoPago; nombre: string; logo?: string }[] = [
   { valor: "onepay", nombre: "Onepay - Débito, crédito y prepago", logo: logoOnepay },
@@ -38,6 +36,8 @@ const METODOS_PAGO: { valor: MetodoPago; nombre: string; logo?: string }[] = [
 ];
 
 const REGEX_TELEFONO = /^\+?[0-9\s]{8,15}$/;
+// Celular chileno que exige la API para despachar (ej. +56912345678)
+const REGEX_CELULAR = /^(\+?56)?9\d{8}$/;
 
 type Errores = Record<string, string>;
 
@@ -45,8 +45,6 @@ function Checkout() {
   useTituloPagina("Checkout");
   const navegar = useNavigate();
   const items = useCarritoStore((e) => e.items);
-  const vaciar = useCarritoStore((e) => e.vaciar);
-  const eliminar = useCarritoStore((e) => e.eliminar);
   const { usuario, invitado, iniciar, continuarComoInvitado, cerrar } =
     useSesionStore();
 
@@ -62,6 +60,7 @@ function Checkout() {
     depto: "",
     region: "",
     comuna: "",
+    telefono: "",
   });
   const [metodoPago, setMetodoPago] = useState<MetodoPago>("onepay");
   const [terminos, setTerminos] = useState(false);
@@ -78,14 +77,36 @@ function Checkout() {
   const montoDescuento = descuento
     ? Math.round((subtotal * descuento.porcentaje) / 100)
     : 0;
-  const envio = items.length && metodoEnvio === "despacho" ? COSTO_DESPACHO : 0;
-  const total = subtotal - montoDescuento + envio;
-
   const emailActual =
     usuario?.email ?? (invitado ? datosInvitado.email : login.email);
   const guardada = usuario?.direccionGuardada;
   const usandoGuardada = Boolean(guardada) && usarGuardada;
   const sesionLista = Boolean(usuario) || invitado;
+
+  // ENVÍO: se cotiza con el servicio (POST /envios/cotizar) al elegir
+  // retiro, o región y comuna de despacho
+  const regionEnvio = usandoGuardada ? (guardada?.region ?? "") : direccion.region;
+  const comunaEnvio = usandoGuardada ? (guardada?.comuna ?? "") : direccion.comuna;
+  const listoParaCotizar =
+    items.length > 0 && (metodoEnvio === "retiro" || Boolean(regionEnvio && comunaEnvio));
+  const cotizacion = usePeticion(
+    () =>
+      listoParaCotizar
+        ? cotizarEnvio({ metodoEnvio, region: regionEnvio, comuna: comunaEnvio, subtotal })
+        : Promise.resolve(null),
+    JSON.stringify([listoParaCotizar, metodoEnvio, regionEnvio, comunaEnvio, subtotal]),
+  );
+  const datosEnvio = listoParaCotizar && !cotizacion.error ? cotizacion.datos : null;
+  const errorEnvio = cotizacion.error ? mensajeDeError(cotizacion.error) : "";
+  const envio = datosEnvio?.costo ?? 0;
+  const total = subtotal - montoDescuento + envio;
+  const textoEnvio = !listoParaCotizar
+    ? "Por calcular"
+    : cotizacion.cargando
+      ? "Calculando..."
+      : errorEnvio
+        ? "—"
+        : formatearPrecio(envio);
 
   async function manejarLogin() {
     const nuevos: Errores = {};
@@ -152,7 +173,11 @@ function Checkout() {
       if (!direccion.depto.trim()) nuevos.depto = "Campo obligatorio";
       if (!direccion.region) nuevos.region = "Selecciona una región";
       if (!direccion.comuna) nuevos.comuna = "Selecciona una comuna";
+      if (usuario && !REGEX_CELULAR.test(direccion.telefono.replace(/\s/g, ""))) {
+        nuevos.telefono = "Ingresa un celular válido, por ejemplo +56912345678";
+      }
     }
+    if (metodoEnvio === "despacho" && errorEnvio) nuevos.comuna = errorEnvio;
     if (!terminos) nuevos.terminos = "Debes aceptar los términos";
     setErrores(nuevos);
     if (Object.keys(nuevos).length) return;
@@ -172,9 +197,16 @@ function Checkout() {
               }
             : { ...direccion }
           : undefined;
+      const telefono =
+        invitado && !usuario
+          ? datosInvitado.telefono
+          : usandoGuardada
+            ? guardada?.telefono
+            : direccion.telefono;
       const respuesta = await crearPedido({
         email: emailActual,
-        ...(invitado && !usuario ? { telefono: datosInvitado.telefono } : {}),
+        nombreReceptor: usuario ? `${usuario.nombre} ${usuario.apellido}`.trim() : undefined,
+        telefono,
         metodoEnvio,
         ...(direccionEntrega ?? {}),
         metodoPago,
@@ -198,12 +230,12 @@ function Checkout() {
         descuento: montoDescuento,
         total,
       };
-      vaciar();
+      void vaciarCarrito();
       navegar("/confirmacion-compra", {
         state: pedido,
       });
-    } catch {
-      setErrores({ general: "No se pudo procesar el pago. Intenta nuevamente." });
+    } catch (error) {
+      setErrores({ general: mensajeDeError(error) });
     } finally {
       setProcesando(false);
     }
@@ -431,8 +463,8 @@ function Checkout() {
                   onChange={(e) => cambiarDireccion("region", e.target.value)}
                 >
                   <option value="">Región</option>
-                  {Object.keys(COMUNAS).map((r) => (
-                    <option key={r}>{r}</option>
+                  {REGIONES.map((region) => (
+                    <option key={region.codigo}>{region.nombre}</option>
                   ))}
                 </select>
                 {errores.region && (
@@ -448,14 +480,32 @@ function Checkout() {
                   onChange={(e) => cambiarDireccion("comuna", e.target.value)}
                 >
                   <option value="">Comuna</option>
-                  {(COMUNAS[direccion.region] ?? []).map((c) => (
+                  {comunasDe(direccion.region).map((c) => (
                     <option key={c}>{c}</option>
                   ))}
                 </select>
-                {errores.comuna && (
-                  <span className="checkout-error">{errores.comuna}</span>
+                {(errores.comuna || errorEnvio) && (
+                  <span className="checkout-error">{errores.comuna || errorEnvio}</span>
                 )}
               </div>
+              {/* Celular de contacto: la API lo exige para despachar (el
+                  invitado ya lo ingresa en sus datos personales) */}
+              {usuario && (
+                <div className="checkout-campo">
+                  <label htmlFor="checkout-telefono">Teléfono*</label>
+                  <input
+                    type="tel"
+                    id="checkout-telefono"
+                    autoComplete="tel"
+                    placeholder="+56912345678"
+                    value={direccion.telefono}
+                    onChange={(e) => cambiarDireccion("telefono", e.target.value)}
+                  />
+                  {errores.telefono && (
+                    <span className="checkout-error">{errores.telefono}</span>
+                  )}
+                </div>
+              )}
             </section>
           )}
 
@@ -514,7 +564,7 @@ function Checkout() {
           {items.map((item) => (
             <div className="checkout-resumen-item" key={item.idLibro}>
               {item.portada ? (
-                <img
+                <Portada
                   className="checkout-resumen-foto"
                   src={item.portada}
                   alt={item.titulo}
@@ -575,8 +625,12 @@ function Checkout() {
               <span>-{formatearPrecio(montoDescuento)}</span>
             </div>
             <div className="checkout-resumen-fila">
-              <span>Envío</span>
-              <span>{formatearPrecio(envio)}</span>
+              <span>
+                Envío
+                {datosEnvio &&
+                  ` (llega en ${datosEnvio.diasEstimados} ${datosEnvio.diasEstimados === 1 ? "día" : "días"})`}
+              </span>
+              <span>{textoEnvio}</span>
             </div>
           </div>
 
@@ -646,7 +700,7 @@ function Checkout() {
               type="button"
               className="checkout-modal-eliminar"
               onClick={() => {
-                eliminar(idPorEliminar);
+                void quitarDelCarrito(idPorEliminar);
                 setIdPorEliminar(null);
               }}
             >

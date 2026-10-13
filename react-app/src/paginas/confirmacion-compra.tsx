@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "../componentes/Footer";
 import { Icono } from "../componentes/Icono";
+import { Portada } from "../componentes/Portada";
 import { useTituloPagina } from "../componentes/useTituloPagina";
 import "../estilos/confirmacion-compra.css";
 import type {
@@ -175,7 +176,7 @@ function ConfirmacionCompra() {
               {pedido.items.map((item) => (
                 <li className="confirmacion-producto" key={item.idLibro}>
                   {item.portada ? (
-                    <img
+                    <Portada
                       className="confirmacion-producto-portada"
                       src={item.portada}
                       alt={`Portada de ${item.titulo}`}

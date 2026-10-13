@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
+import {
+  cantidadMaximaDe,
+  resumenCarrito,
+  useCarritoStore,
+} from "../estado/carritoStore";
+import { cambiarCantidadCarrito, quitarDelCarrito } from "../servicios/carritoServicio";
 import { Icono } from "./Icono";
+import { Portada } from "./Portada";
 import "../estilos/carrito.css";
 import { formatearPrecio } from "../utils/formato";
 
@@ -9,8 +15,8 @@ export function Carrito() {
   const items = useCarritoStore((s) => s.items);
   const abierto = useCarritoStore((s) => s.abierto);
   const cerrar = useCarritoStore((s) => s.cerrar);
-  const cambiarCantidad = useCarritoStore((s) => s.cambiarCantidad);
-  const eliminar = useCarritoStore((s) => s.eliminar);
+  const actualizando = useCarritoStore((s) => s.actualizando);
+  const aviso = useCarritoStore((s) => s.aviso);
 
   useEffect(() => {
     if (!abierto) return;
@@ -44,13 +50,19 @@ export function Carrito() {
           </button>
         </div>
 
+        {aviso && (
+          <p className="carrito-aviso" role="alert">
+            {aviso}
+          </p>
+        )}
+
         {items.length === 0 && <p>Tu carrito está vacío.</p>}
 
         {items.map((item) => (
           <div className="carrito-item" key={item.idLibro}>
             <div className="carrito-item-foto">
               {item.portada ? (
-                <img src={item.portada} alt="" width={64} height={86} />
+                <Portada src={item.portada} width={64} height={86} />
               ) : (
                 <>
                   Foto
@@ -68,7 +80,8 @@ export function Carrito() {
                   <button
                     type="button"
                     aria-label="Disminuir cantidad"
-                    onClick={() => cambiarCantidad(item.idLibro, -1)}
+                    disabled={actualizando}
+                    onClick={() => void cambiarCantidadCarrito(item, -1)}
                   >
                     -
                   </button>
@@ -76,7 +89,8 @@ export function Carrito() {
                   <button
                     type="button"
                     aria-label="Aumentar cantidad"
-                    onClick={() => cambiarCantidad(item.idLibro, 1)}
+                    disabled={actualizando || item.cantidad >= cantidadMaximaDe(item)}
+                    onClick={() => void cambiarCantidadCarrito(item, 1)}
                   >
                     +
                   </button>
@@ -86,7 +100,8 @@ export function Carrito() {
                   className="carrito-item-eliminar"
                   type="button"
                   aria-label="Eliminar producto"
-                  onClick={() => eliminar(item.idLibro)}
+                  disabled={actualizando}
+                  onClick={() => void quitarDelCarrito(item.idLibro)}
                 >
                   <Icono nombre="eliminar" />
                 </button>
@@ -95,6 +110,13 @@ export function Carrito() {
               <span className="carrito-item-precio">
                 {formatearPrecio(item.precioUnitario * item.cantidad)}
               </span>
+              {item.disponible === false && (
+                <span className="carrito-item-sin-stock">
+                  {item.stockDisponible
+                    ? `Solo quedan ${item.stockDisponible} unidades`
+                    : "Sin stock"}
+                </span>
+              )}
             </div>
           </div>
         ))}

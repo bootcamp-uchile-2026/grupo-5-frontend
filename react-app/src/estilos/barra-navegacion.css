@@ -284,6 +284,7 @@
 
 .menu-usuario-panel a,
 .menu-usuario-panel button {
+  box-sizing: border-box;
   display: block;
   width: 100%;
   padding: 10px 20px;

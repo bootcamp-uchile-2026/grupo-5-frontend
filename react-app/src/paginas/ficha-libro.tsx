@@ -8,21 +8,30 @@ import { Footer } from "../componentes/Footer";
 import { Icono } from "../componentes/Icono";
 import { RutaNavegacion, type ElementoRuta } from "../componentes/RutaNavegacion";
 import { TarjetaProducto } from "../componentes/TarjetaProducto";
+import { EstadoCarga } from "../componentes/EstadoCarga";
+import { MensajeError } from "../componentes/MensajeError";
+import { Portada } from "../componentes/Portada";
 import { useComprarLibro } from "../componentes/useComprarLibro";
-import { useLibros } from "../componentes/useLibros";
+import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
 import { grupoDeGenero } from "../datos/generos";
 import { rutaDeLibrero } from "../datos/libreros";
-import type { LibroDto } from "../tipos/libro";
-import { propsDeTarjeta } from "../utils/libros";
+import { ErrorApi } from "../servicios/api";
+import {
+  obtenerLibro,
+  obtenerLibroDestacado,
+  obtenerRelacionados,
+} from "../servicios/catalogoServicio";
+import type { Libro } from "../tipos/libro";
+import { NOMBRES_FORMATO, propsDeTarjeta } from "../utils/libros";
 import "../estilos/ficha-libro.css";
 import { formatearPrecio, porcentajeDescuento } from "../utils/formato";
 import { IMAGENES_RELLENO } from "../datos/imagenes";
 
 // Wireframe Ficha de libro (Figma: Wireframes Desktop, node 1547:6140).
-// Muestra el libro indicado en ?libro=<id>; sin id, el libro del wireframe.
+// Muestra el libro indicado en ?libro=<id> (GET /libros/:id); sin id, el
+// libro más reciente del catálogo. Las reseñas y el video siguen dummy.
 
-const LIBRO_POR_DEFECTO = "el-perfume";
 const CANTIDAD_MAXIMA = 10;
 
 type ReseñaLibrero = {
@@ -40,7 +49,8 @@ type ReseñaLector = {
   texto: string;
 };
 
-// Reseñas dummy del wireframe (escritas para "El perfume")
+// Reseñas dummy del wireframe (escritas para "El perfume"; Backend aún no
+// tiene reseñas persistentes)
 const RESEÑAS_LIBREROS: ReseñaLibrero[] = [
   {
     nombre: "Gregorio Samsa",
@@ -121,35 +131,49 @@ const RESEÑAS_LECTORES: ReseñaLector[] = [
 
 function FichaLibro() {
   const [searchParams] = useSearchParams();
-  const { libros, cargando } = useLibros();
-  const id = searchParams.get("libro");
-  const libro =
-    libros.find((actual) => actual.id === id) ??
-    libros.find((actual) => actual.id === LIBRO_POR_DEFECTO) ??
-    libros[0];
+  const id = searchParams.get("libro") ?? "";
+  const peticion = usePeticion(
+    () => (id ? obtenerLibro(id) : obtenerLibroDestacado()),
+    id,
+  );
 
-  if (cargando || !libro) {
+  if (peticion.error) {
+    // Libro inexistente o id inválido: no tiene sentido reintentar
+    const noExiste =
+      peticion.error instanceof ErrorApi && [400, 404].includes(peticion.error.statusCode);
     return (
       <main className="ficha">
-        <p className="ficha-cargando" role="status">
-          Cargando libro...
-        </p>
+        <FichaNoEncontrada />
+        <MensajeError
+          error={peticion.error}
+          onReintentar={noExiste ? undefined : peticion.reintentar}
+          enlace={{ texto: "Ir al catálogo", ruta: "/catalogo" }}
+        />
+      </main>
+    );
+  }
+
+  if (peticion.cargando || !peticion.datos) {
+    return (
+      <main className="ficha">
+        <EstadoCarga texto="Cargando libro..." className="ficha-cargando" />
       </main>
     );
   }
 
   // Cada libro parte con la galería, la cantidad y las reseñas reiniciadas
-  return <FichaContenido key={libro.id} libro={libro} libros={libros} />;
+  return <FichaContenido key={peticion.datos.id} libro={peticion.datos} />;
 }
 
-function FichaContenido({
-  libro,
-  libros,
-}: {
-  libro: LibroDto;
-  libros: LibroDto[];
-}) {
+// Solo fija el título de la pestaña cuando el libro no existe
+function FichaNoEncontrada() {
+  useTituloPagina("Libro no encontrado");
+  return null;
+}
+
+function FichaContenido({ libro }: { libro: Libro }) {
   const comprarLibro = useComprarLibro();
+  const relacionadosPeticion = usePeticion(() => obtenerRelacionados(libro), libro.id);
 
   useTituloPagina(libro.titulo);
 
@@ -168,22 +192,32 @@ function FichaContenido({
   const [avisoReseña, setAvisoReseña] = useState("");
 
   const descuento = porcentajeDescuento(libro.precio, libro.precioAnterior);
-  const grupo = grupoDeGenero(libro.categoria);
+  const grupo = grupoDeGenero(libro.genero);
   const ruta: ElementoRuta[] = [
     { texto: "Inicio", ruta: "/" },
     { texto: "Catálogo", ruta: "/catalogo" },
     ...(grupo ? [{ texto: grupo }] : []),
-    { texto: libro.categoria },
+    { texto: libro.genero },
   ];
-  const etiquetas = libro.etiquetas ?? [libro.categoria, libro.subgenero].filter(Boolean);
+  const etiquetas = libro.etiquetas ?? [libro.genero, libro.subgenero].filter(Boolean);
+  const cantidadMaxima = Math.min(CANTIDAD_MAXIMA, libro.stock ?? CANTIDAD_MAXIMA);
+  const disponibilidad = !libro.enStock
+    ? "Sin stock"
+    : libro.estado === "PREVENTA"
+      ? "Disponible en preventa"
+      : "Disponible en stock";
+  // Filas del wireframe y, al final, Año y Formato (datos de la API que el
+  // wireframe no tiene)
   const especificaciones = [
     ["Editorial", libro.editorial],
     ["ISBN", libro.isbn],
     ["Encuadernación", libro.encuadernacion],
     ["N° Páginas", libro.paginas?.toString()],
     ["Dimensiones", libro.dimensiones],
+    ["Año", libro.anioPublicacion?.toString()],
+    ["Formato", libro.formato && NOMBRES_FORMATO[libro.formato]],
   ].filter((fila): fila is [string, string] => Boolean(fila[1]));
-  const relacionados = libros.filter((otro) => otro.id !== libro.id).slice(0, 4);
+  const relacionados = relacionadosPeticion.datos ?? [];
   const libreros = verTodosLibreros ? RESEÑAS_LIBREROS : RESEÑAS_LIBREROS.slice(0, 2);
   const lectores = verTodosLectores ? RESEÑAS_LECTORES : RESEÑAS_LECTORES.slice(0, 4);
 
@@ -222,7 +256,7 @@ function FichaContenido({
                 >
                   <Icono nombre="anterior" />
                 </button>
-                <img
+                <Portada
                   src={imagenes[imagenActual]}
                   alt={`${libro.titulo}, imagen ${imagenActual + 1} de ${imagenes.length}`}
                 />
@@ -265,7 +299,9 @@ function FichaContenido({
                 )}
               </div>
 
-              <p className="ficha-stock">Disponible en stock</p>
+              <p className={`ficha-stock${libro.enStock ? "" : " ficha-sin-stock"}`}>
+                {disponibilidad}
+              </p>
 
               <div className="ficha-cantidad">
                 <label htmlFor="ficha-cantidad">Cantidad</label>
@@ -273,7 +309,7 @@ function FichaContenido({
                   <button
                     type="button"
                     aria-label="Disminuir cantidad"
-                    disabled={cantidad <= 1}
+                    disabled={!libro.enStock || cantidad <= 1}
                     onClick={() => setCantidad((actual) => actual - 1)}
                   >
                     −
@@ -282,11 +318,12 @@ function FichaContenido({
                     id="ficha-cantidad"
                     type="number"
                     min={1}
-                    max={CANTIDAD_MAXIMA}
+                    max={cantidadMaxima}
                     value={cantidad}
+                    disabled={!libro.enStock}
                     onChange={(evento) => {
                       const valor = Number(evento.target.value);
-                      if (Number.isInteger(valor) && valor >= 1 && valor <= CANTIDAD_MAXIMA) {
+                      if (Number.isInteger(valor) && valor >= 1 && valor <= cantidadMaxima) {
                         setCantidad(valor);
                       }
                     }}
@@ -294,7 +331,7 @@ function FichaContenido({
                   <button
                     type="button"
                     aria-label="Aumentar cantidad"
-                    disabled={cantidad >= CANTIDAD_MAXIMA}
+                    disabled={!libro.enStock || cantidad >= cantidadMaxima}
                     onClick={() => setCantidad((actual) => actual + 1)}
                   >
                     +
@@ -307,6 +344,7 @@ function FichaContenido({
                   <button
                     type="button"
                     className="ficha-agregar"
+                    disabled={!libro.enStock}
                     onClick={() => void agregar(false)}
                   >
                     Añadir a la cesta
@@ -317,6 +355,7 @@ function FichaContenido({
                 <button
                   type="button"
                   className="ficha-comprar"
+                  disabled={!libro.enStock}
                   onClick={() => void agregar(true)}
                 >
                   Comprar ahora
@@ -502,11 +541,20 @@ function FichaContenido({
 
           <section className="ficha-relacionados" aria-labelledby="ficha-relacionados-titulo">
             <h2 id="ficha-relacionados-titulo">Te podría interesar</h2>
-            <div className="ficha-relacionados-grilla">
-              {relacionados.map((otro) => (
-                <TarjetaProducto key={otro.id} {...propsDeTarjeta(otro)} />
-              ))}
-            </div>
+            {relacionadosPeticion.error ? (
+              <MensajeError
+                error={relacionadosPeticion.error}
+                onReintentar={relacionadosPeticion.reintentar}
+              />
+            ) : relacionadosPeticion.cargando ? (
+              <EstadoCarga />
+            ) : (
+              <div className="ficha-relacionados-grilla">
+                {relacionados.map((otro) => (
+                  <TarjetaProducto key={otro.id} {...propsDeTarjeta(otro)} />
+                ))}
+              </div>
+            )}
           </section>
         </div>
       </main>

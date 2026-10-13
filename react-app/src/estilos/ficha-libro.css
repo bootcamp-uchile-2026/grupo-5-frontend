@@ -154,6 +154,10 @@
   background-color: var(--color-green-success-500);
 }
 
+.ficha-sin-stock::before {
+  background-color: var(--color-red-alert-500);
+}
+
 .ficha-cantidad label {
   display: block;
   margin-bottom: 8px;
@@ -242,6 +246,15 @@
   background-color: var(--color-turquoise-800);
 }
 
+/* Libro sin stock: botones de compra deshabilitados */
+.ficha-agregar:disabled,
+.ficha-comprar:disabled {
+  border-color: var(--color-neutral-light);
+  color: var(--color-neutral-dark);
+  background-color: var(--color-neutral-100);
+  cursor: not-allowed;
+}
+
 .ficha-favorito {
   display: flex;
   align-items: center;
@@ -264,7 +277,7 @@
 .ficha-envio {
   display: flex;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .ficha-envio a {
@@ -279,9 +292,9 @@
 }
 
 .ficha-especificaciones {
-  margin: 48px 0 32px;
-  font-size: var(--tamano-fuente-body);
-  line-height: 30px;
+  margin: 24px 0 20px;
+  font-size: var(--tamano-fuente-small);
+  line-height: 24px;
 }
 
 .ficha-especificaciones dt,
@@ -300,17 +313,19 @@
   font-size: var(--tamano-fuente-caption);
 }
 
+/* Etiquetas en una sola línea */
 .ficha-etiquetas ul {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: nowrap;
+  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .ficha-etiquetas li {
-  padding: 2px 12px;
+  padding: 2px 10px;
+  white-space: nowrap;
   border: var(--stroke-default) solid var(--color-neutral-darker);
   border-radius: var(--radius-lg);
   font-size: var(--tamano-fuente-caption);

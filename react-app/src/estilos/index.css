@@ -47,12 +47,13 @@ body h1{
 }
 
 .hero .hero-titulo h2{
-    max-width: 400px;
+    max-width: 560px;
     margin: 0 0 20px;
     font-family: var(--fuente-display);
     font-weight: 400;
-    font-size: var(--tamano-fuente-display-medium);
-    line-height: 48px;
+    /* 56px en pantallas grandes; baja hasta 40px en las angostas */
+    font-size: clamp(var(--tamano-fuente-display-medium), 4.2vw, var(--tamano-fuente-display-large));
+    line-height: 1.15;
     color: var(--color-primario-darker);
     background-color: transparent;
     text-align: left;
@@ -344,9 +345,9 @@ body h1{
 .inicio-recomendados .carrusel-recomendaciones-titulo{
     margin: 0;
     font-family: var(--fuente-body);
-    font-weight: 400;
-    font-size: var(--tamano-fuente-body);
-    line-height: 24px;
+    font-weight: 700;
+    font-size: var(--tamano-fuente-heading-lg);
+    line-height: 32px;
     color: var(--color-primario-darker);
 }
 
@@ -728,10 +729,11 @@ section.inicio-productos:last-of-type{
     margin-bottom: 36px;
 }
 
+/* Mismo formato que "Recomendados de nuestros libreros" */
 .inicio-productos header h3{
     margin: 0;
-    font-family: var(--fuente-display);
-    font-weight: 400;
+    font-family: var(--fuente-body);
+    font-weight: 700;
     font-size: var(--tamano-fuente-heading-lg);
     line-height: 32px;
     color: var(--color-primario-darker);

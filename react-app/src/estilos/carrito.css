@@ -129,6 +129,32 @@
     color: var(--color-neutral-darkest);
 }
 
+/* Libro con menos stock que la cantidad pedida */
+.carrito-item-sin-stock{
+    font-family: var(--fuente-body);
+    font-size: var(--tamano-fuente-caption);
+    color: var(--color-red-alert-600);
+}
+
+/* Botones deshabilitados mientras se guarda un cambio o al llegar al stock */
+.carrito-item-cantidad button:disabled,
+.carrito-item-eliminar:disabled{
+    color: var(--color-neutral-light);
+    cursor: not-allowed;
+}
+
+/* Mensaje para el usuario (p. ej. sin stock suficiente) */
+.carrito-aviso{
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--color-red-alert-200);
+    border-radius: 6px;
+    background-color: var(--color-red-alert-50);
+    font-family: var(--fuente-body);
+    font-size: var(--tamano-fuente-caption);
+    color: var(--color-neutral-950);
+}
+
 .carrito-separador{
     margin: 0;
     border: 0;

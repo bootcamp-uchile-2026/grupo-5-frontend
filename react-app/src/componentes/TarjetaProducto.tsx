@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { BotonFavorito } from "./BotonFavorito";
 import { Estrellas } from "./Estrellas";
 import { Icono } from "./Icono";
+import { Portada } from "./Portada";
 import { useComprarLibro } from "./useComprarLibro";
 import { formatearPrecio, porcentajeDescuento } from "../utils/formato";
 import "../estilos/tarjeta-producto.css";
@@ -16,6 +17,8 @@ export type TarjetaProductoProps = {
   precioAnterior?: number;
   calificacion: number;
   opiniones: number;
+  // Sin stock se muestran los botones de compra deshabilitados
+  enStock?: boolean;
 };
 
 export function TarjetaProducto({
@@ -27,6 +30,7 @@ export function TarjetaProducto({
   precioAnterior,
   calificacion,
   opiniones,
+  enStock = true,
 }: TarjetaProductoProps) {
   const comprarLibro = useComprarLibro();
   // La imagen y el título llevan a la ficha del libro
@@ -43,7 +47,7 @@ export function TarjetaProducto({
     <article className="tarjeta-producto">
       <div className="tarjeta-producto-imagen">
         <Link to={rutaFicha} tabIndex={-1} aria-hidden="true">
-          <img src={portada} alt="" />
+          <Portada src={portada} />
         </Link>
         <BotonFavorito titulo={titulo} className="tarjeta-producto-favorito" />
       </div>
@@ -80,14 +84,16 @@ export function TarjetaProducto({
           <button
             type="button"
             className="tarjeta-producto-agregar"
+            disabled={!enStock}
             onClick={() => void comprar(false)}
           >
-            Agregar al carrito
+            {enStock ? "Agregar al carrito" : "Sin stock"}
             <Icono nombre="carro" />
           </button>
           <button
             type="button"
             className="tarjeta-producto-comprar"
+            disabled={!enStock}
             onClick={() => void comprar(true)}
           >
             Comprar ahora
