@@ -48,6 +48,8 @@ export function Carrusel({
     if (!viewport || !track) return;
 
     const actualizarControles = () => {
+      // Sin ancho visible (pestaña oculta) no hay páginas que calcular
+      if (viewport.clientWidth === 0) return;
       const scrollMaximo = Math.max(
         0,
         viewport.scrollWidth - viewport.clientWidth,
