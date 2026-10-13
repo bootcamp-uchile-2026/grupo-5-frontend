@@ -1,6 +1,6 @@
-import { ErrorApi } from "../servicios/api";
-
-// Mensajes para el usuario según el código "error" de la API
+// Mensajes para el usuario según el código "error" de la API. El cliente
+// (servicios/api.ts) los usa como texto de cada ErrorApi, así cualquier
+// pantalla que muestre error.message ve el mensaje claro.
 const MENSAJES: Record<string, string> = {
   CREDENCIALES_INVALIDAS: "El correo o la contraseña no son correctos.",
   EMAIL_YA_REGISTRADO: "Ya existe una cuenta con ese correo.",
@@ -33,15 +33,54 @@ const MOTIVOS_RECHAZO: Record<string, string> = {
   TARJETA_VENCIDA: "La tarjeta está vencida.",
 };
 
+// Nombre visible de los campos que nombra la API en sus validaciones
+const CAMPOS: Record<string, string> = {
+  nombre: "nombre",
+  email: "correo",
+  password: "contraseña",
+  telefono: "teléfono",
+  nombreReceptor: "nombre de quien recibe",
+  calle: "dirección",
+  comuna: "comuna",
+  region: "región",
+  cantidad: "cantidad",
+  q: "búsqueda",
+  numeroTarjeta: "número de tarjeta",
+  titular: "titular",
+  vencimiento: "vencimiento",
+  cvv: "CVV",
+};
+
 const MENSAJE_GENERICO = "Ocurrió un error inesperado. Intenta nuevamente.";
+
+// Campo de un detalle de validación: "email must be an email" → "email";
+// "property apellido should not exist" → "apellido"
+function campoDeDetalle(detalle: string) {
+  const palabras = detalle.split(" ");
+  return palabras[0] === "property" ? palabras[1] : palabras[0];
+}
+
+// Mensaje claro para un código de error de la API y sus detalles
+export function mensajePorCodigo(codigo: string, detalles: string[] = []): string {
+  const mensaje = MENSAJES[codigo] ?? MENSAJE_GENERICO;
+
+  if (codigo === "PAGO_RECHAZADO") {
+    const motivo = detalles.map((detalle) => MOTIVOS_RECHAZO[detalle]).find(Boolean);
+    return motivo ? `${mensaje} ${motivo}` : mensaje;
+  }
+
+  if (codigo === "VALIDATION_ERROR" && detalles.length) {
+    const campos = Array.from(
+      new Set(detalles.map((detalle) => CAMPOS[campoDeDetalle(detalle)]).filter(Boolean)),
+    );
+    if (campos.length) return `Revisa los siguientes datos: ${campos.join(", ")}.`;
+  }
+
+  return mensaje;
+}
 
 // Mensaje claro para cualquier error (de la API o de un servicio dummy)
 export function mensajeDeError(error: unknown): string {
-  if (error instanceof ErrorApi) {
-    const mensaje = MENSAJES[error.error] ?? MENSAJE_GENERICO;
-    const motivo = error.detalles.map((detalle) => MOTIVOS_RECHAZO[detalle]).find(Boolean);
-    return motivo ? `${mensaje} ${motivo}` : mensaje;
-  }
   if (error instanceof Error && error.message) return error.message;
   return MENSAJE_GENERICO;
 }

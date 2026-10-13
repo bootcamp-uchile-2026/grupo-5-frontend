@@ -2,51 +2,15 @@ import type {
   CheckoutRequest,
   CheckoutResponse,
   DescuentoResponse,
-  LoginRequest,
-  LoginResponse,
-  RegistroRequest,
 } from "../tipos/checkout";
 
-function nombreDesdeCorreo(email: string) {
-  const base = email.split("@")[0].split(/[._-]/)[0];
-  return base.charAt(0).toUpperCase() + base.slice(1);
-}
+// Inicio de sesión y registro viven en authServicio.ts; se reexportan aquí
+// porque el modal de autenticación y el checkout los importan desde este módulo.
+export { iniciarSesion, registrarse } from "./authServicio";
 
 const pausa = () => new Promise((r) => setTimeout(r, 300));
 
-// Servicios dummy: reemplazar por HTTP/REST cuando Backend exponga /auth/login, /descuentos y /pedidos.
-export async function iniciarSesion(
-  solicitud: LoginRequest,
-): Promise<LoginResponse> {
-  await pausa();
-  return {
-    email: solicitud.email,
-    nombre: nombreDesdeCorreo(solicitud.email),
-    apellido: "Ejemplo",
-    token: "token-dummy",
-    direccionGuardada: {
-      direccion: "Avenida siempre viva",
-      numero: "555",
-      depto: "Casa",
-      region: "Región Metropolitana",
-      comuna: "Santiago",
-      telefono: "961528497",
-    },
-  };
-}
-
-// Registro dummy: devuelve la misma respuesta que el inicio de sesión
-export async function registrarse(
-  solicitud: RegistroRequest,
-): Promise<LoginResponse> {
-  await pausa();
-  return {
-    email: solicitud.email,
-    nombre: solicitud.nombre,
-    apellido: solicitud.apellido,
-    token: "token-dummy",
-  };
-}
+// Servicios dummy: reemplazar por HTTP/REST cuando Backend exponga /descuentos y /pedidos.
 
 const DESCUENTOS: Record<string, number> = { LEE10: 10, BIENVENIDO: 15 };
 
