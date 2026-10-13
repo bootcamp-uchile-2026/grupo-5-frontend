@@ -34,19 +34,15 @@
 	width: 88px;
 	height: 88px;
 	margin: 8px auto 18px;
+	border: 3px solid var(--color-violet-500);
+	border-radius: 18px;
+	color: var(--color-violet-700);
+	background: transparent;
 }
 
-.autenticacion-confirmacion-placeholder {
-	display: grid;
-	box-sizing: border-box;
+.autenticacion-confirmacion-icono svg {
 	width: 42px;
 	height: 42px;
-	place-items: center;
-	border-radius: var(--radius-sm);
-	color: var(--color-neutral-600);
-	background: var(--color-neutral-100);
-	font-size: 8px;
-	line-height: 1.2;
 }
 
 .autenticacion-confirmacion h2 {
@@ -101,67 +97,6 @@
 	margin-top: 18px;
 	color: var(--color-neutral-600);
 	font-size: 11px;
-}
-
-.autenticacion-verificada {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 22px 0 8px;
-	text-align: center;
-}
-
-.autenticacion-verificada-icono {
-	display: grid;
-	width: 88px;
-	height: 88px;
-	place-items: center;
-	margin: 0 auto 20px;
-	color: #43c900;
-}
-
-.autenticacion-verificada-icono svg {
-	width: 80px;
-	height: 80px;
-}
-
-.autenticacion-verificada-placeholder {
-	display: grid;
-	box-sizing: border-box;
-	width: 70px;
-	height: 70px;
-	place-items: center;
-	border-radius: var(--radius-sm);
-	color: var(--color-neutral-600);
-	background: var(--color-neutral-100);
-	font-size: 10px;
-	line-height: 1.2;
-}
-
-.autenticacion-verificada h2 {
-	margin: 0 0 16px;
-	color: var(--color-neutral-800);
-	font-size: 26px;
-	line-height: 1.2;
-}
-
-.autenticacion-verificada p {
-	margin: 0;
-	color: var(--color-neutral-700);
-	font-size: 13px;
-	line-height: 1.5;
-}
-
-.autenticacion-verificada-accion {
-	margin-top: 16px;
-	padding: 0;
-	border: 0;
-	color: var(--color-neutral-800);
-	background: transparent;
-	font: inherit;
-	font-size: 12px;
-	text-decoration: underline;
-	cursor: pointer;
 }
 
 .autenticacion-cerrar {
