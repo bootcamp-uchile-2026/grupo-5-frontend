@@ -6,7 +6,7 @@ Proyecto Frontend del e-commerce **LeeConNos**, librería independiente ficticia
 
 
 ## Estado del proyecto
-La aplicación se encuentra en etapa de maquetación y construcción de su base visual, utilizando HTML y CSS puro (sin framework ni bundler) a partir de los wireframes y lineamientos entregados por UX/UI. Se usan datos e imágenes simuladas mientras se avanza en la futura integración con Backend. Las vistas actuales no representan una versión final del producto.
+La aplicación está desarrollada con React, TypeScript y Vite, siguiendo los wireframes y lineamientos de UX/UI. Algunas funcionalidades utilizan datos de ejemplo y otras pueden conectarse al backend mediante la variable VITE_API_URL. El proyecto continúa en desarrollo, por lo que las vistas y funcionalidades pueden cambiar.
 
 
 ## Tecnologías
