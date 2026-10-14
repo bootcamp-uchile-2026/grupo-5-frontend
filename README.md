@@ -193,8 +193,7 @@ Para llegar a la pantalla de compra exitosa:
 Para acceder a la pantalla de cuenta verificada:
 └─> Selecciona el ícono de usuario en el header.
 └─> Pulsa **Crear cuenta**, completa y envía el formulario.
-└─> En el mensaje de confirmación, pulsa **Continuar**.
-**[En estos momentos sólo está vinculado a ese botón, hasta que añadamos la acción de verificación real.]**
+
 
 Además, desde la Confirmación de compra se puede ir al inicio para "volver a comprar" o ir a Comunidad.
 └─> Confirmación compra > Inicio
