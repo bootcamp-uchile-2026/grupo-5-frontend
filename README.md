@@ -201,7 +201,7 @@ Además, desde la Confirmación de compra se puede ir al inicio para "volver a c
 
 
 ## Datos simulados
-Los datos de ejemplo (títulos, autores, precios, etiquetas) están escritos directamente en el HTML. Las portadas de libro se obtienen mediante URLs de la API pública de Open Library (`covers.openlibrary.org`). No existe aún un archivo de datos independiente (JSON u otro); su consistencia con las interfaces de Backend queda pendiente de validar una vez definidos los contratos de datos (DTOs).
+La aplicación contiene datos de ejemplo para libros y perfiles de libreros en archivos TypeScript dentro de `src/datos`. El catálogo y otros servicios pueden usar esos datos cuando la API no está configurada; si se configura `VITE_API_URL`, algunos servicios se conectan al backend. Algunas portadas de libros se cargan desde Open Library y otras son imágenes de relleno.
 
 
 ## Licencia
