@@ -6,7 +6,7 @@ Proyecto Frontend del e-commerce **LeeConNos**, librería independiente ficticia
 
 
 ## Estado del proyecto
-La aplicación se encuentra en etapa de maquetación y construcción de su base visual, utilizando HTML y CSS puro (sin framework ni bundler) a partir de los wireframes y lineamientos entregados por UX/UI. Se usan datos e imágenes simuladas mientras se avanza en la futura integración con Backend. Las vistas actuales no representan una versión final del producto.
+La aplicación está desarrollada con React, TypeScript y Vite, siguiendo los wireframes y lineamientos de UX/UI. Algunas funcionalidades utilizan datos de ejemplo y otras pueden conectarse al backend mediante la variable VITE_API_URL. El proyecto continúa en desarrollo, por lo que las vistas y funcionalidades pueden cambiar.
 
 
 ## Tecnologías
@@ -201,7 +201,7 @@ Además, desde la Confirmación de compra se puede ir al inicio para "volver a c
 
 
 ## Datos simulados
-Los datos de ejemplo (títulos, autores, precios, etiquetas) están escritos directamente en el HTML. Las portadas de libro se obtienen mediante URLs de la API pública de Open Library (`covers.openlibrary.org`). No existe aún un archivo de datos independiente (JSON u otro); su consistencia con las interfaces de Backend queda pendiente de validar una vez definidos los contratos de datos (DTOs).
+La aplicación contiene datos de ejemplo para libros y perfiles de libreros en archivos TypeScript dentro de `src/datos`. El catálogo y otros servicios pueden usar esos datos cuando la API no está configurada; si se configura `VITE_API_URL`, algunos servicios se conectan al backend. Algunas portadas de libros se cargan desde Open Library y otras son imágenes de relleno.
 
 
 ## Licencia
