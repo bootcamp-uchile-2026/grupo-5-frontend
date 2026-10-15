@@ -1,0 +1,327 @@
+/* CATÁLOGO
+   Distribución según wireframe Catálogo (Figma: Wireframes Desktop,
+   node 1622:7933); se mantienen los colores del sitio.
+   La tarjeta de producto tiene sus estilos en tarjeta-producto.css. */
+.catalogo {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--ancho-contenido) + 48px);
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+  font-family: var(--fuente-body);
+  color: var(--color-neutral-950);
+}
+
+/* RUTA DE NAVEGACIÓN: estilos en ruta-navegacion.css */
+
+/* TÍTULO */
+.catalogo .catalogo-titulo-pagina {
+  margin: 40px 0 32px;
+  font-family: var(--fuente-display);
+  font-weight: 400;
+  font-size: var(--tamano-fuente-display-medium);
+  line-height: 48px;
+  color: var(--color-primario-darker);
+  background-color: transparent;
+}
+
+/* CUERPO: filtros a la izquierda, resultados a la derecha */
+.catalogo-cuerpo {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+/* FILTROS */
+.catalogo-filtros-titulo {
+  margin: 0;
+  padding: 12px 8px;
+  border-bottom: var(--stroke-default) solid var(--color-neutral-light);
+  font-size: var(--tamano-fuente-small);
+}
+
+.filtro-desplegable {
+  border-bottom: var(--stroke-default) solid var(--color-neutral-light);
+}
+
+.filtro-desplegable .desplegable-encabezado {
+  margin: 0;
+  background-color: transparent;
+}
+
+.filtro-desplegable .desplegable-boton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 8px;
+  border: 0;
+  background: transparent;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-small);
+  color: var(--color-neutral-950);
+  text-align: left;
+}
+
+.filtro-desplegable .desplegable-boton .icono {
+  font-size: 12px;
+  transition: transform 160ms ease;
+}
+
+.filtro-desplegable .desplegable-boton[aria-expanded="true"] .icono {
+  transform: rotate(180deg);
+}
+
+.filtro-desplegable .desplegable-panel {
+  padding: 0 8px 24px;
+}
+
+.filtro-casillas {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.filtro-casillas li {
+  border-bottom: var(--stroke-default) solid var(--color-neutral-100);
+}
+
+.filtro-casillas label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 4px;
+  font-size: var(--tamano-fuente-small);
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.filtro-casillas input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--color-primario-darker);
+}
+
+/* FILTRO DE PRECIO */
+.filtro-precio-valores {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--tamano-fuente-small);
+  font-weight: 600;
+}
+
+.filtro-precio-rango {
+  position: relative;
+  height: 24px;
+  margin: 8px 0 12px;
+}
+
+/* Barra gris con el tramo seleccionado en violeta */
+.filtro-precio-rango::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--color-neutral-100) var(--tramo-inicio),
+    var(--color-primario-light) var(--tramo-inicio),
+    var(--color-primario-light) var(--tramo-fin),
+    var(--color-neutral-100) var(--tramo-fin)
+  );
+  transform: translateY(-50%);
+}
+
+.filtro-precio-rango input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0;
+  background: none;
+  pointer-events: none;
+  appearance: none;
+}
+
+.filtro-precio-rango input::-webkit-slider-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--color-primario-darker);
+  pointer-events: auto;
+  cursor: pointer;
+  appearance: none;
+}
+
+.filtro-precio-rango input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--color-primario-darker);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.filtro-precio-acciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--tamano-fuente-caption);
+}
+
+.filtro-precio-acciones button {
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primario-darker);
+  color: var(--color-neutral-0);
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-caption);
+}
+
+.filtro-precio-acciones button:hover {
+  background-color: var(--color-violet-700);
+}
+
+.filtro-desplegable .filtro-cargando {
+  justify-content: flex-start;
+  padding: 8px 0;
+}
+
+.filtro-precio-nota {
+  margin: 20px 0 0;
+  font-size: var(--tamano-fuente-caption);
+  color: var(--color-neutral-dark);
+}
+
+/* BARRA DE RESULTADOS */
+.catalogo-barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 40px;
+  font-size: var(--tamano-fuente-caption);
+}
+
+.catalogo-orden {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.catalogo-orden select {
+  min-width: 200px;
+  padding: 6px 8px;
+  border: 0;
+  border-bottom: var(--stroke-default) solid var(--color-neutral-light);
+  background-color: transparent;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-caption);
+  color: var(--color-neutral-950);
+}
+
+/* GRILLA: 3 tarjetas de producto por fila */
+.catalogo-productos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 282px));
+  justify-content: space-between;
+  gap: 72px 24px;
+}
+
+.catalogo-vacio {
+  margin: 0;
+  font-size: var(--tamano-fuente-small);
+}
+
+/* PAGINACIÓN (por ahora sin cambio de página) */
+.catalogo-paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 72px;
+  font-size: var(--tamano-fuente-small);
+}
+
+.catalogo-paginacion button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-small);
+  color: var(--color-neutral-950);
+}
+
+.catalogo-paginacion button:disabled {
+  color: var(--color-neutral-light);
+  cursor: default;
+}
+
+.catalogo-paginacion .catalogo-pagina {
+  border: var(--stroke-default) solid var(--color-neutral-darker);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-neutral-0);
+}
+
+.catalogo-paginacion .catalogo-pagina:hover {
+  border-color: var(--color-primario-darker);
+}
+
+.catalogo-paginacion .catalogo-pagina[aria-current="page"] {
+  border-color: var(--color-primario-darker);
+  background-color: var(--color-primario-darker);
+  color: var(--color-neutral-0);
+}
+
+@media (max-width: 1100px) {
+  .catalogo-cuerpo {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .catalogo-productos {
+    grid-template-columns: repeat(2, minmax(0, 282px));
+  }
+}
+
+@media (max-width: 760px) {
+  .catalogo {
+    padding: 32px 20px 64px;
+  }
+
+  .catalogo .catalogo-titulo-pagina {
+    margin: 24px 0;
+    font-size: var(--tamano-fuente-heading-xl);
+    line-height: 40px;
+  }
+
+  .catalogo-cuerpo {
+    grid-template-columns: 1fr;
+  }
+
+  .catalogo-barra {
+    flex-wrap: wrap;
+  }
+
+  .catalogo-productos {
+    grid-template-columns: minmax(0, 320px);
+    justify-content: center;
+  }
+
+  .catalogo-paginacion {
+    flex-wrap: wrap;
+  }
+}

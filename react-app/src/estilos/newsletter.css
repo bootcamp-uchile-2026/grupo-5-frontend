@@ -1,0 +1,96 @@
+.newsletter{
+    background-color: var(--color-secundario-light);
+    min-height: 268px;
+    box-sizing: border-box;
+    /* Más espacio antes del footer, según wireframe Home */
+    margin: 25px 0 88px;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.newsletter-titulo{
+    background-color: transparent;
+    margin: 0;
+    text-align: center;
+    color: var(--color-neutral-darkest);
+    font-family: var(--fuente-display);
+    font-weight: 400;
+    font-size: var(--tamano-fuente-heading-lg);
+    line-height: 32px;
+}
+
+.newsletter-pie{
+    font-family: var(--fuente-body);
+    font-weight: var(--peso-small);
+    font-size: var(--tamano-fuente-small);
+    line-height: var(--interlineado-small);
+    color: var(--color-neutral-darkest);
+    background-color: transparent;
+    margin: 0;
+    text-align: center;
+}
+
+.newsletter-formulario{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.newsletter-formulario input{
+    box-sizing: border-box;
+    width: 335px;
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--color-neutral-darker);
+    border-radius: var(--radius-md);
+    background-color: var(--color-neutral-0);
+    font-family: var(--fuente-body);
+    font-size: var(--tamano-fuente-small);
+    text-align: center;
+}
+
+/* El wireframe no muestra botón: queda accesible para lectores de pantalla */
+.newsletter .newsletter-boton{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.newsletter-boton{
+    height: 26px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 4px;
+    color: var(--color-neutral-lightest);
+    background-color: var(--color-primario-darker);
+    font-family: var(--fuente-body);
+    font-size: var(--tamano-fuente-small);
+    cursor: pointer;
+}
+
+.newsletter-mensaje{
+    margin: 0;
+    text-align: center;
+    color: var(--color-neutral-darker);
+    font-size: var(--tamano-fuente-small);
+}
+
+@media (max-width: 600px){
+    .newsletter-formulario{
+        flex-direction: column;
+    }
+
+    .newsletter-formulario input{
+        width: min(335px, 80vw);
+    }
+}

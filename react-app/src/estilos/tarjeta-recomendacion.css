@@ -1,0 +1,186 @@
+/* TARJETA DE RECOMENDACIÓN Y SU CARRUSEL
+   Tarjeta: Figma "card-recomended" (Componentes Global, node 2039:6606).
+   Se usa en el Home ("Recomendados de nuestros libreros") y en el Perfil de
+   librero ("Últimas recomendaciones"). El carrusel que la contiene lleva la
+   clase .carrusel-tarjetas-recomendacion. */
+
+.carrusel-flechas-encabezado {
+  display: flex;
+  gap: 16px;
+}
+
+.carrusel-flechas-encabezado button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-primario-darker);
+  font-size: 20px;
+}
+
+.carrusel-flechas-encabezado button:disabled {
+  color: var(--color-neutral-light);
+  cursor: default;
+}
+
+.carrusel-tarjetas-recomendacion .carrusel-recomendaciones-contenedor {
+  gap: 32px;
+}
+
+/* Margen interno para que la sombra de las tarjetas no se corte */
+.carrusel-tarjetas-recomendacion .carrusel-viewport {
+  box-sizing: content-box;
+  margin: -12px;
+  padding: 12px 12px 16px;
+}
+
+.carrusel-tarjetas-recomendacion .carrusel-viewport .coleccion-tarjetas {
+  gap: 26px;
+}
+
+/* 4 tarjetas que ocupan la columna completa (~280px cada una) */
+.carrusel-tarjetas-recomendacion .carrusel-item {
+  flex: 0 0 calc((100% - 3 * 26px) / 4);
+}
+
+.carrusel-tarjetas-recomendacion .controles-carrusel {
+  gap: 24px;
+}
+
+.carrusel-tarjetas-recomendacion .controles-carrusel > button:first-child {
+  margin-right: 32px;
+}
+
+.carrusel-tarjetas-recomendacion .controles-carrusel > button:last-child {
+  margin-left: 32px;
+}
+
+/* TARJETA DE RECOMENDACIÓN */
+.tarjeta-recomendacion > a {
+  display: block;
+}
+
+.tarjeta-recomendacion-textos h4 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tarjeta-recomendacion-textos h4 a:hover,
+.tarjeta-recomendacion-textos h4 a:focus-visible {
+  text-decoration: underline;
+}
+
+.tarjeta-recomendacion {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: hidden;
+  border-radius: 25px;
+  background-color: var(--color-neutral-lightest);
+  box-shadow:
+    0 4px 6px -1px rgb(20 20 20 / 10%),
+    0 2px 4px -2px rgb(20 20 20 / 10%);
+  transition: box-shadow 160ms ease;
+}
+
+.tarjeta-recomendacion:hover {
+  box-shadow:
+    0 10px 15px -3px rgb(20 20 20 / 10%),
+    0 4px 6px -4px rgb(20 20 20 / 10%);
+}
+
+.tarjeta-recomendacion-librero {
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 2px 12px 2px 2px;
+  border-radius: 33px;
+  background-color: var(--color-neutral-lightest);
+  box-shadow: 0 1px 3px rgb(20 20 20 / 15%);
+  font-size: var(--tamano-fuente-small);
+  color: var(--color-primario-darker);
+}
+
+.tarjeta-recomendacion-librero img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.tarjeta-recomendacion-portada {
+  display: block;
+  width: 100%;
+  height: 194px;
+  object-fit: cover;
+}
+
+.tarjeta-recomendacion-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px 20px;
+}
+
+.tarjeta-recomendacion-textos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tarjeta-recomendacion-textos h4 {
+  display: -webkit-box;
+  min-height: 40px;
+  margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-family: var(--fuente-body);
+  font-weight: 700;
+  font-size: var(--tamano-fuente-body);
+  line-height: 20px;
+  color: var(--color-primario-darker);
+  background-color: transparent;
+}
+
+.tarjeta-recomendacion-textos p {
+  margin: 0;
+  font-size: var(--tamano-fuente-body);
+  line-height: 20px;
+  color: var(--color-neutral-darker);
+}
+
+.tarjeta-recomendacion-calificacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: var(--tamano-fuente-small);
+  font-weight: 300;
+  line-height: 16px;
+  color: var(--color-neutral-darker);
+}
+
+.tarjeta-recomendacion-estrellas {
+  display: flex;
+  gap: 8px;
+  font-size: 18px;
+  color: var(--color-secundario-dark);
+}
+
+@media (max-width: 1100px) {
+  .carrusel-tarjetas-recomendacion .carrusel-item {
+    flex-basis: calc((100% - 2 * 26px) / 3);
+  }
+}
+
+@media (max-width: 760px) {
+  .carrusel-tarjetas-recomendacion .carrusel-item {
+    flex-basis: min(72vw, 280px);
+  }
+}

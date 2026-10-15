@@ -1,0 +1,196 @@
+/* TARJETA DE PRODUCTO
+   Figma: "card-product" (Componentes Global, node 1626:9440).
+   Se usa en el Home (carruseles) y en el Catálogo (grilla). */
+.tarjeta-producto {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tarjeta-producto-imagen {
+  position: relative;
+}
+
+.tarjeta-producto-imagen img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 280 / 344;
+  border-radius: var(--radius-xl);
+  object-fit: cover;
+}
+
+.tarjeta-producto-favorito {
+  position: absolute;
+  right: 14px;
+  bottom: -9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-0);
+  box-shadow: 0 1px 3px rgb(20 20 20 / 15%);
+  color: var(--color-neutral-950);
+  font-size: 24px;
+}
+
+.tarjeta-producto-favorito:hover {
+  background-color: var(--color-violet-50);
+}
+
+.tarjeta-producto-favorito[aria-pressed="true"] {
+  color: var(--color-primario-darker);
+}
+
+.tarjeta-producto-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tarjeta-producto-textos {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tarjeta-producto-textos h4 {
+  display: -webkit-box;
+  min-height: 46px;
+  margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-family: var(--fuente-body);
+  font-weight: 600;
+  font-size: var(--tamano-fuente-heading-sm);
+  line-height: 23px;
+  color: var(--color-primario-darker);
+  background-color: transparent;
+}
+
+.tarjeta-producto-textos p {
+  margin: 0;
+  font-size: var(--tamano-fuente-small);
+  font-weight: 300;
+  line-height: 18px;
+  color: var(--color-neutral-dark);
+}
+
+.tarjeta-producto-precios {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.tarjeta-producto-precio {
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--color-neutral-950);
+}
+
+.tarjeta-producto-descuento {
+  padding: 0 4px;
+  border: var(--stroke-default) solid var(--color-error);
+  border-radius: var(--radius-md);
+  font-size: var(--tamano-fuente-caption);
+  line-height: 16px;
+  color: var(--color-error);
+}
+
+.tarjeta-producto-precio-anterior {
+  font-size: var(--tamano-fuente-heading-sm);
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-neutral-dark);
+}
+
+.tarjeta-producto-calificacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: var(--tamano-fuente-small);
+  font-weight: 300;
+  line-height: 16px;
+  color: var(--color-neutral-darker);
+}
+
+.tarjeta-producto-estrellas {
+  display: flex;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-secundario-dark);
+}
+
+.tarjeta-producto-botones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.tarjeta-producto-botones button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 48px;
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-body);
+  font-weight: 700;
+}
+
+.tarjeta-producto-agregar {
+  border: var(--stroke-default) solid var(--color-violet-800);
+  color: var(--color-violet-800);
+  background-color: transparent;
+}
+
+.tarjeta-producto-agregar .icono {
+  font-size: 20px;
+}
+
+.tarjeta-producto-agregar:hover {
+  background-color: var(--color-violet-50);
+}
+
+.tarjeta-producto-comprar {
+  border: 0;
+  color: var(--color-neutral-0);
+  background-color: var(--color-turquoise-700);
+}
+
+.tarjeta-producto-comprar:hover {
+  background-color: var(--color-turquoise-800);
+}
+
+/* Libro sin stock: botones deshabilitados */
+.tarjeta-producto-botones button:disabled {
+  border-color: var(--color-neutral-light);
+  color: var(--color-neutral-dark);
+  background-color: var(--color-neutral-100);
+  cursor: not-allowed;
+}
+
+/* Enlaces a la ficha del libro (imagen y título) */
+.tarjeta-producto-imagen > a {
+  display: block;
+}
+
+.tarjeta-producto-textos h4 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tarjeta-producto-textos h4 a:hover,
+.tarjeta-producto-textos h4 a:focus-visible {
+  text-decoration: underline;
+}

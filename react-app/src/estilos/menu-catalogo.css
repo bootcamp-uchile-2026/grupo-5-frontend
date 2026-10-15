@@ -1,0 +1,183 @@
+/* DESPLEGABLE DE CATÁLOGO
+   Todo el texto de los desplegables mide 14px (--tamano-fuente-label); solo cambia el peso.
+   Figma: Componentes Global, nodes 2294:20831 (Géneros) y 2294:20860 (Temáticas).
+   Solo la columna izquierda: caja bajo "Catálogo".
+   Géneros o Temáticas abiertos: panel a todo el ancho del header. */
+.menu-catalogo {
+  position: relative;
+}
+
+/* Al expandir, el panel se posiciona respecto del header (todo el ancho) */
+.menu-catalogo-expandido {
+  position: static;
+}
+
+.menu-catalogo-panel {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: -32px;
+  z-index: 900;
+  background-color: #f1f1f1;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  font-size: var(--tamano-fuente-label);
+  color: var(--color-neutral-950);
+}
+
+.menu-catalogo-expandido .menu-catalogo-panel {
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.menu-catalogo-contenido {
+  padding: 32px;
+}
+
+.menu-catalogo-expandido .menu-catalogo-contenido {
+  display: flex;
+  align-items: flex-start;
+  box-sizing: border-box;
+  max-width: calc(1212px + 48px);
+  margin: 0 auto;
+  padding: 39px 24px 55px;
+}
+
+/* COLUMNA IZQUIERDA */
+.menu-catalogo-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-catalogo-expandido .menu-catalogo-lista {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 161px;
+  padding-right: 24px;
+}
+
+.menu-catalogo-opcion {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-label);
+  font-weight: 700;
+  line-height: 18px;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--color-neutral-950);
+  background: transparent;
+}
+
+.menu-catalogo-opcion .icono {
+  font-size: 12px;
+}
+
+.menu-catalogo-seccion-activa {
+  text-decoration: underline;
+}
+
+.menu-catalogo-opcion:hover {
+  color: var(--color-violet-800);
+}
+
+/* COLUMNAS DE GÉNEROS / TEMÁTICAS */
+.menu-catalogo-columnas {
+  display: flex;
+  align-items: flex-start;
+  gap: 64px;
+  min-height: 291px;
+  padding-left: 55px;
+  border-left: var(--stroke-default) solid var(--color-neutral-700);
+}
+
+.menu-catalogo-columna {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menu-catalogo-columna:first-child {
+  min-width: 180px;
+}
+
+.menu-catalogo-columna h3 {
+  margin: 0;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-body);
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--color-neutral-950);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.menu-catalogo-columna ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-catalogo-columna a {
+  font-size: var(--tamano-fuente-label);
+  font-weight: 300;
+  line-height: 28px;
+  color: var(--color-neutral-950);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.menu-catalogo-columna a:hover {
+  color: var(--color-violet-800);
+  text-decoration: underline;
+}
+
+.menu-catalogo-columna .menu-catalogo-ver-todo {
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .menu-catalogo-columnas {
+    flex-wrap: wrap;
+    row-gap: 32px;
+  }
+}
+
+@media (max-width: 760px) {
+  /* El menú de enlaces tiene scroll horizontal: el panel se ancla al header */
+  .menu-catalogo {
+    position: static;
+  }
+
+  .menu-catalogo-panel {
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .menu-catalogo-expandido .menu-catalogo-contenido {
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 16px;
+  }
+
+  .menu-catalogo-expandido .menu-catalogo-lista {
+    width: auto;
+    padding-right: 0;
+  }
+
+  .menu-catalogo-columnas {
+    min-height: 0;
+    gap: 24px 32px;
+    padding: 24px 0 0;
+    border-top: var(--stroke-default) solid var(--color-neutral-700);
+    border-left: 0;
+  }
+}

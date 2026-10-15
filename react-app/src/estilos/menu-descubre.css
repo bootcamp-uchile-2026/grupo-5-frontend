@@ -1,0 +1,117 @@
+/* DESPLEGABLE "DESCUBRE CON NOSOTROS"
+   Figma: Wireframes Desktop, node 1547:6030 (caja de 578 × 299 px). */
+.menu-descubre {
+  position: relative;
+}
+
+.menu-descubre-panel {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: -32px;
+  z-index: 900;
+  display: flex;
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: 578px;
+  min-height: 299px;
+  padding: 23px 52px;
+  background-color: #f1f1f1;
+  font-size: var(--tamano-fuente-label);
+  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  color: var(--color-neutral-950);
+}
+
+/* LIBREROS */
+.menu-descubre-libreros {
+  flex: 0 0 auto;
+  width: 180px;
+  margin: 0;
+  padding: 0 37px 0 0;
+  border-right: var(--stroke-default) solid var(--color-neutral-950);
+  list-style: none;
+}
+
+.menu-descubre-libreros a {
+  font-size: var(--tamano-fuente-label);
+  font-weight: 300;
+  line-height: 28px;
+  color: var(--color-neutral-950);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.menu-descubre-libreros .menu-descubre-ver-todos {
+  font-weight: 700;
+}
+
+.menu-descubre-libreros a:hover {
+  color: var(--color-violet-800);
+  text-decoration: underline;
+}
+
+/* ¿NO SABES QUÉ LEER? */
+.menu-descubre-pregunta {
+  display: flex;
+  flex-direction: column;
+  width: 207px;
+  margin-left: 44px;
+  font-size: var(--tamano-fuente-label);
+  color: var(--color-neutral-950);
+  text-decoration: none;
+}
+
+.menu-descubre-pregunta img {
+  align-self: center;
+  width: 44px;
+  height: 44px;
+  margin-top: -3px;
+}
+
+.menu-descubre-pregunta-titulo {
+  margin-top: 5px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: underline;
+}
+
+.menu-descubre-pregunta-texto {
+  margin-top: 9px;
+  font-size: var(--tamano-fuente-label);
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.menu-descubre-pregunta:hover .menu-descubre-pregunta-titulo {
+  color: var(--color-violet-800);
+}
+
+@media (max-width: 760px) {
+  /* El menú de enlaces tiene scroll horizontal: el panel se ancla al header */
+  .menu-descubre {
+    position: static;
+  }
+
+  .menu-descubre-panel {
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 24px;
+    width: auto;
+    min-height: 0;
+    padding: 24px 16px;
+  }
+
+  .menu-descubre-libreros {
+    width: auto;
+    padding: 0 0 24px;
+    border-right: 0;
+    border-bottom: var(--stroke-default) solid var(--color-neutral-950);
+    align-self: stretch;
+  }
+
+  .menu-descubre-pregunta {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,22 @@
+@import url("base.css");
+
+.pagina-en-construccion {
+  display: grid;
+  min-height: 45vh;
+  padding: 48px 24px;
+  place-items: center;
+  text-align: center;
+}
+
+.pagina-en-construccion section {
+  max-width: 600px;
+}
+
+.pagina-en-construccion h1 {
+  color: var(--color-primario-darker);
+}
+
+.pagina-en-construccion a {
+  color: var(--color-primario-darker);
+  font-weight: 600;
+}

@@ -1,0 +1,306 @@
+/* BARRA DE NAVEGACIÓN
+   Medidas: componente "Header" (Componentes Global, node 1996:9439).
+   Colores: wireframe Home (Wireframes Desktop, node 1839:7011). */
+.barra-navegacion {
+  --barra-color-primario: #6200ee;
+  --barra-color-placeholder: #959595;
+  --barra-sombra-buscador: 0 1px 3px rgb(20 20 20 / 15%);
+}
+
+.barra-navegacion header {
+  position: relative;
+  background-color: var(--color-neutral-0);
+  box-shadow: var(--shadow-1);
+}
+
+/* BANNER */
+.barra-navegacion .banner-contenedor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 172px;
+  height: 32px;
+  background-image: var(--degradado-banner);
+}
+
+.barra-navegacion .banner {
+  margin: 0;
+  font-family: var(--fuente-body);
+  font-weight: 400;
+  font-size: var(--tamano-fuente-caption);
+  color: var(--color-neutral-0);
+  white-space: nowrap;
+}
+
+.barra-navegacion .banner-flecha {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  color: var(--color-neutral-0);
+  background: transparent;
+  font-size: 18px;
+}
+
+/* MENÚ: 3 zonas (logo | enlaces | buscador e íconos) */
+.barra-navegacion nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  max-width: var(--ancho-contenido);
+  margin: 0 auto;
+  padding: 16px 24px;
+  font-family: var(--fuente-body);
+  color: var(--color-neutral-950);
+}
+
+/* LOGO */
+.barra-navegacion .header-logo a {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 8px;
+}
+
+/* Los SVG traen margen interno: estas medidas dejan el dibujo
+   en 51 × 30 px y el texto en 144 × 19 px, con 8px entre ambos (Figma) */
+.barra-navegacion .header-logo img {
+  display: block;
+  width: auto;
+  height: 43px;
+}
+
+.barra-navegacion .header-logo img + img {
+  height: 48px;
+  margin-left: -15px;
+}
+
+/* BOTONES DE LOS DESPLEGABLES */
+.barra-navegacion .header-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.barra-navegacion .header-nav-boton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 48px;
+  font-size: var(--tamano-fuente-label);
+  font-weight: 500;
+  color: var(--color-neutral-950);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0;
+  border: 0;
+  font-family: var(--fuente-body);
+  background: transparent;
+}
+
+.barra-navegacion .header-nav-boton .icono {
+  font-size: 18px;
+  transition: transform 160ms ease;
+}
+
+.barra-navegacion .header-nav-boton[aria-expanded="true"] .icono {
+  transform: rotate(180deg);
+}
+
+.barra-navegacion .header-nav-boton:hover,
+.barra-navegacion .header-nav-boton[aria-expanded="true"] {
+  color: var(--barra-color-primario);
+}
+
+/* BUSCADOR */
+.barra-navegacion .header-busqueda {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-sizing: border-box;
+  width: 280px;
+  height: 48px;
+  padding: 8px 16px;
+  border: var(--stroke-default) solid var(--barra-color-primario);
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-0);
+  box-shadow: var(--barra-sombra-buscador);
+}
+
+.barra-navegacion .header-busqueda input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-caption);
+  color: var(--color-neutral-950);
+  background: transparent;
+}
+
+.barra-navegacion .header-busqueda input::placeholder {
+  color: var(--barra-color-placeholder);
+}
+
+.barra-navegacion .header-busqueda button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  color: var(--barra-color-primario);
+  background: transparent;
+  font-size: 22px;
+}
+
+/* USUARIO Y CARRITO */
+.barra-navegacion .header-acciones {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.barra-navegacion .header-busqueda {
+  margin-right: 37px;
+}
+
+/* "Hola, Nombre" junto al ícono de usuario (Profile, Figma: 137px, gap 4px) */
+.barra-navegacion .header-perfil {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.barra-navegacion .header-saludo {
+  max-width: 93px;
+  overflow: hidden;
+  font-size: var(--tamano-fuente-label);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--color-neutral-950);
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.barra-navegacion .header-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  font-size: 30px;
+}
+
+/* Negro como invitado; morado con sesión iniciada */
+.barra-navegacion .header-icono-usuario {
+  width: 40px;
+  height: 40px;
+  color: var(--color-neutral-800);
+}
+
+.barra-navegacion .header-icono-usuario-activo {
+  color: var(--barra-color-primario);
+}
+
+.barra-navegacion .header-icono-carrito {
+  width: 48px;
+  height: 48px;
+  color: var(--color-neutral-800);
+}
+
+.barra-navegacion .header-icono:hover {
+  background-color: var(--color-violet-50);
+}
+
+@media (max-width: 1100px) {
+  .barra-navegacion .banner-contenedor {
+    gap: 24px;
+  }
+
+  .barra-navegacion nav {
+    flex-wrap: wrap;
+    row-gap: 0;
+    padding: 8px 16px;
+  }
+
+  .barra-navegacion .header-nav {
+    order: 4;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 760px) {
+  .barra-navegacion nav {
+    gap: 8px;
+  }
+
+  .barra-navegacion .header-acciones {
+    display: contents;
+  }
+
+  .barra-navegacion .header-perfil {
+    margin-left: auto;
+  }
+
+  .barra-navegacion .header-busqueda {
+    order: 3;
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .barra-navegacion .header-nav {
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+}
+
+/* MENÚ DEL USUARIO (con sesión iniciada) */
+.barra-navegacion .header-perfil {
+  position: relative;
+}
+
+.menu-usuario-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 900;
+  min-width: 180px;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  border-radius: var(--radius-lg);
+  background-color: #f1f1f1;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+}
+
+.menu-usuario-panel a,
+.menu-usuario-panel button {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  border: 0;
+  background: transparent;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-label);
+  font-weight: 300;
+  line-height: 20px;
+  color: var(--color-neutral-950);
+  text-align: left;
+  text-decoration: none;
+}
+
+.menu-usuario-panel a:hover,
+.menu-usuario-panel button:hover {
+  color: var(--color-violet-800);
+  background-color: var(--color-violet-50);
+}

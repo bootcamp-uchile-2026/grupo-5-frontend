@@ -1,0 +1,86 @@
+/* ESTADOS DE CARGA Y ERROR
+   Componentes EstadoCarga y MensajeError, comunes a las vistas que piden
+   datos a un servicio. */
+.estado-carga {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+  padding: 48px 16px;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-small);
+  color: var(--color-neutral-dark);
+  background-color: transparent;
+}
+
+.estado-carga-indicador {
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--color-violet-100);
+  border-top-color: var(--color-primario-darker);
+  border-radius: 50%;
+  animation: estado-carga-giro 800ms linear infinite;
+}
+
+@keyframes estado-carga-giro {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .estado-carga-indicador {
+    animation-duration: 2400ms;
+  }
+}
+
+.mensaje-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 24px auto;
+  padding: 32px 24px;
+  max-width: 520px;
+  border: var(--stroke-default) solid var(--color-red-alert-200);
+  border-radius: var(--radius-md);
+  background-color: var(--color-red-alert-50);
+  font-family: var(--fuente-body);
+  text-align: center;
+}
+
+.mensaje-error-icono {
+  font-size: 24px;
+  color: var(--color-red-alert-600);
+}
+
+.mensaje-error p {
+  margin: 0;
+  font-size: var(--tamano-fuente-small);
+  line-height: 20px;
+  color: var(--color-neutral-950);
+  background-color: transparent;
+}
+
+.mensaje-error-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: var(--tamano-fuente-small);
+}
+
+.mensaje-error-acciones a {
+  color: var(--color-primario-darker);
+}
+
+.mensaje-error .mensaje-error-reintentar {
+  width: auto;
+  height: 36px;
+  padding: 0 20px;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-small);
+  cursor: pointer;
+}

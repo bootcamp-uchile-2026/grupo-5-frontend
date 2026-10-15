@@ -1,0 +1,33 @@
+/* RUTA DE NAVEGACIÓN (Catálogo y Ficha de libro). Cada página define su margen. */
+.ruta-navegacion ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-caption);
+  line-height: 16px;
+  color: var(--color-neutral-dark);
+}
+
+.ruta-navegacion li + li::before {
+  content: "/";
+  margin-right: 6px;
+}
+
+.ruta-navegacion a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ruta-navegacion a:hover {
+  color: var(--color-primario-darker);
+  text-decoration: underline;
+}
+
+.ruta-navegacion [aria-current="page"] {
+  font-weight: 700;
+  color: var(--color-neutral-950);
+}

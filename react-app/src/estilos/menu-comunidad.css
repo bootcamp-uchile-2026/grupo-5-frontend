@@ -1,0 +1,52 @@
+/* DESPLEGABLE "COMUNIDAD"
+   Figma: Wireframes Desktop, node 1547:6136 (caja de 240 × 132 px).
+   Fondo igual al de Catálogo y Descubre con nosotros. */
+.menu-comunidad {
+  position: relative;
+}
+
+.menu-comunidad-panel {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: -32px;
+  z-index: 900;
+  box-sizing: border-box;
+  width: 240px;
+  min-height: 132px;
+  margin: 0;
+  padding: 24px 32px;
+  background-color: #f1f1f1;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  font-size: var(--tamano-fuente-label);
+  list-style: none;
+}
+
+.menu-comunidad-panel a {
+  font-size: var(--tamano-fuente-label);
+  font-weight: 300;
+  line-height: 28px;
+  color: var(--color-neutral-950);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.menu-comunidad-panel a:hover {
+  color: var(--color-violet-800);
+  text-decoration: underline;
+}
+
+@media (max-width: 760px) {
+  /* El menú de enlaces tiene scroll horizontal: el panel se ancla al header */
+  .menu-comunidad {
+    position: static;
+  }
+
+  .menu-comunidad-panel {
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: auto;
+    min-height: 0;
+    padding: 24px 16px;
+  }
+}

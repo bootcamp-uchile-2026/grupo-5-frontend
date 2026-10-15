@@ -1,0 +1,185 @@
+/* PIE DE PÁGINA
+   Estructura y medidas: footer del wireframe (Figma: Componentes Global,
+   node 2169:10344 y wireframe Home). Se mantienen los colores del sitio.
+   Todos los estilos del footer están en este archivo. */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: var(--color-violet-800);
+  color: var(--color-neutral-0);
+}
+
+.footer .footer-contenedor {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 48px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--ancho-contenido) + 48px);
+  padding: 72px 24px;
+}
+
+/* LOGO (wireframe: ícono en contorno blanco + "Leeconnos_" en blanco).
+   El SVG del texto trae margen interno: con 48px de alto el texto mide
+   ~144 × 19 px visibles, igual que en Figma. */
+.footer .footer-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer .footer-marca {
+  display: flex;
+  align-items: center;
+}
+
+.footer .footer-marca img {
+  display: block;
+  width: auto;
+  height: 30px;
+}
+
+.footer .footer-marca .footer-marca-texto {
+  height: 48px;
+  margin-left: -8px;
+  filter: brightness(0) invert(1);
+}
+
+.footer .footer-lema {
+  margin: 4px 0 0;
+  padding: 0;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-caption);
+  line-height: 16px;
+  color: var(--color-neutral-0);
+  background-color: transparent;
+}
+
+/* COLUMNAS */
+.footer .footer-columnas {
+  display: flex;
+  gap: 72px;
+}
+
+.footer .footer-columna {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.footer .footer-columna:nth-child(1) {
+  min-width: 155px;
+}
+
+.footer .footer-columna:nth-child(2) {
+  min-width: 164px;
+}
+
+.footer .columna-encabezado {
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-weight: 400;
+  font-size: var(--tamano-fuente-heading-lg);
+  line-height: 1.15;
+  white-space: nowrap;
+  color: var(--color-neutral-0);
+  background-color: transparent;
+}
+
+.footer .columna-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer .columna-lista a,
+.footer .columna-lista span {
+  font-family: var(--fuente-body);
+  font-weight: 400;
+  font-size: var(--tamano-fuente-small);
+  line-height: 20px;
+  color: var(--color-neutral-0);
+  text-decoration: none;
+}
+
+.footer .columna-lista a:hover,
+.footer .columna-lista a:focus-visible {
+  color: var(--color-yellow-200);
+  text-decoration: underline;
+}
+
+.footer .iconos-contenedor {
+  display: flex;
+  gap: 17px;
+  padding-top: 2px;
+}
+
+.footer .iconos-contenedor img {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.footer .footer-direccion {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 190px;
+  font-family: var(--fuente-body);
+  font-style: normal;
+  font-size: var(--tamano-fuente-small);
+  line-height: 20px;
+  color: var(--color-neutral-0);
+}
+
+/* FRANJA LEGAL: mismo degradado que el banner superior */
+.footer .footer-legal {
+  width: 100%;
+  background-image: var(--degradado-banner);
+}
+
+.footer .footer-legal p {
+  margin: 0;
+  padding: 12px 16px;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-small);
+  line-height: 24px;
+  text-align: center;
+  color: var(--color-neutral-0);
+  background-color: transparent;
+}
+
+@media (max-width: 1100px) {
+  .footer .footer-contenedor {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer .footer-columnas {
+    flex-wrap: wrap;
+    gap: 32px 48px;
+  }
+}
+
+@media (max-width: 760px) {
+  .footer .footer-contenedor {
+    padding: 48px 20px;
+  }
+
+  .footer .footer-columnas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 24px;
+  }
+
+  .footer .footer-columna:nth-child(n) {
+    min-width: 0;
+  }
+
+  .footer .footer-legal p {
+    line-height: 20px;
+  }
+}
