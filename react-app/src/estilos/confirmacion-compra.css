@@ -61,47 +61,55 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 28px;
-    min-height: 128px;
-    padding: 16px 28px;
-    border: var(--stroke-default) solid var(--color-green-success-200);
-    border-radius: var(--radius-xl);
-    background: var(--color-green-success-50);
+    justify-content: center;
+    gap: 48px;
+    width: 100%;
+    min-height: 150px;
+    margin: 0 auto;
+    padding: 20px 32px;
+    border: var(--stroke-default) solid var(--color-green-success-400);
+    border-radius: var(--radius-lg);
+    background: var(--color-neutral-0);
+    box-shadow: 0 8px 12px rgb(17 17 17 / 14%);
 }
 
-.confirmacion-exito > div:last-child {
-    flex: 0 1 560px;
+.confirmacion-exito-mensaje {
+    flex: 0 1 420px;
     text-align: left;
 }
 
 .confirmacion-exito-icono {
     display: grid;
-    flex: 0 0 88px;
-    width: 88px;
-    height: 88px;
+    flex: 0 0 70px;
+    width: 70px;
+    height: 70px;
     place-items: center;
-    border: var(--stroke-default) solid var(--color-green-success-200);
+    border: 6px solid var(--color-green-success-400);
     border-radius: var(--radius-full);
-    background: var(--color-neutral-lightest);
     color: var(--color-green-success-600);
-    font-size: 46px;
+    font-size: 36px;
 }
 
 .confirmacion-exito h1 {
-    margin: 0 0 8px;
+    margin: 0 0 6px;
     background: transparent;
-    color: var(--color-neutral-darkest);
-    font-size: 24px;
-    font-weight: 500;
+    color: var(--color-green-success-700);
+    font-family: var(--fuente-display);
+    font-size: 17px;
+    font-weight: 400;
     line-height: 1.25;
 }
 
 .confirmacion-exito p {
     margin: 0;
-    color: var(--color-neutral-darker);
-    font-size: 15px;
-    line-height: 1.4;
+    color: var(--color-neutral-900);
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+.confirmacion-exito .confirmacion-exito-correo {
+    margin-top: 12px;
+    font-size: 9px;
 }
 
 .confirmacion-pedido {
@@ -124,9 +132,9 @@
 .confirmacion-detalles h2,
 .confirmacion-resumen h2 {
     margin: 0;
-    color: var(--color-neutral-darker);
-    font-size: 18px;
-    font-weight: 600;
+    color: var(--color-neutral-900);
+    font-size: 13px;
+    font-weight: 700;
     line-height: 1.25;
 }
 
@@ -183,7 +191,16 @@
 .confirmacion-resumen {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    padding: 12px 12px 6px;
+    border-color: var(--color-neutral-500);
+    border-radius: 12px;
+    background: var(--color-neutral-0);
+}
+
+.confirmacion-detalles {
+    border-color: var(--color-neutral-500);
+    border-radius: 12px;
 }
 
 .confirmacion-resumen-cabecera {
@@ -195,11 +212,10 @@
 
 .confirmacion-resumen-cabecera > span {
     flex: none;
-    padding: 6px 12px;
-    border-radius: 16px;
-    background: var(--color-neutral-lighter);
-    color: var(--color-neutral-darker);
-    font-size: 12px;
+    padding: 0;
+    background: transparent;
+    color: var(--color-neutral-900);
+    font-size: 8px;
 }
 
 .confirmacion-productos {
@@ -213,19 +229,22 @@
 
 .confirmacion-producto {
     display: flex;
-    align-items: flex-start;
-    gap: 14px;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 4px 12px;
 }
 
 .confirmacion-producto-portada,
 .confirmacion-producto-sin-portada {
     display: grid;
-    flex: 0 0 52px;
-    width: 52px;
-    height: 64px;
+    flex: 0 0 60px;
+    width: 60px;
+    height: 84px;
     place-items: center;
-    border: 1px solid var(--color-neutral-light);
-    border-radius: 4px;
+    border: 0;
+    border-radius: 2px;
     background: var(--color-neutral-lighter);
     color: var(--color-neutral-dark);
     object-fit: cover;
@@ -247,6 +266,7 @@
 }
 
 .confirmacion-producto-datos h3 {
+    color: var(--color-neutral-darkest);
     font-size: 14px;
     line-height: 1.3;
 }
@@ -259,7 +279,8 @@
 
 .confirmacion-producto-precio {
     flex: none;
-    font-size: 13px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .confirmacion-finanzas {
@@ -267,22 +288,26 @@
     flex-direction: column;
     gap: 0;
     margin: 0;
-    padding: 8px 0;
-    border-top: 1px solid var(--color-neutral-light);
-    border-bottom: 1px solid var(--color-neutral-light);
+    padding: 0 0 8px;
+    border-top: 0;
+    border-bottom: 1px solid var(--color-neutral-800);
 }
 
 .confirmacion-finanzas > div {
     display: flex;
     justify-content: space-between;
     gap: 12px;
-    color: var(--color-neutral-darker);
-    font-size: 13px;
-    line-height: 1.55;
+    color: var(--color-neutral-900);
+    font-size: 11px;
+    line-height: 1.7;
 }
 
 .confirmacion-finanzas dd {
     margin: 0;
+}
+
+.confirmacion-finanzas > div:nth-child(2) dd {
+    color: var(--color-red-alert-600);
 }
 
 .confirmacion-total {
@@ -294,93 +319,53 @@
 
 .confirmacion-total h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.3;
 }
 
 .confirmacion-total strong {
-    font-size: 28px;
+    font-size: 17px;
     line-height: 1.3;
 }
 
 .confirmacion-pago {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin: 0;
-    color: var(--color-neutral-darker);
+    justify-content: space-between;
+    gap: 12px;
+    margin: 6px 0 0;
+    color: var(--color-neutral-900);
     font-size: 14px;
+    font-weight: 400;
     line-height: 1.3;
 }
 
+.confirmacion-pago strong {
+    font-weight: 400;
+}
+
 .confirmacion-pago span {
-    padding: 4px 8px;
-    border-radius: 4px;
-    background: var(--color-neutral-lighter);
+    padding: 0;
+    background: transparent;
+    text-align: right;
 }
 
-.confirmacion-acciones {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    height: auto;
-    margin-top: 16px;
-    padding: 16px 8px;
-    border: 1px solid var(--color-neutral-light);
-    border-radius: 8px;
-    background: var(--color-neutral-lightest);
-    color: var(--color-neutral-darkest);
-    font-size: var(--tamano-fuente-parrafos);
-    font-weight: var(--peso-parrafos);
-    justify-content: stretch;
-}
-
-.confirmacion-accion {
-    display: grid;
-    grid-template-columns: 44px minmax(0, 1fr) 14px;
+.confirmacion-seguir-comprando {
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
-    min-width: 0;
-    padding: 8px 16px;
-    color: inherit;
+    gap: 16px;
+    margin-top: 20px;
+    color: var(--color-neutral-900);
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.confirmacion-seguir-comprando .icono {
+    font-size: 14px;
     text-decoration: none;
 }
 
-.confirmacion-accion + .confirmacion-accion {
-    border-left: 1px solid var(--color-neutral-light);
-}
-
-.confirmacion-accion > i:first-child {
-    display: grid;
-    width: 44px;
-    height: 44px;
-    place-items: center;
-    border-radius: 50%;
-    background: var(--color-neutral-lighter);
-    color: var(--color-primario-darker);
-    font-size: 24px;
-}
-
-.confirmacion-accion > span {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.confirmacion-accion strong {
-    font-size: 14px;
-}
-
-.confirmacion-accion small {
-    color: var(--color-neutral-dark);
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.confirmacion-accion > i:last-child {
-    color: var(--color-neutral-dark);
-}
-
-.confirmacion-accion:hover strong {
+.confirmacion-seguir-comprando:hover {
     color: var(--color-primario-dark);
 }
 
@@ -426,14 +411,6 @@
         gap: 14px;
     }
 
-    .confirmacion-acciones {
-        grid-template-columns: 1fr;
-    }
-
-    .confirmacion-accion + .confirmacion-accion {
-        border-top: 1px solid var(--color-neutral-light);
-        border-left: 0;
-    }
 }
 
 @media (max-width: 480px) {
@@ -452,24 +429,25 @@
     }
 
     .confirmacion-exito {
-        gap: 14px;
-        min-height: 100px;
-        padding: 14px;
+        gap: 20px;
+        min-height: 120px;
+        padding: 16px;
     }
 
     .confirmacion-exito-icono {
         flex-basis: 56px;
         width: 56px;
         height: 56px;
+        border-width: 5px;
         font-size: 32px;
     }
 
     .confirmacion-exito h1 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .confirmacion-exito p {
-        font-size: 13px;
+        font-size: 10px;
     }
 
     .confirmacion-detalles,

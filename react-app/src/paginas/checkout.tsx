@@ -254,10 +254,25 @@ function Checkout() {
           <span aria-current="page">Check out</span>
         </nav>
           {/*INICIAR SESIÓN*/}
-          <section className={`checkout-tarjeta${usuario ? " checkout-bienvenida" : ""}`}>
-            {!usuario && <h2 className="checkout-titulo-invitado">
-              {invitado && !usuario ? "Comprar como invitado" : "Iniciar sesión"}
-            </h2>}
+          <section className={`checkout-tarjeta checkout-login-tarjeta${usuario ? " checkout-bienvenida" : ""}`}>
+            {!usuario && (
+              <>
+                <h2 className="checkout-titulo-invitado">
+                  {invitado ? (
+                    "Comprar como invitado"
+                  ) : (
+                    <>
+                      ¡Hola, <span>lector!</span>
+                    </>
+                  )}
+                </h2>
+                {!invitado && (
+                  <p className="checkout-subtitulo checkout-bienvenida-texto">
+                    Inicia sesión para descubrir buenas lecturas.
+                  </p>
+                )}
+              </>
+            )}
             {usuario ? (
               <p>
                 Ya puedes realizar tu compra, <strong>{usuario.nombre}</strong>{" "}
@@ -317,6 +332,7 @@ function Checkout() {
                   <input
                     type="email"
                     id="checkout-email"
+                    placeholder="Correo electrónico"
                     autoComplete="email"
                     value={login.email}
                     onChange={(e) => setLogin({ ...login, email: e.target.value })}
@@ -330,6 +346,7 @@ function Checkout() {
                   <input
                     type="password"
                     id="checkout-password"
+                    placeholder="Contraseña"
                     autoComplete="current-password"
                     value={login.password}
                     onChange={(e) =>
@@ -345,6 +362,9 @@ function Checkout() {
                 {erroresLogin.general && (
                   <span className="checkout-error">{erroresLogin.general}</span>
                 )}
+                <p className="checkout-login-recuperar">
+                  <Link to="/mi-cuenta">¿Olvidaste tu contraseña?</Link>
+                </p>
                 <button
                   type="button"
                   className="checkout-boton-login"
@@ -353,19 +373,31 @@ function Checkout() {
                 >
                   {cargandoLogin ? "Ingresando..." : "Iniciar sesión"}
                 </button>
-                <p className="checkout-login-ayuda">
-                  <Link to="/mi-cuenta">¿Olvidaste tu cuenta?</Link>
-                </p>
-                <p className="checkout-login-ayuda">
-                  También puedes <Link to="/mi-cuenta">CREAR UNA CUENTA</Link> o{" "}
+                <p className="checkout-login-ayuda checkout-login-alternativas">
+                  ¿Aún no tienes cuenta?{" "}
+                  <Link to="/mi-cuenta">Regístrate aquí</Link>
+                  <span aria-hidden="true">o</span>
                   <button
                     type="button"
                     className="checkout-enlace"
                     onClick={cambiarAInvitado}
                   >
-                    COMPRAR COMO INVITADO
+                    compra como invitado
                   </button>
                 </p>
+                <div className="checkout-social-separador">
+                  <span>O continúa con</span>
+                </div>
+                <div className="checkout-social">
+                  <button type="button">
+                    <Icono nombre="google" />
+                    Continuar con Google
+                  </button>
+                  <button type="button">
+                    <Icono nombre="facebook" />
+                    Continuar con Facebook
+                  </button>
+                </div>
               </>
             )}
             {errores.sesion && (
@@ -574,7 +606,8 @@ function Checkout() {
               )}
               <div className="checkout-resumen-datos">
                 <p className="checkout-resumen-titulo">{item.titulo}</p>
-                <p>{item.cantidad} unidad(es)</p>
+                {item.autor && <p>{item.autor}</p>}
+                <p>{item.cantidad} {item.cantidad === 1 ? "unidad" : "unidades"}</p>
               </div>
               <span className={`checkout-resumen-precio${montoDescuento > 0 ? " checkout-precio-oferta" : ""}`}>
                 {montoDescuento > 0 && (
