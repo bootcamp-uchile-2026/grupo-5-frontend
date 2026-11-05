@@ -1,34 +1,47 @@
-/* PIE DE PÁGINA
-   Estructura y medidas: footer del wireframe (Figma: Componentes Global,
-   node 2169:10344 y wireframe Home). Se mantienen los colores del sitio.
-   Todos los estilos del footer están en este archivo. */
 .footer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  overflow: hidden;
   background-color: var(--color-violet-800);
   color: var(--color-neutral-0);
 }
 
-.footer .footer-contenedor {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 48px;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: calc(var(--ancho-contenido) + 48px);
-  padding: 72px 24px;
+.footer::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 350px;
+  height: 100%;
+  background-image: url("../assets/logos/06-Imagen-Contorno-Blanco.svg");
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: contain;
+  content: "";
+  opacity: 0.06;
+  pointer-events: none;
+  transform: rotate(-12deg);
+  transform-origin: center;
 }
 
-/* LOGO (wireframe: ícono en contorno blanco + "Leeconnos_" en blanco).
-   El SVG del texto trae margen interno: con 48px de alto el texto mide
-   ~144 × 19 px visibles, igual que en Figma. */
+.footer .footer-contenedor {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  box-sizing: border-box;
+  width: 80%;
+  max-width: 1240px;
+  min-height: 219px;
+  padding: 32px 0 28px;
+}
+
 .footer .footer-logo {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .footer .footer-marca {
@@ -39,29 +52,29 @@
 .footer .footer-marca img {
   display: block;
   width: auto;
-  height: 30px;
+  height: 22px;
 }
 
 .footer .footer-marca .footer-marca-texto {
-  height: 48px;
-  margin-left: -8px;
+  height: 36px;
+  margin-left: -6px;
   filter: brightness(0) invert(1);
 }
 
 .footer .footer-lema {
-  margin: 4px 0 0;
+  margin: -2px 0 0 4px;
   padding: 0;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-caption);
-  line-height: 16px;
+  font-size: 9px;
+  line-height: 13px;
   color: var(--color-neutral-0);
   background-color: transparent;
 }
 
-/* COLUMNAS */
 .footer .footer-columnas {
   display: flex;
-  gap: 72px;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .footer .footer-columna {
@@ -71,19 +84,27 @@
 }
 
 .footer .footer-columna:nth-child(1) {
-  min-width: 155px;
+  min-width: 120px;
 }
 
 .footer .footer-columna:nth-child(2) {
-  min-width: 164px;
+  min-width: 140px;
+}
+
+.footer .footer-columna:nth-child(3) {
+  min-width: 115px;
+}
+
+.footer .footer-columna:nth-child(4) {
+  min-width: 132px;
 }
 
 .footer .columna-encabezado {
   margin: 0;
   font-family: var(--fuente-display);
   font-weight: 400;
-  font-size: var(--tamano-fuente-heading-lg);
-  line-height: 1.15;
+  font-size: 16px;
+  line-height: 20px;
   white-space: nowrap;
   color: var(--color-neutral-0);
   background-color: transparent;
@@ -92,87 +113,110 @@
 .footer .columna-lista {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .footer .columna-lista a,
-.footer .columna-lista span {
+.footer .columna-lista span,
+.footer .footer-contacto a,
+.footer .footer-direccion {
   font-family: var(--fuente-body);
   font-weight: 400;
-  font-size: var(--tamano-fuente-small);
-  line-height: 20px;
+  font-size: 10px;
+  line-height: 15px;
   color: var(--color-neutral-0);
   text-decoration: none;
 }
 
 .footer .columna-lista a:hover,
-.footer .columna-lista a:focus-visible {
+.footer .columna-lista a:focus-visible,
+.footer .footer-contacto a:hover,
+.footer .footer-contacto a:focus-visible {
   color: var(--color-yellow-200);
   text-decoration: underline;
 }
 
 .footer .iconos-contenedor {
   display: flex;
-  gap: 17px;
-  padding-top: 2px;
+  gap: 12px;
+  padding-top: 1px;
 }
 
 .footer .iconos-contenedor img {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
+}
+
+.footer .footer-contacto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.footer .footer-contacto .footer-telefono {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.footer .footer-telefono img {
+  display: block;
+  width: 14px;
+  height: 14px;
 }
 
 .footer .footer-direccion {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  max-width: 190px;
-  font-family: var(--fuente-body);
+  max-width: 150px;
+  margin: 18px 0 0;
   font-style: normal;
-  font-size: var(--tamano-fuente-small);
-  line-height: 20px;
-  color: var(--color-neutral-0);
 }
 
-/* FRANJA LEGAL: mismo degradado que el banner superior */
 .footer .footer-legal {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  background-image: var(--degradado-banner);
+  background-color: var(--color-violet-900);
 }
 
 .footer .footer-legal p {
   margin: 0;
-  padding: 12px 16px;
+  padding: 8px 16px;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-small);
-  line-height: 24px;
+  font-size: 10px;
+  line-height: 20px;
   text-align: center;
   color: var(--color-neutral-0);
   background-color: transparent;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1000px) {
   .footer .footer-contenedor {
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    width: calc(100% - 48px);
+    min-height: auto;
+    padding: 32px 0;
   }
 
   .footer .footer-columnas {
     flex-wrap: wrap;
-    gap: 32px 48px;
+    justify-content: flex-start;
+    gap: 28px 40px;
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   .footer .footer-contenedor {
-    padding: 48px 20px;
+    width: calc(100% - 40px);
+    padding: 28px 0;
   }
 
   .footer .footer-columnas {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px 24px;
+    gap: 28px 20px;
   }
 
   .footer .footer-columna:nth-child(n) {
@@ -180,6 +224,6 @@
   }
 
   .footer .footer-legal p {
-    line-height: 20px;
+    line-height: 18px;
   }
 }

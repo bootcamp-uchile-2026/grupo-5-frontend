@@ -19,9 +19,9 @@ export function Newsletter() {
       </h2>
 
       <p className="newsletter-pie">
-        Si quieres enterarte de
+        Entérate de recomendaciones,
         <br />
-        recomendaciones, novedades y más
+        novedades y más
       </p>
 
       <form className="newsletter-formulario" onSubmit={enviar}>
