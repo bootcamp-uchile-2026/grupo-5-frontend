@@ -89,13 +89,18 @@ function ConfirmacionCompra() {
           <div className="confirmacion-exito-icono" aria-hidden="true">
             <Icono nombre="confirmado" />
           </div>
-          <div>
+          <div className="confirmacion-exito-mensaje">
             <h1 id="titulo-confirmacion">
-              ¡Compra realizada, {pedido.nombreComprador}!
+              ¡Compra confirmada!
             </h1>
             <p>
-              Tu pedido fue procesado correctamente. Enviaremos los detalles de
-              la compra a <strong>{pedido.emailComprador}</strong>.
+              {pedido.metodoEnvio === "despacho"
+                ? "Gracias por tu compra, pronto comenzará el envío."
+                : "Gracias por tu compra, pronto estará listo tu pedido."}
+            </p>
+            <p className="confirmacion-exito-correo">
+              Hemos enviado los detalles de tu compra a{" "}
+              <strong>{pedido.emailComprador}</strong>
             </p>
           </div>
         </section>
@@ -168,7 +173,7 @@ function ConfirmacionCompra() {
               <h2 id="titulo-resumen-pedido">Resumen del pedido</h2>
               <span>
                 {pedido.totalItems}{" "}
-                {pedido.totalItems === 1 ? "producto" : "productos"}
+                {pedido.totalItems === 1 ? "elemento" : "elementos"}
               </span>
             </div>
 
@@ -207,12 +212,12 @@ function ConfirmacionCompra() {
                 <dd>{formatearPrecio(pedido.subtotal)}</dd>
               </div>
               <div>
-                <dt>Envío</dt>
-                <dd>{formatearPrecio(pedido.envio)}</dd>
-              </div>
-              <div>
                 <dt>Descuento</dt>
                 <dd>-{formatearPrecio(pedido.descuento)}</dd>
+              </div>
+              <div>
+                <dt>Envío</dt>
+                <dd>{formatearPrecio(pedido.envio)}</dd>
               </div>
             </dl>
 
@@ -227,35 +232,14 @@ function ConfirmacionCompra() {
           </section>
         </div>
 
-        <nav
-          className="confirmacion-acciones"
-          aria-label="Acciones posteriores a la compra"
+        <Link
+          to="/catalogo"
+          className="confirmacion-seguir-comprando"
+          aria-label="Seguir comprando"
         >
-          <Link to="/mi-cuenta" className="confirmacion-accion">
-            <Icono nombre="detallePedido" />
-            <span>
-              <strong>Ver mi pedido</strong>
-              <small>Revisa los detalles de tu compra.</small>
-            </span>
-            <Icono nombre="siguiente" />
-          </Link>
-          <Link to="/catalogo" className="confirmacion-accion">
-            <Icono nombre="bolsa" />
-            <span>
-              <strong>Seguir comprando</strong>
-              <small>Encuentra tu próxima lectura.</small>
-            </span>
-            <Icono nombre="siguiente" />
-          </Link>
-          <Link to="/comunidad" className="confirmacion-accion">
-            <Icono nombre="comunidad" />
-            <span>
-              <strong>Conoce nuestra comunidad</strong>
-              <small>Conecta con otros lectores.</small>
-            </span>
-            <Icono nombre="siguiente" />
-          </Link>
-        </nav>
+          <span>Seguir comprando</span>
+          <Icono nombre="siguiente" />
+        </Link>
       </main>
       <Footer />
     </>
