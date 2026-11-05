@@ -1,8 +1,8 @@
 import "../estilos/index.css";
 import "../estilos/base.css";
 import { Carrusel } from "../componentes/Carrusel";
+import { ComunidadLectora } from "../componentes/ComunidadLectora";
 import { Footer } from "../componentes/Footer";
-import { Link } from "react-router-dom";
 import { Newsletter } from "../componentes/Newsletter";
 import { TarjetaProducto } from "../componentes/TarjetaProducto";
 import {
@@ -174,38 +174,7 @@ function Index() {
           ))}
         </Carrusel>
 
-        {/* COMUNIDAD LECTORA */}
-        <section className="comunidad-lectora">
-          {/* CONTENEDOR */}
-          <div className="comunidad-lectora-contenedor">
-            {/* COMUNIDAD LECTORA CONTENIDO */}
-            <div className="comunidad-lectora-contenido">
-              {/* COMUNIDAD LECTORA TÍTULO */}
-              <div className="comunidad-lectora-titulo">
-                <h2>Únete a nuestra comunidad lectora</h2>
-              </div>
-
-              {/* COMUNIDAD LECTORA PIE */}
-              <div className="comunidad-lectora-pie">
-                <p>
-                  Comparte reseñas y descubre recomendaciones de la comunidad
-                </p>
-              </div>
-
-              {/* COMUNIDAD LECTORA BOTONES */}
-              <div className="comunidad-lectora-botones">
-                <Link className="boton" to="/comunidad">
-                  Ir a la comunidad
-                </Link>
-              </div>
-            </div>
-
-            {/* COMUNIDAD LECTORA IMAGEN */}
-            <div className="comunidad-lectora-imagen">
-              <img src={IMAGENES_RELLENO.comunidad} alt="" />
-            </div>
-          </div>
-        </section>
+        <ComunidadLectora />
 
         {Boolean(inicio.error) && (
           <MensajeError error={inicio.error} onReintentar={inicio.reintentar} />

@@ -1,96 +1,108 @@
-.newsletter{
-    background-color: var(--color-secundario-light);
-    min-height: 268px;
-    box-sizing: border-box;
-    /* Más espacio antes del footer, según wireframe Home */
-    margin: 25px 0 88px;
-    padding: 40px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.newsletter {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: min(600px, calc(100% - 40px));
+  min-height: 262px;
+  margin: 4px auto 88px;
+  padding: 32px 24px;
+  border: 1px solid var(--color-neutral-500);
+  border-radius: 16px;
+  background-color: var(--color-neutral-50);
+}
+
+.newsletter-titulo {
+  margin: 0;
+  background-color: transparent;
+  color: var(--color-neutral-950);
+  font-family: var(--fuente-display);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 40px;
+  text-align: center;
+}
+
+.newsletter-pie {
+  margin: 0;
+  background-color: transparent;
+  color: var(--color-neutral-950);
+  font-family: var(--fuente-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18px;
+  text-align: center;
+}
+
+.newsletter-formulario {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.newsletter-formulario input {
+  box-sizing: border-box;
+  width: 321px;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--color-yellow-700);
+  border-radius: 9px;
+  background-color: var(--color-yellow-50);
+  color: var(--color-yellow-900);
+  font-family: var(--fuente-body);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.newsletter-formulario input::placeholder {
+  color: var(--color-yellow-900);
+  opacity: 1;
+}
+
+.newsletter-formulario input:focus-visible {
+  outline: var(--stroke-focus) solid var(--color-yellow-700);
+  outline-offset: 2px;
+}
+
+.newsletter .newsletter-boton {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.newsletter-mensaje {
+  margin: 0;
+  color: var(--color-neutral-700);
+  font-size: 14px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .newsletter {
     gap: 16px;
-}
+    min-height: 240px;
+    padding: 28px 20px;
+  }
 
-.newsletter-titulo{
-    background-color: transparent;
-    margin: 0;
-    text-align: center;
-    color: var(--color-neutral-darkest);
-    font-family: var(--fuente-display);
-    font-weight: 400;
-    font-size: var(--tamano-fuente-heading-lg);
+  .newsletter-titulo {
+    font-size: 26px;
     line-height: 32px;
-}
+  }
 
-.newsletter-pie{
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-neutral-darkest);
-    background-color: transparent;
-    margin: 0;
-    text-align: center;
-}
+  .newsletter-formulario {
+    width: 100%;
+    justify-content: center;
+  }
 
-.newsletter-formulario{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 8px;
-}
-
-.newsletter-formulario input{
-    box-sizing: border-box;
-    width: 335px;
-    height: 36px;
-    padding: 0 12px;
-    border: 1px solid var(--color-neutral-darker);
-    border-radius: var(--radius-md);
-    background-color: var(--color-neutral-0);
-    font-family: var(--fuente-body);
-    font-size: var(--tamano-fuente-small);
-    text-align: center;
-}
-
-/* El wireframe no muestra botón: queda accesible para lectores de pantalla */
-.newsletter .newsletter-boton{
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-.newsletter-boton{
-    height: 26px;
-    padding: 0 14px;
-    border: 0;
-    border-radius: 4px;
-    color: var(--color-neutral-lightest);
-    background-color: var(--color-primario-darker);
-    font-family: var(--fuente-body);
-    font-size: var(--tamano-fuente-small);
-    cursor: pointer;
-}
-
-.newsletter-mensaje{
-    margin: 0;
-    text-align: center;
-    color: var(--color-neutral-darker);
-    font-size: var(--tamano-fuente-small);
-}
-
-@media (max-width: 600px){
-    .newsletter-formulario{
-        flex-direction: column;
-    }
-
-    .newsletter-formulario input{
-        width: min(335px, 80vw);
-    }
+  .newsletter-formulario input {
+    width: min(321px, 100%);
+  }
 }

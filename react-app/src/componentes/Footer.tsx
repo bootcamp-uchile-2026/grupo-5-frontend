@@ -4,9 +4,9 @@ import logoTexto from "../assets/logos/04-Horizontal-Texto.svg";
 import facebook from "../assets/iconos/01-facebook-negative.svg";
 import instagram from "../assets/iconos/02-instagram-negative.svg";
 import youtube from "../assets/iconos/04-youtube-negative.svg";
+import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 import "../estilos/footer.css";
 
-// Estructura según el footer del wireframe (Figma: Componentes Global, node 2169:10344)
 export function Footer() {
   return (
     <footer className="footer">
@@ -49,10 +49,16 @@ export function Footer() {
 
           <section className="footer-columna">
             <h3 className="columna-encabezado">Contáctanos</h3>
-            <address className="footer-direccion">
-              <span>Visítanos</span>
-              Av. Italia 1245, Barrio Italia, Providencia, Santiago, Chile
-            </address>
+            <div className="footer-contacto">
+              <a href="mailto:info@leeconnos.cl">info@leeconnos.cl</a>
+              <a className="footer-telefono" href="https://wa.me/56999871234">
+                <img src={whatsapp} alt="" />
+                +569 9987 1234
+              </a>
+              <address className="footer-direccion">
+                Av. Italia 1245, Barrio Italia, Providencia, Santiago, Chile
+              </address>
+            </div>
           </section>
         </div>
       </div>
