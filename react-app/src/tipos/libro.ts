@@ -1,7 +1,15 @@
 // DTO del catálogo según la API (Swagger: LibroResponseDto y GeneroDto)
 export type FormatoLibro = "FISICO" | "EBOOK" | "AUDIOLIBRO";
 export type EstadoLibro = "DISPONIBLE" | "PREVENTA";
-export type OrdenLibros = "novedades" | "precio_asc" | "precio_desc" | "titulo";
+export type OrdenLibros =
+  | "novedades"
+  | "precio_asc"
+  | "precio_desc"
+  | "titulo"
+  | "mas_vendidos"
+  | "mejor_calificados"
+  | "mas_comentados"
+  | "mayor_descuento";
 
 // Response de GET /libros (dentro de "items") y de GET /libros/:id
 export type LibroResponseDto = {
@@ -10,6 +18,7 @@ export type LibroResponseDto = {
   titulo: string;
   autor: string;
   genero: string;
+  subgenero: string | null;
   descripcion: string | null;
   editorial: string | null;
   anioPublicacion: number | null;
@@ -25,11 +34,15 @@ export type LibroResponseDto = {
 // Response de GET /libros/generos
 export type GeneroDto = { genero: string; cantidad: number };
 
-// Request de GET /libros (query params, todos opcionales)
+// Request de GET /libros (query params, todos opcionales). "autores" admite
+// varios valores; "editorial" y "subgenero", uno solo.
 export type BuscarLibrosRequest = {
   q?: string;
   genero?: string;
-  autor?: string;
+  autores?: string[];
+  editorial?: string;
+  subgenero?: string;
+  enOferta?: boolean;
   formato?: FormatoLibro;
   estado?: EstadoLibro;
   precioMin?: number;

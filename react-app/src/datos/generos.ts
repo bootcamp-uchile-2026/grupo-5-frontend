@@ -1,5 +1,3 @@
-import { SUBGENEROS } from "./libros";
-
 // Géneros y temáticas del desplegable de Catálogo
 // (Figma: Componentes Global, nodes 2294:20831 y 2294:20860)
 export type Columna = { titulo: string; opciones: string[] };
@@ -137,11 +135,6 @@ export function generoEnApi(genero: string) {
 // Nombre de UX de un género de la API (p. ej. "Policial" → "Misterio y thriller")
 function generoDeUx(genero: string) {
   return Object.keys(GENERO_EN_API).find((ux) => GENERO_EN_API[ux] === genero) ?? genero;
-}
-
-// Subgéneros diseñados para un género (con su nombre de UX o de la API)
-export function subgenerosDe(genero: string) {
-  return SUBGENEROS[generoDeUx(genero)] ?? [];
 }
 
 // Catálogo filtrado por un género del menú

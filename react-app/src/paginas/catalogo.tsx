@@ -9,7 +9,7 @@ import { RutaNavegacion, type ElementoRuta } from "../componentes/RutaNavegacion
 import { TarjetaProducto } from "../componentes/TarjetaProducto";
 import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
-import { generoEnApi, grupoDeGenero, subgenerosDe } from "../datos/generos";
+import { generoEnApi, grupoDeGenero } from "../datos/generos";
 import {
   buscarLibros,
   obtenerGeneros,
@@ -23,16 +23,22 @@ import "../estilos/catalogo.css";
 // Wireframe Catálogo (Figma: Wireframes Desktop, node 1622:7933).
 // Los filtros y la página viven en la URL: q, genero, orden, formato, stock,
 // descuento, precioMin, precioMax, pagina y (repetibles) subgenero, autor y
-// editorial. Los datos vienen de GET /libros (ver catalogoServicio.ts).
+// editorial. Los filtros los resuelve GET /libros (ver catalogoServicio.ts).
 
 const LARGO_MINIMO_BUSQUEDA = 2;
 
+// Textos del UI Kit (Filtros Catálogo). "Z-A" y "Más recomendado" no
+// existen en la API, así que no se ofrecen.
 const ORDENES: { valor: OrdenLibros | ""; texto: string }[] = [
-  { valor: "", texto: "Relevancia" },
+  { valor: "", texto: "Más relevantes" },
   { valor: "novedades", texto: "Novedades" },
-  { valor: "precio_asc", texto: "Precio: menor a mayor" },
-  { valor: "precio_desc", texto: "Precio: mayor a menor" },
-  { valor: "titulo", texto: "Título (A-Z)" },
+  { valor: "mas_vendidos", texto: "Más vendidos" },
+  { valor: "mejor_calificados", texto: "Mejor calificados" },
+  { valor: "mas_comentados", texto: "Más comentados" },
+  { valor: "mayor_descuento", texto: "Mayor descuento" },
+  { valor: "titulo", texto: "Alfabéticamente, A-Z" },
+  { valor: "precio_asc", texto: "Precio, menor a mayor" },
+  { valor: "precio_desc", texto: "Precio, mayor a menor" },
 ];
 
 const esOrden = (valor: string): valor is OrdenLibros =>
@@ -95,7 +101,7 @@ function Catalogo() {
   const opciones = usePeticion(
     () =>
       busquedaCorta
-        ? Promise.resolve({ autores: [], editoriales: [], precios: [] })
+        ? Promise.resolve({ subgeneros: [], autores: [], editoriales: [], precios: [] })
         : obtenerOpcionesFiltro(ambito),
     JSON.stringify([ambito, busquedaCorta]),
   );
@@ -150,7 +156,8 @@ function Catalogo() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  const subgenerosDisponibles = genero ? subgenerosDe(genero) : [];
+  // Solo los subgéneros que tienen libros en la búsqueda y el género actuales
+  const subgenerosDisponibles = opciones.datos?.subgeneros ?? [];
   const grupo = genero ? grupoDeGenero(genero) : undefined;
   const ruta: ElementoRuta[] = [
     { texto: "Inicio", ruta: "/" },
@@ -217,7 +224,7 @@ function Catalogo() {
             <p className="catalogo-filtros-titulo">Filtrar:</p>
 
             {subgenerosDisponibles.length > 0 && (
-              <Desplegable className="filtro-desplegable" titulo="Subgéneros" abiertoInicial>
+              <Desplegable className="filtro-desplegable" titulo="Subgénero" abiertoInicial>
                 {casillas("subgenero", subgenerosDisponibles, subgeneros)}
               </Desplegable>
             )}
@@ -282,6 +289,16 @@ function Catalogo() {
                       onChange={() => actualizarParametro("stock", soloEnStock ? "" : "si")}
                     />
                     Solo con stock
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={soloOfertas}
+                      onChange={() => actualizarParametro("descuento", soloOfertas ? "" : "si")}
+                    />
+                    Solo ofertas
                   </label>
                 </li>
               </ul>
