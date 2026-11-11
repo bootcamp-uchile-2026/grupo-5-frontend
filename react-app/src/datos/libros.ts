@@ -4,22 +4,6 @@ import { IMAGENES_RELLENO } from "./imagenes";
 // Datos dummy del catálogo. Solo los usa servicios/catalogoServicio.ts cuando
 // no hay API configurada (VITE_API_URL vacía en .env).
 
-// Único género con subgéneros diseñados (wireframe Catálogo, Figma 1622:7933)
-export const SUBGENEROS: Record<string, string[]> = {
-  "Misterio y thriller": [
-    "Misterio policial",
-    "Novela negra",
-    "Thriller psicológico",
-    "Suspenso y tensión",
-    "Misterio histórico",
-    "Thriller de acción",
-    "Espionaje",
-    "Crimen y detectives",
-    "Thriller legal",
-    "Misterio sobrenatural",
-  ],
-};
-
 const PORTADA = IMAGENES_RELLENO.portada;
 
 const LIBROS_BASE: Omit<Libro, "ventas" | "enStock">[] = [

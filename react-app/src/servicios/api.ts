@@ -41,7 +41,8 @@ export function configurarSesion(opciones: {
   alVencerSesion = opciones.alVencerSesion;
 }
 
-type Parametros = Record<string, string | number | boolean | undefined>;
+// Un arreglo se envía repitiendo el parámetro (?autores=A&autores=B)
+type Parametros = Record<string, string | number | boolean | string[] | undefined>;
 
 type OpcionesSolicitud = {
   metodo?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
@@ -58,9 +59,12 @@ export async function solicitar<T>(
 ): Promise<T> {
   const url = new URL(`${URL_BASE}${ruta}`);
   Object.entries(parametros ?? {}).forEach(([nombre, valor]) => {
-    if (valor !== undefined && valor !== "") {
-      url.searchParams.set(nombre, String(valor));
-    }
+    const valores = Array.isArray(valor) ? valor : [valor];
+    valores.forEach((actual) => {
+      if (actual !== undefined && actual !== "") {
+        url.searchParams.append(nombre, String(actual));
+      }
+    });
   });
 
   const token = obtenerToken();
