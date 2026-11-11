@@ -25,9 +25,21 @@ export type LibroResponseDto = {
   formato: FormatoLibro;
   estado: EstadoLibro;
   precio: number;
+  // Solo en oferta: precio antes del descuento y su porcentaje
+  precioAnterior: number | null;
+  descuentoPorcentaje: number;
+  enOferta: boolean;
   stock: number;
   enStock: boolean;
   portadaUrl: string | null;
+  calificacion: number;
+  opiniones: number;
+  // Unidades vendidas (orden "mas_vendidos")
+  ventas: number;
+  encuadernacion: string | null;
+  paginas: number | null;
+  dimensiones: string | null;
+  etiquetas: string[];
   fechaIngreso: string;
 };
 
@@ -53,29 +65,23 @@ export type BuscarLibrosRequest = {
   limit?: number;
 };
 
-// Datos que UX diseñó y Backend aún no expone. Son dummy
-// (src/datos/complementosLibros.ts) hasta que existan en la API.
-export type ComplementoLibro = {
-  calificacion: number;
-  opiniones: number;
-  // Unidades vendidas, para el carrusel "Más vendidos" del Home
-  ventas: number;
-  precioAnterior?: number;
-  subgenero?: string;
-  encuadernacion?: string;
-  paginas?: number;
-  dimensiones?: string;
-  etiquetas?: string[];
-};
-
-// Libro como lo muestran las pantallas: datos de la API + complemento dummy
-export type Libro = ComplementoLibro & {
+// Libro como lo muestran las pantallas (desde LibroResponseDto)
+export type Libro = {
   id: string;
   isbn?: string;
   titulo: string;
   autor: string;
   editorial: string;
   genero: string;
+  subgenero?: string;
+  calificacion: number;
+  opiniones: number;
+  ventas: number;
+  precioAnterior?: number;
+  encuadernacion?: string;
+  paginas?: number;
+  dimensiones?: string;
+  etiquetas?: string[];
   descripcion?: string;
   anioPublicacion?: number;
   formato?: FormatoLibro;

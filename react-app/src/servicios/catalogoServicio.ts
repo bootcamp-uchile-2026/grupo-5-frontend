@@ -1,7 +1,3 @@
-import {
-  COMPLEMENTO_POR_DEFECTO,
-  COMPLEMENTOS_LIBROS,
-} from "../datos/complementosLibros";
 import { generoEnApi } from "../datos/generos";
 import { IMAGENES_RELLENO } from "../datos/imagenes";
 import { LIBROS } from "../datos/libros";
@@ -56,10 +52,9 @@ export type OpcionesFiltro = {
 
 const pausa = () => new Promise((resolver) => setTimeout(resolver, 150));
 
-// LibroResponseDto (API) + complemento dummy → Libro (pantallas)
+// LibroResponseDto (API) → Libro (pantallas)
 function desdeApi(dto: LibroResponseDto): Libro {
   return {
-    ...(COMPLEMENTOS_LIBROS[dto.isbn] ?? COMPLEMENTO_POR_DEFECTO),
     id: dto.id,
     isbn: dto.isbn,
     titulo: dto.titulo,
@@ -72,9 +67,17 @@ function desdeApi(dto: LibroResponseDto): Libro {
     formato: dto.formato,
     estado: dto.estado,
     precio: dto.precio,
+    precioAnterior: dto.precioAnterior ?? undefined,
     stock: dto.stock,
     enStock: dto.enStock,
     portada: dto.portadaUrl ?? IMAGENES_RELLENO.portada,
+    calificacion: dto.calificacion,
+    opiniones: dto.opiniones,
+    ventas: dto.ventas,
+    encuadernacion: dto.encuadernacion ?? undefined,
+    paginas: dto.paginas ?? undefined,
+    dimensiones: dto.dimensiones ?? undefined,
+    etiquetas: dto.etiquetas.length ? dto.etiquetas : undefined,
   };
 }
 
@@ -278,16 +281,14 @@ export async function obtenerRelacionados(libro: Libro, cantidad = 4): Promise<L
     .slice(0, cantidad);
 }
 
-// Carruseles del Home. "Nuevos lanzamientos" usa el orden de la API;
-// "Más vendidos" y "Más comentados" se ordenan con datos dummy (Backend no
-// tiene ventas ni comentarios).
+// Carruseles del Home: la primera página de GET /libros con cada orden
 export async function obtenerLibrosInicio(cantidad = 8) {
-  const libros = await todosLosLibros({ orden: "novedades" });
-  const ordenarPor = (campo: "ventas" | "opiniones") =>
-    [...libros].sort((a, b) => b[campo] - a[campo]).slice(0, cantidad);
-  return {
-    masVendidos: ordenarPor("ventas"),
-    nuevosLanzamientos: libros.slice(0, cantidad),
-    masComentados: ordenarPor("opiniones"),
-  };
+  const primeros = async (orden: OrdenLibros) =>
+    (await buscarLibros({ orden })).libros.slice(0, cantidad);
+  const [masVendidos, nuevosLanzamientos, masComentados] = await Promise.all([
+    primeros("mas_vendidos"),
+    primeros("novedades"),
+    primeros("mas_comentados"),
+  ]);
+  return { masVendidos, nuevosLanzamientos, masComentados };
 }
