@@ -17,6 +17,7 @@ import {
   cotizarEnvio,
   crearPedido,
   iniciarSesion,
+  montoDelDescuento,
   validarDescuento,
 } from "../servicios/checkoutServicio";
 import type {
@@ -51,7 +52,12 @@ function Checkout() {
   const [login, setLogin] = useState({ email: "", password: "" });
   const [erroresLogin, setErroresLogin] = useState<Errores>({});
   const [cargandoLogin, setCargandoLogin] = useState(false);
-  const [datosInvitado, setDatosInvitado] = useState({ email: "", telefono: "" });
+  const [datosInvitado, setDatosInvitado] = useState({
+    nombre: "",
+    apellido: "",
+    email: "",
+    telefono: "",
+  });
 
   const [metodoEnvio, setMetodoEnvio] = useState<MetodoEnvio>("despacho");
   const [direccion, setDireccion] = useState({
@@ -74,11 +80,10 @@ function Checkout() {
   const [errorCodigo, setErrorCodigo] = useState("");
 
   const { subtotal, totalItems } = resumenCarrito(items);
-  const montoDescuento = descuento
-    ? Math.round((subtotal * descuento.porcentaje) / 100)
-    : 0;
+  const montoDescuento = montoDelDescuento(descuento, subtotal);
   const emailActual =
     usuario?.email ?? (invitado ? datosInvitado.email : login.email);
+  const nombreInvitado = `${datosInvitado.nombre.trim()} ${datosInvitado.apellido.trim()}`.trim();
   const guardada = usuario?.direccionGuardada;
   const usandoGuardada = Boolean(guardada) && usarGuardada;
   const sesionLista = Boolean(usuario) || invitado;
@@ -132,17 +137,31 @@ function Checkout() {
 
   function cambiarALogin() {
     setUsarGuardada(true);
-    setErrores((e) => ({ ...e, emailInvitado: "", telefonoInvitado: "", sesion: "" }));
+    setErrores((e) => ({
+      ...e,
+      nombreInvitado: "",
+      apellidoInvitado: "",
+      emailInvitado: "",
+      telefonoInvitado: "",
+      sesion: "",
+    }));
     cerrar();
   }
 
   async function aplicarCodigo() {
     setErrorCodigo("");
     try {
-      setDescuento(await validarDescuento(codigo));
+      setDescuento(
+        await validarDescuento({
+          codigo,
+          subtotal,
+          // Algunos cupones son por persona: el correo permite validarlo
+          email: REGEX_EMAIL.test(emailActual) ? emailActual : undefined,
+        }),
+      );
     } catch (err) {
       setDescuento(null);
-      setErrorCodigo((err as Error).message);
+      setErrorCodigo(mensajeDeError(err));
     }
   }
 
@@ -161,8 +180,15 @@ function Checkout() {
       nuevos.sesion = "Inicia sesión o continúa como invitado";
     }
     if (invitado && !usuario) {
+      if (!datosInvitado.nombre.trim()) nuevos.nombreInvitado = "Campo obligatorio";
+      if (!datosInvitado.apellido.trim()) nuevos.apellidoInvitado = "Campo obligatorio";
       if (!REGEX_EMAIL.test(datosInvitado.email)) nuevos.emailInvitado = "Correo inválido";
-      if (!REGEX_TELEFONO.test(datosInvitado.telefono)) {
+      // Para despachar, la API exige un celular chileno
+      if (metodoEnvio === "despacho") {
+        if (!REGEX_CELULAR.test(datosInvitado.telefono.replace(/\s/g, ""))) {
+          nuevos.telefonoInvitado = "Ingresa un celular válido, por ejemplo +56912345678";
+        }
+      } else if (!REGEX_TELEFONO.test(datosInvitado.telefono)) {
         nuevos.telefonoInvitado = "Ingresa un teléfono válido";
       }
     }
@@ -203,9 +229,13 @@ function Checkout() {
           : usandoGuardada
             ? guardada?.telefono
             : direccion.telefono;
+      const nombreComprador = usuario
+        ? `${usuario.nombre} ${usuario.apellido}`.trim()
+        : nombreInvitado;
       const respuesta = await crearPedido({
         email: emailActual,
-        nombreReceptor: usuario ? `${usuario.nombre} ${usuario.apellido}`.trim() : undefined,
+        nombre: nombreComprador,
+        nombreReceptor: nombreComprador,
         telefono,
         metodoEnvio,
         ...(direccionEntrega ?? {}),
@@ -213,11 +243,16 @@ function Checkout() {
         codigoDescuento: descuento?.codigo,
         items: items.map((i) => ({ idLibro: i.idLibro, cantidad: i.cantidad })),
       });
+      // Con la API, los montos son los que calculó Backend al crear el pedido
+      const montos = respuesta.montos ?? {
+        subtotal,
+        descuento: montoDescuento,
+        envio,
+        total,
+      };
       const pedido: ConfirmacionPedido = {
         idPedido: respuesta.idPedido,
-        nombreComprador: usuario
-          ? `${usuario.nombre} ${usuario.apellido}`
-          : "lector/a",
+        nombreComprador: nombreComprador || "lector/a",
         emailComprador: emailActual,
         fecha: new Date().toISOString(),
         metodoEnvio,
@@ -225,10 +260,7 @@ function Checkout() {
         metodoPago,
         items: itemsPedido,
         totalItems,
-        subtotal,
-        envio,
-        descuento: montoDescuento,
-        total,
+        ...montos,
       };
       void vaciarCarrito();
       navegar("/confirmacion-compra", {
@@ -286,6 +318,37 @@ function Checkout() {
                   Para comprar como <strong>invitado</strong> debes rellenar tus
                   datos personales
                 </p>
+                {/* Nombre y apellido: la API los exige para el pedido de invitado */}
+                <div className="checkout-campo">
+                  <label htmlFor="checkout-nombre-invitado">Nombre*</label>
+                  <input
+                    type="text"
+                    id="checkout-nombre-invitado"
+                    autoComplete="given-name"
+                    value={datosInvitado.nombre}
+                    onChange={(e) =>
+                      setDatosInvitado({ ...datosInvitado, nombre: e.target.value })
+                    }
+                  />
+                  {errores.nombreInvitado && (
+                    <span className="checkout-error">{errores.nombreInvitado}</span>
+                  )}
+                </div>
+                <div className="checkout-campo">
+                  <label htmlFor="checkout-apellido-invitado">Apellido*</label>
+                  <input
+                    type="text"
+                    id="checkout-apellido-invitado"
+                    autoComplete="family-name"
+                    value={datosInvitado.apellido}
+                    onChange={(e) =>
+                      setDatosInvitado({ ...datosInvitado, apellido: e.target.value })
+                    }
+                  />
+                  {errores.apellidoInvitado && (
+                    <span className="checkout-error">{errores.apellidoInvitado}</span>
+                  )}
+                </div>
                 <div className="checkout-campo">
                   <label htmlFor="checkout-email-invitado">Dirección de correo*</label>
                   <input
@@ -307,6 +370,7 @@ function Checkout() {
                     type="tel"
                     id="checkout-telefono-invitado"
                     autoComplete="tel"
+                    placeholder="+56912345678"
                     value={datosInvitado.telefono}
                     onChange={(e) =>
                       setDatosInvitado({ ...datosInvitado, telefono: e.target.value })

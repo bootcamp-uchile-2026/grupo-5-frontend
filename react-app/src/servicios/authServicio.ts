@@ -2,14 +2,16 @@ import { useSesionStore } from "../estado/sesionStore";
 import type {
   AuthResponseDto,
   LoginRequestDto,
+  RefreshTokenRequestDto,
   RegistroRequestDto,
   UsuarioResponseDto,
 } from "../tipos/auth";
 import type { LoginRequest, LoginResponse, RegistroRequest } from "../tipos/checkout";
-import { ErrorApi, solicitar, usarApi } from "./api";
+import { ErrorApi, configurarRenovacion, solicitar, usarApi } from "./api";
 
-// Servicio de autenticación. Con API: POST /auth/login, POST /auth/registro
-// y GET /auth/me. Sin API (VITE_API_URL vacía): autenticación dummy.
+// Servicio de autenticación. Con API: POST /auth/login, POST /auth/registro,
+// GET /auth/me y POST /auth/refresh. Sin API (VITE_API_URL vacía):
+// autenticación dummy.
 
 const pausa = () => new Promise((resolver) => setTimeout(resolver, 300));
 
@@ -27,8 +29,10 @@ function aSesion(usuario: UsuarioResponseDto, token: string): LoginResponse {
   };
 }
 
-const desdeAuthResponse = (respuesta: AuthResponseDto) =>
-  aSesion(respuesta.usuario, respuesta.accessToken);
+const desdeAuthResponse = (respuesta: AuthResponseDto) => ({
+  ...aSesion(respuesta.usuario, respuesta.accessToken),
+  refreshToken: respuesta.refreshToken,
+});
 
 export async function iniciarSesion(solicitud: LoginRequest): Promise<LoginResponse> {
   if (!usarApi) return iniciarSesionDummy(solicitud);
@@ -54,16 +58,39 @@ export async function registrarse(solicitud: RegistroRequest): Promise<LoginResp
   );
 }
 
+// Token vencido: pide uno nuevo con el refreshToken (POST /auth/refresh) y
+// actualiza la sesión. api.ts la llama al recibir un 401 y repite la petición.
+async function renovarSesion(): Promise<boolean> {
+  const sesion = useSesionStore.getState().usuario;
+  if (!usarApi || !sesion?.refreshToken) return false;
+  try {
+    const cuerpo: RefreshTokenRequestDto = { refreshToken: sesion.refreshToken };
+    const respuesta = await solicitar<AuthResponseDto>("/auth/refresh", {
+      metodo: "POST",
+      cuerpo,
+      conSesion: false,
+    });
+    useSesionStore.getState().iniciar({ ...sesion, ...desdeAuthResponse(respuesta) });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+configurarRenovacion(renovarSesion);
+
 // Al cargar la app: valida el token guardado con GET /auth/me y actualiza
-// los datos del usuario. Si el token venció, cierra la sesión sin avisar.
+// los datos del usuario. Si venció, se renueva; si no se puede, cierra la
+// sesión sin avisar.
 export async function restaurarSesion(): Promise<void> {
-  const { usuario } = useSesionStore.getState();
-  if (!usarApi || !usuario?.token) return;
+  if (!usarApi || !useSesionStore.getState().usuario?.token) return;
   try {
     const actual = await solicitar<UsuarioResponseDto>("/auth/me", {
       avisarSesionVencida: false,
     });
-    useSesionStore.getState().iniciar({ ...usuario, ...aSesion(actual, usuario.token) });
+    // Se lee de nuevo la sesión: el token pudo renovarse durante la petición
+    const sesion = useSesionStore.getState().usuario;
+    if (sesion) useSesionStore.getState().iniciar({ ...sesion, ...aSesion(actual, sesion.token) });
   } catch (error) {
     if (error instanceof ErrorApi && error.statusCode === 401) {
       useSesionStore.getState().cerrar();

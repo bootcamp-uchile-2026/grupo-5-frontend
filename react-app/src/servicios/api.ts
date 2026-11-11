@@ -32,6 +32,7 @@ export class ErrorApi extends Error {
 // La sesión se conecta desde fuera para que este módulo no dependa del store
 let obtenerToken: () => string | undefined = () => undefined;
 let alVencerSesion: () => void = () => {};
+let renovarToken: () => Promise<boolean> = async () => false;
 
 export function configurarSesion(opciones: {
   obtenerToken: () => string | undefined;
@@ -39,6 +40,21 @@ export function configurarSesion(opciones: {
 }) {
   obtenerToken = opciones.obtenerToken;
   alVencerSesion = opciones.alVencerSesion;
+}
+
+// Cómo renovar el token vencido (authServicio.ts, con POST /auth/refresh).
+// Devuelve true si la sesión quedó renovada.
+export function configurarRenovacion(renovar: () => Promise<boolean>) {
+  renovarToken = renovar;
+}
+
+// Si varias peticiones reciben 401 a la vez, se renueva una sola vez
+let renovacionEnCurso: Promise<boolean> | null = null;
+function renovarUnaVez() {
+  renovacionEnCurso ??= renovarToken().finally(() => {
+    renovacionEnCurso = null;
+  });
+  return renovacionEnCurso;
 }
 
 // Un arreglo se envía repitiendo el parámetro (?autores=A&autores=B)
@@ -51,12 +67,18 @@ type OpcionesSolicitud = {
   // false para no abrir el inicio de sesión ante un 401 (p. ej. al restaurar
   // la sesión al cargar la app)
   avisarSesionVencida?: boolean;
+  // false para no enviar el token ni intentar renovarlo (POST /auth/refresh)
+  conSesion?: boolean;
+  // Uso interno: la petición ya se repitió con un token renovado
+  renovada?: boolean;
 };
 
 export async function solicitar<T>(
   ruta: string,
-  { metodo = "GET", cuerpo, parametros, avisarSesionVencida = true }: OpcionesSolicitud = {},
+  opciones: OpcionesSolicitud = {},
 ): Promise<T> {
+  const { metodo = "GET", cuerpo, parametros, avisarSesionVencida = true, conSesion = true } =
+    opciones;
   const url = new URL(`${URL_BASE}${ruta}`);
   Object.entries(parametros ?? {}).forEach(([nombre, valor]) => {
     const valores = Array.isArray(valor) ? valor : [valor];
@@ -67,7 +89,7 @@ export async function solicitar<T>(
     });
   });
 
-  const token = obtenerToken();
+  const token = conSesion ? obtenerToken() : undefined;
   const encabezados: Record<string, string> = { Accept: "application/json" };
   if (cuerpo !== undefined) encabezados["Content-Type"] = "application/json";
   if (token) encabezados.Authorization = `Bearer ${token}`;
@@ -92,8 +114,14 @@ export async function solicitar<T>(
   const datos: unknown = await respuesta.json().catch(() => null);
 
   if (!respuesta.ok) {
-    // Token vencido o inválido: se cierra la sesión y se pide iniciarla de nuevo
-    if (respuesta.status === 401 && token && avisarSesionVencida) alVencerSesion();
+    // Token vencido o inválido: se intenta renovar una vez y se repite la
+    // petición. Si no se puede, se cierra la sesión y se pide iniciarla de nuevo
+    if (respuesta.status === 401 && token) {
+      if (!opciones.renovada && (await renovarUnaVez())) {
+        return solicitar<T>(ruta, { ...opciones, renovada: true });
+      }
+      if (avisarSesionVencida) alVencerSesion();
+    }
     const error = datos as Partial<ErrorRespuestaDto> | null;
     throw new ErrorApi({
       statusCode: respuesta.status,
