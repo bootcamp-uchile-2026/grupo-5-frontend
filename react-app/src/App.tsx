@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { BarraNavegacion } from "./componentes/BarraNavegacion";
 import { Carrito } from "./componentes/Carrito";
 import { ModalInicioSesionRegistro } from "./componentes/InicioSesionRegistro";
+import { RutaProtegida } from "./componentes/RutaProtegida";
 import { VolverArriba } from "./componentes/VolverArriba";
 import { useAutenticacionStore } from "./estado/autenticacionStore";
 import Biblioteca from "./paginas/biblioteca";
@@ -50,7 +51,14 @@ function App() {
         <Route path="/descubrir" element={<Descubrir />} />
         <Route path="/recomendaciones" element={<Recomendaciones />} />
         <Route path="/biblioteca" element={<Biblioteca />} />
-        <Route path="/mi-cuenta" element={<MiCuenta />} />
+        <Route
+          path="/mi-cuenta"
+          element={
+            <RutaProtegida>
+              <MiCuenta />
+            </RutaProtegida>
+          }
+        />
         <Route path="/perfil-librero" element={<PerfilLibrero />} />
         <Route path="/ficha-libro" element={<FichaLibro />} />
         <Route path="/checkout" element={<Checkout />} />
