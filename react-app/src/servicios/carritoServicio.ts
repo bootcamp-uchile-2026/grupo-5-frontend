@@ -140,12 +140,14 @@ async function pasarCarritoInvitadoACuenta() {
 
 // Conecta el carrito con la sesión: al iniciarla pasa el carrito del invitado
 // a la cuenta; al cerrarla vacía la copia local (el de la cuenta queda en
-// Backend). Devuelve la función para dejar de escuchar.
+// Backend). Reacciona solo al entrar o salir: cuando el token se renueva, la
+// sesión sigue abierta y el carrito no cambia. Devuelve la función para
+// dejar de escuchar.
 export function vigilarSesionCarrito() {
   return useSesionStore.subscribe((estado, anterior) => {
-    const token = estado.usuario?.token;
-    if (!usarApi || token === anterior.usuario?.token) return;
-    if (token) void pasarCarritoInvitadoACuenta();
+    const conSesion = Boolean(estado.usuario?.token);
+    if (!usarApi || conSesion === Boolean(anterior.usuario?.token)) return;
+    if (conSesion) void pasarCarritoInvitadoACuenta();
     else useCarritoStore.getState().vaciar();
   });
 }

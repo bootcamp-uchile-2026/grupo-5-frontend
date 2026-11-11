@@ -1,6 +1,6 @@
 import type { Rol } from "./auth";
 import type { CarritoItemDto } from "./carrito";
-import type { EstadoPedido } from "./pedido";
+import type { EstadoPedido, TipoCupon } from "./pedido";
 
 export type MetodoEnvio = "despacho" | "retiro";
 export type MetodoPago = "onepay" | "webpay" | "mercadopago" | "transferencia";
@@ -24,7 +24,8 @@ export type DireccionGuardada = {
   telefono: string;
 };
 // Sesión del usuario (se guarda en sesionStore). "token" es el accessToken
-// de la API; id y rol solo existen con la API.
+// de la API y "refreshToken" sirve para renovarlo; id, rol y refreshToken
+// solo existen con la API.
 export type LoginResponse = {
   id?: string;
   rol?: Rol;
@@ -32,13 +33,23 @@ export type LoginResponse = {
   nombre: string;
   apellido: string;
   token: string;
+  refreshToken?: string;
   direccionGuardada?: DireccionGuardada;
 };
 
-export type DescuentoResponse = { codigo: string; porcentaje: number };
+// Código de descuento validado. Se guarda el tipo y el valor para recalcular
+// el monto si cambia el subtotal (por ejemplo, al quitar un libro)
+export type DescuentoResponse = {
+  codigo: string;
+  descripcion: string;
+  tipo: TipoCupon;
+  valor: number;
+};
 
 export type CheckoutRequest = {
   email: string;
+  // Nombre de quien compra (obligatorio para comprar como invitado)
+  nombre?: string;
   // Quien recibe el despacho y su celular (obligatorios en la API al despachar)
   nombreReceptor?: string;
   telefono?: string;
@@ -54,8 +65,13 @@ export type CheckoutRequest = {
 };
 
 // idPedido es el número visible del pedido (con la API, "numero" de
-// PedidoResponseDto); estado solo existe con la API
-export type CheckoutResponse = { idPedido: string; estado?: EstadoPedido };
+// PedidoResponseDto). Estado y montos solo existen con la API: son los que
+// calculó Backend y los muestra la confirmación.
+export type CheckoutResponse = {
+  idPedido: string;
+  estado?: EstadoPedido;
+  montos?: { subtotal: number; descuento: number; envio: number; total: number };
+};
 
 // Costo de envío para el resumen del checkout
 export type CotizacionEnvio = { costo: number; diasEstimados: number; gratis: boolean };

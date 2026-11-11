@@ -52,6 +52,42 @@ export type DireccionDto = {
 export type CrearPedidoRequestDto = {
   metodoEnvio: MetodoEnvioApi;
   direccion?: DireccionDto;
+  codigoDescuento?: string;
+};
+
+// Request de POST /pedidos/invitado (sin cuenta: los libros van en el body)
+export type CrearPedidoInvitadoRequestDto = CrearPedidoRequestDto & {
+  email: string;
+  nombre: string;
+  items: { libroId: string; cantidad: number }[];
+};
+
+// Response de POST /pedidos/invitado. tokenPedido permite consultar y pagar
+// el pedido sin sesión (header X-Pedido-Token)
+export type PedidoInvitadoResponseDto = {
+  pedido: PedidoResponseDto;
+  tokenPedido: string;
+};
+
+// Request de POST /cupones/validar (no consume el cupón)
+export type ValidarCuponRequestDto = {
+  codigo: string;
+  subtotal: number;
+  email?: string;
+};
+
+export type TipoCupon = "PORCENTAJE" | "MONTO_FIJO";
+
+// Response de POST /cupones/validar
+export type CuponAplicadoDto = {
+  codigo: string;
+  descripcion: string;
+  tipo: TipoCupon;
+  // Porcentaje o monto en pesos, según el tipo
+  valor: number;
+  subtotal: number;
+  descuento: number;
+  subtotalConDescuento: number;
 };
 
 export type PedidoItemResponseDto = {
@@ -70,6 +106,8 @@ export type PedidoResponseDto = {
   metodoEnvio: MetodoEnvioApi;
   items: PedidoItemResponseDto[];
   subtotal: number;
+  descuento: number;
+  codigoDescuento: string | null;
   costoEnvio: number;
   total: number;
   diasEstimados: number;

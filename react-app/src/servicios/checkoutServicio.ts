@@ -10,11 +10,16 @@ import type {
 import type {
   CotizacionEnvioDto,
   CotizarEnvioRequestDto,
+  CrearPedidoInvitadoRequestDto,
   CrearPedidoRequestDto,
+  CuponAplicadoDto,
+  DireccionDto,
   MetodoEnvioApi,
+  PedidoInvitadoResponseDto,
   PedidoResponseDto,
+  ValidarCuponRequestDto,
 } from "../tipos/pedido";
-import { solicitar, usarApi } from "./api";
+import { ErrorApi, solicitar, usarApi } from "./api";
 
 // Inicio de sesión y registro viven en authServicio.ts; se reexportan aquí
 // porque el modal de autenticación y el checkout los importan desde este módulo.
@@ -22,18 +27,45 @@ export { iniciarSesion, registrarse } from "./authServicio";
 
 const pausa = () => new Promise((r) => setTimeout(r, 300));
 
-// Código de descuento: dummy (Backend no tiene descuentos).
+// Código de descuento. Con API: POST /cupones/validar (no consume el cupón;
+// se aplica al crear el pedido con codigoDescuento). Sin API: cupones dummy.
 
-const DESCUENTOS: Record<string, number> = { LEE10: 10, BIENVENIDO: 15 };
+const CUPONES_DUMMY: Record<string, DescuentoResponse> = {
+  BIENVENIDA10: {
+    codigo: "BIENVENIDA10",
+    descripcion: "10% de descuento en tu primera compra",
+    tipo: "PORCENTAJE",
+    valor: 10,
+  },
+};
 
-export async function validarDescuento(
-  codigo: string,
-): Promise<DescuentoResponse> {
-  await pausa();
-  const clave = codigo.trim().toUpperCase();
-  const porcentaje = DESCUENTOS[clave];
-  if (!porcentaje) throw new Error("Código de descuento inválido");
-  return { codigo: clave, porcentaje };
+export async function validarDescuento(datos: {
+  codigo: string;
+  subtotal: number;
+  email?: string;
+}): Promise<DescuentoResponse> {
+  const codigo = datos.codigo.trim().toUpperCase();
+  if (!usarApi) {
+    await pausa();
+    const cupon = CUPONES_DUMMY[codigo];
+    if (!cupon) {
+      throw new ErrorApi({ statusCode: 404, error: "CUPON_NO_ENCONTRADO", message: codigo });
+    }
+    return cupon;
+  }
+  const cuerpo: ValidarCuponRequestDto = { codigo, subtotal: datos.subtotal, email: datos.email };
+  const cupon = await solicitar<CuponAplicadoDto>("/cupones/validar", { metodo: "POST", cuerpo });
+  return { codigo: cupon.codigo, descripcion: cupon.descripcion, tipo: cupon.tipo, valor: cupon.valor };
+}
+
+// Monto que descuenta un cupón sobre un subtotal (misma regla que Backend)
+export function montoDelDescuento(descuento: DescuentoResponse | null, subtotal: number) {
+  if (!descuento) return 0;
+  const monto =
+    descuento.tipo === "PORCENTAJE"
+      ? Math.round((subtotal * descuento.valor) / 100)
+      : descuento.valor;
+  return Math.min(monto, subtotal);
 }
 
 const METODO_ENVIO_API: Record<MetodoEnvio, MetodoEnvioApi> = {
@@ -67,34 +99,58 @@ export async function cotizarEnvio(datos: {
   return { costo, diasEstimados, gratis };
 }
 
-// Crea el pedido. Con sesión y API: POST /pedidos con el carrito de la cuenta;
-// queda "pendiente de pago" (el pago con tarjeta aún no tiene diseño).
-// Invitado o sin API: pedido dummy (Backend no permite comprar sin cuenta).
+// Dirección de despacho en el formato de la API (solo si es despacho)
+function direccionApi(solicitud: CheckoutRequest): DireccionDto | undefined {
+  const region = solicitud.region ? codigoDeRegion(solicitud.region) : undefined;
+  if (solicitud.metodoEnvio !== "despacho" || !region) return undefined;
+  return {
+    nombreReceptor: solicitud.nombreReceptor ?? "",
+    calle: [`${solicitud.direccion ?? ""} ${solicitud.numero ?? ""}`.trim(), solicitud.depto?.trim()]
+      .filter(Boolean)
+      .join(", "),
+    comuna: solicitud.comuna ?? "",
+    region,
+    telefono: (solicitud.telefono ?? "").replace(/\s/g, ""),
+  };
+}
+
+// PedidoResponseDto → número y montos que muestra la confirmación
+const desdePedido = (pedido: PedidoResponseDto): CheckoutResponse => ({
+  idPedido: pedido.numero,
+  estado: pedido.estado,
+  montos: {
+    subtotal: pedido.subtotal,
+    descuento: pedido.descuento,
+    envio: pedido.costoEnvio,
+    total: pedido.total,
+  },
+});
+
+// Crea el pedido, que queda "pendiente de pago" (el pago con tarjeta aún no
+// tiene diseño). Con sesión: POST /pedidos con el carrito de la cuenta.
+// Invitado: POST /pedidos/invitado con los libros en el body. Sin API: dummy.
 export async function crearPedido(solicitud: CheckoutRequest): Promise<CheckoutResponse> {
-  if (!usarApi || !useSesionStore.getState().usuario?.token) {
+  if (!usarApi) {
     await pausa();
     return { idPedido: `PED-${Date.now()}` };
   }
-  const region = solicitud.region ? codigoDeRegion(solicitud.region) : undefined;
   const cuerpo: CrearPedidoRequestDto = {
     metodoEnvio: METODO_ENVIO_API[solicitud.metodoEnvio],
-    ...(solicitud.metodoEnvio === "despacho" && region
-      ? {
-          direccion: {
-            nombreReceptor: solicitud.nombreReceptor ?? "",
-            calle: [
-              `${solicitud.direccion ?? ""} ${solicitud.numero ?? ""}`.trim(),
-              solicitud.depto?.trim(),
-            ]
-              .filter(Boolean)
-              .join(", "),
-            comuna: solicitud.comuna ?? "",
-            region,
-            telefono: (solicitud.telefono ?? "").replace(/\s/g, ""),
-          },
-        }
-      : {}),
+    direccion: direccionApi(solicitud),
+    codigoDescuento: solicitud.codigoDescuento,
   };
-  const pedido = await solicitar<PedidoResponseDto>("/pedidos", { metodo: "POST", cuerpo });
-  return { idPedido: pedido.numero, estado: pedido.estado };
+  if (useSesionStore.getState().usuario?.token) {
+    return desdePedido(await solicitar<PedidoResponseDto>("/pedidos", { metodo: "POST", cuerpo }));
+  }
+  const cuerpoInvitado: CrearPedidoInvitadoRequestDto = {
+    ...cuerpo,
+    email: solicitud.email.trim(),
+    nombre: solicitud.nombre?.trim() ?? "",
+    items: solicitud.items.map((item) => ({ libroId: item.idLibro, cantidad: item.cantidad })),
+  };
+  const { pedido } = await solicitar<PedidoInvitadoResponseDto>("/pedidos/invitado", {
+    metodo: "POST",
+    cuerpo: cuerpoInvitado,
+  });
+  return desdePedido(pedido);
 }

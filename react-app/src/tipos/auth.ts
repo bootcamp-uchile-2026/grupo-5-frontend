@@ -28,10 +28,17 @@ export type UsuarioResponseDto = {
   creadoEn: string;
 };
 
-// Response de POST /auth/login y POST /auth/registro
+// Response de POST /auth/login, POST /auth/registro y POST /auth/refresh.
+// El accessToken dura poco (expiresIn, p. ej. "2h"); el refreshToken permite
+// pedir uno nuevo sin la contraseña mientras siga vigente (refreshExpiresIn)
 export type AuthResponseDto = {
   accessToken: string;
   tokenType: string;
   expiresIn: string;
+  refreshToken: string;
+  refreshExpiresIn: string;
   usuario: UsuarioResponseDto;
 };
+
+// Request de POST /auth/refresh
+export type RefreshTokenRequestDto = { refreshToken: string };
