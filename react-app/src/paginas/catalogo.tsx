@@ -159,12 +159,14 @@ function Catalogo() {
   // Solo los subgéneros que tienen libros en la búsqueda y el género actuales
   const subgenerosDisponibles = opciones.datos?.subgeneros ?? [];
   const grupo = genero ? grupoDeGenero(genero) : undefined;
-  const ruta: ElementoRuta[] = [
-    { texto: "Inicio", ruta: "/" },
-    { texto: "Catálogo", ruta: "/catalogo" },
-    ...(grupo ? [{ texto: grupo }] : []),
-    ...(genero ? [{ texto: genero }] : []),
-  ];
+  // Como en el diseño: "Inicio / Ficción / Terror" con un género elegido y
+  // "Inicio / Catálogo" sin él
+  const ruta: ElementoRuta[] = genero
+    ? [{ texto: "Inicio", ruta: "/" }, ...(grupo ? [{ texto: grupo }] : []), { texto: genero }]
+    : [
+        { texto: "Inicio", ruta: "/" },
+        { texto: "Catálogo", ruta: "/catalogo" },
+      ];
   const titulo = genero || (consulta ? `Resultados para "${consulta}"` : "Catálogo");
   useTituloPagina(titulo);
 

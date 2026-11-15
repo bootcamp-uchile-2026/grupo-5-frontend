@@ -1,48 +1,66 @@
 /* CATÁLOGO
-   Distribución según wireframe Catálogo (Figma: Wireframes Desktop,
-   node 1622:7933); se mantienen los colores del sitio.
+   Catálogo de alta fidelidad (Figma, node 3516:28011): ruta, título, filtros
+   de 271px a la izquierda y grilla de 3 tarjetas (888px) a la derecha.
    La tarjeta de producto tiene sus estilos en tarjeta-producto.css. */
 .catalogo {
   box-sizing: border-box;
   width: 100%;
-  max-width: calc(var(--ancho-contenido) + 48px);
+  max-width: calc(var(--ancho-columna) + 48px);
   margin: 0 auto;
-  padding: 48px 24px 96px;
+  padding: 44px 24px 152px;
   font-family: var(--fuente-body);
   color: var(--color-neutral-950);
 }
 
 /* RUTA DE NAVEGACIÓN: estilos en ruta-navegacion.css */
 
-/* TÍTULO */
+/* TÍTULO: Bree Serif 48 (heading-xl) */
 .catalogo .catalogo-titulo-pagina {
-  margin: 40px 0 32px;
+  margin: 35px 0 11px;
   font-family: var(--fuente-display);
-  font-weight: 400;
-  font-size: var(--tamano-fuente-heading-lg);
-  line-height: 48px;
-  color: var(--color-primario-darker);
+  font-weight: var(--peso-regular);
+  font-size: var(--tamano-fuente-heading-xl);
+  line-height: 65px;
+  color: var(--color-neutral-950);
   background-color: transparent;
 }
 
-/* CUERPO: filtros a la izquierda, resultados a la derecha */
+/* CUERPO: filtros (271px) y resultados (888px), separados por 24px */
 .catalogo-cuerpo {
   display: grid;
-  grid-template-columns: 270px minmax(0, 1fr);
-  gap: 48px;
+  grid-template-columns: 271px minmax(0, 888px);
+  gap: 24px;
   align-items: start;
+  padding-left: 11px;
 }
 
 /* FILTROS */
-.catalogo-filtros-titulo {
-  margin: 0;
-  padding: 12px 8px;
-  border-bottom: var(--stroke-default) solid var(--color-neutral-light);
-  font-size: var(--tamano-fuente-small);
+.catalogo-filtros {
+  padding-top: 18px;
 }
 
+.catalogo-filtros-titulo {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 48px;
+  margin: 0;
+  padding: 10px;
+  border-bottom: var(--stroke-default) solid var(--color-neutral-500);
+  font-size: var(--tamano-fuente-body-md);
+  line-height: 36px;
+}
+
+/* Sección abierta: línea clara y 16px antes de la siguiente.
+   Sección cerrada: solo el encabezado, con línea gris. */
 .filtro-desplegable {
-  border-bottom: var(--stroke-default) solid var(--color-neutral-light);
+  margin-bottom: 16px;
+  border-bottom: var(--stroke-default) solid var(--color-neutral-300);
+}
+
+.filtro-desplegable:has(> .desplegable-encabezado [aria-expanded="false"]) {
+  margin-bottom: 0;
+  border-bottom-color: var(--color-neutral-500);
 }
 
 .filtro-desplegable .desplegable-encabezado {
@@ -54,27 +72,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
   width: 100%;
-  padding: 20px 8px;
+  height: 48px;
+  padding: 0 0 0 10px;
   border: 0;
   background: transparent;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-small);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-regular);
+  line-height: 36px;
   color: var(--color-neutral-950);
   text-align: left;
 }
 
+/* Flecha de 24px en un área de 48px; en el diseño apunta siempre hacia abajo */
 .filtro-desplegable .desplegable-boton .icono {
-  font-size: 12px;
-  transition: transform 160ms ease;
-}
-
-.filtro-desplegable .desplegable-boton[aria-expanded="true"] .icono {
-  transform: rotate(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+  color: var(--color-neutral-900);
 }
 
 .filtro-desplegable .desplegable-panel {
-  padding: 0 8px 24px;
+  padding: 0;
 }
 
 .filtro-casillas {
@@ -84,55 +108,87 @@
 }
 
 .filtro-casillas li {
-  border-bottom: var(--stroke-default) solid var(--color-neutral-200);
+  border-bottom: var(--stroke-default) solid var(--color-neutral-300);
 }
 
+.filtro-casillas li:last-child {
+  border-bottom: 0;
+}
+
+/* Casilla de 18px dentro de un área de 40px, y texto Light 16 */
 .filtro-casillas label {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 18px 4px;
-  font-size: var(--tamano-fuente-small);
-  line-height: 20px;
+  gap: 7px;
+  padding: 10px 0;
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: 300;
+  line-height: 36px;
   cursor: pointer;
 }
 
 .filtro-casillas input {
-  width: 14px;
-  height: 14px;
-  margin: 0;
-  accent-color: var(--color-primario-darker);
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  margin: 0 11px;
+  border: var(--stroke-default) solid var(--color-neutral-900);
+  border-radius: var(--radius-md);
+  background-color: var(--color-neutral-0);
+  cursor: pointer;
+  appearance: none;
+}
+
+.filtro-casillas input[type="radio"] {
+  border-radius: var(--radius-full);
+}
+
+/* Marcada: círculo de 12px del componente checkbox del UI Kit */
+.filtro-casillas input:checked {
+  border-color: var(--color-brand-primary-dark);
+  background: radial-gradient(
+    circle,
+    var(--color-brand-primary-dark) 0 5.5px,
+    var(--color-neutral-0) 6px
+  );
 }
 
 /* FILTRO DE PRECIO */
+.filtro-precio {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 12px 8px;
+}
+
 .filtro-precio-valores {
   display: flex;
   justify-content: space-between;
-  font-size: var(--tamano-fuente-small);
-  font-weight: 600;
+  font-size: var(--tamano-fuente-body-sm);
+  font-weight: var(--peso-regular);
+  line-height: normal;
 }
 
 .filtro-precio-rango {
   position: relative;
   height: 24px;
-  margin: 8px 0 12px;
+  margin: 19px 0 6px;
 }
 
-/* Barra gris con el tramo seleccionado en violeta */
+/* Barra gris de 8px con el tramo seleccionado en violeta claro */
 .filtro-precio-rango::before {
   content: "";
   position: absolute;
   top: 50%;
-  left: 0;
-  right: 0;
-  height: 6px;
-  border-radius: var(--radius-full);
+  left: 12px;
+  right: 12px;
+  height: 8px;
   background: linear-gradient(
     90deg,
-    var(--color-neutral-200) var(--tramo-inicio),
-    var(--color-primario-light) var(--tramo-inicio),
-    var(--color-primario-light) var(--tramo-fin),
-    var(--color-neutral-200) var(--tramo-fin)
+    var(--color-neutral-300) var(--tramo-inicio),
+    var(--color-violet-100) var(--tramo-inicio),
+    var(--color-violet-100) var(--tramo-fin),
+    var(--color-neutral-300) var(--tramo-fin)
   );
   transform: translateY(-50%);
 }
@@ -148,172 +204,196 @@
 }
 
 .filtro-precio-rango input::-webkit-slider-thumb {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border: 0;
-  border-radius: 50%;
-  background-color: var(--color-primario-darker);
+  border-radius: var(--radius-full);
+  background-color: var(--color-brand-primary-dark);
   pointer-events: auto;
   cursor: pointer;
   appearance: none;
 }
 
 .filtro-precio-rango input::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border: 0;
-  border-radius: 50%;
-  background-color: var(--color-primario-darker);
+  border-radius: var(--radius-full);
+  background-color: var(--color-brand-primary-dark);
   pointer-events: auto;
   cursor: pointer;
 }
 
 .filtro-precio-acciones {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   font-size: var(--tamano-fuente-caption-sm);
+  line-height: normal;
 }
 
 .filtro-precio-acciones button {
-  height: 28px;
-  padding: 0 12px;
+  height: 32px;
+  padding: 0 10px;
   border: 0;
   border-radius: var(--radius-md);
-  background-color: var(--color-primario-darker);
+  background-color: var(--color-brand-primary-soft);
   color: var(--color-neutral-0);
   font-family: var(--fuente-body);
   font-size: var(--tamano-fuente-caption-sm);
 }
 
 .filtro-precio-acciones button:hover {
-  background-color: var(--color-violet-600);
+  background-color: var(--color-brand-primary);
 }
 
 .filtro-desplegable .filtro-cargando {
   justify-content: flex-start;
-  padding: 8px 0;
+  padding: 8px 10px;
 }
 
 .filtro-precio-nota {
-  margin: 20px 0 0;
+  margin: 16px 0 0;
   font-size: var(--tamano-fuente-caption-sm);
-  color: var(--color-neutral-dark);
+  line-height: normal;
+  color: var(--color-neutral-600);
 }
 
-/* BARRA DE RESULTADOS */
+/* BARRA DE RESULTADOS: orden y cantidad, alineados a la derecha */
 .catalogo-barra {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 40px;
-  font-size: var(--tamano-fuente-caption-sm);
+  justify-content: flex-end;
+  gap: 103px;
+  margin-bottom: 54px;
+  font-size: var(--tamano-fuente-body-sm);
+  line-height: 36px;
 }
 
 .catalogo-orden {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 17px;
 }
 
 .catalogo-orden select {
-  min-width: 200px;
-  padding: 6px 8px;
+  width: 275px;
+  height: 36px;
+  padding: 0 24px 0 0;
   border: 0;
-  border-bottom: var(--stroke-default) solid var(--color-neutral-light);
-  background-color: transparent;
+  background: url("../assets/iconos/10-chevron-abajo.svg") no-repeat right center / 18px;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-caption-sm);
+  font-size: var(--tamano-fuente-body-sm);
   color: var(--color-neutral-950);
+  cursor: pointer;
+  appearance: none;
 }
 
-/* GRILLA: 3 tarjetas de producto por fila */
+/* GRILLA: 3 tarjetas de 280px por fila, 24px entre columnas */
 .catalogo-productos {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 282px));
+  grid-template-columns: repeat(3, minmax(0, 280px));
   justify-content: space-between;
-  gap: 72px 24px;
+  gap: 82px 24px;
 }
 
 .catalogo-vacio {
   margin: 0;
-  font-size: var(--tamano-fuente-small);
+  font-size: var(--tamano-fuente-body-sm);
 }
 
-/* PAGINACIÓN (por ahora sin cambio de página) */
+/* PAGINACIÓN: casillas de 40px alineadas a la izquierda */
 .catalogo-paginacion {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 72px;
-  font-size: var(--tamano-fuente-small);
+  justify-content: flex-start;
+  gap: 8px;
+  margin-top: 136px;
 }
 
-.catalogo-paginacion button {
+.catalogo-paginacion button,
+.catalogo-paginacion > span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 36px;
-  height: 36px;
-  padding: 0;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  padding: 4px;
   border: 0;
   background: transparent;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-small);
+  font-size: var(--tamano-fuente-body-md);
   color: var(--color-neutral-950);
 }
 
+.catalogo-paginacion button .icono {
+  font-size: 16px;
+}
+
 .catalogo-paginacion button:disabled {
-  color: var(--color-neutral-light);
+  color: var(--color-neutral-500);
   cursor: default;
 }
 
 .catalogo-paginacion .catalogo-pagina {
-  border: var(--stroke-default) solid var(--color-neutral-darker);
-  border-radius: var(--radius-sm);
+  border: var(--stroke-default) solid var(--color-neutral-950);
+  border-radius: var(--radius-md);
   background-color: var(--color-neutral-0);
 }
 
 .catalogo-paginacion .catalogo-pagina:hover {
-  border-color: var(--color-primario-darker);
+  border-color: var(--color-brand-primary-dark);
 }
 
+/* Página actual (el diseño no la distingue): borde y número de marca */
 .catalogo-paginacion .catalogo-pagina[aria-current="page"] {
-  border-color: var(--color-primario-darker);
-  background-color: var(--color-primario-darker);
-  color: var(--color-neutral-0);
+  border-color: var(--color-brand-primary-dark);
+  color: var(--color-brand-primary-dark);
+  font-weight: var(--peso-bold);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1240px) {
   .catalogo-cuerpo {
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: 32px;
+    grid-template-columns: 240px minmax(0, 1fr);
+    padding-left: 0;
   }
 
   .catalogo-productos {
-    grid-template-columns: repeat(2, minmax(0, 282px));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 64px 24px;
+  }
+
+  .catalogo-barra {
+    gap: 40px;
   }
 }
 
 @media (max-width: 760px) {
   .catalogo {
-    padding: 32px 20px 64px;
+    padding: 32px 20px 96px;
   }
 
   .catalogo .catalogo-titulo-pagina {
-    margin: 24px 0;
+    margin: 24px 0 16px;
     font-size: var(--tamano-fuente-heading-md);
-    line-height: 40px;
+    line-height: var(--interlineado-heading-md);
   }
 
   .catalogo-cuerpo {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .catalogo-barra {
     flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin-bottom: 32px;
+  }
+
+  .catalogo-orden select {
+    width: auto;
+    min-width: 180px;
   }
 
   .catalogo-productos {
@@ -323,5 +403,6 @@
 
   .catalogo-paginacion {
     flex-wrap: wrap;
+    margin-top: 64px;
   }
 }

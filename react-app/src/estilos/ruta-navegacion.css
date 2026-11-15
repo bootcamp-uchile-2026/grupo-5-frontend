@@ -1,4 +1,6 @@
-/* RUTA DE NAVEGACIÓN (Catálogo y Ficha de libro). Cada página define su margen. */
+/* RUTA DE NAVEGACIÓN (Catálogo y Ficha de libro). Cada página define su margen.
+   Alta fidelidad (Figma, Catálogo node 3516:28039): Lexend 12, pasos en gris
+   y la página actual en negro. */
 .ruta-navegacion ol {
   display: flex;
   flex-wrap: wrap;
@@ -8,8 +10,8 @@
   list-style: none;
   font-family: var(--fuente-body);
   font-size: var(--tamano-fuente-caption-sm);
-  line-height: 16px;
-  color: var(--color-neutral-dark);
+  line-height: normal;
+  color: var(--color-neutral-500);
 }
 
 .ruta-navegacion li + li::before {
@@ -28,6 +30,5 @@
 }
 
 .ruta-navegacion [aria-current="page"] {
-  font-weight: 700;
   color: var(--color-neutral-950);
 }
