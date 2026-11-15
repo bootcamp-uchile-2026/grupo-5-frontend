@@ -280,8 +280,7 @@ para reemplazarlos con las tareas pendientes del Backlog:
 - En la ficha: las reseñas de libreros y lectores, el video y la galería.
 - Los perfiles de libreros, los recomendados del Home y los géneros y
   temáticas de los menús.
-- El newsletter, la opción de recibir novedades, "Olvidé mi contraseña" y el
-  acceso con Google o Facebook.
+- El newsletter, "Olvidé mi contraseña" y el acceso con Google o Facebook.
 
 ## Pendientes y notas para el equipo
 
@@ -316,8 +315,6 @@ Para Backend:
   equipo. Sería bueno reiniciar la base de datos antes de la revisión del Hito.
 - La API funciona con `http://`. Si publicamos la aplicación con `https://`,
   el navegador va a bloquear las llamadas.
-- El nombre y el apellido se guardan juntos, así que el saludo de la barra usa
-  solo la primera palabra.
 
 ## Diferencias con el diseño
 

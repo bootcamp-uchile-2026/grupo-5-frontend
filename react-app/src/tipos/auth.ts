@@ -8,23 +8,31 @@ export type LoginRequestDto = {
   password: string;
 };
 
-// Request de POST /auth/registro. La API rechaza campos que no declara
-// (por ejemplo "apellido"), por eso nombre y apellido van juntos en "nombre".
+// Request de POST /auth/registro (CreateUsuarioDto). "recibirNovedades"
+// suscribe el correo al newsletter.
 export type RegistroRequestDto = {
   nombre: string;
+  apellido?: string;
   email: string;
   password: string;
   generosFavoritos?: string[];
+  recibirNovedades?: boolean;
 };
 
 // Response de GET /auth/me (y "usuario" dentro de AuthResponseDto)
+// "apellido" es null en las cuentas creadas antes del Hito 3, que guardaban
+// nombre y apellido juntos en "nombre"
 export type UsuarioResponseDto = {
   id: string;
   nombre: string;
+  apellido: string | null;
+  nombreCompleto: string;
   email: string;
   rol: Rol;
   generosFavoritos: string[];
   avatarUrl: string | null;
+  recibirNovedades: boolean;
+  emailVerificado: boolean;
   creadoEn: string;
 };
 
