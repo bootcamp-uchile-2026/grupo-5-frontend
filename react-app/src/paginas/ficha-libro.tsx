@@ -15,13 +15,14 @@ import { useComprarLibro } from "../componentes/useComprarLibro";
 import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
 import { grupoDeGenero } from "../datos/generos";
-import { rutaDeLibrero } from "../datos/libreros";
 import { ErrorApi } from "../servicios/api";
 import {
   obtenerLibro,
   obtenerLibroDestacado,
   obtenerRelacionados,
 } from "../servicios/catalogoServicio";
+import { obtenerRecomendacionesDeLibro } from "../servicios/libreroServicio";
+import { obtenerResenasLectores } from "../servicios/resenaServicio";
 import type { Libro } from "../tipos/libro";
 import { NOMBRES_FORMATO, propsDeTarjeta } from "../utils/libros";
 import "../estilos/ficha-libro.css";
@@ -30,104 +31,10 @@ import { IMAGENES_RELLENO } from "../datos/imagenes";
 
 // Wireframe Ficha de libro (Figma: Wireframes Desktop, node 1547:6140).
 // Muestra el libro indicado en ?libro=<id> (GET /libros/:id); sin id, el
-// libro más reciente del catálogo. Las reseñas y el video siguen dummy.
+// libro más reciente del catálogo. Relacionados, recomendaciones de libreros
+// y reseñas de lectores vienen de la API; el video y la galería son dummy.
 
 const CANTIDAD_MAXIMA = 10;
-
-type ReseñaLibrero = {
-  nombre: string;
-  calificacion: number;
-  reseñas: number;
-  texto: string[];
-};
-
-type ReseñaLector = {
-  nombre: string;
-  ubicacion: string;
-  calificacion: number;
-  fecha: string;
-  texto: string;
-};
-
-// Reseñas dummy del wireframe (escritas para "El perfume"; Backend aún no
-// tiene reseñas persistentes)
-const RESEÑAS_LIBREROS: ReseñaLibrero[] = [
-  {
-    nombre: "Gregorio Samsa",
-    calificacion: 5,
-    reseñas: 56,
-    texto: [
-      "Hay libros que uno termina y puede guardar en el estante. El perfume no. Este se queda dando vueltas en la cabeza... y, de alguna manera, también en la nariz.",
-      "Grenouille es un personaje difícil de querer, pero imposible de ignorar. Vive obsesionado con capturar aquello que los demás ni siquiera saben que están desprendiendo: su olor. Y mientras más intenta encontrar la esencia perfecta, más evidente se vuelve que quizás él mismo carece de una.",
-      "Una historia oscura, perturbadora y extrañamente hermosa sobre la obsesión, la identidad y el deseo de ser alguien. Si alguna vez te has sentido invisible, quizás entiendas demasiado bien a Grenouille.",
-    ],
-  },
-  {
-    nombre: "Ana Karenina",
-    calificacion: 4,
-    reseñas: 83,
-    texto: [
-      "Me ha inquietado pensar cuánto puede desear una persona aquello que no puede nombrar. Grenouille no busca amor, aunque quizás toda su vida no haya hecho otra cosa que buscarlo. Quiere poseer la esencia de los demás porque nunca ha logrado encontrar la suya.",
-      "Hay algo terrible en esa obsesión, pero también algo profundamente triste. Porque ¿qué somos cuando nadie puede percibirnos? ¿Y cuánto estaríamos dispuestos a hacer para sentir, aunque fuera una sola vez, que alguien nos desea? No es una historia de amor. Es, quizás, algo más incómodo: una historia sobre la necesidad desesperada de ser amado.",
-    ],
-  },
-  {
-    nombre: "Clara del Valle",
-    calificacion: 5,
-    reseñas: 41,
-    texto: [
-      "Una novela que se lee con todos los sentidos. Süskind consigue que el olfato, el sentido más olvidado, sea el protagonista de una historia inolvidable.",
-    ],
-  },
-];
-
-const RESEÑAS_LECTORES: ReseñaLector[] = [
-  {
-    nombre: "Daniela S.",
-    ubicacion: "Copiapó, Chile",
-    calificacion: 5,
-    fecha: "Hace 5 días",
-    texto: "Excelente libro, la película le hace honor a la historia original, recomendable.",
-  },
-  {
-    nombre: "Luciano A.",
-    ubicacion: "La Serena, Chile",
-    calificacion: 3,
-    fecha: "Hace 5 días",
-    texto:
-      "La primera mitad me atrapó muchísimo. Después sentí que la historia se volvió demasiado obsesionada con su propia filosofía.",
-  },
-  {
-    nombre: "Cristian G.",
-    ubicacion: "Santiago, Chile",
-    calificacion: 4,
-    fecha: "Hace 5 días",
-    texto:
-      "Lo terminé y tuve ganas de hacer algo impulsivo. Cinco minutos después se me pasó. Quizás ese era el punto.",
-  },
-  {
-    nombre: "Andrés F.",
-    ubicacion: "Santiago, Chile",
-    calificacion: 5,
-    fecha: "Hace 5 días",
-    texto:
-      "Me gustó el libro, pero debo admitir que visualmente la película me marcó más. Fincher hizo algo difícil de sacar de la cabeza.",
-  },
-  {
-    nombre: "Valentina R.",
-    ubicacion: "Valparaíso, Chile",
-    calificacion: 5,
-    fecha: "Hace 1 semana",
-    texto: "Lo leí de una sentada. La forma en que describe los olores es increíble.",
-  },
-  {
-    nombre: "Martín P.",
-    ubicacion: "Concepción, Chile",
-    calificacion: 4,
-    fecha: "Hace 2 semanas",
-    texto: "Perturbador y fascinante. No es para todos, pero vale mucho la pena.",
-  },
-];
 
 function FichaLibro() {
   const [searchParams] = useSearchParams();
@@ -174,6 +81,11 @@ function FichaNoEncontrada() {
 function FichaContenido({ libro }: { libro: Libro }) {
   const comprarLibro = useComprarLibro();
   const relacionadosPeticion = usePeticion(() => obtenerRelacionados(libro), libro.id);
+  const recomendacionesPeticion = usePeticion(
+    () => obtenerRecomendacionesDeLibro(libro.id),
+    libro.id,
+  );
+  const resenasPeticion = usePeticion(() => obtenerResenasLectores(libro.id), libro.id);
 
   useTituloPagina(libro.titulo);
 
@@ -218,8 +130,11 @@ function FichaContenido({ libro }: { libro: Libro }) {
     ["Formato", libro.formato && NOMBRES_FORMATO[libro.formato]],
   ].filter((fila): fila is [string, string] => Boolean(fila[1]));
   const relacionados = relacionadosPeticion.datos ?? [];
-  const libreros = verTodosLibreros ? RESEÑAS_LIBREROS : RESEÑAS_LIBREROS.slice(0, 2);
-  const lectores = verTodosLectores ? RESEÑAS_LECTORES : RESEÑAS_LECTORES.slice(0, 4);
+  const recomendaciones = recomendacionesPeticion.datos ?? [];
+  const libreros = verTodosLibreros ? recomendaciones : recomendaciones.slice(0, 2);
+  const resenas = resenasPeticion.datos?.resenas ?? [];
+  const totalResenas = resenasPeticion.datos?.total ?? 0;
+  const lectores = verTodosLectores ? resenas : resenas.slice(0, 4);
 
   function moverImagen(paso: number) {
     setImagenActual((actual) => (actual + paso + imagenes.length) % imagenes.length);
@@ -350,7 +265,7 @@ function FichaContenido({ libro }: { libro: Libro }) {
                     Añadir a la cesta
                     <Icono nombre="bolsa" />
                   </button>
-                  <BotonFavorito titulo={libro.titulo} className="ficha-favorito" />
+                  <BotonFavorito idLibro={libro.id} titulo={libro.titulo} className="ficha-favorito" />
                 </div>
                 <button
                   type="button"
@@ -402,34 +317,51 @@ function FichaContenido({ libro }: { libro: Libro }) {
               <>
                 Te recomendamos este libro porque...{" "}
                 <span className="ficha-seccion-detalle">
-                  ({RESEÑAS_LIBREROS.length} reseñas)
+                  ({recomendaciones.length} {recomendaciones.length === 1 ? "reseña" : "reseñas"})
                 </span>
               </>
             }
           >
-            <ul className="ficha-libreros">
-              {libreros.map((reseña) => (
-                <li key={reseña.nombre}>
-                  <div className="ficha-librero-perfil">
-                    <span className="ficha-avatar" aria-hidden="true">
-                      <Icono nombre="usuario" />
-                    </span>
-                    <span>Reseñas: {reseña.reseñas}</span>
-                    <Link to={rutaDeLibrero(reseña.nombre)}>Visitar Perfil</Link>
-                  </div>
-                  <div className="ficha-librero-texto">
-                    <p className="ficha-librero-nombre">
-                      <strong>{reseña.nombre}</strong>
-                      <Estrellas calificacion={reseña.calificacion} />
-                    </p>
-                    {reseña.texto.map((parrafo) => (
-                      <p key={parrafo}>{parrafo}</p>
-                    ))}
-                  </div>
-                </li>
-              ))}
-            </ul>
-            {!verTodosLibreros && (
+            {recomendacionesPeticion.error ? (
+              <MensajeError
+                error={recomendacionesPeticion.error}
+                onReintentar={recomendacionesPeticion.reintentar}
+              />
+            ) : recomendacionesPeticion.cargando ? (
+              <EstadoCarga />
+            ) : !recomendaciones.length ? (
+              <p className="ficha-sin-resenas">
+                Aún ningún librero ha recomendado este libro.
+              </p>
+            ) : (
+              <ul className="ficha-libreros">
+                {libreros.map((reseña) => (
+                  <li key={reseña.ruta}>
+                    <div className="ficha-librero-perfil">
+                      <span className="ficha-avatar" aria-hidden="true">
+                        <Icono nombre="usuario" />
+                      </span>
+                      {/* La API no entrega la cantidad de reseñas del librero */}
+                      {reseña.reseñas !== undefined && <span>Reseñas: {reseña.reseñas}</span>}
+                      <Link to={reseña.ruta}>Visitar Perfil</Link>
+                    </div>
+                    <div className="ficha-librero-texto">
+                      <p className="ficha-librero-nombre">
+                        <strong>{reseña.nombre}</strong>
+                        {/* La API no entrega una calificación por recomendación */}
+                        {reseña.calificacion !== undefined && (
+                          <Estrellas calificacion={reseña.calificacion} />
+                        )}
+                      </p>
+                      {reseña.texto.map((parrafo) => (
+                        <p key={parrafo}>{parrafo}</p>
+                      ))}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {!verTodosLibreros && recomendaciones.length > 2 && (
               <button
                 type="button"
                 className="ficha-ver-mas"
@@ -490,26 +422,37 @@ function FichaContenido({ libro }: { libro: Libro }) {
 
         <div className="ficha ficha-final">
           <Desplegable className="ficha-seccion" abiertoInicial titulo="Reseñas de otros lectores">
-            <ul className="ficha-lectores">
-              {lectores.map((reseña) => (
-                <li key={reseña.nombre}>
-                  <div className="ficha-lector-perfil">
-                    <span className="ficha-avatar" aria-hidden="true">
-                      <Icono nombre="usuario" />
-                    </span>
-                    <div>
-                      <strong>{reseña.nombre}</strong>
-                      <span>{reseña.ubicacion}</span>
+            {resenasPeticion.error ? (
+              <MensajeError error={resenasPeticion.error} onReintentar={resenasPeticion.reintentar} />
+            ) : resenasPeticion.cargando ? (
+              <EstadoCarga />
+            ) : !resenas.length ? (
+              <p className="ficha-sin-resenas">
+                Aún no hay reseñas de lectores para este libro.
+              </p>
+            ) : (
+              <ul className="ficha-lectores">
+                {lectores.map((reseña) => (
+                  <li key={reseña.id}>
+                    <div className="ficha-lector-perfil">
+                      <span className="ficha-avatar" aria-hidden="true">
+                        <Icono nombre="usuario" />
+                      </span>
+                      <div>
+                        <strong>{reseña.nombre}</strong>
+                        {/* La API no guarda la ubicación del lector */}
+                        {reseña.ubicacion && <span>{reseña.ubicacion}</span>}
+                      </div>
                     </div>
-                  </div>
-                  <p className="ficha-lector-meta">
-                    <Estrellas calificacion={reseña.calificacion} />
-                    <span>{reseña.fecha}</span>
-                  </p>
-                  <p>{reseña.texto}</p>
-                </li>
-              ))}
-            </ul>
+                    <p className="ficha-lector-meta">
+                      <Estrellas calificacion={reseña.calificacion} />
+                      <span>{reseña.fecha}</span>
+                    </p>
+                    <p>{reseña.texto}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <div className="ficha-lectores-acciones">
               <button
@@ -521,13 +464,13 @@ function FichaContenido({ libro }: { libro: Libro }) {
               >
                 Dejar una reseña
               </button>
-              {!verTodosLectores && (
+              {!verTodosLectores && resenas.length > 4 && (
                 <button
                   type="button"
                   className="ficha-ver-mas"
                   onClick={() => setVerTodosLectores(true)}
                 >
-                  Mostrar {RESEÑAS_LECTORES.length} reseñas
+                  Mostrar {totalResenas} reseñas
                   <Icono nombre="abajo" />
                 </button>
               )}

@@ -1,8 +1,16 @@
-// Datos dummy de los perfiles de libreros (sin Backend aún).
+// Datos dummy de los perfiles de libreros (cuando VITE_API_URL está vacía).
 // Contenido de los wireframes "Perfiles de libreros" (Figma: Wireframes
 // Desktop, nodes 1547:4321, 1547:4583, 1547:4849 y 1584:4835).
 
-export type LibroLibrero = { titulo: string; autor: string };
+// Con API, las recomendaciones traen además el libro del catálogo
+export type LibroLibrero = {
+  titulo: string;
+  autor: string;
+  idLibro?: string;
+  portada?: string;
+  calificacion?: number;
+  opiniones?: number;
+};
 
 export type Coleccion = {
   titulo: string;
@@ -265,3 +273,63 @@ export function rutaDeLibrero(nombre: string) {
   const librero = LIBREROS.find((actual) => actual.nombre === nombre);
   return librero ? `/perfil-librero?librero=${librero.id}` : "/perfil-librero";
 }
+
+// "Recomendados de nuestros libreros" del Home (dummy)
+export const RECOMENDADOS_INICIO = [
+  {
+    nombreLibrero: "Gregorio S.",
+    titulo: "El Principito",
+    autor: "Antoine de Saint-Exupéry",
+    calificacion: 5,
+    opiniones: 12,
+  },
+  {
+    nombreLibrero: "Tyler D.",
+    titulo: "Cien años de soledad",
+    autor: "Gabriel García Márquez",
+    calificacion: 4.5,
+    opiniones: 28,
+  },
+  {
+    nombreLibrero: "Clara V.",
+    titulo: "Don Quijote de la Mancha",
+    autor: "Miguel de Cervantes",
+    calificacion: 4,
+    opiniones: 9,
+  },
+  {
+    nombreLibrero: "Ana K.",
+    titulo: "1984",
+    autor: "George Orwell",
+    calificacion: 4.5,
+    opiniones: 31,
+  },
+  {
+    nombreLibrero: "Lisbeth S.",
+    titulo: "Rayuela",
+    autor: "Julio Cortázar",
+    calificacion: 4,
+    opiniones: 15,
+  },
+  {
+    nombreLibrero: "Aureliano B.",
+    titulo: "Pedro Páramo",
+    autor: "Juan Rulfo",
+    calificacion: 5,
+    opiniones: 22,
+  },
+  {
+    nombreLibrero: "Gregorio S.",
+    titulo: "La metamorfosis",
+    autor: "Franz Kafka",
+    calificacion: 4.5,
+    opiniones: 18,
+  },
+  {
+    nombreLibrero: "Clara V.",
+    titulo: "La casa de los espíritus",
+    autor: "Isabel Allende",
+    calificacion: 4,
+    opiniones: 11,
+  },
+];

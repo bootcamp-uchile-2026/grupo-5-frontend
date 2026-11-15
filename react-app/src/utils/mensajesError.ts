@@ -10,7 +10,7 @@ const MENSAJES: Record<string, string> = {
   PERMISO_DENEGADO: "No tienes permiso para realizar esta acción.",
   USUARIO_NO_ENCONTRADO: "No encontramos tu cuenta.",
   LIBRO_NO_ENCONTRADO: "No encontramos este libro.",
-  LIBRERO_NO_ENCONTRADO: "Tu cuenta aún no tiene un perfil de librero.",
+  LIBRERO_NO_ENCONTRADO: "No encontramos este perfil de librero.",
   PEDIDO_NO_ENCONTRADO: "No encontramos este pedido.",
   RECURSO_NO_ENCONTRADO: "No encontramos lo que buscas.",
   RUTA_NO_ENCONTRADA: "No encontramos lo que buscas.",
