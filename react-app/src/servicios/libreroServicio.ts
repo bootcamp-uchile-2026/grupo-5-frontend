@@ -1,6 +1,7 @@
 import type { TarjetaRecomendacionProps } from "../componentes/TarjetaRecomendacion";
 import { IMAGENES_RELLENO } from "../datos/imagenes";
 import {
+  FOTOS_LIBREROS,
   LIBREROS,
   RECOMENDADOS_INICIO,
   buscarLibrero,
@@ -9,6 +10,7 @@ import {
   type Librero,
 } from "../datos/libreros";
 import { RESENAS_LIBREROS } from "../datos/resenas";
+import type { BuscarResenasRequest, ResenaResponseDto, ResenasPaginadasDto } from "../tipos/comunidad";
 import type {
   ColeccionResponseDto,
   LibreroPerfilDto,
@@ -18,8 +20,9 @@ import type {
 import { ErrorApi, solicitar, usarApi } from "./api";
 
 // Servicio de libreros. Con API: GET /libreros, GET /libreros/{slug},
-// GET /libreros/yo, GET /recomendaciones/destacadas y
-// GET /libros/{id}/recomendaciones-libreros. Sin API (VITE_API_URL vacía):
+// GET /libreros/yo, GET /recomendaciones/destacadas,
+// GET /libros/{id}/recomendaciones-libreros y
+// GET /libros/{id}/resenas?tipo=LIBRERO. Sin API (VITE_API_URL vacía):
 // datos dummy de datos/libreros.ts y datos/resenas.ts.
 
 // Perfil que se muestra en /perfil-librero sin indicar uno (como en el wireframe)
@@ -163,25 +166,89 @@ export async function obtenerRecomendadosInicio(cantidad = 8): Promise<TarjetaRe
 
 // FICHA: "TE RECOMENDAMOS ESTE LIBRO PORQUE..."
 
-// La API entrega el librero y su nota, pero no una calificación ni su
-// cantidad de reseñas: esos dos datos solo existen en los datos dummy
+// Las estrellas vienen de la reseña que el librero dejó del libro (tipo
+// LIBRERO), cuando existe. La cantidad de reseñas del librero no la entrega
+// la API: solo existe en los datos dummy.
 export type RecomendacionFicha = {
   nombre: string;
   ruta: string;
+  foto?: string;
   texto: string[];
   calificacion?: number;
   reseñas?: number;
 };
 
+// Primera palabra del nombre, para cruzar las dos fuentes: la reseña la firma
+// la cuenta del librero ("Clara d.") y la recomendación, su perfil ("Clara
+// del Valle"). La API no entrega un id común entre ambos.
+const nombreDePila = (nombre: string) => nombre.trim().split(/\s+/)[0].toLowerCase();
+
+function perfilDeResena(resena: ResenaResponseDto, libreros: LibreroResumenDto[]) {
+  return libreros.find((librero) => nombreDePila(librero.nombre) === nombreDePila(resena.autor.nombre));
+}
+
+// Combina las recomendaciones (nota del librero) con las reseñas de libreros
+// (calificación y comentario). Una reseña sin recomendación también se muestra.
+function combinarConResenas(
+  recomendaciones: RecomendacionLibreroResponseDto[],
+  resenas: ResenaResponseDto[],
+  libreros: LibreroResumenDto[],
+): RecomendacionFicha[] {
+  const usadas = new Set<string>();
+  const desdeRecomendaciones = recomendaciones.flatMap(({ librero, nota }) => {
+    if (!librero) return [];
+    const resena = resenas.find(
+      (actual) => !usadas.has(actual.id) && nombreDePila(actual.autor.nombre) === nombreDePila(librero.nombre),
+    );
+    if (resena) usadas.add(resena.id);
+    // Si la reseña dice algo distinto de la nota, se muestra como otro párrafo
+    const texto = resena && resena.comentario !== nota ? [nota, resena.comentario] : [nota];
+    return [
+      {
+        nombre: librero.nombre,
+        ruta: rutaPerfil(librero.slug),
+        foto: librero.fotoUrl ?? FOTOS_LIBREROS[librero.slug],
+        texto,
+        calificacion: resena?.calificacion,
+      },
+    ];
+  });
+  const soloResenas = resenas
+    .filter((resena) => !usadas.has(resena.id))
+    .map((resena) => {
+      const perfil = perfilDeResena(resena, libreros);
+      return {
+        nombre: perfil?.nombre ?? resena.autor.nombre,
+        ruta: perfil ? rutaPerfil(perfil.slug) : "/perfil-librero",
+        foto: perfil ? (perfil.fotoUrl ?? FOTOS_LIBREROS[perfil.slug]) : undefined,
+        texto: [resena.comentario],
+        calificacion: resena.calificacion,
+      };
+    });
+  return [...desdeRecomendaciones, ...soloResenas];
+}
+
 export async function obtenerRecomendacionesDeLibro(idLibro: string): Promise<RecomendacionFicha[]> {
   if (usarApi) {
-    const recomendaciones = await solicitar<RecomendacionLibreroResponseDto[]>(
-      `/libros/${encodeURIComponent(idLibro)}/recomendaciones-libreros`,
-    );
-    return recomendaciones.flatMap(({ librero, nota }) =>
-      librero ? [{ nombre: librero.nombre, ruta: rutaPerfil(librero.slug), texto: [nota] }] : [],
-    );
+    const ruta = `/libros/${encodeURIComponent(idLibro)}`;
+    const parametros: BuscarResenasRequest = { tipo: "LIBRERO", limit: 50 };
+    const [recomendaciones, resenas] = await Promise.all([
+      solicitar<RecomendacionLibreroResponseDto[]>(`${ruta}/recomendaciones-libreros`),
+      solicitar<ResenasPaginadasDto>(`${ruta}/resenas`, { parametros }),
+    ]);
+    // Los perfiles solo hacen falta para las reseñas sin recomendación
+    const libreros = resenas.items.length
+      ? await solicitar<LibreroResumenDto[]>("/libreros")
+      : [];
+    return combinarConResenas(recomendaciones, resenas.items, libreros);
   }
   await pausa();
-  return RESENAS_LIBREROS.map((resena) => ({ ...resena, ruta: rutaDeLibrero(resena.nombre) }));
+  return RESENAS_LIBREROS.map((resena) => {
+    const librero = LIBREROS.find((actual) => actual.nombre === resena.nombre);
+    return {
+      ...resena,
+      ruta: rutaDeLibrero(resena.nombre),
+      foto: librero && FOTOS_LIBREROS[librero.id],
+    };
+  });
 }

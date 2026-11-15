@@ -336,6 +336,24 @@ body h1{
     background-color: var(--color-brand-primary-basic);
 }
 
+/* En pantallas angostas, con muchas páginas, las áreas de clic se achican
+   para que la paginación quepa en una fila */
+@media (max-width: 480px){
+    .controles-carrusel button{
+        width: 40px;
+    }
+
+    .controles-carrusel button.carrusel-punto{
+        flex-basis: 24px;
+        width: 24px;
+    }
+
+    .carrusel-punto::before{
+        width: 14px;
+        height: 14px;
+    }
+}
+
 @media (max-width: 760px){
     .carrusel-item{
         flex-basis: min(72vw, 270px);

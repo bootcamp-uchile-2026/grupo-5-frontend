@@ -1,3 +1,6 @@
+import fotoClara from "../assets/imagenes/librero-clara-del-valle.png";
+import fotoGregorio from "../assets/imagenes/librero-gregorio-samsa.png";
+
 // Datos dummy de los perfiles de libreros (cuando VITE_API_URL está vacía).
 // Contenido de los wireframes "Perfiles de libreros" (Figma: Wireframes
 // Desktop, nodes 1547:4321, 1547:4583, 1547:4849 y 1584:4835).
@@ -333,3 +336,10 @@ export const RECOMENDADOS_INICIO = [
     opiniones: 11,
   },
 ];
+
+// Fotos de los libreros del diseño (Figma: avatar-booksellers), por slug.
+// La API aún no tiene fotos (fotoUrl llega null).
+export const FOTOS_LIBREROS: Record<string, string> = {
+  "gregorio-samsa": fotoGregorio,
+  "clara-del-valle": fotoClara,
+};
