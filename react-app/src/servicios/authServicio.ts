@@ -15,18 +15,16 @@ import { ErrorApi, configurarRenovacion, solicitar, usarApi } from "./api";
 
 const pausa = () => new Promise((resolver) => setTimeout(resolver, 300));
 
-// La API guarda nombre y apellido juntos en "nombre": la sesión los separa
-// para el saludo "Hola, Nombre"
+// La API entrega nombre y apellido por separado. Las cuentas anteriores al
+// Hito 3 tienen apellido null y todo en "nombre": ahí se separa el texto
+// para que el saludo "Hola, Nombre" muestre solo el nombre
 function aSesion(usuario: UsuarioResponseDto, token: string): LoginResponse {
+  const base = { id: usuario.id, rol: usuario.rol, email: usuario.email, token };
+  if (usuario.apellido !== null) {
+    return { ...base, nombre: usuario.nombre, apellido: usuario.apellido };
+  }
   const [nombre = "", ...apellido] = usuario.nombre.trim().split(/\s+/);
-  return {
-    id: usuario.id,
-    rol: usuario.rol,
-    email: usuario.email,
-    nombre,
-    apellido: apellido.join(" "),
-    token,
-  };
+  return { ...base, nombre, apellido: apellido.join(" ") };
 }
 
 const desdeAuthResponse = (respuesta: AuthResponseDto) => ({
@@ -45,13 +43,14 @@ export async function iniciarSesion(solicitud: LoginRequest): Promise<LoginRespo
   );
 }
 
-// "recibirNovedades" no existe en Backend: por ahora no se envía (dummy)
 export async function registrarse(solicitud: RegistroRequest): Promise<LoginResponse> {
   if (!usarApi) return registrarseDummy(solicitud);
   const cuerpo: RegistroRequestDto = {
-    nombre: `${solicitud.nombre.trim()} ${solicitud.apellido.trim()}`.trim(),
+    nombre: solicitud.nombre.trim(),
+    apellido: solicitud.apellido.trim(),
     email: solicitud.email.trim(),
     password: solicitud.password,
+    recibirNovedades: solicitud.recibirNovedades,
   };
   return desdeAuthResponse(
     await solicitar<AuthResponseDto>("/auth/registro", { metodo: "POST", cuerpo }),
