@@ -5,87 +5,22 @@ import { ComunidadLectora } from "../componentes/ComunidadLectora";
 import { Footer } from "../componentes/Footer";
 import { Newsletter } from "../componentes/Newsletter";
 import { TarjetaProducto } from "../componentes/TarjetaProducto";
-import {
-  TarjetaRecomendacion,
-  type TarjetaRecomendacionProps,
-} from "../componentes/TarjetaRecomendacion";
+import { TarjetaRecomendacion } from "../componentes/TarjetaRecomendacion";
 import { EstadoCarga } from "../componentes/EstadoCarga";
 import { Icono } from "../componentes/Icono";
 import { MensajeError } from "../componentes/MensajeError";
 import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
 import { obtenerLibrosInicio } from "../servicios/catalogoServicio";
+import { obtenerRecomendadosInicio } from "../servicios/libreroServicio";
 import { propsDeTarjeta } from "../utils/libros";
 import { IMAGENES_RELLENO } from "../datos/imagenes";
-
-// Datos dummy de "Recomendados de nuestros libreros" (sin Backend aún)
-
-const librosRecomendados: TarjetaRecomendacionProps[] = [
-  {
-    nombreLibrero: "Gregorio S.",
-    titulo: "El Principito",
-    autor: "Antoine de Saint-Exupéry",
-    calificacion: 5,
-    opiniones: 12,
-  },
-  {
-    nombreLibrero: "Tyler D.",
-    titulo: "Cien años de soledad",
-    autor: "Gabriel García Márquez",
-    calificacion: 4.5,
-    opiniones: 28,
-  },
-  {
-    nombreLibrero: "Clara V.",
-    titulo: "Don Quijote de la Mancha",
-    autor: "Miguel de Cervantes",
-    calificacion: 4,
-    opiniones: 9,
-  },
-  {
-    nombreLibrero: "Ana K.",
-    titulo: "1984",
-    autor: "George Orwell",
-    calificacion: 4.5,
-    opiniones: 31,
-  },
-  {
-    nombreLibrero: "Lisbeth S.",
-    titulo: "Rayuela",
-    autor: "Julio Cortázar",
-    calificacion: 4,
-    opiniones: 15,
-  },
-  {
-    nombreLibrero: "Aureliano B.",
-    titulo: "Pedro Páramo",
-    autor: "Juan Rulfo",
-    calificacion: 5,
-    opiniones: 22,
-  },
-  {
-    nombreLibrero: "Gregorio S.",
-    titulo: "La metamorfosis",
-    autor: "Franz Kafka",
-    calificacion: 4.5,
-    opiniones: 18,
-  },
-  {
-    nombreLibrero: "Clara V.",
-    titulo: "La casa de los espíritus",
-    autor: "Isabel Allende",
-    calificacion: 4,
-    opiniones: 11,
-  },
-].map((libro) => ({
-  ...libro,
-  imagenLibrero: IMAGENES_RELLENO.avatar,
-  portada: IMAGENES_RELLENO.portadaHorizontal,
-}));
 
 function Index() {
   useTituloPagina("Inicio");
   const inicio = usePeticion(obtenerLibrosInicio, "inicio");
+  // "Recomendados de nuestros libreros" (GET /recomendaciones/destacadas)
+  const recomendados = usePeticion(() => obtenerRecomendadosInicio(), "recomendados");
 
   // Carruseles de productos (libros del catálogo; ver obtenerLibrosInicio)
   const carruselesProductos = [
@@ -163,16 +98,22 @@ function Index() {
           </div>
         </section>
 
-        <Carrusel
-          titulo="Recomendados de nuestros libreros"
-          variante="recomendaciones"
-          className="inicio-recomendados carrusel-tarjetas-recomendacion"
-          flechasEncabezado
-        >
-          {librosRecomendados.map((libro) => (
-            <TarjetaRecomendacion key={libro.titulo} {...libro} />
-          ))}
-        </Carrusel>
+        {Boolean(recomendados.error) && (
+          <MensajeError error={recomendados.error} onReintentar={recomendados.reintentar} />
+        )}
+        {recomendados.cargando && <EstadoCarga texto="Cargando recomendaciones..." />}
+        {recomendados.datos && (
+          <Carrusel
+            titulo="Recomendados de nuestros libreros"
+            variante="recomendaciones"
+            className="inicio-recomendados carrusel-tarjetas-recomendacion"
+            flechasEncabezado
+          >
+            {recomendados.datos.map((libro) => (
+              <TarjetaRecomendacion key={`${libro.nombreLibrero}-${libro.titulo}`} {...libro} />
+            ))}
+          </Carrusel>
+        )}
 
         <ComunidadLectora />
 

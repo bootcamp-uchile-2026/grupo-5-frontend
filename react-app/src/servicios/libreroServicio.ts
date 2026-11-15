@@ -1,16 +1,40 @@
-import { LIBREROS, type Coleccion, type Librero } from "../datos/libreros";
-import type { ColeccionResponseDto, LibreroPerfilDto } from "../tipos/librero";
-import { solicitar, usarApi } from "./api";
+import type { TarjetaRecomendacionProps } from "../componentes/TarjetaRecomendacion";
+import { IMAGENES_RELLENO } from "../datos/imagenes";
+import {
+  LIBREROS,
+  RECOMENDADOS_INICIO,
+  buscarLibrero,
+  rutaDeLibrero,
+  type Coleccion,
+  type Librero,
+} from "../datos/libreros";
+import { RESENAS_LIBREROS } from "../datos/resenas";
+import type {
+  ColeccionResponseDto,
+  LibreroPerfilDto,
+  LibreroResumenDto,
+  RecomendacionLibreroResponseDto,
+} from "../tipos/librero";
+import { ErrorApi, solicitar, usarApi } from "./api";
 
-// Servicio de libreros. Con API: GET /libreros/yo (perfil del librero con
-// sesión). Sin API (VITE_API_URL vacía): el primer librero de los datos dummy.
+// Servicio de libreros. Con API: GET /libreros, GET /libreros/{slug},
+// GET /libreros/yo, GET /recomendaciones/destacadas y
+// GET /libros/{id}/recomendaciones-libreros. Sin API (VITE_API_URL vacía):
+// datos dummy de datos/libreros.ts y datos/resenas.ts.
+
+// Perfil que se muestra en /perfil-librero sin indicar uno (como en el wireframe)
+const LIBRERO_POR_DEFECTO = "gregorio-samsa";
 
 // Colecciones visibles antes de pulsar "Ver más", como en el wireframe
 const COLECCIONES_VISIBLES = 2;
 
+const pausa = () => new Promise((resolver) => setTimeout(resolver, 150));
+
+const rutaPerfil = (slug: string) => `/perfil-librero?librero=${encodeURIComponent(slug)}`;
+
 // "2026-08-24" -> "Agosto 24, 2026", el formato del wireframe
 function formatearFecha(fecha: string) {
-  const [anio, mes, dia] = fecha.split("-").map(Number);
+  const [anio, mes, dia] = fecha.slice(0, 10).split("-").map(Number);
   const nombreMes = new Date(anio, mes - 1, dia).toLocaleDateString("es-CL", { month: "long" });
   return `${nombreMes.charAt(0).toUpperCase()}${nombreMes.slice(1)} ${dia}, ${anio}`;
 }
@@ -42,8 +66,35 @@ function desdePerfilApi(perfil: LibreroPerfilDto): Librero {
     ultimasRecomendaciones: perfil.ultimasRecomendaciones.map(({ libro }) => ({
       titulo: libro.titulo,
       autor: libro.autor,
+      idLibro: libro.id,
+      portada: libro.portadaUrl ?? undefined,
+      calificacion: libro.calificacion,
+      opiniones: libro.opiniones,
     })),
   };
+}
+
+// PERFILES
+
+// Perfil público de un librero (/perfil-librero?librero=<slug>). Sin slug,
+// el perfil por defecto.
+export async function obtenerLibrero(slug: string | null): Promise<Librero> {
+  const id = slug || LIBRERO_POR_DEFECTO;
+  if (usarApi) {
+    return desdePerfilApi(
+      await solicitar<LibreroPerfilDto>(`/libreros/${encodeURIComponent(id)}`),
+    );
+  }
+  await pausa();
+  const librero = buscarLibrero(id);
+  if (!librero) {
+    throw new ErrorApi({
+      statusCode: 404,
+      error: "LIBRERO_NO_ENCONTRADO",
+      message: `No existe un librero con id "${id}"`,
+    });
+  }
+  return librero;
 }
 
 // Perfil del librero con sesión iniciada. La API responde 403 si el usuario
@@ -51,4 +102,86 @@ function desdePerfilApi(perfil: LibreroPerfilDto): Librero {
 export async function obtenerMiPerfilLibrero(): Promise<Librero> {
   if (!usarApi) return LIBREROS[0];
   return desdePerfilApi(await solicitar<LibreroPerfilDto>("/libreros/yo"));
+}
+
+// MENÚ "DESCUBRE CON NOSOTROS"
+
+export type EnlaceLibrero = { nombre: string; ruta: string };
+
+// Nombres del desplegable en el wireframe (sin API)
+const LIBREROS_MENU = [
+  "Gregorio Samsa",
+  "Ana Karenina",
+  "Aureliano Buendía",
+  "Lisbeth Salander",
+  "Tyler Durden",
+  "Clara del Valle",
+];
+
+export const ENLACES_LIBREROS_INICIALES: EnlaceLibrero[] = LIBREROS_MENU.map((nombre) => ({
+  nombre,
+  ruta: rutaDeLibrero(nombre),
+}));
+
+export async function obtenerEnlacesLibreros(): Promise<EnlaceLibrero[]> {
+  if (!usarApi) return ENLACES_LIBREROS_INICIALES;
+  const libreros = await solicitar<LibreroResumenDto[]>("/libreros");
+  return libreros.map((librero) => ({ nombre: librero.nombre, ruta: rutaPerfil(librero.slug) }));
+}
+
+// HOME: "RECOMENDADOS DE NUESTROS LIBREROS"
+
+function aTarjeta(recomendacion: RecomendacionLibreroResponseDto): TarjetaRecomendacionProps {
+  const { libro, librero } = recomendacion;
+  return {
+    idLibro: libro.id,
+    nombreLibrero: librero?.nombreCorto ?? "",
+    imagenLibrero: librero?.fotoUrl ?? IMAGENES_RELLENO.avatar,
+    portada: libro.portadaUrl ?? IMAGENES_RELLENO.portadaHorizontal,
+    titulo: libro.titulo,
+    autor: libro.autor,
+    calificacion: libro.calificacion,
+    opiniones: libro.opiniones,
+  };
+}
+
+export async function obtenerRecomendadosInicio(cantidad = 8): Promise<TarjetaRecomendacionProps[]> {
+  if (usarApi) {
+    const destacadas = await solicitar<RecomendacionLibreroResponseDto[]>(
+      "/recomendaciones/destacadas",
+      { parametros: { limite: cantidad } },
+    );
+    return destacadas.map(aTarjeta);
+  }
+  await pausa();
+  return RECOMENDADOS_INICIO.map((libro) => ({
+    ...libro,
+    imagenLibrero: IMAGENES_RELLENO.avatar,
+    portada: IMAGENES_RELLENO.portadaHorizontal,
+  }));
+}
+
+// FICHA: "TE RECOMENDAMOS ESTE LIBRO PORQUE..."
+
+// La API entrega el librero y su nota, pero no una calificación ni su
+// cantidad de reseñas: esos dos datos solo existen en los datos dummy
+export type RecomendacionFicha = {
+  nombre: string;
+  ruta: string;
+  texto: string[];
+  calificacion?: number;
+  reseñas?: number;
+};
+
+export async function obtenerRecomendacionesDeLibro(idLibro: string): Promise<RecomendacionFicha[]> {
+  if (usarApi) {
+    const recomendaciones = await solicitar<RecomendacionLibreroResponseDto[]>(
+      `/libros/${encodeURIComponent(idLibro)}/recomendaciones-libreros`,
+    );
+    return recomendaciones.flatMap(({ librero, nota }) =>
+      librero ? [{ nombre: librero.nombre, ruta: rutaPerfil(librero.slug), texto: [nota] }] : [],
+    );
+  }
+  await pausa();
+  return RESENAS_LIBREROS.map((resena) => ({ ...resena, ruta: rutaDeLibrero(resena.nombre) }));
 }

@@ -2,24 +2,53 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Footer } from "../componentes/Footer";
 import { Carrusel } from "../componentes/Carrusel";
+import { EstadoCarga } from "../componentes/EstadoCarga";
 import { Icono } from "../componentes/Icono";
+import { MensajeError } from "../componentes/MensajeError";
 import { PreguntaLibrero } from "../componentes/PreguntaLibrero.tsx";
 import { TarjetaRecomendacion } from "../componentes/TarjetaRecomendacion";
+import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
-import { LIBREROS, buscarLibrero, type Librero } from "../datos/libreros";
+import type { Librero } from "../datos/libreros";
+import { ErrorApi } from "../servicios/api";
+import { obtenerLibrero } from "../servicios/libreroServicio";
 import "../estilos/perfil-librero.css";
 import { IMAGENES_RELLENO } from "../datos/imagenes";
 
 // Wireframes "Perfiles de libreros" (Figma: Wireframes Desktop, nodes
 // 1547:4321, 1547:4583, 1547:4849 y 1584:4835). Muestra el librero indicado
-// en ?librero=<id>; sin id, el primero (Gregorio Samsa).
+// en ?librero=<slug> (GET /libreros/{slug}); sin slug, Gregorio Samsa.
 
 function PerfilLibrero() {
 	const [searchParams] = useSearchParams();
-	const librero = buscarLibrero(searchParams.get("librero")) ?? LIBREROS[0];
+	const slug = searchParams.get("librero");
+	const peticion = usePeticion(() => obtenerLibrero(slug), slug ?? "");
+
+	if (peticion.error) {
+		// Librero inexistente: no tiene sentido reintentar
+		const noExiste = peticion.error instanceof ErrorApi && peticion.error.statusCode === 404;
+		return (
+			<main className="perfil-librero">
+				<MensajeError
+					error={peticion.error}
+					onReintentar={noExiste ? undefined : peticion.reintentar}
+					enlace={{ texto: "Volver al inicio", ruta: "/" }}
+					className="perfil-estado"
+				/>
+			</main>
+		);
+	}
+
+	if (peticion.cargando || !peticion.datos) {
+		return (
+			<main className="perfil-librero">
+				<EstadoCarga texto="Cargando perfil..." className="perfil-estado" />
+			</main>
+		);
+	}
 
 	// Cada perfil parte con sus estados reiniciados
-	return <PerfilContenido key={librero.id} librero={librero} />;
+	return <PerfilContenido key={peticion.datos.id} librero={peticion.datos} />;
 }
 
 // También la usa "Mi perfil de librero" (paginas/mi-perfil-librero.tsx)
@@ -231,13 +260,14 @@ export function PerfilContenido({ librero }: { librero: Librero }) {
 						{librero.ultimasRecomendaciones.map((libro) => (
 							<TarjetaRecomendacion
 								key={libro.titulo}
+								idLibro={libro.idLibro}
 								nombreLibrero={librero.nombreCorto}
 								imagenLibrero={IMAGENES_RELLENO.avatar}
-								portada={IMAGENES_RELLENO.portadaHorizontal}
+								portada={libro.portada ?? IMAGENES_RELLENO.portadaHorizontal}
 								titulo={libro.titulo}
 								autor={libro.autor}
-								calificacion={4.5}
-								opiniones={12}
+								calificacion={libro.calificacion ?? 4.5}
+								opiniones={libro.opiniones ?? 12}
 							/>
 						))}
 					</Carrusel>

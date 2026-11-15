@@ -32,6 +32,21 @@ export type ColeccionResponseDto = {
   libros: LibroResumenDto[];
 };
 
+// Response de GET /libreros (y "librero" dentro de cada recomendación)
+export type LibreroResumenDto = {
+  id: string;
+  slug: string;
+  nombre: string;
+  nombreCorto: string;
+  etiquetas: string[];
+  cita: string | null;
+  fotoUrl: string | null;
+  seguidores: number;
+};
+
+// Response de GET /recomendaciones/destacadas,
+// GET /libros/{id}/recomendaciones-libreros y "ultimasRecomendaciones" del
+// perfil. "librero" viene en las dos primeras.
 export type RecomendacionLibreroResponseDto = {
   id: string;
   libro: LibroResumenDto;
@@ -40,6 +55,7 @@ export type RecomendacionLibreroResponseDto = {
   destacada: boolean;
   orden: number;
   fecha: string;
+  librero?: LibreroResumenDto;
 };
 
 // Response de GET /libreros/yo y GET /libreros/{id}

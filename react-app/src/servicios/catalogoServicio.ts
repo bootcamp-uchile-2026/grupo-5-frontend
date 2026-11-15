@@ -1,7 +1,9 @@
-import { generoEnApi } from "../datos/generos";
+import { generoEnApi, generos, tematicas, type Columna } from "../datos/generos";
 import { IMAGENES_RELLENO } from "../datos/imagenes";
 import { LIBROS } from "../datos/libros";
 import type { PaginadoDto } from "../tipos/api";
+import type { GrupoCategoriasDto } from "../tipos/comunidad";
+import type { LibroResumenDto } from "../tipos/librero";
 import type {
   BuscarLibrosRequest,
   FormatoLibro,
@@ -12,8 +14,9 @@ import type {
 } from "../tipos/libro";
 import { ErrorApi, solicitar, usarApi } from "./api";
 
-// Servicio del catálogo. Con API: GET /libros, GET /libros/generos y
-// GET /libros/:id. Sin API (VITE_API_URL vacía): datos dummy de src/datos.
+// Servicio del catálogo. Con API: GET /libros, GET /libros/generos,
+// GET /libros/:id, GET /libros/:id/relacionados y GET /libros/categorias.
+// Sin API (VITE_API_URL vacía): datos dummy de src/datos.
 
 export const LIBROS_POR_PAGINA = 12;
 // Máximo de libros por página que acepta GET /libros
@@ -269,8 +272,36 @@ export async function obtenerLibroDestacado(): Promise<Libro> {
   return libros[0];
 }
 
-// "Te podría interesar": libros del mismo género, completados con novedades
+// LibroResumenDto (relacionados, colecciones, recomendaciones) → Libro.
+// El resumen no trae ficha técnica: solo lo que muestran las tarjetas.
+export function desdeResumen(dto: LibroResumenDto): Libro {
+  return {
+    id: dto.id,
+    titulo: dto.titulo,
+    autor: dto.autor,
+    editorial: "",
+    genero: dto.genero,
+    precio: dto.precio,
+    precioAnterior: dto.precioAnterior ?? undefined,
+    enStock: dto.enStock,
+    portada: dto.portadaUrl ?? IMAGENES_RELLENO.portada,
+    calificacion: dto.calificacion,
+    opiniones: dto.opiniones,
+    ventas: 0,
+  };
+}
+
+// "Te podría interesar". Con API: lo que la comunidad compró junto a este
+// libro, completado con los más vendidos de sus categorías. Sin API: libros
+// del mismo género, completados con novedades.
 export async function obtenerRelacionados(libro: Libro, cantidad = 4): Promise<Libro[]> {
+  if (usarApi) {
+    const relacionados = await solicitar<LibroResumenDto[]>(
+      `/libros/${encodeURIComponent(libro.id)}/relacionados`,
+      { parametros: { limite: cantidad } },
+    );
+    return relacionados.map(desdeResumen);
+  }
   const [mismoGenero, novedades] = await Promise.all([
     buscarLibros({ genero: libro.genero }),
     buscarLibros({ orden: "novedades" }),
@@ -291,4 +322,21 @@ export async function obtenerLibrosInicio(cantidad = 8) {
     primeros("mas_comentados"),
   ]);
   return { masVendidos, nuevosLanzamientos, masComentados };
+}
+
+// Columnas del menú Catálogo (géneros y temáticas de UX). Con API:
+// GET /libros/categorias; sin API: las de datos/generos.ts.
+export type MenuCategorias = { generos: Columna[]; tematicas: Columna[] };
+
+export async function obtenerCategorias(): Promise<MenuCategorias> {
+  if (!usarApi) return { generos, tematicas };
+  const grupos = await solicitar<GrupoCategoriasDto[]>("/libros/categorias");
+  const columnas = (tipo: GrupoCategoriasDto["tipo"]) =>
+    grupos
+      .filter((grupo) => grupo.tipo === tipo)
+      .map((grupo) => ({
+        titulo: grupo.grupo,
+        opciones: grupo.categorias.map((categoria) => categoria.nombre),
+      }));
+  return { generos: columnas("GENERO"), tematicas: columnas("TEMATICA") };
 }

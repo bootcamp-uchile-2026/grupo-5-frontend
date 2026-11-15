@@ -49,7 +49,7 @@ export function TarjetaProducto({
         <Link to={rutaFicha} tabIndex={-1} aria-hidden="true">
           <Portada src={portada} />
         </Link>
-        <BotonFavorito titulo={titulo} className="tarjeta-producto-favorito" />
+        <BotonFavorito idLibro={idLibro} titulo={titulo} className="tarjeta-producto-favorito" />
       </div>
 
       <div className="tarjeta-producto-info">

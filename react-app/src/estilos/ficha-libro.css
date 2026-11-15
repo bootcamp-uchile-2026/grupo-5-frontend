@@ -743,3 +743,10 @@
     justify-content: center;
   }
 }
+
+/* Sin recomendaciones de libreros o sin reseñas de lectores */
+.ficha-sin-resenas {
+  margin: 0;
+  padding: 24px 0;
+  font-size: var(--tamano-fuente-small);
+}

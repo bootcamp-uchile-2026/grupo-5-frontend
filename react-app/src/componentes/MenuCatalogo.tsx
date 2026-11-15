@@ -2,18 +2,24 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icono } from "./Icono";
 import { useDesplegable } from "./useDesplegable";
-import { generos, rutaDeGenero, tematicas, type Columna } from "../datos/generos";
+import { usePeticion } from "./usePeticion";
+import { generos, rutaDeGenero, tematicas } from "../datos/generos";
+import { obtenerCategorias, type MenuCategorias } from "../servicios/catalogoServicio";
 import "../estilos/menu-catalogo.css";
 
-type Seccion = "generos" | "tematicas";
+type Seccion = keyof MenuCategorias;
 
-const columnasPorSeccion: Record<Seccion, Columna[]> = { generos, tematicas };
+// Mientras carga GET /libros/categorias, o si falla, el menú usa las mismas
+// columnas de UX guardadas en datos/generos.ts
+const COLUMNAS_INICIALES: MenuCategorias = { generos, tematicas };
 
 // Destacados, Ofertas, Preventas y "Ver todo" llevan al catálogo completo
 const RUTA_CATALOGO = "/catalogo";
 
 export function MenuCatalogo() {
   const { abierto, alternar, cerrar, contenedorRef } = useDesplegable();
+  const categorias = usePeticion(obtenerCategorias, "categorias");
+  const columnasPorSeccion = categorias.datos ?? COLUMNAS_INICIALES;
   const [seccion, setSeccion] = useState<Seccion | null>(null);
   const expandido = abierto && seccion !== null;
 
