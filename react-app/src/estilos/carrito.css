@@ -132,7 +132,7 @@
 /* Libro con menos stock que la cantidad pedida */
 .carrito-item-sin-stock{
     font-family: var(--fuente-body);
-    font-size: var(--tamano-fuente-caption);
+    font-size: var(--tamano-fuente-caption-sm);
     color: var(--color-red-alert-600);
 }
 
@@ -147,11 +147,11 @@
 .carrito-aviso{
     margin: 0;
     padding: 10px 12px;
-    border: 1px solid var(--color-red-alert-200);
+    border: 1px solid var(--color-red-alert-100);
     border-radius: 6px;
     background-color: var(--color-red-alert-50);
     font-family: var(--fuente-body);
-    font-size: var(--tamano-fuente-caption);
+    font-size: var(--tamano-fuente-caption-sm);
     color: var(--color-neutral-950);
 }
 
@@ -226,8 +226,8 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-full);
-    background-color: #6200ee;
-    box-shadow: 0 1px 3px rgb(20 20 20 / 15%);
+    background-color: var(--color-brand-primary);
+    box-shadow: var(--shadow-1);
     color: var(--color-neutral-0);
     font-family: var(--fuente-body);
     font-size: 12px;

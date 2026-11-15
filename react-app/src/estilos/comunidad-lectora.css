@@ -1,77 +1,93 @@
+/* BANNER DE LA COMUNIDAD LECTORA
+   "community-banner" de la Home de alta fidelidad (Figma, node 3172:28763):
+   bloque morado de 510px, franja de colores de 14px y foto de 676px. */
 .comunidad-lectora {
   box-sizing: border-box;
-  width: calc(100% - 48px);
-  max-width: 1115px;
-  margin: 22px auto 40px;
+  width: min(var(--ancho-columna), 100% - 48px);
+  margin: 96px auto 0;
 }
 
 .comunidad-lectora-contenedor {
-  position: relative;
   display: grid;
-  grid-template-columns: 43.5% 56.5%;
-  min-height: 335px;
+  grid-template-columns: minmax(0, 510fr) 14px minmax(0, 676fr);
+  min-height: 360px;
   overflow: hidden;
-  border-radius: 16px;
-  background-color: var(--color-violet-800);
+  border-radius: var(--radius-2xl);
+  background-color: var(--color-brand-primary-dark);
 }
 
 .comunidad-lectora-contenido {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 40px 58px;
+  padding: 56px 64px;
 }
 
+/* 36px e interlineado 1.15 según el diseño (no es un estilo del UI Kit) */
 .comunidad-lectora-titulo {
-  max-width: 340px;
-  margin: 0 0 18px;
+  margin: 0 0 16px;
   background-color: transparent;
-  color: var(--color-neutral-0);
+  color: var(--color-neutral-50);
   font-family: var(--fuente-display);
-  font-size: 32px;
-  font-weight: 400;
-  line-height: 38px;
+  font-size: 36px;
+  font-weight: var(--peso-regular);
+  line-height: 1.15;
   text-align: left;
 }
 
 .comunidad-lectora-pie {
-  max-width: 280px;
-  margin: 0 0 28px;
+  max-width: 245px;
+  margin: 0 0 24px;
   padding: 0;
   background-color: transparent;
-  color: var(--color-neutral-0);
+  color: var(--color-neutral-50);
   font-family: var(--fuente-body);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 17px;
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-regular);
+  line-height: 1.15;
   text-align: left;
 }
 
 .comunidad-lectora-boton {
   display: inline-flex;
-  min-height: 47px;
   box-sizing: border-box;
+  height: 48px;
   align-items: center;
   justify-content: center;
-  padding: 0 12px;
-  border: 1px solid var(--color-neutral-0);
-  border-radius: 9px;
+  padding: 12px;
+  border: var(--stroke-default) solid var(--color-neutral-0);
+  border-radius: var(--radius-lg);
   background-color: transparent;
   color: var(--color-neutral-0);
   font-family: var(--fuente-body);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-bold);
   text-decoration: none;
 }
 
 .comunidad-lectora-boton:hover,
 .comunidad-lectora-boton:focus-visible {
   background-color: var(--color-neutral-0);
-  color: var(--color-violet-800);
+  color: var(--color-brand-primary-dark);
+}
+
+.comunidad-lectora-separador {
+  grid-column: 2;
+  grid-row: 1;
+  background: linear-gradient(
+    to bottom,
+    var(--color-brand-tertiary) 0 88px,
+    var(--color-brand-secondary) 88px 221px,
+    var(--color-brand-primary) 221px 100%
+  );
 }
 
 .comunidad-lectora-imagen {
+  grid-column: 3;
+  grid-row: 1;
   position: relative;
   min-width: 0;
   overflow: hidden;
@@ -86,18 +102,20 @@
   object-fit: cover;
 }
 
+/* Logo sobre la foto, con el velo negro al 20% del diseño */
 .comunidad-lectora-marca {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgb(0 0 0 / 20%);
 }
 
 .comunidad-lectora-marca img {
   display: block;
   width: auto;
-  height: 62px;
+  height: 68px;
 }
 
 .comunidad-lectora-marca .comunidad-lectora-logo-texto {
@@ -106,24 +124,10 @@
   filter: brightness(0) invert(1);
 }
 
-.comunidad-lectora-separador {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  bottom: 0;
-  left: calc(43.5% - 6px);
-  width: 12px;
-  background: linear-gradient(
-    to bottom,
-    var(--color-turquoise-400) 0 24%,
-    var(--color-yellow-400) 24% 62%,
-    var(--color-violet-600) 62% 100%
-  );
-}
-
 @media (max-width: 760px) {
   .comunidad-lectora-contenedor {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 10px minmax(220px, auto);
     min-height: 0;
   }
 
@@ -132,22 +136,19 @@
   }
 
   .comunidad-lectora-separador {
-    top: auto;
-    right: 0;
-    bottom: 220px;
-    left: 0;
-    width: auto;
-    height: 10px;
+    grid-column: 1;
+    grid-row: 2;
     background: linear-gradient(
       to right,
-      var(--color-turquoise-400) 0 24%,
-      var(--color-yellow-400) 24% 62%,
-      var(--color-violet-600) 62% 100%
+      var(--color-brand-tertiary) 0 24%,
+      var(--color-brand-secondary) 24% 62%,
+      var(--color-brand-primary) 62% 100%
     );
   }
 
   .comunidad-lectora-imagen {
-    min-height: 220px;
+    grid-column: 1;
+    grid-row: 3;
   }
 }
 

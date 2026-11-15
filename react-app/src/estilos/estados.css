@@ -17,7 +17,7 @@
 .estado-carga-indicador {
   width: 20px;
   height: 20px;
-  border: 3px solid var(--color-violet-100);
+  border: 3px solid var(--color-violet-50);
   border-top-color: var(--color-primario-darker);
   border-radius: 50%;
   animation: estado-carga-giro 800ms linear infinite;
@@ -43,7 +43,7 @@
   margin: 24px auto;
   padding: 32px 24px;
   max-width: 520px;
-  border: var(--stroke-default) solid var(--color-red-alert-200);
+  border: var(--stroke-default) solid var(--color-red-alert-100);
   border-radius: var(--radius-md);
   background-color: var(--color-red-alert-50);
   font-family: var(--fuente-body);

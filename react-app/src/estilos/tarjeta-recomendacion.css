@@ -45,18 +45,6 @@
   flex: 0 0 calc((100% - 3 * 26px) / 4);
 }
 
-.carrusel-tarjetas-recomendacion .controles-carrusel {
-  gap: 24px;
-}
-
-.carrusel-tarjetas-recomendacion .controles-carrusel > button:first-child {
-  margin-right: 32px;
-}
-
-.carrusel-tarjetas-recomendacion .controles-carrusel > button:last-child {
-  margin-left: 32px;
-}
-
 /* TARJETA DE RECOMENDACIÓN */
 .tarjeta-recomendacion > a {
   display: block;
@@ -142,7 +130,7 @@
   -webkit-line-clamp: 2;
   font-family: var(--fuente-body);
   font-weight: 700;
-  font-size: var(--tamano-fuente-body);
+  font-size: var(--tamano-fuente-body-md);
   line-height: 20px;
   color: var(--color-primario-darker);
   background-color: transparent;
@@ -150,7 +138,7 @@
 
 .tarjeta-recomendacion-textos p {
   margin: 0;
-  font-size: var(--tamano-fuente-body);
+  font-size: var(--tamano-fuente-body-md);
   line-height: 20px;
   color: var(--color-neutral-darker);
 }

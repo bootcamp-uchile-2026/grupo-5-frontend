@@ -1,128 +1,180 @@
 :root:root {
-  --color-violet-50: #f8f4ff;
-  --color-violet-100: #efe6fd;
-  --color-violet-200: #ceb0fa;
-  --color-violet-300: #b78af7;
-  --color-violet-400: #9654f4;
-  --color-violet-500: #8240e7;
-  --color-violet-600: #6e29d9;
-  --color-violet-700: #5a19bd;
-  --color-violet-800: #4600a9;
-  --color-violet-900: #320078;
+  /* Paleta del UI Kit (Figma: 🎁 UI / Kit, leeconnos-colors). Los valores
+     deben coincidir siempre con las variables de Figma. */
+  --color-violet-50: #efe6fd;
+  --color-violet-100: #ceb0fa;
+  --color-violet-200: #b78af7;
+  --color-violet-300: #9654f4;
+  --color-violet-400: #8133f1;
+  --color-violet-500: #6200ee;
+  --color-violet-600: #5900d9;
+  --color-violet-700: #4600a9;
+  --color-violet-800: #360083;
+  --color-violet-900: #290064;
 
-  --color-yellow-50: #fff9e5;
-  --color-yellow-100: #fff2c6;
-  --color-yellow-200: #ffe79a;
-  --color-yellow-300: #ffd454;
-  --color-yellow-400: #ffbf54;
-  --color-yellow-500: #ffad21;
-  --color-yellow-600: #ff9f00;
-  --color-yellow-700: #d98a00;
-  --color-yellow-800: #b57100;
-  --color-yellow-900: #805000;
+  --color-yellow-50: #fff8e6;
+  --color-yellow-100: #ffe8b0;
+  --color-yellow-200: #ffdd8a;
+  --color-yellow-300: #ffcd54;
+  --color-yellow-400: #ffc333;
+  --color-yellow-500: #ffb400;
+  --color-yellow-600: #e8a400;
+  --color-yellow-700: #b58000;
+  --color-yellow-800: #8c6300;
+  --color-yellow-900: #6b4c00;
 
-  --color-turquoise-50: #edfbfb;
-  --color-turquoise-100: #d1f4f4;
-  --color-turquoise-200: #a7e8e9;
-  --color-turquoise-300: #70d9da;
-  --color-turquoise-400: #3bcfd0;
+  --color-turquoise-50: #e7fafa;
+  --color-turquoise-100: #b5eeef;
+  --color-turquoise-200: #91e6e7;
+  --color-turquoise-300: #5fdbdc;
+  --color-turquoise-400: #40d4d5;
   --color-turquoise-500: #10c9cb;
-  --color-turquoise-600: #0aaeb1;
-  --color-turquoise-700: #078b90;
-  --color-turquoise-800: #086f73;
-  --color-turquoise-900: #07585b;
+  --color-turquoise-600: #0fb7b9;
+  --color-turquoise-700: #0b8f90;
+  --color-turquoise-800: #096f70;
+  --color-turquoise-900: #075455;
 
   --color-neutral-0: #ffffff;
-  --color-neutral-50: #f6f6f6;
-  --color-neutral-100: #ededed;
-  --color-neutral-200: #d0d0d0;
-  --color-neutral-300: #b7b7b7;
-  --color-neutral-400: #999999;
-  --color-neutral-500: #757575;
-  --color-neutral-600: #5a5a5a;
-  --color-neutral-700: #353535;
-  --color-neutral-800: #222222;
-  --color-neutral-900: #111111;
-  --color-neutral-950: #000000;
+  --color-neutral-50: #fdfdfd;
+  --color-neutral-100: #f6f6f6;
+  --color-neutral-200: #f1f1f1;
+  --color-neutral-300: #dcdcdc;
+  --color-neutral-400: #c4c4c4;
+  --color-neutral-500: #959595;
+  --color-neutral-600: #666666;
+  --color-neutral-700: #535353;
+  --color-neutral-800: #373737;
+  --color-neutral-900: #303030;
+  --color-neutral-950: #141414;
 
-  --color-red-alert-50: #fff2f1;
-  --color-red-alert-100: #fbdcda;
-  --color-red-alert-200: #f2b8b4;
-  --color-red-alert-300: #e68a84;
-  --color-red-alert-400: #d85f57;
-  --color-red-alert-500: #c93c32;
-  --color-red-alert-600: #b3261e;
-  --color-red-alert-700: #942019;
-  --color-red-alert-800: #751d18;
-  --color-red-alert-900: #571813;
+  --color-red-alert-50: #fbeaea;
+  --color-red-alert-100: #f3bdbd;
+  --color-red-alert-200: #ee9d9d;
+  --color-red-alert-300: #e67070;
+  --color-red-alert-400: #e15454;
+  --color-red-alert-500: #d92929;
+  --color-red-alert-600: #c52525;
+  --color-red-alert-700: #9a1d1d;
+  --color-red-alert-800: #771717;
+  --color-red-alert-900: #5b1111;
 
-  --color-yellow-warning-50: #fffbe8;
-  --color-yellow-warning-100: #fff4bd;
-  --color-yellow-warning-200: #ffec83;
-  --color-yellow-warning-300: #ffdf45;
-  --color-yellow-warning-400: #f4ce20;
-  --color-yellow-warning-500: #dfba13;
-  --color-yellow-warning-600: #c4a10c;
-  --color-yellow-warning-700: #a18410;
-  --color-yellow-warning-800: #806b17;
-  --color-yellow-warning-900: #60521a;
+  --color-yellow-warning-50: #fffce6;
+  --color-yellow-warning-100: #fff6b0;
+  --color-yellow-warning-200: #fff18a;
+  --color-yellow-warning-300: #ffeb54;
+  --color-yellow-warning-400: #ffe733;
+  --color-yellow-warning-500: #ffe100;
+  --color-yellow-warning-600: #e8cd00;
+  --color-yellow-warning-700: #b5a000;
+  --color-yellow-warning-800: #8c7c00;
+  --color-yellow-warning-900: #6b5f00;
 
-  --color-green-success-50: #f1faed;
-  --color-green-success-100: #ddf2d3;
-  --color-green-success-200: #b9e5a7;
-  --color-green-success-300: #91d778;
-  --color-green-success-400: #70c94d;
-  --color-green-success-500: #56b732;
-  --color-green-success-600: #438f26;
-  --color-green-success-700: #34701f;
-  --color-green-success-800: #295a1b;
-  --color-green-success-900: #204617;
+  --color-green-success-50: #ecfae7;
+  --color-green-success-100: #c4efb5;
+  --color-green-success-200: #a8e791;
+  --color-green-success-300: #80dc5f;
+  --color-green-success-400: #68d540;
+  --color-green-success-500: #42cb10;
+  --color-green-success-600: #3cb90f;
+  --color-green-success-700: #2f900b;
+  --color-green-success-800: #247009;
+  --color-green-success-900: #1c5507;
 
-  --color-primario-darker: var(--color-violet-800);
-  --color-primario-dark: var(--color-violet-600);
-  --color-primario-regular: var(--color-violet-400);
-  --color-primario-light: var(--color-violet-200);
-  --color-primario-lighter: var(--color-violet-100);
-  --color-secundario-darker: var(--color-yellow-800);
-  --color-secundario-dark: var(--color-yellow-600);
-  --color-secundario-regular: var(--color-yellow-400);
+  /* Colores de marca del UI Kit (variables brand/) */
+  --color-brand-primary: var(--color-violet-500);
+  --color-brand-primary-basic: var(--color-violet-600);
+  --color-brand-primary-soft: var(--color-violet-400);
+  --color-brand-primary-dark: var(--color-violet-700);
+  --color-brand-primary-darker: var(--color-violet-800);
+  --color-brand-secondary: var(--color-yellow-500);
+  --color-brand-secondary-lighter: var(--color-yellow-50);
+  --color-brand-secondary-dark: var(--color-yellow-700);
+  --color-brand-secondary-darker: var(--color-yellow-900);
+  --color-brand-tertiary: var(--color-turquoise-500);
+  --color-brand-tertiary-basic: var(--color-turquoise-600);
+  --color-brand-tertiary-dark: var(--color-turquoise-700);
+
+  --color-primario-darker: var(--color-violet-700);
+  --color-primario-dark: var(--color-violet-400);
+  --color-primario-regular: var(--color-violet-300);
+  --color-primario-light: var(--color-violet-100);
+  --color-primario-lighter: var(--color-violet-50);
+  --color-secundario-darker: var(--color-yellow-700);
+  --color-secundario-dark: var(--color-yellow-500);
+  --color-secundario-regular: var(--color-yellow-300);
   --color-secundario-light: var(--color-yellow-200);
   --color-secundario-lighter: var(--color-yellow-50);
   --color-neutral-darkest: var(--color-neutral-950);
-  --color-neutral-darker: var(--color-neutral-700);
-  --color-neutral-dark: var(--color-neutral-500);
-  --color-neutral-light: var(--color-neutral-200);
-  --color-neutral-lighter: var(--color-neutral-50);
+  --color-neutral-darker: var(--color-neutral-800);
+  --color-neutral-dark: var(--color-neutral-600);
+  --color-neutral-light: var(--color-neutral-300);
+  --color-neutral-lighter: var(--color-neutral-100);
   --color-neutral-lightest: var(--color-neutral-0);
   --color-acento: var(--color-turquoise-500);
   --color-error: var(--color-red-alert-600);
-  --color-advertencia: var(--color-yellow-warning-500);
-  --color-exito: var(--color-green-success-600);
+  --color-advertencia: var(--color-yellow-warning-600);
+  --color-exito: var(--color-green-success-700);
 
   --fuente-heading: "Lexend", sans-serif;
   --fuente-body: "Lexend", sans-serif;
   --fuente-brand: "Bree Serif", Georgia, serif;
   --fuente-display: var(--fuente-brand);
 
-  --tamano-fuente-display-large: 56px;
-  --tamano-fuente-display-medium: 40px;
-  --tamano-fuente-heading-xxl: 40px;
-  --tamano-fuente-heading-xl: 32px;
-  --tamano-fuente-heading-lg: 24px;
-  --tamano-fuente-heading-md: 20px;
-  --tamano-fuente-heading-sm: 18px;
-  --tamano-fuente-label: 14px;
-  --tamano-fuente-caption: 12px;
-  --tamano-fuente-body: 16px;
+  /* Tipografía del UI Kit (leeconnos-typography): tamaño, interlineado y
+     espaciado de cada estilo */
+  --tamano-fuente-display-large: 72px;
+  --interlineado-display-large: 88px;
+  --espaciado-display-large: -0.8px;
+  --tamano-fuente-display-medium: 64px;
+  --interlineado-display-medium: 76px;
+  --tamano-fuente-heading-xxl: 56px;
+  --interlineado-heading-xxl: 68px;
+  --espaciado-heading-xxl: -0.5px;
+  --tamano-fuente-heading-xl: 48px;
+  --interlineado-heading-xl: 58px;
+  --espaciado-heading-xl: -0.4px;
+  --tamano-fuente-heading-lg: 40px;
+  --interlineado-heading-lg: 48px;
+  --espaciado-heading-lg: -0.3px;
+  --tamano-fuente-heading-md: 32px;
+  --interlineado-heading-md: 38px;
+  --espaciado-heading-md: -0.2px;
+  --tamano-fuente-heading-sm: 24px;
+  --interlineado-heading-sm: 28px;
+  --espaciado-heading-sm: -0.2px;
+  --tamano-fuente-heading-xsm: 18px;
+  --interlineado-heading-xsm: 24px;
+  --tamano-fuente-body-lg: 18px;
+  --interlineado-body-lg: 28px;
+  --tamano-fuente-body-md: 16px;
+  --interlineado-body-md: 24px;
+  --tamano-fuente-body-sm: 14px;
+  --interlineado-body-sm: 20px;
+  --tamano-fuente-body-xsm: 12px;
+  --interlineado-body-xsm: 14px;
+  --tamano-fuente-label-md: 14px;
+  --interlineado-label-md: 20px;
+  --tamano-fuente-label-sm: 12px;
+  --interlineado-label-sm: 16px;
+  --tamano-fuente-caption-md: 14px;
+  --interlineado-caption-md: 20px;
+  --tamano-fuente-caption-sm: 12px;
+  --interlineado-caption-sm: 16px;
+  --peso-regular: 400;
+  --peso-semibold: 600;
+  --peso-bold: 700;
 
   /* Columna de contenido común a todo el sitio (barra, secciones, footer) */
   --ancho-contenido: 1360px;
+  /* Columna del diseño de alta fidelidad: 1200px centrados (120px de margen
+     a cada lado en 1440px). La usan el header y la Home. */
+  --ancho-columna: 1200px;
 
   /* Degradado del banner superior; también en la franja legal del footer.
      #094faa = Blue-info/blue-info-700 de Figma (aún no está en la paleta). */
   --degradado-banner:
     linear-gradient(90deg, rgb(0 0 0 / 20%), rgb(0 0 0 / 20%)),
-    linear-gradient(90deg, #094faa, var(--color-violet-800));
+    linear-gradient(90deg, #094faa, var(--color-violet-700));
 
   --radius-none: 0;
   --radius-sm: 2px;
@@ -141,9 +193,13 @@
   --stroke-focus: 2px;
   --stroke-focus-ring: 4px;
 
-  --shadow-1: 0 1px 2px rgb(17 17 17 / 12%);
-  --shadow-2: 0 2px 6px rgb(17 17 17 / 14%);
-  --shadow-3: 0 4px 12px rgb(17 17 17 / 16%);
+  /* Sombras del UI Kit (elevation/color-elevation-10 y -15) */
+  --color-elevacion-10: rgb(20 20 20 / 10%);
+  --color-elevacion-15: rgb(20 20 20 / 15%);
+  --shadow-1: 0 1px 3px 0 var(--color-elevacion-15);
+  --shadow-2: 0 2px 4px -2px var(--color-elevacion-10), 0 4px 6px -1px var(--color-elevacion-10);
+  --shadow-3: 0 4px 6px -4px var(--color-elevacion-10), 0 10px 15px -3px var(--color-elevacion-10);
+  /* shadow-4 y shadow-5 aún no existen en el UI Kit */
   --shadow-4: 0 8px 24px rgb(17 17 17 / 18%);
   --shadow-5: 0 16px 40px rgb(17 17 17 / 20%);
 }
@@ -174,28 +230,28 @@ button {
 }
 
 .boton {
-  border: var(--stroke-default) solid var(--color-violet-800);
+  border: var(--stroke-default) solid var(--color-violet-700);
   border-radius: var(--radius-md);
   color: var(--color-neutral-0);
-  background-color: var(--color-violet-800);
+  background-color: var(--color-violet-700);
   font-weight: 600;
 }
 
 .boton:hover {
-  border-color: var(--color-violet-700);
-  background-color: var(--color-violet-700);
+  border-color: var(--color-violet-600);
+  background-color: var(--color-violet-600);
 }
 
 /* Botón secundario: solo borde (wireframe Home, "Botón 2") */
 .boton.boton-secundario {
-  color: var(--color-violet-800);
+  color: var(--color-violet-700);
   background-color: transparent;
 }
 
 .boton.boton-secundario:hover {
-  border-color: var(--color-violet-700);
+  border-color: var(--color-violet-600);
   color: var(--color-neutral-0);
-  background-color: var(--color-violet-700);
+  background-color: var(--color-violet-600);
 }
 
 button:focus-visible,
@@ -203,7 +259,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: var(--stroke-focus) solid var(--color-violet-600);
+  outline: var(--stroke-focus) solid var(--color-violet-400);
   outline-offset: 2px;
 }
 

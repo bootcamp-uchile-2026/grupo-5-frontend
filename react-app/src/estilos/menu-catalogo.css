@@ -19,7 +19,7 @@
   z-index: 900;
   background-color: #f1f1f1;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
-  font-size: var(--tamano-fuente-label);
+  font-size: var(--tamano-fuente-label-md);
   color: var(--color-neutral-950);
 }
 
@@ -66,7 +66,7 @@
   padding: 0;
   border: 0;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-label);
+  font-size: var(--tamano-fuente-label-md);
   font-weight: 700;
   line-height: 18px;
   text-transform: uppercase;
@@ -85,7 +85,7 @@
 }
 
 .menu-catalogo-opcion:hover {
-  color: var(--color-violet-800);
+  color: var(--color-violet-700);
 }
 
 /* COLUMNAS DE GÉNEROS / TEMÁTICAS */
@@ -95,7 +95,7 @@
   gap: 64px;
   min-height: 291px;
   padding-left: 55px;
-  border-left: var(--stroke-default) solid var(--color-neutral-700);
+  border-left: var(--stroke-default) solid var(--color-neutral-800);
 }
 
 .menu-catalogo-columna {
@@ -111,7 +111,7 @@
 .menu-catalogo-columna h3 {
   margin: 0;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body);
+  font-size: var(--tamano-fuente-body-md);
   font-weight: 700;
   line-height: 20px;
   color: var(--color-neutral-950);
@@ -126,7 +126,7 @@
 }
 
 .menu-catalogo-columna a {
-  font-size: var(--tamano-fuente-label);
+  font-size: var(--tamano-fuente-label-md);
   font-weight: 300;
   line-height: 28px;
   color: var(--color-neutral-950);
@@ -135,7 +135,7 @@
 }
 
 .menu-catalogo-columna a:hover {
-  color: var(--color-violet-800);
+  color: var(--color-violet-700);
   text-decoration: underline;
 }
 
@@ -177,7 +177,7 @@
     min-height: 0;
     gap: 24px 32px;
     padding: 24px 0 0;
-    border-top: var(--stroke-default) solid var(--color-neutral-700);
+    border-top: var(--stroke-default) solid var(--color-neutral-800);
     border-left: 0;
   }
 }

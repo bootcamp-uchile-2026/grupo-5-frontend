@@ -1,8 +1,8 @@
 /* PERFIL DEL LIBRERO */
 .perfil-librero {
-  --perfil-tinta: var(--color-neutral-800);
-  --perfil-papel: var(--color-neutral-50);
-  --perfil-linea: var(--color-neutral-200);
+  --perfil-tinta: var(--color-neutral-900);
+  --perfil-papel: var(--color-neutral-100);
+  --perfil-linea: var(--color-neutral-300);
   color: var(--perfil-tinta);
   font-family: var(--fuente-body);
 }
@@ -38,7 +38,7 @@
 
 .perfil-etiqueta {
   padding: 4px 10px;
-  border: var(--stroke-default) solid var(--color-neutral-400);
+  border: var(--stroke-default) solid var(--color-neutral-500);
   border-radius: var(--radius-full);
   font-size: 11px;
   line-height: 1.1;
@@ -67,7 +67,7 @@
 .perfil-biografia {
   max-width: 380px;
   margin: 0;
-  color: var(--color-neutral-700);
+  color: var(--color-neutral-800);
   font-size: 12px;
   line-height: 1.65;
 }
@@ -99,7 +99,7 @@
 
 .perfil-boton-principal {
   color: white;
-  background: var(--color-neutral-900);
+  background: var(--color-neutral-950);
 }
 
 .perfil-boton-texto {
@@ -117,8 +117,8 @@
   min-height: 390px;
   overflow: hidden;
   padding: 34px;
-  color: var(--color-neutral-500);
-  background: var(--color-neutral-50);
+  color: var(--color-neutral-600);
+  background: var(--color-neutral-100);
 }
 
 .perfil-foto img {
@@ -135,7 +135,7 @@
   right: 24px;
   bottom: 24px;
   min-height: 34px;
-  color: var(--color-neutral-800);
+  color: var(--color-neutral-900);
   background: var(--color-neutral-0);
 }
 
@@ -171,7 +171,7 @@
   align-items: center;
   min-height: 59px;
   padding: 5px 10px;
-  border: var(--stroke-default) solid var(--color-neutral-100);
+  border: var(--stroke-default) solid var(--color-neutral-200);
   border-radius: var(--radius-lg);
   background: var(--color-neutral-0);
   box-shadow: var(--shadow-1);
@@ -188,9 +188,9 @@
   border-radius: var(--radius-sm);
   background: linear-gradient(
     135deg,
-    var(--color-neutral-100) 0 45%,
-    var(--color-neutral-200) 45% 48%,
-    var(--color-neutral-50) 48%
+    var(--color-neutral-200) 0 45%,
+    var(--color-neutral-300) 45% 48%,
+    var(--color-neutral-100) 48%
   );
 }
 
@@ -209,7 +209,7 @@
 }
 
 .perfil-libro-info small {
-  color: var(--color-neutral-500);
+  color: var(--color-neutral-600);
   font-size: 10px;
 }
 
@@ -217,7 +217,7 @@
   width: 30px;
   height: 30px;
   border: 0;
-  color: var(--color-neutral-700);
+  color: var(--color-neutral-800);
   background: transparent;
   cursor: pointer;
 }
@@ -261,11 +261,11 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--color-neutral-300);
+  background: var(--color-neutral-400);
 }
 
 .perfil-paginacion .activo {
-  background: var(--color-neutral-500);
+  background: var(--color-neutral-600);
 }
 
 /* CARRUSEL DE ULTIMAS RECOMENDACIONES */
@@ -290,7 +290,7 @@
 .perfil-ultimas-recomendaciones .carrusel-recomendaciones-titulo {
   margin: 0;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body);
+  font-size: var(--tamano-fuente-body-md);
   font-weight: 400;
   line-height: 24px;
 }
@@ -362,7 +362,7 @@
 .perfil-coleccion-texto p,
 .perfil-coleccion time {
   margin: 0;
-  color: var(--color-neutral-700);
+  color: var(--color-neutral-800);
   font-size: 11px;
 }
 
@@ -402,7 +402,7 @@
   right: 24px;
   bottom: 18px;
   padding: 12px 18px;
-  border: var(--stroke-default) solid var(--color-neutral-100);
+  border: var(--stroke-default) solid var(--color-neutral-200);
   border-radius: var(--radius-3xl);
   background: var(--color-neutral-0);
   box-shadow: var(--shadow-3);

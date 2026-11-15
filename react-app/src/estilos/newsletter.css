@@ -1,17 +1,18 @@
+/* Newsletter de la Home de alta fidelidad (Figma, node 2574:19523) */
 .newsletter {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  width: min(600px, calc(100% - 40px));
-  min-height: 262px;
-  margin: 4px auto 88px;
+  gap: 24px;
+  width: min(688px, calc(100% - 40px));
+  min-height: 272px;
+  margin: 88px auto 128px;
   padding: 32px 24px;
-  border: 1px solid var(--color-neutral-500);
-  border-radius: 16px;
-  background-color: var(--color-neutral-50);
+  border: var(--stroke-default) solid var(--color-neutral-600);
+  border-radius: var(--radius-2xl);
+  background-color: var(--color-neutral-100);
 }
 
 .newsletter-titulo {
@@ -19,9 +20,10 @@
   background-color: transparent;
   color: var(--color-neutral-950);
   font-family: var(--fuente-display);
-  font-size: 32px;
-  font-weight: 400;
-  line-height: 40px;
+  /* 36px e interlineado 1.15 según el diseño (no es un estilo del UI Kit) */
+  font-size: 36px;
+  font-weight: var(--peso-regular);
+  line-height: 1.15;
   text-align: center;
 }
 
@@ -30,40 +32,42 @@
   background-color: transparent;
   color: var(--color-neutral-950);
   font-family: var(--fuente-body);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 18px;
+  max-width: 245px;
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-regular);
+  line-height: 1.15;
   text-align: center;
 }
 
 .newsletter-formulario {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  /* 33px bajo el texto, como en el diseño */
+  margin-top: 9px;
 }
 
 .newsletter-formulario input {
   box-sizing: border-box;
-  width: 321px;
+  width: 332px;
   height: 48px;
-  padding: 0 16px;
-  border: 1px solid var(--color-yellow-700);
-  border-radius: 9px;
-  background-color: var(--color-yellow-50);
-  color: var(--color-yellow-900);
+  padding: 12px;
+  border: var(--stroke-default) solid var(--color-brand-secondary-dark);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-brand-secondary-lighter);
+  color: var(--color-brand-secondary-darker);
   font-family: var(--fuente-body);
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-bold);
   text-align: center;
 }
 
 .newsletter-formulario input::placeholder {
-  color: var(--color-yellow-900);
+  color: var(--color-brand-secondary-darker);
   opacity: 1;
 }
 
 .newsletter-formulario input:focus-visible {
-  outline: var(--stroke-focus) solid var(--color-yellow-700);
+  outline: var(--stroke-focus) solid var(--color-brand-secondary-dark);
   outline-offset: 2px;
 }
 
@@ -80,7 +84,7 @@
 
 .newsletter-mensaje {
   margin: 0;
-  color: var(--color-neutral-700);
+  color: var(--color-neutral-800);
   font-size: 14px;
   text-align: center;
 }
@@ -103,6 +107,6 @@
   }
 
   .newsletter-formulario input {
-    width: min(321px, 100%);
+    width: min(332px, 100%);
   }
 }

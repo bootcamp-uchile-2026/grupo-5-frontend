@@ -7,14 +7,27 @@ import { Newsletter } from "../componentes/Newsletter";
 import { TarjetaProducto } from "../componentes/TarjetaProducto";
 import { TarjetaRecomendacion } from "../componentes/TarjetaRecomendacion";
 import { EstadoCarga } from "../componentes/EstadoCarga";
-import { Icono } from "../componentes/Icono";
 import { MensajeError } from "../componentes/MensajeError";
 import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
 import { obtenerLibrosInicio } from "../servicios/catalogoServicio";
 import { obtenerRecomendadosInicio } from "../servicios/libreroServicio";
 import { propsDeTarjeta } from "../utils/libros";
-import { IMAGENES_RELLENO } from "../datos/imagenes";
+import imagenHero from "../assets/imagenes/home-hero-libreros.png";
+import iconoLibros from "../assets/iconos/07-libro-abierto.svg";
+import iconoCuradores from "../assets/iconos/08-lapiz.svg";
+import iconoComunidad from "../assets/iconos/09-mensaje-chat-cuadrado.svg";
+
+// Características del hero (Figma: Home de alta fidelidad)
+const CARACTERISTICAS = [
+  { icono: iconoLibros, titulo: "Libros", texto: "Encuentra tu próximo favorito" },
+  {
+    icono: iconoCuradores,
+    titulo: "Curadores expertos",
+    texto: "Descubre libros recomendados por quienes más saben.",
+  },
+  { icono: iconoComunidad, titulo: "Comunidad", texto: "Comparte y conecta con otros lectores." },
+];
 
 function Index() {
   useTituloPagina("Inicio");
@@ -44,57 +57,43 @@ function Index() {
   return (
     <>
       <main>
-        {/* HERO */}
-        <section className="hero">
-          {/* HERO CONTENEDOR */}
+        {/* HERO (Figma: Home de alta fidelidad, node 3173:28808) */}
+        <section className="hero" aria-labelledby="hero-titulo">
           <div className="hero-contenedor">
-            {/* HERO CONTENIDO */}
             <div className="hero-contenido">
-              {/* HERO TÍTULO */}
               <div className="hero-titulo">
-                <h2>Encuentra ese libro que aún no conoces</h2>
-              </div>
-
-              {/* HERO PIE */}
-              <div className="hero-pie">
-                <p>
+                <h2 id="hero-titulo">
+                  <span className="hero-titulo-destacado">Encuentra ese libro </span>
+                  que aún no conoces
+                </h2>
+                <p className="hero-pie">
                   Descubre tu próxima lectura y conecta con una comunidad de
-                  lectores como tú
+                  lectores como tú.
                 </p>
               </div>
 
-              {/* HERO BOTONES */}
-              <div className="hero-botones">
-                <button className="boton">Botón 1</button>
-                <button className="boton boton-secundario">Botón 2</button>
-              </div>
-
-              {/* HERO CARACTERÍSTICAS */}
-              <div className="hero-caracteristicas">
-                <div className="hero-caracteristicas-contenedor">
-                  <Icono nombre="estadoVacio" className="hero-caracteristica-icono" />
-                  <h3>Libros</h3>
-                  <p>Encuentra tu próximo favorito</p>
-                </div>
-
-                <div className="hero-caracteristicas-contenedor">
-                  <Icono nombre="estadoVacio" className="hero-caracteristica-icono" />
-                  <h3>Curadores expertos</h3>
-                  <p>Encuentra tu próximo favorito</p>
-                </div>
-
-                <div className="hero-caracteristicas-contenedor">
-                  <Icono nombre="estadoVacio" className="hero-caracteristica-icono" />
-                  <h3>Comunidad</h3>
-                  <p>Encuentra tu próximo favorito</p>
-                </div>
-              </div>
+              <ul className="hero-caracteristicas">
+                {CARACTERISTICAS.map(({ icono, titulo, texto }) => (
+                  <li key={titulo} className="hero-caracteristica">
+                    <span className="hero-caracteristica-icono">
+                      <span>
+                        <img src={icono} alt="" width="24" height="24" />
+                      </span>
+                    </span>
+                    <h3>{titulo}</h3>
+                    <p>{texto}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* HERO IMAGEN */}
-            <div className="hero-imagen">
-              <img src={IMAGENES_RELLENO.hero} alt="" />
-            </div>
+            <img
+              className="hero-imagen"
+              src={imagenHero}
+              alt="Libreros de Leeconnos con sus libros recomendados"
+              width="714"
+              height="608"
+            />
           </div>
         </section>
 
@@ -107,7 +106,6 @@ function Index() {
             titulo="Recomendados de nuestros libreros"
             variante="recomendaciones"
             className="inicio-recomendados carrusel-tarjetas-recomendacion"
-            flechasEncabezado
           >
             {recomendados.datos.map((libro) => (
               <TarjetaRecomendacion key={`${libro.nombreLibrero}-${libro.titulo}`} {...libro} />
