@@ -48,7 +48,7 @@
   width: 100%;
   aspect-ratio: 434 / 614;
   border-radius: var(--radius-lg);
-  background-color: var(--color-neutral-100);
+  background-color: var(--color-neutral-200);
   object-fit: cover;
 }
 
@@ -101,7 +101,7 @@
   margin: 0;
   font-family: var(--fuente-display);
   font-weight: 400;
-  font-size: var(--tamano-fuente-heading-xl);
+  font-size: var(--tamano-fuente-heading-md);
   line-height: 40px;
   color: var(--color-primario-darker);
   background-color: transparent;
@@ -143,7 +143,7 @@
   padding: 4px 10px;
   border-radius: var(--radius-full);
   background-color: var(--color-neutral-lighter);
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
 }
 
 .ficha-stock::before {
@@ -151,7 +151,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: var(--color-green-success-500);
+  background-color: var(--color-green-success-400);
 }
 
 .ficha-sin-stock::before {
@@ -161,7 +161,7 @@
 .ficha-cantidad label {
   display: block;
   margin-bottom: 8px;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
 }
 
 .ficha-cantidad-control {
@@ -174,7 +174,7 @@
   height: 48px;
   padding: 0;
   border: 0;
-  background-color: var(--color-neutral-100);
+  background-color: var(--color-neutral-200);
   font-size: 18px;
   color: var(--color-neutral-950);
 }
@@ -222,12 +222,12 @@
   height: 48px;
   border-radius: var(--radius-lg);
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body);
+  font-size: var(--tamano-fuente-body-md);
 }
 
 .ficha-agregar {
-  border: var(--stroke-default) solid var(--color-violet-800);
-  color: var(--color-violet-800);
+  border: var(--stroke-default) solid var(--color-violet-700);
+  color: var(--color-violet-700);
   background-color: transparent;
 }
 
@@ -251,7 +251,7 @@
 .ficha-comprar:disabled {
   border-color: var(--color-neutral-light);
   color: var(--color-neutral-dark);
-  background-color: var(--color-neutral-100);
+  background-color: var(--color-neutral-200);
   cursor: not-allowed;
 }
 
@@ -281,7 +281,7 @@
 }
 
 .ficha-envio a {
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
   font-weight: 700;
   color: var(--color-neutral-950);
 }
@@ -310,7 +310,7 @@
 
 .ficha-etiquetas p {
   margin: 0 0 8px;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
 }
 
 /* Etiquetas en una sola línea */
@@ -328,7 +328,7 @@
   white-space: nowrap;
   border: var(--stroke-default) solid var(--color-neutral-darker);
   border-radius: var(--radius-lg);
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
 }
 
 /* SECCIONES PLEGABLES (Descripción y reseñas) */
@@ -351,7 +351,7 @@
   border-bottom: var(--stroke-default) solid var(--color-neutral-950);
   background: transparent;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body);
+  font-size: var(--tamano-fuente-body-md);
   font-weight: 700;
   color: var(--color-neutral-950);
   text-align: left;
@@ -385,7 +385,7 @@
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background-color: var(--color-neutral-300);
+  background-color: var(--color-neutral-400);
   color: var(--color-neutral-0);
   font-size: 40px;
 }
@@ -409,7 +409,7 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
 }
 
 .ficha-librero-perfil a {
@@ -594,7 +594,7 @@
 .ficha-lector-perfil div {
   display: flex;
   flex-direction: column;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
 }
 
 .ficha-lector-perfil strong {
@@ -616,7 +616,7 @@
   align-items: center;
   gap: 12px;
   margin: 8px 0;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
   color: var(--color-neutral-dark);
 }
 
@@ -641,12 +641,12 @@
 .ficha-dejar-reseña {
   justify-self: start;
   padding: 10px 16px;
-  border: var(--stroke-default) solid var(--color-violet-800);
+  border: var(--stroke-default) solid var(--color-violet-700);
   border-radius: var(--radius-md);
   background: transparent;
   font-family: var(--fuente-body);
   font-size: 18px;
-  color: var(--color-violet-800);
+  color: var(--color-violet-700);
 }
 
 .ficha-dejar-reseña:hover {
@@ -669,7 +669,7 @@
   padding-bottom: 12px;
   border-bottom: var(--stroke-default) solid var(--color-neutral-950);
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body);
+  font-size: var(--tamano-fuente-body-md);
   font-weight: 700;
   color: var(--color-neutral-950);
   background-color: transparent;

@@ -7,6 +7,7 @@ import youtube from "../assets/iconos/04-youtube-negative.svg";
 import whatsapp from "../assets/iconos/05-whatsapp-negative.svg";
 import "../estilos/footer.css";
 
+// Footer de la Home de alta fidelidad (Figma, node 2574:18269)
 export function Footer() {
   return (
     <footer className="footer">
@@ -65,8 +66,7 @@ export function Footer() {
 
       <div className="footer-legal">
         <p>
-          ©2026 leeconnos.cl&emsp;Todos los derechos reservados Leeconnos®
-          Legión Atenea SPA, Equipo 5 Bootcamp U de Chile
+          {"©2026 leeconnos.cl    Todos los derechos reservados Leeconnos® Legión Atenea, Equipo 5 Bootcamp U de Chile"}
         </p>
       </div>
     </footer>

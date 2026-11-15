@@ -35,6 +35,8 @@ export function TarjetaProducto({
   const comprarLibro = useComprarLibro();
   // La imagen y el título llevan a la ficha del libro
   const rutaFicha = `/ficha-libro?libro=${encodeURIComponent(idLibro)}`;
+  // El autor lleva al catálogo filtrado por sus libros (como en el diseño)
+  const rutaAutor = `/catalogo?autor=${encodeURIComponent(autor)}`;
   const descuento = porcentajeDescuento(precio, precioAnterior);
 
   const comprar = (irAlCheckout: boolean) =>
@@ -54,10 +56,12 @@ export function TarjetaProducto({
 
       <div className="tarjeta-producto-info">
         <div className="tarjeta-producto-textos">
-          <h4>
+          <h4 title={titulo}>
             <Link to={rutaFicha}>{titulo}</Link>
           </h4>
-          <p>{autor}</p>
+          <Link className="tarjeta-producto-autor" to={rutaAutor}>
+            {autor}
+          </Link>
         </div>
 
         <div className="tarjeta-producto-precios">

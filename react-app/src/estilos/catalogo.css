@@ -19,7 +19,7 @@
   margin: 40px 0 32px;
   font-family: var(--fuente-display);
   font-weight: 400;
-  font-size: var(--tamano-fuente-display-medium);
+  font-size: var(--tamano-fuente-heading-lg);
   line-height: 48px;
   color: var(--color-primario-darker);
   background-color: transparent;
@@ -84,7 +84,7 @@
 }
 
 .filtro-casillas li {
-  border-bottom: var(--stroke-default) solid var(--color-neutral-100);
+  border-bottom: var(--stroke-default) solid var(--color-neutral-200);
 }
 
 .filtro-casillas label {
@@ -129,10 +129,10 @@
   border-radius: var(--radius-full);
   background: linear-gradient(
     90deg,
-    var(--color-neutral-100) var(--tramo-inicio),
+    var(--color-neutral-200) var(--tramo-inicio),
     var(--color-primario-light) var(--tramo-inicio),
     var(--color-primario-light) var(--tramo-fin),
-    var(--color-neutral-100) var(--tramo-fin)
+    var(--color-neutral-200) var(--tramo-fin)
   );
   transform: translateY(-50%);
 }
@@ -172,7 +172,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
 }
 
 .filtro-precio-acciones button {
@@ -183,11 +183,11 @@
   background-color: var(--color-primario-darker);
   color: var(--color-neutral-0);
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
 }
 
 .filtro-precio-acciones button:hover {
-  background-color: var(--color-violet-700);
+  background-color: var(--color-violet-600);
 }
 
 .filtro-desplegable .filtro-cargando {
@@ -197,7 +197,7 @@
 
 .filtro-precio-nota {
   margin: 20px 0 0;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
   color: var(--color-neutral-dark);
 }
 
@@ -208,7 +208,7 @@
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 40px;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
 }
 
 .catalogo-orden {
@@ -224,7 +224,7 @@
   border-bottom: var(--stroke-default) solid var(--color-neutral-light);
   background-color: transparent;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
   color: var(--color-neutral-950);
 }
 
@@ -304,7 +304,7 @@
 
   .catalogo .catalogo-titulo-pagina {
     margin: 24px 0;
-    font-size: var(--tamano-fuente-heading-xl);
+    font-size: var(--tamano-fuente-heading-md);
     line-height: 40px;
   }
 

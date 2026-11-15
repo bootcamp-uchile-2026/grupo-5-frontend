@@ -17,12 +17,12 @@
   padding: 24px 32px;
   background-color: #f1f1f1;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
-  font-size: var(--tamano-fuente-label);
+  font-size: var(--tamano-fuente-label-md);
   list-style: none;
 }
 
 .menu-comunidad-panel a {
-  font-size: var(--tamano-fuente-label);
+  font-size: var(--tamano-fuente-label-md);
   font-weight: 300;
   line-height: 28px;
   color: var(--color-neutral-950);
@@ -31,7 +31,7 @@
 }
 
 .menu-comunidad-panel a:hover {
-  color: var(--color-violet-800);
+  color: var(--color-violet-700);
   text-decoration: underline;
 }
 

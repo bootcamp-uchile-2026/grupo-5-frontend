@@ -1,3 +1,6 @@
+/* FOOTER
+   "Footer" de la Home de alta fidelidad (Figma, node 2574:18269): franja de
+   300px con el logo y cuatro columnas, y franja legal de 50px. */
 .footer {
   position: relative;
   display: flex;
@@ -5,76 +8,80 @@
   align-items: center;
   width: 100%;
   overflow: hidden;
-  background-color: var(--color-violet-800);
+  background-color: var(--color-brand-primary-dark);
   color: var(--color-neutral-0);
 }
 
+/* Logo de fondo en blanco al 5%, girado como en el diseño */
 .footer::before {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 350px;
-  height: 100%;
+  top: -84px;
+  left: -126px;
+  width: 652px;
+  height: 557px;
   background-image: url("../assets/logos/06-Imagen-Contorno-Blanco.svg");
   background-repeat: no-repeat;
-  background-position: left bottom;
+  background-position: center;
   background-size: contain;
   content: "";
-  opacity: 0.06;
+  opacity: 0.05;
   pointer-events: none;
-  transform: rotate(-12deg);
-  transform-origin: center;
+  transform: rotate(-14.12deg);
 }
 
 .footer .footer-contenedor {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 92px;
   box-sizing: border-box;
-  width: 80%;
-  max-width: 1240px;
-  min-height: 219px;
-  padding: 32px 0 28px;
+  width: 100%;
+  min-height: 300px;
+  padding: 40px 24px;
 }
 
+/* Logo blanco (ícono de 30px y texto, separados por 8px) y lema centrado */
 .footer .footer-logo {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .footer .footer-marca {
   display: flex;
   align-items: center;
+  height: 48px;
+  padding: 0 8px;
 }
 
 .footer .footer-marca img {
   display: block;
   width: auto;
-  height: 22px;
+  height: 30px;
 }
 
 .footer .footer-marca .footer-marca-texto {
-  height: 36px;
-  margin-left: -6px;
+  height: 48px;
+  margin-left: -7px;
   filter: brightness(0) invert(1);
 }
 
 .footer .footer-lema {
-  margin: -2px 0 0 4px;
+  margin: 0;
   padding: 0;
   font-family: var(--fuente-body);
-  font-size: 9px;
-  line-height: 13px;
+  font-size: var(--tamano-fuente-body-xsm);
+  line-height: normal;
+  text-align: center;
   color: var(--color-neutral-0);
   background-color: transparent;
 }
 
 .footer .footer-columnas {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 72px;
 }
 
 .footer .footer-columna {
@@ -84,36 +91,35 @@
 }
 
 .footer .footer-columna:nth-child(1) {
-  min-width: 120px;
+  width: 155px;
 }
 
 .footer .footer-columna:nth-child(2) {
-  min-width: 140px;
-}
-
-.footer .footer-columna:nth-child(3) {
-  min-width: 115px;
-}
-
-.footer .footer-columna:nth-child(4) {
-  min-width: 132px;
+  width: 164px;
 }
 
 .footer .columna-encabezado {
   margin: 0;
   font-family: var(--fuente-display);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
+  font-weight: var(--peso-regular);
+  font-size: var(--tamano-fuente-heading-sm);
+  line-height: 1.15;
   white-space: nowrap;
   color: var(--color-neutral-0);
   background-color: transparent;
 }
 
+/* Cada enlace ocupa 48px de alto (componente "label" del UI Kit) */
 .footer .columna-lista {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+}
+
+.footer .columna-lista a,
+.footer .columna-lista span {
+  display: flex;
+  align-items: center;
+  height: 48px;
 }
 
 .footer .columna-lista a,
@@ -121,9 +127,10 @@
 .footer .footer-contacto a,
 .footer .footer-direccion {
   font-family: var(--fuente-body);
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 15px;
+  font-weight: var(--peso-regular);
+  font-size: var(--tamano-fuente-label-md);
+  line-height: var(--interlineado-body-sm);
+  white-space: nowrap;
   color: var(--color-neutral-0);
   text-decoration: none;
 }
@@ -132,98 +139,114 @@
 .footer .columna-lista a:focus-visible,
 .footer .footer-contacto a:hover,
 .footer .footer-contacto a:focus-visible {
-  color: var(--color-yellow-200);
+  color: var(--color-brand-secondary);
   text-decoration: underline;
 }
 
+/* Íconos de 24px, 17px entre ellos y 31px bajo el título */
 .footer .iconos-contenedor {
   display: flex;
-  gap: 12px;
-  padding-top: 1px;
+  gap: 17px;
+  margin: 9px 0 0 2px;
 }
 
 .footer .iconos-contenedor img {
   display: block;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
 }
 
 .footer .footer-contacto {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 16px;
+  padding-top: 14px;
 }
 
 .footer .footer-contacto .footer-telefono {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  line-height: 21px;
 }
 
 .footer .footer-telefono img {
   display: block;
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
 }
 
 .footer .footer-direccion {
-  max-width: 150px;
-  margin: 18px 0 0;
+  width: 190px;
+  margin: 24px 0 0;
   font-style: normal;
+  white-space: normal;
 }
 
 .footer .footer-legal {
   position: relative;
   z-index: 1;
   width: 100%;
-  background-color: var(--color-violet-900);
+  background-color: var(--color-brand-primary-darker);
 }
 
 .footer .footer-legal p {
   margin: 0;
-  padding: 8px 16px;
+  padding: 7px 16px;
   font-family: var(--fuente-body);
-  font-size: 10px;
-  line-height: 20px;
+  font-size: var(--tamano-fuente-body-sm);
+  line-height: 36px;
   text-align: center;
+  white-space: pre-wrap;
   color: var(--color-neutral-0);
   background-color: transparent;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .footer .footer-contenedor {
-    grid-template-columns: 1fr;
-    gap: 28px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
     width: calc(100% - 48px);
     min-height: auto;
-    padding: 32px 0;
+    padding: 40px 0;
   }
 
   .footer .footer-columnas {
     flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 28px 40px;
+    gap: 32px 56px;
   }
 }
 
 @media (max-width: 600px) {
   .footer .footer-contenedor {
     width: calc(100% - 40px);
-    padding: 28px 0;
   }
 
   .footer .footer-columnas {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px 20px;
+    gap: 32px 20px;
   }
 
   .footer .footer-columna:nth-child(n) {
+    width: auto;
     min-width: 0;
   }
 
+  .footer .columna-lista a,
+  .footer .columna-lista span,
+  .footer .footer-contacto a {
+    white-space: normal;
+  }
+
+  .footer .footer-direccion {
+    width: auto;
+  }
+
   .footer .footer-legal p {
-    line-height: 18px;
+    line-height: 20px;
+    padding: 12px 16px;
   }
 }

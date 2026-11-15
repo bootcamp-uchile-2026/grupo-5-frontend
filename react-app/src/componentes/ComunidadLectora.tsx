@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import logoImagen from "../assets/logos/06-Imagen-Contorno-Blanco.svg";
 import logoTexto from "../assets/logos/04-Horizontal-Texto.svg";
-import { IMAGENES_RELLENO } from "../datos/imagenes";
+import fotoComunidad from "../assets/imagenes/home-comunidad-lectora.png";
 import "../estilos/comunidad-lectora.css";
+
+// Banner "community-banner" de la Home de alta fidelidad (Figma, node 3172:28763)
 
 export function ComunidadLectora() {
   return (
@@ -23,8 +25,10 @@ export function ComunidadLectora() {
         <div className="comunidad-lectora-imagen">
           <img
             className="comunidad-lectora-foto"
-            src={IMAGENES_RELLENO.comunidad}
+            src={fotoComunidad}
             alt=""
+            width="676"
+            height="360"
           />
           <div className="comunidad-lectora-marca" role="img" aria-label="Leeconnos">
             <img src={logoImagen} alt="" />

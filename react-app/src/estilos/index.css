@@ -14,166 +14,186 @@ body{
 
 /*-----------------------------------------------------------*/
 /*HERO
-  Distribución según wireframe Home (Figma, Wireframes Desktop 1547:5271);
-  se mantienen los colores del sitio.*/
+  Home de alta fidelidad (Figma, node 3173:28808).*/
 body h1{
     background-color: var(--color-primario-light);
 }
 
 .hero{
-    background-color: var(--color-primario-light);
     margin: 0;
+    background-color: var(--color-neutral-0);
 }
 
+/* 486px de texto y 714px de imagen en la columna de 1200px del diseño */
 .hero-contenedor{
     display: grid;
-    grid-template-columns: 45% 55%;
-    align-items: stretch;
-    /* 608px como el wireframe, pero dejando ver el inicio de la sección
-       siguiente en pantallas bajas (barra de 112px + ~88px visibles) */
-    min-height: clamp(440px, calc(100vh - 200px), 608px);
+    grid-template-columns: minmax(0, 486fr) minmax(0, 714fr);
+    align-items: center;
+    width: min(var(--ancho-columna), 100% - 48px);
     margin: 0 auto;
-    /* Permite alinear el texto con la columna de contenido (cqw) */
-    container-type: inline-size;
-    background-color: var(--color-primario-light);
 }
 
 .hero-contenido{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    padding: 32px 6% 32px max(24px, calc((100cqw - var(--ancho-contenido)) / 2));
+    gap: 76px;
+    min-height: 608px;
+    padding-right: 24px;
+}
+
+.hero-titulo{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .hero .hero-titulo h2{
-    max-width: 560px;
-    margin: 0 0 20px;
-    font-family: var(--fuente-display);
-    font-weight: 400;
-    /* 56px en pantallas grandes; baja hasta 40px en las angostas */
-    font-size: clamp(var(--tamano-fuente-display-medium), 4.2vw, var(--tamano-fuente-display-large));
-    line-height: 1.15;
-    color: var(--color-primario-darker);
-    background-color: transparent;
-    text-align: left;
-}
-
-.hero .hero-pie p{
-    max-width: 330px;
-    margin: 0 0 28px;
-    padding: 0;
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-small);
-    font-size: var(--tamano-fuente-small);
-    line-height: var(--interlineado-small);
-    color: var(--color-primario-darker);
-    background-color: transparent;
-    text-align: left;
-}
-
-.hero-botones{
-    display: flex;
-    justify-content: flex-start;
-    gap: 24px;
-}
-
-.boton{
     margin: 0;
-    height: 30px;
+    font-family: var(--fuente-display);
+    font-weight: var(--peso-regular);
+    font-size: var(--tamano-fuente-heading-xl);
+    line-height: var(--interlineado-heading-xl);
+    letter-spacing: var(--espaciado-heading-xl);
+    color: var(--color-neutral-950);
+    background-color: transparent;
+    text-align: left;
+}
+
+.hero-titulo-destacado{
+    color: var(--color-brand-primary);
+}
+
+.hero .hero-pie{
+    max-width: 384px;
+    margin: 0;
+    font-family: var(--fuente-body);
+    font-size: var(--tamano-fuente-body-sm);
+    line-height: normal;
+    color: var(--color-neutral-950);
+}
+
+/* Tres características separadas por una línea vertical */
+.hero-caracteristicas{
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.hero-caracteristica{
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 98px;
+}
+
+.hero-caracteristica + .hero-caracteristica{
+    padding-left: 28px;
+    border-left: var(--stroke-default) solid var(--color-neutral-500);
+}
+
+.hero-caracteristica:nth-child(2){
     width: 120px;
 }
 
-.hero-botones .boton{
-    width: auto;
-    min-width: 95px;
-    padding: 0 24px;
-    font-size: var(--tamano-fuente-small);
+.hero-caracteristica:nth-child(3){
+    width: 107px;
 }
 
-.hero-caracteristicas{
-    display: flex;
-    flex-direction: row;
-    margin-top: 44px;
-    text-align: left;
-}
-
-.hero-caracteristicas-contenedor{
-    display: flex;
-    flex-direction: column;
-    padding: 0 16px;
-    border-left: 1px solid var(--color-primario-darker);
-}
-
-.hero-caracteristicas-contenedor:first-child{
-    padding-left: 0;
-    border-left: 0;
-}
-
+/* Ícono en un círculo blanco dentro de una cápsula gris */
 .hero-caracteristica-icono{
-    display: block;
-    margin-bottom: 14px;
-    color: var(--color-primario-darker);
-    font-size: 20px;
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 4px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-neutral-200);
 }
 
-.hero .hero-caracteristicas-contenedor h3{
-    margin: 0 0 8px;
+.hero-caracteristica-icono span{
+    display: flex;
+    padding: 4px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-neutral-0);
+}
+
+.hero-caracteristica-icono img{
+    display: block;
+}
+
+.hero .hero-caracteristica h3,
+.hero .hero-caracteristica p{
+    margin: 0;
     font-family: var(--fuente-body);
-    font-weight: 700;
-    font-size: var(--tamano-fuente-caption);
-    line-height: 16px;
-    color: var(--color-primario-darker);
+    font-size: var(--tamano-fuente-body-xsm);
+    line-height: var(--interlineado-body-xsm);
     background-color: transparent;
     text-align: left;
+}
+
+.hero .hero-caracteristica h3{
+    font-weight: var(--peso-bold);
+    color: var(--color-brand-primary);
     white-space: nowrap;
 }
 
-.hero .hero-caracteristicas-contenedor p{
-    max-width: 100px;
-    margin: 0;
-    font-family: var(--fuente-body);
-    font-weight: var(--peso-parrafos);
-    font-size: var(--tamano-fuente-caption);
-    line-height: 16px;
-    color: var(--color-primario-darker);
-    background-color: transparent;
-    text-align: left;
+.hero .hero-caracteristica p{
+    font-weight: var(--peso-regular);
+    color: var(--color-neutral-600);
 }
 
-/* La imagen se adapta a la altura del hero en vez de agrandarlo */
 .hero-imagen{
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-imagen img{
-    position: absolute;
-    inset: 0;
     display: block;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
 }
 
-@media (max-width: 760px){
+@media (max-width: 900px){
     .hero-contenedor{
-        grid-template-columns: 1fr;
-        min-height: 0;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .hero-contenido{
-        padding: 36px 8%;
-    }
-
-    .hero-imagen{
-        min-height: 280px;
+        min-height: 0;
+        gap: 40px;
+        padding: 48px 0 32px;
     }
 
     .hero .hero-titulo h2{
-        font-size: var(--tamano-fuente-secciones);
-        line-height: var(--interlineado-secciones);
+        font-size: var(--tamano-fuente-heading-md);
+        line-height: var(--interlineado-heading-md);
+        letter-spacing: var(--espaciado-heading-md);
+    }
+
+    .hero-imagen{
+        max-width: 714px;
+        margin: 0 auto 32px;
+    }
+}
+
+/* En pantallas angostas las tres columnas se reparten el ancho */
+@media (max-width: 480px){
+    .hero-caracteristicas{
+        gap: 16px;
+    }
+
+    .hero-caracteristica,
+    .hero-caracteristica:nth-child(2),
+    .hero-caracteristica:nth-child(3){
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+    }
+
+    .hero-caracteristica + .hero-caracteristica{
+        padding-left: 16px;
+    }
+
+    .hero .hero-caracteristica h3{
+        white-space: normal;
     }
 }
 
@@ -231,11 +251,13 @@ body h1{
     gap: 24px;
 }
 
+/* Paginación "pagination-dots" del UI Kit: flechas de 48px y puntos de 18px
+   (área de clic de 40px), separados por 4px */
 .controles-carrusel{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 4px;
 }
 
 .carrusel-viewport{
@@ -274,12 +296,13 @@ body h1{
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 48px;
+    height: 48px;
     padding: 0;
     border: 0;
     background: transparent;
-    color: var(--color-primario-darker);
+    color: var(--color-neutral-950);
+    font-size: 20px;
     cursor: pointer;
 }
 
@@ -295,18 +318,22 @@ body h1{
 }
 
 .controles-carrusel button.carrusel-punto{
-    flex: 0 0 12px;
-    width: 12px;
-    height: 12px;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background-color: var(--color-neutral-light);
-    cursor: pointer;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
 }
 
-.carrusel-punto[aria-current="true"]{
-    background-color: var(--color-primario-darker);
+.carrusel-punto::before{
+    content: "";
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-neutral-400);
+}
+
+.carrusel-punto[aria-current="true"]::before{
+    background-color: var(--color-brand-primary-basic);
 }
 
 @media (max-width: 760px){
@@ -327,10 +354,11 @@ body h1{
   Tarjeta: Figma "card-recomended" (Componentes Global, node 2039:6606).
   Aquí solo va lo propio del Home (márgenes y encabezado). La tarjeta y el
   diseño del carrusel de tarjetas están en tarjeta-recomendacion.css.*/
+/* Columna de 1200px del diseño de alta fidelidad */
 .inicio-recomendados.carrusel-recomendaciones{
     width: 100%;
-    max-width: calc(var(--ancho-contenido) + 48px);
-    padding: 64px 24px 40px;
+    max-width: calc(var(--ancho-columna) + 48px);
+    padding: 120px 24px 0;
 }
 
 .inicio-recomendados .carrusel-recomendaciones-encabezado,
@@ -339,16 +367,32 @@ body h1{
 }
 
 .inicio-recomendados .carrusel-recomendaciones-encabezado{
-    margin-bottom: 28px;
+    margin-bottom: 48px;
+}
+
+/* Las tarjetas van 25px hacia adentro del título, con 24px entre ellas */
+.inicio-recomendados .carrusel-recomendaciones-contenedor{
+    box-sizing: border-box;
+    gap: 60px;
+    padding: 0 25px;
+}
+
+.inicio-recomendados .carrusel-viewport .coleccion-tarjetas{
+    gap: 24px;
+}
+
+.inicio-recomendados .carrusel-item{
+    flex-basis: calc((100% - 3 * 24px) / 4);
 }
 
 .inicio-recomendados .carrusel-recomendaciones-titulo{
     margin: 0;
-    font-family: var(--fuente-body);
-    font-weight: 700;
-    font-size: var(--tamano-fuente-heading-lg);
-    line-height: 32px;
-    color: var(--color-primario-darker);
+    font-family: var(--fuente-display);
+    font-weight: var(--peso-regular);
+    font-size: var(--tamano-fuente-heading-sm);
+    line-height: var(--interlineado-heading-sm);
+    letter-spacing: var(--espaciado-heading-sm);
+    color: var(--color-neutral-950);
 }
 
 .inicio-recomendados .carrusel-recomendaciones-acciones{
@@ -357,8 +401,8 @@ body h1{
 }
 
 .inicio-recomendados .carrusel-recomendaciones-acciones a{
-    font-size: var(--tamano-fuente-small);
-    color: var(--color-primario-darker);
+    font-size: var(--tamano-fuente-body-md);
+    color: var(--color-neutral-950);
     text-decoration: none;
 }
 
@@ -427,21 +471,6 @@ body h1{
 .carrusel-mas-vendidos .coleccion-tarjetas,
 .carrusel-mas-vendidos .carrusel-mas-vendidos-contenedor{
     background-color: var(--color-neutral-lightest);
-}
-
-.controles-carrusel{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-.controles-carrusel span{
-    width: 12px;
-    height: 12px;
-
-    border-radius: 50%;
-    background-color: var(--color-neutral-light);
 }
 
 /*-----------------------------------------------------------*/
@@ -615,15 +644,16 @@ body h1{
   node 1626:9440). Todo va bajo .inicio-productos.*/
 section.inicio-productos{
     width: 100%;
-    max-width: calc(var(--ancho-contenido) + 48px);
+    max-width: calc(var(--ancho-columna) + 48px);
     margin: 0 auto;
     padding: 96px 24px 0;
     border-radius: 0;
     background-color: transparent;
 }
 
+/* El espacio final lo da el newsletter (88px), como en el diseño */
 section.inicio-productos:last-of-type{
-    padding-bottom: 96px;
+    padding-bottom: 0;
 }
 
 .inicio-productos header,
@@ -632,17 +662,18 @@ section.inicio-productos:last-of-type{
 }
 
 .inicio-productos header{
-    margin-bottom: 36px;
+    margin-bottom: 48px;
 }
 
 /* Mismo formato que "Recomendados de nuestros libreros" */
 .inicio-productos header h3{
     margin: 0;
-    font-family: var(--fuente-body);
-    font-weight: 700;
-    font-size: var(--tamano-fuente-heading-lg);
-    line-height: 32px;
-    color: var(--color-primario-darker);
+    font-family: var(--fuente-display);
+    font-weight: var(--peso-regular);
+    font-size: var(--tamano-fuente-heading-md);
+    line-height: var(--interlineado-heading-md);
+    letter-spacing: var(--espaciado-heading-md);
+    color: var(--color-neutral-950);
 }
 
 .inicio-productos .carrusel-viewport .coleccion-tarjetas{
@@ -655,19 +686,7 @@ section.inicio-productos:last-of-type{
 }
 
 .inicio-productos > div:last-child{
-    gap: 48px;
-}
-
-.inicio-productos .controles-carrusel{
-    gap: 24px;
-}
-
-.inicio-productos .controles-carrusel > button:first-child{
-    margin-right: 32px;
-}
-
-.inicio-productos .controles-carrusel > button:last-child{
-    margin-left: 32px;
+    gap: 56px;
 }
 
 @media (max-width: 1100px){
@@ -681,9 +700,6 @@ section.inicio-productos:last-of-type{
         padding: 56px 20px 0;
     }
 
-    section.inicio-productos:last-of-type{
-        padding-bottom: 56px;
-    }
 
     .inicio-productos .carrusel-item{
         flex-basis: min(72vw, 280px);

@@ -1,6 +1,7 @@
 /* TARJETA DE PRODUCTO
-   Figma: "card-product" (Componentes Global, node 1626:9440).
-   Se usa en el Home (carruseles) y en el Catálogo (grilla). */
+   Figma: "card-product" de alta fidelidad (node 2021:10516).
+   Se usa en el Home (carruseles), el Catálogo (grilla) y la Ficha
+   (relacionados). */
 .tarjeta-producto {
   display: flex;
   flex-direction: column;
@@ -11,18 +12,19 @@
   position: relative;
 }
 
+/* La portada se muestra completa (sin recortar) en un área de 280 × 336 */
 .tarjeta-producto-imagen img {
   display: block;
   width: 100%;
-  aspect-ratio: 280 / 344;
+  aspect-ratio: 280 / 336;
   border-radius: var(--radius-xl);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .tarjeta-producto-favorito {
   position: absolute;
-  right: 14px;
-  bottom: -9px;
+  right: 9px;
+  bottom: -12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,9 +34,9 @@
   border: 0;
   border-radius: var(--radius-full);
   background-color: var(--color-neutral-0);
-  box-shadow: 0 1px 3px rgb(20 20 20 / 15%);
-  color: var(--color-neutral-950);
-  font-size: 24px;
+  box-shadow: var(--shadow-1);
+  color: var(--color-neutral-900);
+  font-size: 28px;
 }
 
 .tarjeta-producto-favorito:hover {
@@ -54,30 +56,41 @@
 .tarjeta-producto-textos {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
+/* Título en una línea; si no cabe, termina en "…" */
 .tarjeta-producto-textos h4 {
-  display: -webkit-box;
-  min-height: 46px;
+  display: flex;
+  align-items: center;
+  height: 40px;
   margin: 0;
   overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
   font-family: var(--fuente-body);
-  font-weight: 600;
-  font-size: var(--tamano-fuente-heading-sm);
-  line-height: 23px;
-  color: var(--color-primario-darker);
+  font-weight: var(--peso-semibold);
+  font-size: var(--tamano-fuente-heading-xsm);
+  line-height: normal;
+  color: var(--color-neutral-950);
   background-color: transparent;
 }
 
-.tarjeta-producto-textos p {
-  margin: 0;
-  font-size: var(--tamano-fuente-small);
+.tarjeta-producto-textos h4 a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tarjeta-producto-autor {
+  font-size: var(--tamano-fuente-body-sm);
   font-weight: 300;
-  line-height: 18px;
-  color: var(--color-neutral-dark);
+  line-height: normal;
+  color: var(--color-neutral-600);
+  text-decoration: none;
+}
+
+.tarjeta-producto-autor:hover,
+.tarjeta-producto-autor:focus-visible {
+  text-decoration: underline;
 }
 
 .tarjeta-producto-precios {
@@ -97,13 +110,13 @@
   padding: 0 4px;
   border: var(--stroke-default) solid var(--color-error);
   border-radius: var(--radius-md);
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
   line-height: 16px;
   color: var(--color-error);
 }
 
 .tarjeta-producto-precio-anterior {
-  font-size: var(--tamano-fuente-heading-sm);
+  font-size: var(--tamano-fuente-heading-xsm);
   font-weight: 300;
   line-height: 24px;
   color: var(--color-neutral-dark);
@@ -114,17 +127,17 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 10px;
-  font-size: var(--tamano-fuente-small);
+  font-size: var(--tamano-fuente-body-sm);
   font-weight: 300;
-  line-height: 16px;
-  color: var(--color-neutral-darker);
+  line-height: var(--interlineado-caption-sm);
+  color: var(--color-neutral-900);
 }
 
 .tarjeta-producto-estrellas {
   display: flex;
   gap: 4px;
   font-size: 12px;
-  color: var(--color-secundario-dark);
+  color: var(--color-neutral-950);
 }
 
 .tarjeta-producto-botones {
@@ -144,13 +157,14 @@
   padding: 12px;
   border-radius: var(--radius-lg);
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body);
+  font-size: var(--tamano-fuente-body-md);
   font-weight: 700;
 }
 
+/* Ambos botones usan el turquesa de marca (brand-tertiary-dark) */
 .tarjeta-producto-agregar {
-  border: var(--stroke-default) solid var(--color-violet-800);
-  color: var(--color-violet-800);
+  border: var(--stroke-default) solid var(--color-brand-tertiary-dark);
+  color: var(--color-brand-tertiary-dark);
   background-color: transparent;
 }
 
@@ -159,13 +173,13 @@
 }
 
 .tarjeta-producto-agregar:hover {
-  background-color: var(--color-violet-50);
+  background-color: var(--color-turquoise-50);
 }
 
 .tarjeta-producto-comprar {
   border: 0;
   color: var(--color-neutral-0);
-  background-color: var(--color-turquoise-700);
+  background-color: var(--color-brand-tertiary-dark);
 }
 
 .tarjeta-producto-comprar:hover {
@@ -176,7 +190,7 @@
 .tarjeta-producto-botones button:disabled {
   border-color: var(--color-neutral-light);
   color: var(--color-neutral-dark);
-  background-color: var(--color-neutral-100);
+  background-color: var(--color-neutral-200);
   cursor: not-allowed;
 }
 
