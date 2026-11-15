@@ -7,6 +7,13 @@
   font-family: var(--fuente-body);
 }
 
+/* Carga y error de "Mi perfil de librero" */
+.perfil-estado {
+  margin: 0 auto;
+  padding: 120px 24px;
+  text-align: center;
+}
+
 /* PRESENTACION DEL LIBRERO */
 .perfil-presentacion {
   display: grid;

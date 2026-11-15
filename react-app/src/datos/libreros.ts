@@ -21,8 +21,8 @@ export type Librero = {
   estilos: string[];
   autores: string[];
   colecciones: Coleccion[];
-  // Se muestra al pulsar "Ver más" en Colecciones
-  coleccionExtra: Coleccion;
+  // Se muestran al pulsar "Ver más" en Colecciones
+  coleccionesExtra: Coleccion[];
   ultimasRecomendaciones: LibroLibrero[];
 };
 
@@ -68,11 +68,13 @@ export const LIBREROS: Librero[] = [
         fecha: "Enero 09, 2026",
       },
     ],
-    coleccionExtra: {
-      titulo: "Lecturas para noches largas",
-      descripcion: "Libros que siguen contigo después de cerrar la última página",
-      fecha: "Octubre 18, 2025",
-    },
+    coleccionesExtra: [
+      {
+        titulo: "Lecturas para noches largas",
+        descripcion: "Libros que siguen contigo después de cerrar la última página",
+        fecha: "Octubre 18, 2025",
+      },
+    ],
     ultimasRecomendaciones: [
       { titulo: "Piranesi", autor: "Susanna Clarke" },
       { titulo: "Klara y el Sol", autor: "Kazuo Ishiguro" },
@@ -121,11 +123,13 @@ export const LIBREROS: Librero[] = [
         fecha: "Enero 09, 2026",
       },
     ],
-    coleccionExtra: {
-      titulo: "Cartas que nunca enviamos",
-      descripcion: "Novelas sobre todo lo que no se dijo a tiempo.",
-      fecha: "Octubre 18, 2025",
-    },
+    coleccionesExtra: [
+      {
+        titulo: "Cartas que nunca enviamos",
+        descripcion: "Novelas sobre todo lo que no se dijo a tiempo.",
+        fecha: "Octubre 18, 2025",
+      },
+    ],
     ultimasRecomendaciones: [
       { titulo: "La edad de la inocencia", autor: "Edith Wharton" },
       { titulo: "Los días del abandono", autor: "Elena Ferrante" },
@@ -175,11 +179,13 @@ export const LIBREROS: Librero[] = [
         fecha: "Enero 09, 2026",
       },
     ],
-    coleccionExtra: {
-      titulo: "No leas esto un lunes",
-      descripcion: "Libros que te van a quitar las ganas de volver a la oficina.",
-      fecha: "Octubre 18, 2025",
-    },
+    coleccionesExtra: [
+      {
+        titulo: "No leas esto un lunes",
+        descripcion: "Libros que te van a quitar las ganas de volver a la oficina.",
+        fecha: "Octubre 18, 2025",
+      },
+    ],
     ultimasRecomendaciones: [
       { titulo: "El hombre rebelde", autor: "Albert Camus" },
       { titulo: "Menos que cero", autor: "Bret Easton Ellis" },
@@ -234,11 +240,13 @@ export const LIBREROS: Librero[] = [
         fecha: "Enero 09, 2026",
       },
     ],
-    coleccionExtra: {
-      titulo: "Historias de sobremesa",
-      descripcion: "Relatos que se heredan de generación en generación.",
-      fecha: "Octubre 18, 2025",
-    },
+    coleccionesExtra: [
+      {
+        titulo: "Historias de sobremesa",
+        descripcion: "Relatos que se heredan de generación en generación.",
+        fecha: "Octubre 18, 2025",
+      },
+    ],
     ultimasRecomendaciones: [
       { titulo: "Eva Luna", autor: "Isabel Allende" },
       { titulo: "Del amor y otros demonios", autor: "Gabriel García Márquez" },
