@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import iconoReproducir from "../assets/iconos/11-reproducir.svg";
+import laurel from "../assets/iconos/12-laurel.svg";
+import imagenVideo from "../assets/imagenes/ficha-video.jpg";
 import logoImagen from "../assets/logos/05-Imagen-2-colores.svg";
 import { BotonFavorito } from "../componentes/BotonFavorito";
+import { Carrusel } from "../componentes/Carrusel";
 import { Desplegable } from "../componentes/Desplegable";
 import { Estrellas } from "../componentes/Estrellas";
 import { Footer } from "../componentes/Footer";
@@ -27,12 +31,11 @@ import type { Libro } from "../tipos/libro";
 import { NOMBRES_FORMATO, propsDeTarjeta } from "../utils/libros";
 import "../estilos/ficha-libro.css";
 import { formatearPrecio, porcentajeDescuento } from "../utils/formato";
-import { IMAGENES_RELLENO } from "../datos/imagenes";
 
-// Wireframe Ficha de libro (Figma: Wireframes Desktop, node 1547:6140).
+// Ficha de producto de alta fidelidad (Figma, node 3516:27850).
 // Muestra el libro indicado en ?libro=<id> (GET /libros/:id); sin id, el
 // libro más reciente del catálogo. Relacionados, recomendaciones de libreros
-// y reseñas de lectores vienen de la API; el video y la galería son dummy.
+// y reseñas de lectores vienen de la API; el video es dummy.
 
 const CANTIDAD_MAXIMA = 10;
 
@@ -80,7 +83,7 @@ function FichaNoEncontrada() {
 
 function FichaContenido({ libro }: { libro: Libro }) {
   const comprarLibro = useComprarLibro();
-  const relacionadosPeticion = usePeticion(() => obtenerRelacionados(libro), libro.id);
+  const relacionadosPeticion = usePeticion(() => obtenerRelacionados(libro, 8), libro.id);
   const recomendacionesPeticion = usePeticion(
     () => obtenerRecomendacionesDeLibro(libro.id),
     libro.id,
@@ -89,15 +92,8 @@ function FichaContenido({ libro }: { libro: Libro }) {
 
   useTituloPagina(libro.titulo);
 
-  const imagenes = [
-    libro.portada,
-    IMAGENES_RELLENO.miniatura,
-    IMAGENES_RELLENO.miniatura,
-    IMAGENES_RELLENO.miniatura,
-  ];
-  const [imagenActual, setImagenActual] = useState(0);
   const [cantidad, setCantidad] = useState(1);
-  
+
   const [verTodosLibreros, setVerTodosLibreros] = useState(false);
   const [verTodosLectores, setVerTodosLectores] = useState(false);
   const [mostrarAyudaReseñas, setMostrarAyudaReseñas] = useState(false);
@@ -105,9 +101,9 @@ function FichaContenido({ libro }: { libro: Libro }) {
 
   const descuento = porcentajeDescuento(libro.precio, libro.precioAnterior);
   const grupo = grupoDeGenero(libro.genero);
+  // Como en el diseño: "Inicio / Ficción / Terror"
   const ruta: ElementoRuta[] = [
     { texto: "Inicio", ruta: "/" },
-    { texto: "Catálogo", ruta: "/catalogo" },
     ...(grupo ? [{ texto: grupo }] : []),
     { texto: libro.genero },
   ];
@@ -136,10 +132,6 @@ function FichaContenido({ libro }: { libro: Libro }) {
   const totalResenas = resenasPeticion.datos?.total ?? 0;
   const lectores = verTodosLectores ? resenas : resenas.slice(0, 4);
 
-  function moverImagen(paso: number) {
-    setImagenActual((actual) => (actual + paso + imagenes.length) % imagenes.length);
-  }
-
   const agregar = (irAlCheckout: boolean) =>
     comprarLibro(
       {
@@ -161,43 +153,9 @@ function FichaContenido({ libro }: { libro: Libro }) {
 
           {/* PRODUCTO */}
           <section className="ficha-producto">
-            <div className="ficha-galeria">
-              <div className="ficha-galeria-principal">
-                <button
-                  type="button"
-                  className="ficha-galeria-flecha"
-                  aria-label="Imagen anterior"
-                  onClick={() => moverImagen(-1)}
-                >
-                  <Icono nombre="anterior" />
-                </button>
-                <Portada
-                  src={imagenes[imagenActual]}
-                  alt={`${libro.titulo}, imagen ${imagenActual + 1} de ${imagenes.length}`}
-                />
-                <button
-                  type="button"
-                  className="ficha-galeria-flecha"
-                  aria-label="Imagen siguiente"
-                  onClick={() => moverImagen(1)}
-                >
-                  <Icono nombre="siguiente" />
-                </button>
-              </div>
-
-              <div className="ficha-miniaturas">
-                {imagenes.slice(1).map((imagen, indice) => (
-                  <button
-                    key={indice}
-                    type="button"
-                    aria-label={`Ver imagen ${indice + 2}`}
-                    aria-pressed={imagenActual === indice + 1}
-                    onClick={() => setImagenActual(indice + 1)}
-                  >
-                    <img src={imagen} alt="" />
-                  </button>
-                ))}
-              </div>
+            {/* Portada de 526 × 640, completa y sin galería, como en el diseño */}
+            <div className="ficha-portada">
+              <Portada src={libro.portada} alt={`Portada de ${libro.titulo}`} />
             </div>
 
             <div className="ficha-datos">
@@ -209,7 +167,7 @@ function FichaContenido({ libro }: { libro: Libro }) {
                 {descuento > 0 && libro.precioAnterior && (
                   <>
                     <s>{formatearPrecio(libro.precioAnterior, true)}</s>
-                    <span className="ficha-descuento">-{descuento}% dcto</span>
+                    <span className="ficha-descuento">{descuento}% dcto.</span>
                   </>
                 )}
               </div>
@@ -262,8 +220,8 @@ function FichaContenido({ libro }: { libro: Libro }) {
                     disabled={!libro.enStock}
                     onClick={() => void agregar(false)}
                   >
-                    Añadir a la cesta
-                    <Icono nombre="bolsa" />
+                    Agregar al carrito
+                    <Icono nombre="carro" />
                   </button>
                   <BotonFavorito idLibro={libro.id} titulo={libro.titulo} className="ficha-favorito" />
                 </div>
@@ -338,9 +296,13 @@ function FichaContenido({ libro }: { libro: Libro }) {
                 {libreros.map((reseña) => (
                   <li key={reseña.ruta}>
                     <div className="ficha-librero-perfil">
-                      <span className="ficha-avatar" aria-hidden="true">
-                        <Icono nombre="usuario" />
-                      </span>
+                      {reseña.foto ? (
+                        <img className="ficha-librero-foto" src={reseña.foto} alt="" />
+                      ) : (
+                        <span className="ficha-avatar ficha-librero-foto" aria-hidden="true">
+                          <Icono nombre="usuario" />
+                        </span>
+                      )}
                       {/* La API no entrega la cantidad de reseñas del librero */}
                       {reseña.reseñas !== undefined && <span>Reseñas: {reseña.reseñas}</span>}
                       <Link to={reseña.ruta}>Visitar Perfil</Link>
@@ -373,51 +335,61 @@ function FichaContenido({ libro }: { libro: Libro }) {
             )}
           </Desplegable>
 
-          {/* MÍRALO DE CERCA */}
-          <section className="ficha-video">
+        </div>
+
+        {/* MÍRALO DE CERCA: franja amarilla con el video (dummy) encima */}
+        <section className="ficha-video" aria-labelledby="ficha-video-titulo">
+          <div className="ficha-video-contenido">
             <div className="ficha-video-reproductor" role="img" aria-label="Video del libro (próximamente)">
-              <Icono nombre="reproducir" />
+              <img className="ficha-video-imagen" src={imagenVideo} alt="" />
+              <img className="ficha-video-boton" src={iconoReproducir} alt="" />
             </div>
             <div className="ficha-video-texto">
-              <h2>Míralo de cerca</h2>
+              <h2 id="ficha-video-titulo">Míralo de cerca</h2>
               <p className="ficha-video-etiqueta">Recomendado Leeconnos</p>
               <p>
-                Conoce el libro por dentro y por fuera y descubre por qué vale la
-                pena tenerlo entre tus lecturas.
+                ¿La portada te llamó la atención? Te mostramos qué hay detrás de
+                ella, desde los detalles del libro hasta la historia que te espera.
               </p>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
 
         {/* CALIFICACIÓN */}
         <section className="ficha-calificacion" aria-labelledby="ficha-calificacion-titulo">
-          <img src={logoImagen} alt="" />
-          <Estrellas calificacion={libro.calificacion} className="ficha-calificacion-estrellas" />
-          <p className="ficha-calificacion-nota">
-            {libro.calificacion.toLocaleString("es-CL", {
-              minimumFractionDigits: 1,
-              maximumFractionDigits: 1,
-            })}
-          </p>
-          <h2 id="ficha-calificacion-titulo">Favorito entre los lectores</h2>
-          <p>
-            Este libro está en el 5% de los mejores
-            <br />
-            valorados según las reseñas de confiabilidad
-          </p>
-          <button
-            type="button"
-            aria-expanded={mostrarAyudaReseñas}
-            onClick={() => setMostrarAyudaReseñas((actual) => !actual)}
-          >
-            ¿Cómo funcionan las reseñas?
-          </button>
-          {mostrarAyudaReseñas && (
-            <p className="ficha-calificacion-ayuda">
-              La nota combina las calificaciones de lectores y libreros, dando más
-              peso a las reseñas verificadas.
+          <div className="ficha-calificacion-tarjeta">
+            <img className="ficha-calificacion-logo" src={logoImagen} alt="" />
+            <Estrellas calificacion={libro.calificacion} className="ficha-calificacion-estrellas" />
+            <p className="ficha-calificacion-nota">
+              <img src={laurel} alt="" />
+              <span>
+                {libro.calificacion.toLocaleString("es-CL", {
+                  minimumFractionDigits: 1,
+                  maximumFractionDigits: 1,
+                })}
+              </span>
+              <img className="ficha-calificacion-laurel-derecho" src={laurel} alt="" />
             </p>
-          )}
+            <h2 id="ficha-calificacion-titulo">Favorito entre los lectores</h2>
+            <p>
+              Este libro está en el 5% de los mejores
+              <br />
+              valorados según las reseñas de confiabilidad
+            </p>
+            <button
+              type="button"
+              aria-expanded={mostrarAyudaReseñas}
+              onClick={() => setMostrarAyudaReseñas((actual) => !actual)}
+            >
+              ¿Cómo funcionan las reseñas?
+            </button>
+            {mostrarAyudaReseñas && (
+              <p className="ficha-calificacion-ayuda">
+                La nota combina las calificaciones de lectores y libreros, dando más
+                peso a las reseñas verificadas.
+              </p>
+            )}
+          </div>
         </section>
 
         <div className="ficha ficha-final">
@@ -434,20 +406,23 @@ function FichaContenido({ libro }: { libro: Libro }) {
               <ul className="ficha-lectores">
                 {lectores.map((reseña) => (
                   <li key={reseña.id}>
+                    {/* Foto con las estrellas debajo; nombre, ubicación y fecha al lado */}
                     <div className="ficha-lector-perfil">
-                      <span className="ficha-avatar" aria-hidden="true">
-                        <Icono nombre="usuario" />
-                      </span>
-                      <div>
-                        <strong>{reseña.nombre}</strong>
-                        {/* La API no guarda la ubicación del lector */}
-                        {reseña.ubicacion && <span>{reseña.ubicacion}</span>}
+                      <div className="ficha-lector-avatar">
+                        <span className="ficha-avatar" aria-hidden="true">
+                          <Icono nombre="usuario" />
+                        </span>
+                        <Estrellas calificacion={reseña.calificacion} />
+                      </div>
+                      <div className="ficha-lector-datos">
+                        <div>
+                          <strong>{reseña.nombre}</strong>
+                          {/* La API no guarda la ubicación del lector */}
+                          {reseña.ubicacion && <span>{reseña.ubicacion}</span>}
+                        </div>
+                        <span className="ficha-lector-fecha">{reseña.fecha}</span>
                       </div>
                     </div>
-                    <p className="ficha-lector-meta">
-                      <Estrellas calificacion={reseña.calificacion} />
-                      <span>{reseña.fecha}</span>
-                    </p>
                     <p>{reseña.texto}</p>
                   </li>
                 ))}
@@ -482,23 +457,28 @@ function FichaContenido({ libro }: { libro: Libro }) {
             )}
           </Desplegable>
 
-          <section className="ficha-relacionados" aria-labelledby="ficha-relacionados-titulo">
-            <h2 id="ficha-relacionados-titulo">Te podría interesar</h2>
-            {relacionadosPeticion.error ? (
-              <MensajeError
-                error={relacionadosPeticion.error}
-                onReintentar={relacionadosPeticion.reintentar}
-              />
-            ) : relacionadosPeticion.cargando ? (
-              <EstadoCarga />
-            ) : (
-              <div className="ficha-relacionados-grilla">
+          {/* "Te podría interesar": carrusel con paginación, como en la Home */}
+          {relacionadosPeticion.error ? (
+            <MensajeError
+              error={relacionadosPeticion.error}
+              onReintentar={relacionadosPeticion.reintentar}
+            />
+          ) : relacionadosPeticion.cargando ? (
+            <EstadoCarga />
+          ) : (
+            relacionados.length > 0 && (
+              <Carrusel
+                titulo="Te podría interesar"
+                variante="comentados"
+                className="inicio-productos ficha-relacionados"
+                mostrarVerMas={false}
+              >
                 {relacionados.map((otro) => (
                   <TarjetaProducto key={otro.id} {...propsDeTarjeta(otro)} />
                 ))}
-              </div>
-            )}
-          </section>
+              </Carrusel>
+            )
+          )}
         </div>
       </main>
       <Footer />
