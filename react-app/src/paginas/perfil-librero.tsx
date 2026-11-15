@@ -22,7 +22,8 @@ function PerfilLibrero() {
 	return <PerfilContenido key={librero.id} librero={librero} />;
 }
 
-function PerfilContenido({ librero }: { librero: Librero }) {
+// También la usa "Mi perfil de librero" (paginas/mi-perfil-librero.tsx)
+export function PerfilContenido({ librero }: { librero: Librero }) {
 	const libros = librero.indispensables;
 	const generos = librero.estilos;
 
@@ -50,6 +51,9 @@ function PerfilContenido({ librero }: { librero: Librero }) {
 		setMostrarRecomendacion(true);
 	}
 
+	// Siempre se comparte el perfil público, también desde "Mi perfil de librero"
+	const enlacePerfil = `${window.location.origin}/perfil-librero?librero=${librero.id}`;
+
 	async function compartirPerfil() {
 		setCompartido(false);
 		setErrorCompartir("");
@@ -57,7 +61,7 @@ function PerfilContenido({ librero }: { librero: Librero }) {
 			if (navigator.share) {
 				await navigator.share({
 					title: `${librero.nombre} | LeeConNos`,
-					url: window.location.href,
+					url: enlacePerfil,
 				});
 				return;
 			}
@@ -65,7 +69,7 @@ function PerfilContenido({ librero }: { librero: Librero }) {
 			if (!navigator.clipboard) {
 				throw new Error("Compartir no está disponible en este navegador.");
 			}
-			await navigator.clipboard.writeText(window.location.href);
+			await navigator.clipboard.writeText(enlacePerfil);
 			setCompartido(true);
 		} catch (error) {
 			if (error instanceof Error && error.name === "AbortError") return;
@@ -79,7 +83,7 @@ function PerfilContenido({ librero }: { librero: Librero }) {
 
 	const libroDestacado = libros[libroAleatorio];
 	const coleccionesVisibles = mostrarColecciones
-		? [...librero.colecciones, librero.coleccionExtra]
+		? [...librero.colecciones, ...librero.coleccionesExtra]
 		: librero.colecciones;
 
 	return (
@@ -203,15 +207,17 @@ function PerfilContenido({ librero }: { librero: Librero }) {
 							</article>
 						))}
 					</div>
-					<button
-						className="perfil-ver-mas"
-						type="button"
-						aria-expanded={mostrarColecciones}
-						onClick={() => setMostrarColecciones((mostrar) => !mostrar)}
-					>
-						{mostrarColecciones ? "Ver menos" : "Ver más"}
-						<Icono nombre={mostrarColecciones ? "arriba" : "abajo"} />
-					</button>
+					{librero.coleccionesExtra.length > 0 && (
+						<button
+							className="perfil-ver-mas"
+							type="button"
+							aria-expanded={mostrarColecciones}
+							onClick={() => setMostrarColecciones((mostrar) => !mostrar)}
+						>
+							{mostrarColecciones ? "Ver menos" : "Ver más"}
+							<Icono nombre={mostrarColecciones ? "arriba" : "abajo"} />
+						</button>
+					)}
 				</section>
 
 				{/*CARRUSEL DE ULTIMAS RECOMENDACIONES*/}
@@ -240,9 +246,11 @@ function PerfilContenido({ librero }: { librero: Librero }) {
 				<PreguntaLibrero nombre={librero.nombre.split(" ")[0]} />
 
 				{/*RECOMENDACION ALEATORIA*/}
-				<div className={`perfil-recomendacion-toast ${mostrarRecomendacion ? "visible" : ""}`} aria-live="polite">
-					Recomendación al azar: <strong>{libroDestacado.titulo}</strong> · {libroDestacado.autor}
-				</div>
+				{libroDestacado && (
+					<div className={`perfil-recomendacion-toast ${mostrarRecomendacion ? "visible" : ""}`} aria-live="polite">
+						Recomendación al azar: <strong>{libroDestacado.titulo}</strong> · {libroDestacado.autor}
+					</div>
+				)}
 			</main>
 			{/*PIE DE PAGINA*/}
 			<Footer />

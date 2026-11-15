@@ -15,6 +15,7 @@ import Descubrir from "./paginas/descubrir";
 import FichaLibro from "./paginas/ficha-libro";
 import Index from "./paginas/index";
 import MiCuenta from "./paginas/mi-cuenta";
+import MiPerfilLibrero from "./paginas/mi-perfil-librero";
 import NoEncontrada from "./paginas/no-encontrada";
 import PerfilLibrero from "./paginas/perfil-librero";
 import Recomendaciones from "./paginas/recomendaciones";
@@ -56,6 +57,14 @@ function App() {
           element={
             <RutaProtegida>
               <MiCuenta />
+            </RutaProtegida>
+          }
+        />
+        <Route
+          path="/mi-perfil-librero"
+          element={
+            <RutaProtegida roles={["LIBRERO"]}>
+              <MiPerfilLibrero />
             </RutaProtegida>
           }
         />
