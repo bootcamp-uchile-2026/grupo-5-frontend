@@ -28,18 +28,18 @@ import { ErrorApi, solicitar, usarApi } from "./api";
 // Perfil que se muestra en /perfil-librero sin indicar uno (como en el wireframe)
 const LIBRERO_POR_DEFECTO = "gregorio-samsa";
 
-// Colecciones visibles antes de pulsar "Ver más", como en el wireframe
-const COLECCIONES_VISIBLES = 2;
+// Colecciones visibles antes de pulsar "Ver más", como en el diseño
+const COLECCIONES_VISIBLES = 3;
 
 const pausa = () => new Promise((resolver) => setTimeout(resolver, 150));
 
 const rutaPerfil = (slug: string) => `/perfil-librero?librero=${encodeURIComponent(slug)}`;
 
-// "2026-08-24" -> "Agosto 24, 2026", el formato del wireframe
+// "2026-03-03" -> "Marzo 03, 2026", el formato del diseño
 function formatearFecha(fecha: string) {
   const [anio, mes, dia] = fecha.slice(0, 10).split("-").map(Number);
   const nombreMes = new Date(anio, mes - 1, dia).toLocaleDateString("es-CL", { month: "long" });
-  return `${nombreMes.charAt(0).toUpperCase()}${nombreMes.slice(1)} ${dia}, ${anio}`;
+  return `${nombreMes.charAt(0).toUpperCase()}${nombreMes.slice(1)} ${String(dia).padStart(2, "0")}, ${anio}`;
 }
 
 function desdeColeccion(coleccion: ColeccionResponseDto): Coleccion {
@@ -61,7 +61,13 @@ function desdePerfilApi(perfil: LibreroPerfilDto): Librero {
     etiquetas: perfil.etiquetas,
     cita: perfil.cita ?? "",
     biografia: perfil.biografia,
-    indispensables: perfil.indispensables.map(({ titulo, autor }) => ({ titulo, autor })),
+    // Si el indispensable está en el catálogo, trae su portada y su id
+    indispensables: perfil.indispensables.map(({ titulo, autor, libro }) => ({
+      titulo,
+      autor,
+      idLibro: libro?.id,
+      portada: libro?.portadaUrl ?? undefined,
+    })),
     estilos: perfil.estilos,
     autores: perfil.autoresFavoritos,
     colecciones: colecciones.slice(0, COLECCIONES_VISIBLES),

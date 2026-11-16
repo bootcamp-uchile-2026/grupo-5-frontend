@@ -1,10 +1,10 @@
-/* PERFIL DEL LIBRERO */
+/* PERFIL DEL LIBRERO
+   Alta fidelidad (Figma: Perfil librero de Gregorio Samsa, node 3516:27619).
+   Todo va en la columna de 1200px del diseño (--ancho-columna). */
 .perfil-librero {
-  --perfil-tinta: var(--color-neutral-900);
-  --perfil-papel: var(--color-neutral-100);
-  --perfil-linea: var(--color-neutral-300);
-  color: var(--perfil-tinta);
+  color: var(--color-neutral-900);
   font-family: var(--fuente-body);
+  background: var(--color-neutral-50);
 }
 
 /* Carga y error de "Mi perfil de librero" */
@@ -14,152 +14,208 @@
   text-align: center;
 }
 
-/* PRESENTACION DEL LIBRERO */
+/* Columna de 1200px centrada, con 24px de margen en pantallas angostas */
+.perfil-presentacion-columna,
+.perfil-columna,
+.perfil-colecciones {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--ancho-columna) + 48px);
+  margin: 0 auto;
+  padding-inline: 24px;
+}
+
+/* PRESENTACION: franja neutral-950 de 616px con la foto grande */
 .perfil-presentacion {
-  display: grid;
-  grid-template-columns: minmax(340px, 0.92fr) minmax(0, 1.08fr);
-  min-height: 390px;
-}
-
-.perfil-introduccion {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 44px clamp(28px, 8.5vw, 136px);
-}
-
-/* ETIQUETAS DE GENEROS */
-.perfil-generos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-
-.perfil-etiqueta {
-  padding: 4px 10px;
-  border: var(--stroke-default) solid var(--color-neutral-500);
-  border-radius: var(--radius-full);
-  font-size: 11px;
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-/* NOMBRE, CITA Y BIOGRAFIA */
-.perfil-introduccion h1 {
-  margin: 15px 0 18px;
-  color: var(--perfil-tinta);
-  background: transparent;
-  font-family: var(--fuente-brand);
-  font-size: clamp(36px, 4vw, 54px);
-  font-weight: 400;
-  line-height: 1.08;
-}
-
-.perfil-cita {
-  max-width: 330px;
-  margin: 0 0 20px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.5;
-}
-
-.perfil-biografia {
-  max-width: 380px;
-  margin: 0;
-  color: var(--color-neutral-800);
-  font-size: 12px;
-  line-height: 1.65;
-}
-
-/* ACCIONES DEL PERFIL */
-.perfil-acciones {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 15px;
-  margin-top: 23px;
-}
-
-.perfil-boton,
-.perfil-compartir {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 36px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 4px;
-  font: inherit;
-  font-size: 12px;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.perfil-boton-principal {
-  color: white;
   background: var(--color-neutral-950);
 }
 
-.perfil-boton-texto {
-  padding-inline: 2px;
-  color: var(--perfil-tinta);
-  background: transparent;
-}
-
-/* FOTO Y BOTON COMPARTIR */
-.perfil-foto {
+.perfil-presentacion-columna {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 390px;
-  overflow: hidden;
-  padding: 34px;
-  color: var(--color-neutral-600);
-  background: var(--color-neutral-100);
+  min-height: 616px;
 }
 
-.perfil-foto img {
+.perfil-portada {
   position: absolute;
-  inset: 0;
-  width: 100%;
+  top: 0;
+  left: 24px;
+  width: calc(100% - 48px);
   height: 100%;
   object-fit: cover;
 }
 
-.perfil-compartir {
-  position: absolute;
-  z-index: 1;
-  right: 24px;
-  bottom: 24px;
-  min-height: 34px;
-  color: var(--color-neutral-900);
+.perfil-introduccion {
+  position: relative;
+  box-sizing: border-box;
+  max-width: 484px;
+  padding: 96px 0 80px;
+}
+
+.perfil-encabezado {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+/* Avatar de 72px (Figma: avatar-booksellers). Sin foto, las iniciales */
+.perfil-avatar {
+  display: grid;
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  color: var(--color-neutral-950);
+  background: var(--color-brand-tertiary);
+  font-family: var(--fuente-brand);
+  font-size: var(--tamano-fuente-heading-sm);
+}
+
+/* ETIQUETAS: cápsulas con borde, Lexend Light 14 */
+.perfil-generos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 8px;
+}
+
+.perfil-encabezado .perfil-generos {
+  gap: 16px;
+}
+
+.perfil-etiqueta {
+  padding: 2px 12px;
+  border: var(--stroke-default) solid var(--color-neutral-900);
+  border-radius: var(--radius-full);
+  font-size: var(--tamano-fuente-caption-md);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-caption-md);
+  white-space: nowrap;
+}
+
+.perfil-presentacion .perfil-etiqueta {
+  border-color: var(--color-neutral-100);
+  color: var(--color-neutral-100);
+}
+
+/* NOMBRE, CITA Y BIOGRAFIA. El nombre es display-medium en turquesa; en
+   Figma el texto va recortado a la altura de las mayúsculas, por eso los
+   márgenes descuentan el interlineado. */
+.perfil-introduccion h1 {
+  margin: 22px 0 25px;
+  color: var(--color-brand-tertiary);
+  background: transparent;
+  font-family: var(--fuente-brand);
+  font-size: var(--tamano-fuente-display-medium);
+  font-weight: var(--peso-regular);
+  line-height: 1;
+  letter-spacing: var(--espaciado-display-large);
+}
+
+.perfil-cita {
+  margin: 0 0 32px;
+  color: var(--color-turquoise-100);
+  font-size: var(--tamano-fuente-body-lg);
+  font-weight: var(--peso-semibold);
+  line-height: 20px;
+}
+
+.perfil-biografia {
+  margin: 0;
+  color: var(--color-neutral-100);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-body-md);
+}
+
+/* ACCIONES: "Compartir" blanco y "Recomendaciones" neutral-700 */
+.perfil-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin-top: 45px;
+}
+
+.perfil-boton {
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: var(--radius-lg);
+  font: inherit;
+  font-size: var(--tamano-fuente-body-md);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.perfil-boton .bi {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.perfil-boton-compartir {
+  color: var(--color-neutral-950);
   background: var(--color-neutral-0);
 }
 
-/* LIBROS INDISPENSABLES Y PREFERENCIAS */
+.perfil-boton-recomendaciones {
+  min-width: 193px;
+  min-height: 44px;
+  padding: 10px;
+  color: var(--color-neutral-0);
+  background: var(--color-neutral-700);
+}
+
+.perfil-boton-compartir:hover {
+  background: var(--color-neutral-200);
+}
+
+.perfil-boton-recomendaciones:hover {
+  background: var(--color-neutral-800);
+}
+
+.perfil-compartir-estado {
+  margin: 12px 0 0;
+  color: var(--color-neutral-100);
+  font-size: var(--tamano-fuente-caption-md);
+}
+
+/* LIBROS INDISPENSABLES Y PREFERENCIAS: franja neutral-50 con sombra */
 .perfil-descubrimiento {
+  position: relative;
+  z-index: 1;
+  padding: 86px 0 74px;
+  background: var(--color-neutral-50);
+  box-shadow: var(--shadow-3);
+}
+
+.perfil-descubrimiento .perfil-columna {
   display: grid;
-  grid-template-columns: 1fr 0.92fr;
-  gap: clamp(38px, 6vw, 96px);
-  padding: 40px clamp(28px, 8.5vw, 136px) 44px;
-  background: var(--perfil-papel);
+  grid-template-columns: minmax(0, 588px) minmax(0, 556px);
+  justify-content: space-between;
+  gap: 40px;
 }
 
+/* Títulos heading-md en Lexend SemiBold */
 .perfil-descubrimiento h2,
-.perfil-colecciones h2 {
-  margin: 0 0 18px;
-  font-size: 18px;
-  font-weight: 650;
-  line-height: 1.3;
+.perfil-autores .carrusel-autores-titulo {
+  margin: 0 0 36px;
+  color: var(--color-neutral-900);
+  background: transparent;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-heading-md);
+  font-weight: var(--peso-semibold);
+  line-height: 40px;
 }
 
-/* LISTA DE LIBROS Y FAVORITOS */
+/* LISTA DE LIBROS (Figma: top-books) */
 .perfil-libros {
   display: grid;
-  gap: 8px;
+  gap: 24px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -167,58 +223,78 @@
 
 .perfil-libro {
   display: grid;
-  grid-template-columns: 34px 34px minmax(0, 1fr) 32px;
+  grid-template-columns: 49px auto minmax(0, 1fr) 48px;
   align-items: center;
-  min-height: 59px;
-  padding: 5px 10px;
-  border: var(--stroke-default) solid var(--color-neutral-200);
-  border-radius: var(--radius-lg);
-  background: var(--color-neutral-0);
-  box-shadow: var(--shadow-1);
-}
-
-.perfil-libro-numero {
-  font-family: var(--fuente-brand);
-  font-size: 18px;
+  column-gap: 20px;
+  min-height: 76px;
+  box-sizing: border-box;
+  padding: 8px 32px 8px 8px;
+  border-radius: var(--radius-xl);
+  background: var(--color-neutral-50);
+  box-shadow: var(--shadow-3);
 }
 
 .perfil-libro-portada {
-  width: 28px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(
-    135deg,
-    var(--color-neutral-200) 0 45%,
-    var(--color-neutral-300) 45% 48%,
-    var(--color-neutral-100) 48%
-  );
+  width: 49px;
+  height: 60px;
+  box-sizing: border-box;
+  border: var(--stroke-default) solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  box-shadow: var(--shadow-3);
+}
+
+.perfil-libro-numero {
+  width: 42px;
+  color: var(--color-neutral-950);
+  font-size: var(--tamano-fuente-heading-sm);
+  font-weight: var(--peso-bold);
+  line-height: 1.2;
 }
 
 .perfil-libro-info {
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  padding: 0 44px 0 20px;
+  line-height: 1.2;
 }
 
+.perfil-libro-info a,
 .perfil-libro-info strong {
   overflow: hidden;
-  font-size: 12px;
+  color: var(--color-neutral-950);
+  font-size: var(--tamano-fuente-heading-xsm);
+  font-weight: var(--peso-semibold);
+  text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.perfil-libro-info small {
-  color: var(--color-neutral-600);
-  font-size: 10px;
+.perfil-libro-info a:hover {
+  text-decoration: underline;
 }
 
+.perfil-libro-info small {
+  color: var(--color-neutral-600);
+  font-size: var(--tamano-fuente-caption-md);
+}
+
+/* Corazón de 48px (Figma: heart-button-card) */
 .perfil-favorito {
-  width: 30px;
-  height: 30px;
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   border: 0;
-  color: var(--color-neutral-800);
-  background: transparent;
+  border-radius: var(--radius-full);
+  color: var(--color-neutral-950);
+  background: var(--color-neutral-0);
+  box-shadow: var(--shadow-1);
+  font-size: 24px;
   cursor: pointer;
 }
 
@@ -227,288 +303,331 @@
 }
 
 /* ESTILOS LITERARIOS */
-.perfil-generos-seccion h2 {
-  margin-bottom: 18px;
+.perfil-estilos {
+  margin-bottom: 45px;
 }
 
-.perfil-generos-completos {
-  gap: 8px;
+.perfil-estilos h2 {
+  margin-bottom: 33px;
 }
 
-/* AUTORES FAVORITOS Y PAGINACION */
-.perfil-autores-seccion {
-  margin-top: 35px;
+/* AUTORES FAVORITOS: carrusel de 4 tarjetas de 100px con flechas a los
+   lados y paginación debajo */
+.perfil-autores.carrusel-autores {
+  margin: 0;
+  padding: 0;
 }
 
-.perfil-autores-seccion h2 {
-  margin-bottom: 16px;
+.perfil-autores .carrusel-autores-titulo {
+  margin-bottom: 22px;
 }
 
-.perfil-autores {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+.carrusel-autores-contenedor {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.carrusel-flechas-laterales {
+  display: flex;
+  align-items: center;
   gap: 12px;
 }
 
-.perfil-paginacion {
-  display: flex;
+.carrusel-flechas-laterales > button {
+  display: inline-flex;
+  flex: 0 0 48px;
+  height: 48px;
+  align-items: center;
   justify-content: center;
-  gap: 9px;
-  margin-top: 18px;
+  padding: 0;
+  border: 0;
+  color: var(--color-neutral-950);
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
 }
 
-.perfil-paginacion span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-neutral-400);
+.carrusel-flechas-laterales > button:disabled {
+  color: var(--color-neutral-600);
+  cursor: default;
 }
 
-.perfil-paginacion .activo {
-  background: var(--color-neutral-600);
-}
-
-/* CARRUSEL DE ULTIMAS RECOMENDACIONES */
-.perfil-ultimas-recomendaciones .carrusel-recomendaciones {
-  width: 100%;
-  max-width: 1500px;
-  margin: 0 auto;
-  padding: 32px clamp(24px, 8.5vw, 136px) 36px;
-}
-
-.perfil-ultimas-recomendaciones .carrusel-recomendaciones-encabezado,
-.perfil-ultimas-recomendaciones .carrusel-recomendaciones-titulo {
-  color: var(--perfil-tinta);
+.carrusel-autores .carrusel-viewport .coleccion-tarjetas {
+  gap: 12px;
   background: transparent;
 }
 
-.perfil-ultimas-recomendaciones .carrusel-recomendaciones-encabezado {
-  margin-bottom: 28px;
+.carrusel-autores .carrusel-item {
+  flex: 0 0 calc((100% - 3 * 12px) / 4);
 }
 
-/* Mismo estilo que "Recomendados de nuestros libreros" del Home */
-.perfil-ultimas-recomendaciones .carrusel-recomendaciones-titulo {
-  margin: 0;
-  font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body-md);
-  font-weight: 400;
-  line-height: 24px;
-}
-
-/* TARJETAS DE AUTORES */
 .perfil-autor {
   display: flex;
   min-width: 0;
   flex-direction: column;
-  align-items: center;
-  gap: 7px;
-  text-align: center;
+  gap: 14px;
 }
 
 .perfil-autor-retrato {
   display: grid;
   width: 100%;
-  max-width: 82px;
-  aspect-ratio: 1;
+  height: 113px;
   place-items: center;
-  border-radius: 6px;
-  color: rgb(255 255 255 / 90%);
-  background: #829184;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  color: var(--color-neutral-0);
+  background: var(--color-neutral-600);
   font-family: var(--fuente-brand);
-  font-size: 21px;
+  font-size: var(--tamano-fuente-heading-sm);
 }
 
-.retrato-2 { background: #a18b72; }
-.retrato-3 { background: #737e80; }
-.retrato-4 { background: #8a7569; }
-
-.perfil-autor span {
-  max-width: 90px;
-  font-size: 10px;
-  line-height: 1.3;
+.perfil-autor span:last-child {
+  padding-right: 10%;
+  color: var(--color-neutral-900);
+  font-size: var(--tamano-fuente-caption-md);
+  line-height: var(--interlineado-caption-md);
 }
 
-/* COLECCIONES DEL LIBRERO */
+/* COLECCIONES: filas separadas por una línea, 40px arriba y abajo */
 .perfil-colecciones {
-  padding: 38px clamp(28px, 8.5vw, 136px) 56px;
+  padding-top: 119px;
 }
 
 .perfil-colecciones h2 {
-  margin-bottom: 15px;
-}
-
-.perfil-colecciones-lista {
-  border-top: 1px solid var(--perfil-linea);
+  margin: 0 0 40px;
+  color: var(--color-neutral-950);
+  font-family: var(--fuente-brand);
+  font-size: var(--tamano-fuente-heading-sm);
+  font-weight: var(--peso-regular);
+  line-height: var(--interlineado-heading-sm);
+  letter-spacing: var(--espaciado-heading-sm);
 }
 
 .perfil-coleccion {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 150px 170px;
+  grid-template-columns: minmax(0, 387px) minmax(0, 374px) 1fr;
   align-items: center;
-  gap: 24px;
-  min-height: 82px;
-  border-bottom: 1px solid var(--perfil-linea);
+  padding: 40px 0;
+  border-bottom: var(--stroke-default) solid var(--color-neutral-950);
+}
+
+.perfil-coleccion:first-child {
+  padding-top: 0;
+}
+
+.perfil-coleccion:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 .perfil-coleccion-texto h3 {
-  margin: 0 0 5px;
+  margin: 0 0 16px;
+  color: var(--color-brand-tertiary-dark);
   font-family: var(--fuente-brand);
-  font-size: 17px;
-  font-weight: 400;
+  font-size: var(--tamano-fuente-heading-sm);
+  font-weight: var(--peso-regular);
+  line-height: 20px;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-position: from-font;
 }
 
-.perfil-coleccion-texto p,
-.perfil-coleccion time {
+.perfil-coleccion-texto p {
   margin: 0;
-  color: var(--color-neutral-800);
-  font-size: 11px;
+  color: var(--color-neutral-950);
+  font-size: var(--tamano-fuente-body-md);
+  line-height: 20px;
+}
+
+.perfil-coleccion time {
+  justify-self: end;
+  color: var(--color-neutral-700);
+  font-size: var(--tamano-fuente-body-md);
+  line-height: 20px;
+  white-space: nowrap;
 }
 
 .perfil-guardar-coleccion {
-  display: flex;
+  display: inline-flex;
+  justify-self: end;
   align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
+  gap: 12px;
+  padding: 0;
   border: 0;
-  color: var(--perfil-tinta);
+  color: var(--color-neutral-950);
   background: transparent;
   font: inherit;
-  font-size: 11px;
+  font-size: var(--tamano-fuente-body-md);
+  line-height: 20px;
   white-space: nowrap;
   cursor: pointer;
 }
 
-/* BOTON PARA EXPANDIR COLECCIONES */
+.perfil-guardar-coleccion .bi {
+  font-size: 22px;
+}
+
+.perfil-guardar-coleccion:hover {
+  text-decoration: underline;
+}
+
+/* "Ver más": texto subrayado de 14px y flecha de 24px */
 .perfil-ver-mas {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  margin-top: 16px;
+  gap: 16px;
+  margin-top: 54px;
   padding: 0;
   border: 0;
-  color: var(--perfil-tinta);
+  color: var(--color-neutral-950);
   background: transparent;
   font: inherit;
-  font-size: 11px;
+  font-size: var(--tamano-fuente-caption-md);
+  text-decoration: underline;
   cursor: pointer;
 }
 
-/* AVISO DE RECOMENDACION ALEATORIA */
-.perfil-recomendacion-toast {
-  position: fixed;
-  z-index: 5;
-  right: 24px;
-  bottom: 18px;
-  padding: 12px 18px;
-  border: var(--stroke-default) solid var(--color-neutral-200);
-  border-radius: var(--radius-3xl);
-  background: var(--color-neutral-0);
-  box-shadow: var(--shadow-3);
-  font-size: 12px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(10px);
-  transition: opacity 180ms ease, transform 180ms ease;
+.perfil-ver-mas .bi {
+  font-size: 20px;
+  text-decoration: none;
 }
 
-.perfil-recomendacion-toast.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* ULTIMAS RECOMENDACIONES: mismo carrusel que "Recomendados de nuestros
+   libreros" del Home (index.css y tarjeta-recomendacion.css) */
+.perfil-ultimas-recomendaciones .inicio-recomendados.carrusel-recomendaciones {
+  padding: 149px 24px 55px;
+  background: transparent;
 }
 
-/* AJUSTES PARA TABLET */
-@media (max-width: 800px) {
-  .perfil-presentacion {
-    grid-template-columns: 1fr 1fr;
-    min-height: 340px;
-  }
+.perfil-ultimas-recomendaciones .inicio-recomendados .carrusel-recomendaciones-encabezado {
+  margin-bottom: 30px;
+}
 
-  .perfil-introduccion {
-    padding: 36px 24px;
-  }
+.perfil-ultimas-recomendaciones .inicio-recomendados .carrusel-recomendaciones-contenedor {
+  gap: 56px;
+}
 
-  .perfil-foto {
-    min-height: 340px;
-    padding: 24px;
-  }
+.perfil-ultimas-recomendaciones .carrusel-recomendaciones-contenedor,
+.perfil-ultimas-recomendaciones .coleccion-tarjetas {
+  background: transparent;
+}
 
-  .perfil-descubrimiento {
-    grid-template-columns: 1fr;
-    gap: 35px;
-    padding-inline: 7%;
+/* TABLET */
+@media (max-width: 1100px) {
+  .perfil-descubrimiento .perfil-columna {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 64px;
   }
 
   .perfil-preferencias {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    max-width: 588px;
+  }
+
+  .perfil-coleccion {
+    grid-template-columns: minmax(0, 1fr) auto auto;
     gap: 24px;
   }
-
-  .perfil-autores-seccion {
-    margin-top: 0;
-  }
-
-
 }
 
-/* AJUSTES PARA MOVIL */
-@media (max-width: 560px) {
-  .perfil-presentacion {
-    grid-template-columns: 1fr;
+/* MOVIL */
+@media (max-width: 640px) {
+  .perfil-presentacion-columna,
+  .perfil-columna,
+  .perfil-colecciones {
+    padding-inline: 20px;
+  }
+
+  /* La foto pasa a ser fondo con un velo para que el texto se lea */
+  .perfil-portada {
+    left: 0;
+    width: 100%;
+    opacity: 0.35;
+  }
+
+  .perfil-presentacion-columna {
+    min-height: 0;
   }
 
   .perfil-introduccion {
-    padding: 34px 24px 38px;
+    padding: 56px 0;
+  }
+
+  .perfil-encabezado {
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .perfil-encabezado .perfil-generos {
+    gap: 8px;
   }
 
   .perfil-introduccion h1 {
-    font-size: 42px;
-  }
-
-  .perfil-foto {
-    min-height: 250px;
+    margin: 24px 0;
+    font-size: var(--tamano-fuente-heading-xl);
   }
 
   .perfil-descubrimiento {
-    padding: 32px 20px;
+    padding: 56px 0;
   }
 
-  .perfil-preferencias {
-    grid-template-columns: 1fr;
+  .perfil-descubrimiento h2,
+  .perfil-autores .carrusel-autores-titulo {
+    margin-bottom: 24px;
+    font-size: var(--tamano-fuente-heading-sm);
+    line-height: var(--interlineado-heading-sm);
   }
 
-  .perfil-autores-seccion {
-    margin-top: 12px;
+  .perfil-libro {
+    grid-template-columns: 49px auto minmax(0, 1fr) 48px;
+    column-gap: 12px;
+    padding-right: 12px;
   }
 
-  .perfil-autores {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .perfil-libro-numero {
+    min-width: 0;
+    font-size: var(--tamano-fuente-heading-xsm);
+  }
+
+  .perfil-libro-info {
+    padding: 0;
+  }
+
+  .perfil-libro-info a,
+  .perfil-libro-info strong {
+    font-size: var(--tamano-fuente-body-md);
+  }
+
+  .carrusel-flechas-laterales {
+    gap: 4px;
+  }
+
+  .carrusel-flechas-laterales > button {
+    flex-basis: 32px;
+  }
+
+  .carrusel-autores .carrusel-item {
+    flex-basis: calc((100% - 12px) / 2);
   }
 
   .perfil-colecciones {
-    padding: 32px 20px 44px;
+    padding-top: 64px;
   }
 
   .perfil-coleccion {
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 10px 14px;
-    padding: 14px 0;
+    gap: 12px 16px;
+    padding: 24px 0;
+  }
+
+  .perfil-coleccion-texto {
+    grid-column: 1 / -1;
   }
 
   .perfil-coleccion time {
-    grid-column: 1;
+    justify-self: start;
   }
 
-  .perfil-guardar-coleccion {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-  }
-
-  .perfil-recomendacion-toast {
-    right: 12px;
-    bottom: 12px;
-    max-width: calc(100vw - 56px);
+  .perfil-ultimas-recomendaciones .inicio-recomendados.carrusel-recomendaciones {
+    padding: 64px 20px 48px;
   }
 }
