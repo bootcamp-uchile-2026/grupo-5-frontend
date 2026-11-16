@@ -1,206 +1,164 @@
 @import url("base.css");
 
+/* CONFIRMACION DE COMPRA
+   Alta fidelidad (Figma: Checkout-confirmación compra, node 1563:10247).
+   Fondo neutral-100 y columna de 1200px. */
 .confirmacion-compra {
     box-sizing: border-box;
-    width: min(100%, 1280px);
-    margin: 0 auto;
-    padding: 48px 22px 40px;
-    color: var(--color-neutral-darkest);
-    font-family: var(--fuente-heading);
-}
-
-.confirmacion-ruta {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
     width: 100%;
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 28px;
-    padding: 0;
-    position: static;
-    background: transparent;
-    color: var(--color-neutral-darker);
-    font-size: 15px;
+    padding: 102px max(24px, calc((100% - var(--ancho-columna)) / 2)) 152px;
+    color: var(--color-neutral-950);
+    background: var(--color-neutral-100);
+    font-family: var(--fuente-body);
 }
 
-.confirmacion-ruta a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.confirmacion-ruta-pasos {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    min-width: 0;
-    padding: 4px 0;
-    background: transparent;
-}
-
-.confirmacion-ruta-pasos > span[aria-hidden="true"] {
-    font-size: 14px;
-}
-
-.confirmacion-ruta a:hover {
-    text-decoration: underline;
-}
-
-.confirmacion-ruta > a:first-child {
-    display: flex;
-    color: var(--color-neutral-darker);
-    font-size: 26px;
+/* Ruta de navegación de 14px (la del Catálogo es de 12px) */
+.confirmacion-ruta ol {
+    font-size: var(--tamano-fuente-body-sm);
 }
 
 .confirmacion-ruta [aria-current="page"] {
-    color: var(--color-neutral-darkest);
+    color: var(--color-neutral-900);
 }
 
+/* MENSAJE DE EXITO: borde verde, degradado blanco a verde y shadow-4 */
 .confirmacion-exito {
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 48px;
-    width: 100%;
-    min-height: 150px;
-    margin: 0 auto;
-    padding: 20px 32px;
-    border: var(--stroke-default) solid var(--color-green-success-400);
-    border-radius: var(--radius-lg);
-    background: var(--color-neutral-0);
-    box-shadow: 0 8px 12px rgb(17 17 17 / 14%);
-}
-
-.confirmacion-exito-mensaje {
-    flex: 0 1 420px;
-    text-align: left;
+    gap: 64px;
+    min-height: 216px;
+    margin-top: 56px;
+    padding: 32px 64px;
+    border: var(--stroke-default) solid var(--color-green-success-500);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(to bottom, var(--color-neutral-0), var(--color-green-success-50));
+    box-shadow: var(--shadow-4);
 }
 
 .confirmacion-exito-icono {
-    display: grid;
-    flex: 0 0 70px;
-    width: 70px;
-    height: 70px;
-    place-items: center;
-    border: 6px solid var(--color-green-success-400);
-    border-radius: var(--radius-full);
-    color: var(--color-green-success-700);
-    font-size: 36px;
+    flex: 0 0 108px;
+    width: 108px;
+    height: 108px;
+}
+
+.confirmacion-exito-mensaje {
+    display: flex;
+    flex: 0 1 264px;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .confirmacion-exito h1 {
-    margin: 0 0 6px;
+    margin: 0;
+    color: var(--color-green-success-700);
     background: transparent;
-    color: var(--color-green-success-800);
-    font-family: var(--fuente-display);
-    font-size: 17px;
-    font-weight: 400;
-    line-height: 1.25;
+    font-family: var(--fuente-brand);
+    font-size: var(--tamano-fuente-heading-sm);
+    font-weight: var(--peso-regular);
+    line-height: normal;
 }
 
 .confirmacion-exito p {
     margin: 0;
-    color: var(--color-neutral-950);
-    font-size: 11px;
-    line-height: 1.35;
+    font-size: var(--tamano-fuente-body-md);
+    line-height: normal;
+}
+
+/* En el diseño el saludo ocupa dos líneas más una en blanco */
+.confirmacion-exito p:first-of-type {
+    min-height: 48px;
 }
 
 .confirmacion-exito .confirmacion-exito-correo {
-    margin-top: 12px;
-    font-size: 9px;
+    font-size: var(--tamano-fuente-body-xsm);
 }
 
+/* TARJETAS DEL PEDIDO: 586px y 542px separadas por 72px */
 .confirmacion-pedido {
     display: grid;
-    grid-template-columns: minmax(0, 1.17fr) minmax(0, 1fr);
-    gap: 16px;
-    margin-top: 24px;
+    grid-template-columns: minmax(0, 586fr) minmax(0, 542fr);
+    gap: 72px;
     align-items: stretch;
+    margin-top: 68px;
 }
 
-.confirmacion-detalles,
-.confirmacion-resumen {
+.confirmacion-tarjeta {
+    box-sizing: border-box;
     min-width: 0;
-    padding: 16px 20px;
-    border: var(--stroke-default) solid var(--color-neutral-light);
-    border-radius: var(--radius-lg);
-    background: var(--color-neutral-lightest);
+    padding: 32px;
+    border: 1.5px solid var(--color-neutral-500);
+    border-radius: var(--radius-3xl);
+    background: linear-gradient(to bottom, var(--color-neutral-0) 60%, var(--color-neutral-200));
 }
 
-.confirmacion-detalles h2,
-.confirmacion-resumen h2 {
+.confirmacion-tarjeta h2 {
     margin: 0;
     color: var(--color-neutral-950);
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.25;
+    background: transparent;
+    font-size: var(--tamano-fuente-heading-sm);
+    line-height: normal;
+}
+
+/* DETALLES DEL PEDIDO */
+.confirmacion-detalles h2 {
+    margin-bottom: 10px;
+    font-weight: var(--peso-bold);
 }
 
 .confirmacion-lista-detalles {
-    margin: 12px 0 0;
+    margin: 0;
 }
 
 .confirmacion-detalle {
     display: flex;
     align-items: center;
-    gap: 16px;
-    min-height: 48px;
-    padding: 7px 0;
-    border-top: 1px solid var(--color-neutral-light);
+    gap: 21px;
+    padding: 16px;
+    border-bottom: var(--stroke-default) solid var(--color-neutral-400);
 }
 
-.confirmacion-detalle:first-child {
-    border-top: 0;
+.confirmacion-detalle:last-child {
+    border-bottom: 0;
 }
 
 .confirmacion-detalle-icono {
     display: grid;
-    flex: 0 0 44px;
-    width: 44px;
-    height: 44px;
+    flex: 0 0 46px;
+    box-sizing: border-box;
+    width: 46px;
+    height: 46px;
     place-items: center;
-    border-radius: 50%;
-    background: var(--color-neutral-lighter);
-    color: var(--color-primario-darker);
-    font-size: 20px;
+    border: var(--stroke-default) solid var(--color-neutral-500);
+    border-radius: var(--radius-full);
+    color: var(--color-neutral-950);
+    font-size: 22px;
 }
 
-.confirmacion-detalle div {
-    font-size: 14px;
-    line-height: 1.25;
+.confirmacion-detalle > div {
+    flex: 1;
+    min-width: 0;
 }
 
-.confirmacion-detalle dt {
-    margin-bottom: 1px;
-    font-weight: 600;
-}
-
+.confirmacion-detalle dt,
 .confirmacion-detalle dd {
     margin: 0;
-    color: var(--color-neutral-darker);
-    line-height: 1.3;
+    padding: 4px;
+    font-size: var(--tamano-fuente-body-md);
+    line-height: normal;
 }
 
-.confirmacion-detalle dd,
 .confirmacion-detalle dt {
-    font-size: 13px;
+    background: var(--color-neutral-200);
 }
 
+/* RESUMEN DEL PEDIDO */
 .confirmacion-resumen {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 12px 12px 6px;
-    border-color: var(--color-neutral-600);
-    border-radius: 12px;
-    background: var(--color-neutral-0);
-}
-
-.confirmacion-detalles {
-    border-color: var(--color-neutral-600);
-    border-radius: 12px;
 }
 
 .confirmacion-resumen-cabecera {
@@ -210,49 +168,39 @@
     gap: 12px;
 }
 
+.confirmacion-resumen h2 {
+    font-weight: var(--peso-semibold);
+}
+
 .confirmacion-resumen-cabecera > span {
     flex: none;
-    padding: 0;
-    background: transparent;
-    color: var(--color-neutral-950);
-    font-size: 8px;
+    font-size: var(--tamano-fuente-label-md);
+    font-weight: var(--peso-light);
+    line-height: var(--interlineado-label-sm);
 }
 
 .confirmacion-productos {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin: 0;
-    padding: 0;
+    gap: 16px;
+    margin: 32px 0 0;
+    padding: 0 0 24px;
+    border-bottom: var(--stroke-default) solid var(--color-neutral-400);
     list-style: none;
 }
 
 .confirmacion-producto {
     display: flex;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 8px 4px 12px;
+    align-items: flex-start;
+    gap: 24px;
 }
 
-.confirmacion-producto-portada,
-.confirmacion-producto-sin-portada {
-    display: grid;
-    flex: 0 0 60px;
-    width: 60px;
-    height: 84px;
-    place-items: center;
-    border: 0;
-    border-radius: 2px;
-    background: var(--color-neutral-lighter);
-    color: var(--color-neutral-dark);
+.confirmacion-producto-portada {
+    flex: 0 0 78px;
+    width: 78px;
+    height: 118px;
+    border-radius: var(--radius-xl);
     object-fit: cover;
-}
-
-.confirmacion-producto-sin-portada {
-    height: 52px;
-    font-size: 24px;
 }
 
 .confirmacion-producto-datos {
@@ -266,66 +214,79 @@
 }
 
 .confirmacion-producto-datos h3 {
-    color: var(--color-neutral-darkest);
-    font-size: 14px;
-    line-height: 1.3;
+    color: var(--color-neutral-950);
+    background: transparent;
+    font-size: var(--tamano-fuente-body-md);
+    font-weight: var(--peso-semibold);
+    line-height: normal;
 }
 
 .confirmacion-producto-datos p {
-    margin-top: 4px;
-    color: var(--color-neutral-darker);
-    font-size: 12px;
+    font-size: var(--tamano-fuente-body-xsm);
+    line-height: 14px;
+}
+
+.confirmacion-producto-datos .confirmacion-producto-autor {
+    font-weight: var(--peso-light);
 }
 
 .confirmacion-producto-precio {
     flex: none;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 20px;
+    font-weight: var(--peso-light);
+    line-height: 24px;
+    text-align: right;
 }
 
 .confirmacion-finanzas {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 4px;
     margin: 0;
-    padding: 0 0 8px;
-    border-top: 0;
-    border-bottom: 1px solid var(--color-neutral-900);
+    padding: 16px 0;
+    border-bottom: var(--stroke-default) solid var(--color-neutral-400);
 }
 
 .confirmacion-finanzas > div {
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
     gap: 12px;
-    color: var(--color-neutral-950);
-    font-size: 11px;
-    line-height: 1.7;
+    font-size: var(--tamano-fuente-body-md);
+    font-weight: var(--peso-light);
+    line-height: 25px;
 }
 
 .confirmacion-finanzas dd {
     margin: 0;
+    line-height: 24px;
 }
 
-.confirmacion-finanzas > div:nth-child(2) dd {
-    color: var(--color-red-alert-600);
+.confirmacion-finanzas .confirmacion-descuento dd {
+    color: var(--color-red-alert-500);
 }
 
 .confirmacion-total {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
+    margin-top: 32px;
 }
 
 .confirmacion-total h3 {
     margin: 0;
-    font-size: 14px;
-    line-height: 1.3;
+    color: var(--color-neutral-950);
+    background: transparent;
+    font-size: 20px;
+    font-weight: var(--peso-semibold);
+    line-height: normal;
 }
 
 .confirmacion-total strong {
-    font-size: 17px;
-    line-height: 1.3;
+    font-size: var(--tamano-fuente-heading-sm);
+    font-weight: var(--peso-regular);
+    line-height: 24px;
 }
 
 .confirmacion-pago {
@@ -333,42 +294,42 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin: 6px 0 0;
-    color: var(--color-neutral-950);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.3;
+    margin: 10px 0 0;
+    color: var(--color-neutral-700);
+    font-size: var(--tamano-fuente-body-lg);
+    line-height: 24px;
 }
 
-.confirmacion-pago strong {
-    font-weight: 400;
-}
-
-.confirmacion-pago span {
-    padding: 0;
-    background: transparent;
+.confirmacion-pago span:last-child {
+    font-size: var(--tamano-fuente-body-md);
     text-align: right;
 }
 
+/* SEGUIR COMPRANDO: texto subrayado y flecha de 48px */
 .confirmacion-seguir-comprando {
     display: inline-flex;
     align-items: center;
-    gap: 16px;
-    margin-top: 20px;
+    margin-top: 28px;
     color: var(--color-neutral-950);
-    font-size: 14px;
+    font-size: var(--tamano-fuente-body-md);
+    line-height: 24px;
     text-decoration: underline;
 }
 
 .confirmacion-seguir-comprando .icono {
-    font-size: 14px;
+    display: inline-grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    font-size: 20px;
     text-decoration: none;
 }
 
 .confirmacion-seguir-comprando:hover {
-    color: var(--color-primario-dark);
+    color: var(--color-brand-primary-basic);
 }
 
+/* SIN DATOS DEL PEDIDO (se entró a la página sin pasar por el checkout) */
 .confirmacion-sin-pedido {
     display: flex;
     flex-direction: column;
@@ -401,68 +362,69 @@
     text-decoration: none;
 }
 
-@media (max-width: 760px) {
-    .confirmacion-compra {
-        padding: 28px 16px 32px;
-    }
-
+@media (max-width: 1024px) {
     .confirmacion-pedido {
-        grid-template-columns: 1fr;
-        gap: 14px;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 32px;
     }
-
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
     .confirmacion-compra {
-        padding: 24px 12px;
-    }
-
-    .confirmacion-ruta {
-        gap: 8px;
-        margin-bottom: 18px;
-        font-size: 13px;
-    }
-
-    .confirmacion-ruta-pasos {
-        flex-wrap: wrap;
+        padding: 32px 16px 64px;
     }
 
     .confirmacion-exito {
+        flex-direction: column;
         gap: 20px;
-        min-height: 120px;
-        padding: 16px;
+        margin-top: 24px;
+        padding: 24px;
+        text-align: center;
     }
 
     .confirmacion-exito-icono {
-        flex-basis: 56px;
-        width: 56px;
-        height: 56px;
-        border-width: 5px;
-        font-size: 32px;
+        flex-basis: auto;
+        width: 72px;
+        height: 72px;
     }
 
-    .confirmacion-exito h1 {
-        font-size: 16px;
+    .confirmacion-exito-mensaje {
+        flex-basis: auto;
+        align-items: center;
     }
 
-    .confirmacion-exito p {
-        font-size: 10px;
+    .confirmacion-exito p:first-of-type {
+        min-height: 0;
     }
 
-    .confirmacion-detalles,
-    .confirmacion-resumen {
-        padding: 14px;
+    .confirmacion-pedido {
+        margin-top: 32px;
+    }
+
+    .confirmacion-tarjeta {
+        padding: 20px;
+    }
+
+    .confirmacion-tarjeta h2 {
+        font-size: 20px;
     }
 
     .confirmacion-detalle {
-        gap: 10px;
+        gap: 12px;
+        padding: 12px 0;
     }
 
-    .confirmacion-detalle-icono {
-        flex-basis: 36px;
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
+    .confirmacion-producto {
+        gap: 12px;
+    }
+
+    .confirmacion-producto-portada {
+        flex-basis: 60px;
+        width: 60px;
+        height: 90px;
+    }
+
+    .confirmacion-producto-precio {
+        font-size: var(--tamano-fuente-body-md);
     }
 }
