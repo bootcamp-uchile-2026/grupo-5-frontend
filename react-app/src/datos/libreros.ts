@@ -1,5 +1,10 @@
 import fotoClara from "../assets/imagenes/librero-clara-del-valle.png";
 import fotoGregorio from "../assets/imagenes/librero-gregorio-samsa.png";
+import portadaGregorio from "../assets/imagenes/librero-gregorio-samsa-portada.jpg";
+import autorKafka from "../assets/imagenes/autor-kafka.jpg";
+import autorKang from "../assets/imagenes/autor-kang.jpg";
+import autorKundera from "../assets/imagenes/autor-kundera.jpg";
+import autorOrwell from "../assets/imagenes/autor-orwell.jpg";
 
 // Datos dummy de los perfiles de libreros (cuando VITE_API_URL está vacía).
 // Contenido de los wireframes "Perfiles de libreros" (Figma: Wireframes
@@ -342,4 +347,19 @@ export const RECOMENDADOS_INICIO = [
 export const FOTOS_LIBREROS: Record<string, string> = {
   "gregorio-samsa": fotoGregorio,
   "clara-del-valle": fotoClara,
+};
+
+// Foto grande de la cabecera del perfil, por slug. En Figma solo está la de
+// Gregorio (Perfil librero, node 3516:27619); el resto muestra la franja oscura.
+export const PORTADAS_LIBREROS: Record<string, string> = {
+  "gregorio-samsa": portadaGregorio,
+};
+
+// Fotos de "Autores favoritos", por nombre. La API solo entrega los nombres;
+// los autores sin foto muestran sus iniciales.
+export const FOTOS_AUTORES: Record<string, string> = {
+  "Franz Kafka": autorKafka,
+  "Milan Kundera": autorKundera,
+  "Han Kang": autorKang,
+  "George Orwell": autorOrwell,
 };

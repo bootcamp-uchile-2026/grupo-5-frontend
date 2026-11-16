@@ -1,26 +1,55 @@
-/* PREGUNTA AL LIBRERO */
+/* PREGUNTA AL LIBRERO
+   Alta fidelidad (Figma: Perfil librero, node 3516:27691): franja
+   neutral-100 con el logo, título subrayado, campo de 560px y nota. */
 .pregunta-librero {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 48px 24px 52px;
+	padding: 85px 24px 122px;
 	text-align: center;
+	background: var(--color-neutral-100);
+}
+
+/* Logo de 96px de alto: imagen y texto separados por 16px */
+.pregunta-librero-logo {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	height: 96px;
+	padding: 0 16px;
+	margin-bottom: 24px;
+}
+
+.pregunta-librero-logo img {
+	height: 59px;
+}
+
+/* El SVG del texto trae aire arriba y abajo: se fija por ancho (288px) */
+.pregunta-librero-logo .pregunta-librero-logo-texto {
+	width: 288px;
+	height: auto;
 }
 
 .pregunta-librero h2 {
-	margin: 0 0 10px;
-	color: var(--color-neutral-900);
+	max-width: 590px;
+	margin: 0 0 24px;
+	color: var(--color-brand-primary-basic);
 	background: transparent;
-	font-size: 20px;
-	font-weight: 600;
-	line-height: 1.35;
+	font-family: var(--fuente-body);
+	font-size: var(--tamano-fuente-heading-sm);
+	font-weight: var(--peso-semibold);
+	line-height: 20px;
+	text-decoration: underline;
+	text-underline-position: from-font;
 }
 
 .pregunta-librero-descripcion {
-	max-width: 620px;
-	margin: 0 0 24px;
-	font-size: 13px;
-	line-height: 1.5;
+	max-width: 590px;
+	min-height: 49px;
+	margin: 0 0 32px;
+	color: var(--color-neutral-950);
+	font-size: var(--tamano-fuente-body-md);
+	line-height: 20px;
 }
 
 .pregunta-librero-etiqueta {
@@ -35,23 +64,30 @@
 	border: 0;
 }
 
+/* Campo de 560 x 145 con el lápiz abajo a la derecha */
+.pregunta-librero-campo {
+	position: relative;
+	width: min(100%, 560px);
+}
+
 .pregunta-librero textarea {
+	display: block;
 	box-sizing: border-box;
-	width: min(100%, 360px);
-	min-height: 100px;
-	padding: 12px;
-	border: var(--stroke-default) solid var(--color-neutral-400);
-	border-radius: var(--radius-lg);
+	width: 100%;
+	height: 145px;
+	padding: 24px 48px 24px 24px;
+	border: var(--stroke-default) solid var(--color-neutral-500);
+	border-radius: var(--radius-2xl);
 	color: var(--color-neutral-900);
-	background: var(--color-neutral-0);
+	background: var(--color-neutral-50);
 	font-family: var(--fuente-body);
-	font-size: 12px;
-	line-height: 1.5;
-	resize: vertical;
+	font-size: var(--tamano-fuente-body-sm);
+	line-height: var(--interlineado-body-sm);
+	resize: none;
 }
 
 .pregunta-librero textarea::placeholder {
-	color: var(--color-neutral-600);
+	color: var(--color-neutral-500);
 }
 
 .pregunta-librero textarea:focus-visible {
@@ -59,19 +95,43 @@
 	outline-offset: 2px;
 }
 
+.pregunta-librero-campo .bi {
+	position: absolute;
+	right: 16px;
+	bottom: 12px;
+	color: var(--color-neutral-900);
+	font-size: 22px;
+	pointer-events: none;
+}
+
 .pregunta-librero-nota {
-	max-width: 460px;
-	margin: 14px 0 0;
-	font-size: 11px;
-	line-height: 1.5;
+	max-width: 590px;
+	margin: 24px 0 0;
+	color: var(--color-neutral-950);
+	font-size: var(--tamano-fuente-caption-sm);
+	line-height: 20px;
 }
 
 @media (max-width: 560px) {
 	.pregunta-librero {
-		padding: 40px 20px;
+		padding: 56px 20px 64px;
+	}
+
+	.pregunta-librero-logo {
+		height: auto;
+		gap: 10px;
+	}
+
+	.pregunta-librero-logo img {
+		height: 40px;
+	}
+
+	.pregunta-librero-logo .pregunta-librero-logo-texto {
+		width: 190px;
 	}
 
 	.pregunta-librero h2 {
-		font-size: 18px;
+		font-size: var(--tamano-fuente-heading-xsm);
+		line-height: 1.3;
 	}
 }
