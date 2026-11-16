@@ -6,159 +6,78 @@ Proyecto Frontend del e-commerce **LeeConNos**, librería independiente ficticia
 
 
 ## Estado del proyecto
-La aplicación está desarrollada con React, TypeScript y Vite, siguiendo los wireframes y lineamientos de UX/UI, y está conectada con la API de Backend mediante la variable `VITE_API_URL`. El catálogo, la búsqueda y los filtros, el carrito, el inicio de sesión (con renovación automática de la sesión), el código de descuento y la compra con cuenta o como invitado usan datos reales. Algunas secciones, como las reseñas y los perfiles de libreros, todavía usan datos de ejemplo.
+La aplicación está desarrollada con React, TypeScript y Vite. Sigue el diseño de alta fidelidad y el UI Kit de UX/UI en Figma, y está conectada con la API de Backend mediante la variable `VITE_API_URL`.
 
-Mientras no exista la wiki del repositorio, la documentación técnica (diseñado vs implementado, formularios, endpoints, DTO y decisiones técnicas) está en [`react-app/README.md`](./react-app/README.md).
+**Pantallas en alta fidelidad:** Home, Catálogo, Ficha de libro, Perfil del librero, Checkout (con sesión, sin sesión y como invitado), pantalla de espera de la compra y Confirmación.
+
+**Con datos reales de la API:**
+- Catálogo, búsqueda y filtros.
+- Ficha de libro, con reseñas, recomendaciones de libreros y libros relacionados.
+- Perfiles de libreros y recomendados del Home.
+- Carrito, favoritos y newsletter.
+- Inicio de sesión con renovación automática, registro y acceso según perfil.
+- Código de descuento, cotización de envío y compra con cuenta o como invitado.
+
+**Pendiente para la Entrega Final:** el pago con tarjeta, la sesión con cookies HttpOnly (depende de Backend), "Dejar una reseña", "Mi cuenta" y las secciones de Comunidad. El detalle está en la [wiki](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Funcionalidades-y-pendientes).
+
+
+## Documentación
+La documentación técnica está en la [wiki del repositorio](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki):
+
+| Página | Contenido |
+| --- | --- |
+| [Estado del Hito 3](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Estado-del-Hito-3) | Requisitos del Hito 3 para Frontend y su estado |
+| [Arquitectura y decisiones técnicas](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Arquitectura-y-decisiones-tecnicas) | Estructura del código, sesión, carrito, rutas protegidas y decisiones |
+| [Pantallas diseñadas vs implementadas](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Pantallas-disenadas-vs-implementadas) | Pantallas y flujos de Figma con su nivel de fidelidad |
+| [Formularios](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Formularios) | Formularios diseñados vs implementados y sus validaciones |
+| [Endpoints](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Endpoints) | Endpoints disponibles vs integrados y DTO |
+| [Funcionalidades y pendientes](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Funcionalidades-y-pendientes) | Lo completado y lo pendiente para la Entrega Final |
+
+- Diseño en Figma: <https://www.figma.com/design/JzdqSyqXuavHa5hV3zJIIT/Versi%C3%B3n-2---Figma>
+- Documentación de la API (Swagger): <http://3.131.220.134:3000/docs>
 
 
 ## Tecnologías
 - React 19 y TypeScript 6 (componentes y páginas en TSX)
 - React Router DOM 7 para la navegación
-- Zustand 5 para el manejo del estado
-- CSS3 para los estilos
+- Zustand 5 para el estado global (sesión, carrito y favoritos)
+- CSS3 para los estilos, con los tokens del UI Kit en `tokens.css`
 - Bootstrap Icons (https://icons.getbootstrap.com/) (vía CDN)
 - Vite 8 para desarrollo y build
 - pnpm como gestor de paquetes
 - Oxlint para linting
 - Google Fonts: Lexend (fuente primaria) y Bree Serif (fuente secundaria/de marca), vía CDN
-- Portadas de libro simuladas mediante la API pública de [Open Library](https://openlibrary.org/dev/docs/api/covers)
-
-La aplicación puede conectarse a la API mediante `VITE_API_URL`.
+- Portadas de libros desde la API pública de [Open Library](https://openlibrary.org/dev/docs/api/covers)
 
 
 ## Estructura del repositorio
-```
-grupo-5-frontend/
-├─ react-app                 
-├─ src/
-│  └─ assets/
-│    ├─iconos
-│    └─logos
-|
-│  └─ datos/
-│    ├─generos.ts
-│    ├─imagenes.ts
-│    ├─libreros.ts
-│    ├─libros.ts
-│    └─regiones.ts
-|
-│  └─ componentes/
-│    ├─Banner.tsx
-│    ├─BarraNavegacion.tsx
-│    ├─BotonFavorito.tsx
-│    ├─Carrito.tsx
-│    ├─Carrusel.tsx
-│    ├─ComunidadLectora.tsx
-│    ├─CuentaVerificada.tsx
-│    ├─Desplegable.tsx
-│    ├─EstadoCarga.tsx
-│    ├─Estrellas.tsx
-│    ├─FiltroDesplegable.tsx
-│    ├─FiltroPrecio.tsx
-│    ├─Footer.tsx
-│    ├─Icono.tsx
-│    ├─InicioSesionRegistro.tsx
-│    ├─MensajeError.tsx
-│    ├─MenuCatalogo.tsx
-│    ├─MenuComunidad.tsx
-│    ├─MenuDescubre.tsx
-│    ├─MenuUsuario.tsx
-│    ├─Newsletter.tsx
-│    ├─PaginaEnConstruccion.tsx
-│    ├─Portada.tsx
-│    ├─PreguntaLibrero.tsx
-│    ├─RutaNavegacion.tsx
-│    ├─RutaProtegida.tsx
-│    ├─TarjetaProducto.tsx
-│    ├─TarjetaRecomendacion.tsx
-│    ├─VolverArriba.tsx
-│    ├─useComprarLibro.ts
-│    ├─useDesplegable.ts
-│    ├─usePeticion.ts
-│    └─useTituloPagina.ts
-|
-│  └─ estado/
-│    ├─autenticacionStore.ts
-│    ├─carritoStore.ts
-│    └─sesionStore.ts
-|
-│  └─ estilos/
-│    ├─ barra-navegacion.css
-│    ├─base.css
-│    ├─carrito.css
-│    ├─catalogo.css
-│    ├─checkout.css
-│    ├─comunidad-lectora.css
-│    ├─confirmacion-compra.css
-│    ├─estados.css
-│    ├─ficha-libro.css
-│    ├─footer.css
-│    ├─index.css
-│    ├─menu-catalogo.css
-│    ├─menu-comunidad.css
-│    ├─menu-descubre.css
-│    ├─modal-autenticacion.css
-│    ├─newsletter.css
-│    ├─pagina-en-construccion.css
-│    ├─perfil-librero.css
-│    ├─pregunta-librero.css
-│    ├─ruta-navegacion.css
-│    ├─tarjeta-producto.css
-│    ├─tarjeta-recomendacion.css
-│    └─tokens.css
-│             
-│  └─ paginas/
-│    ├─biblioteca.tsx
-│    ├─catalogo.tsx
-│    ├─checkout.tsx
-│    ├─comunidad.tsx
-│    ├─confirmacion-compra.tsx
-│    ├─descubrir.tsx
-│    ├─ficha-libro.tsx
-│    ├─index.tsx
-│    ├─mi-cuenta.tsx
-│    ├─no-encontrada.tsx
-│    ├─perfil-librero.tsx
-│    └─recomendaciones.tsx
-|
-│  └─ servicios/
-│    ├─api.ts
-│    ├─authServicio.ts
-│    ├─carritoServicio.ts
-│    ├─catalogoServicio.ts
-│    └─checkoutServicio.ts
-|
-│  └─ tipos/
-│    ├─api.ts
-│    ├─auth.ts
-│    ├─carrito.ts
-│    ├─checkout.ts
-│    ├─libro.ts
-│    └─pedido.ts
-|
-│  └─ utils/
-│    ├─formato.ts
-│    ├─libros.ts
-│    ├─mensajesError.ts
-│    └─validacion.ts
-|
-├─ App.css
-├─ App.tsx
-├─ index.css
-├─ main.tsx
-└─vite-env.d.ts
-
+La aplicación está en la carpeta `react-app`:
 
 ```
+react-app/
+├─ .env.example          URL de la API (VITE_API_URL)
+└─ src/
+   ├─ App.tsx            Rutas, barra de navegación, carrito y modal de sesión
+   ├─ paginas/           Una vista por ruta
+   ├─ componentes/       Componentes y hooks reutilizables
+   ├─ servicios/         Cliente de la API (api.ts) y un servicio por tema
+   ├─ tipos/             DTO de la API y tipos de la aplicación
+   ├─ estado/            Stores de Zustand
+   ├─ datos/             Datos de prueba y datos fijos
+   ├─ utils/             Formatos, validaciones y mensajes de error
+   ├─ estilos/           CSS de cada vista y componente, y tokens del UI Kit
+   └─ assets/            Logos, íconos e imágenes del diseño
+```
+
+El detalle de cada carpeta está en [Arquitectura y decisiones técnicas](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Arquitectura-y-decisiones-tecnicas).
 
 
 ### Convenciones
 - Código y nombres en español.
 - Páginas en `paginas/` con nombres en minúsculas y guiones (ej. `ficha-libro.tsx`); componentes en `componentes/` con PascalCase (ej. `TarjetaProducto.tsx`); hooks con el prefijo `use` (ej. `usePeticion.ts`).
 - Cada vista y componente principal tiene su hoja de estilos en `estilos/` con el mismo nombre (ej. `catalogo.css`).
-- Los tokens del UI Kit (colores, tipografía, radios y sombras) están en `estilos/tokens.css` y los estilos transversales en `base.css`.
+- Los tokens del UI Kit (colores, tipografía, radios y sombras) están en `estilos/tokens.css` y deben coincidir con las variables de Figma.
 - Las páginas no llaman a la API directamente: lo hacen a través de los servicios de `servicios/`, y la URL de la API se configura solo en `.env`.
-- Los recursos gráficos están en `src/assets/` (`iconos/` y `logos/`).
 
 
 ## Cómo ejecutar el proyecto
@@ -180,13 +99,13 @@ Otros comandos, también desde `react-app`:
 | `pnpm preview` | Muestra en local la versión generada con `pnpm build` |
 | `pnpm lint` | Revisa el código con Oxlint |
 
-Si `VITE_API_URL` queda vacía (o no se crea el `.env`), la aplicación funciona completa con datos de prueba locales, lo que sirve para trabajar cuando la API no está disponible. Vite solo lee el `.env` al arrancar: si se cambia, hay que volver a ejecutar `pnpm run dev`.
+Si `VITE_API_URL` queda vacía (o no se crea el `.env`), la aplicación funciona completa con datos de prueba locales. Sirve para trabajar cuando la API no está disponible y para probar sin crear datos en la base compartida. Vite solo lee el `.env` al arrancar: si se cambia, hay que volver a ejecutar `pnpm run dev`.
 
 La documentación de la API (Swagger) está en la ruta `/docs` de la URL configurada en `VITE_API_URL`.
 
 
 ## Cómo probar
-Se puede comprar con una cuenta (ver abajo), con una cuenta nueva desde "Crear cuenta" o como invitado.
+Se puede comprar con una cuenta (ver abajo), con una cuenta nueva desde "Crear cuenta" o como invitado. Cada pedido descuenta stock real de la base de datos compartida por el equipo.
 
 Códigos de descuento de prueba de la API:
 
@@ -204,11 +123,12 @@ Códigos de descuento de prueba de la API:
      -Correo: cliente@leeconnos.cl
      -Contraseña: LeeConNos2026
 
-## Ingresar como librero - Para crear y editar libros, similar a permisos de administrador.
+## Ingresar como librero - Para ver "Mi perfil de librero"
   1. Ingresar a usuario (en el ícono de persona en el header de la web)
   2. Ingresa las siguientes credenciales:
      -Correo: librero@leeconnos.cl
      -Contraseña: LeeConNos2026
+  3. En el menú del usuario aparece "Mi perfil de librero", que solo se muestra a esta cuenta. Con la cuenta de cliente, esa ruta muestra "Acceso denegado".
 
 
 ### Navegadores probados
@@ -219,44 +139,36 @@ Códigos de descuento de prueba de la API:
 ## Navegación
 Desde el header se puede acceder a:
 └─> Inicio, al seleccionar el logo.
-└─> Catálogo, incluyendo opciones de géneros y temáticas.
+└─> Catálogo, con los géneros y temáticas de la API.
+└─> Descubre con nosotros, que lleva a los perfiles de los libreros.
 └─> Comunidad *(en construcción)*
-└─> Descubre con nosotros, que lleva a perfiles de libreros.
 └─> Búsqueda, que muestra resultados en el Catálogo.
-└─> Inicio de sesión o registro, desde el ícono de usuario; con sesión iniciada, también a Mi cuenta (requiere sesión; sin ella se abre el inicio de sesión).
+└─> Inicio de sesión o registro, desde el ícono de usuario; con sesión iniciada, también a Mi cuenta *(en construcción, requiere sesión)* y, para la cuenta librero, a Mi perfil de librero.
 └─> Carrito; desde ahí se puede continuar al checkout si hay productos.
 
 Para llegar a la pantalla de compra exitosa:
-- En Inicio o Catálogo, pulsa Comprar ahora en un libro; o agrégalo al carrito y desde el panel elige Pago seguro.
-- En el checkout, inicia sesión o elige comprar como invitado e ingresa nombre, apellido, correo y teléfono (para despacho, un celular como +56912345678).
-- Selecciona despacho e ingresa los datos de dirección, o elige retiro en tienda.
+- En Inicio, Catálogo o la ficha, pulsa Comprar ahora en un libro; o agrégalo al carrito y desde el panel elige Pago seguro.
+- En el checkout, inicia sesión o pulsa "compra como invitado" e ingresa tu correo.
+- Elige despacho a domicilio y completa "Información de envío" (nombre, apellido, dirección, región, comuna y un celular como +56912345678), o elige retiro en tienda.
 - Si quieres, aplica un código de descuento de prueba, por ejemplo `BIENVENIDA10`.
 - Selecciona un método de pago y acepta los términos y condiciones.
-- Pulsa Pagar ahora.
-- Si el pedido se procesa correctamente, la aplicación te lleva automáticamente a la confirmación. No basta con abrir directamente la ruta /confirmacion-compra: necesita los datos de un pedido recién realizado.
+- Pulsa Pagar ahora: aparece "¡Tu próxima lectura está cerca!" mientras se crea el pedido y luego la confirmación. No basta con abrir directamente la ruta /confirmacion-compra: necesita los datos de un pedido recién realizado.
 
-Para acceder a la pantalla de cuenta verificada:
+Para acceder a la pantalla "¡Ya casi estás dentro!":
 └─> Selecciona el ícono de usuario en el header.
 └─> Pulsa **Crear cuenta**, completa y envía el formulario.
 
-
-Además, desde la Confirmación de compra se puede ir al inicio para "volver a comprar" o ir a Comunidad.
-└─> Confirmación compra > Inicio
-└─> Confirmación compra > Comunidad
-
-
-## Documentación técnica
-Mientras no exista la wiki, está en [`react-app/README.md`](./react-app/README.md):
-- Estado de los requisitos del Hito 3.
-- Vistas, rutas y componentes.
-- Wireframes y formularios diseñados vs implementados.
-- Búsqueda y filtros, sesión y estado.
-- Endpoints disponibles vs integrados y DTO.
-- Decisiones técnicas, diferencias con el diseño y pendientes.
+Desde la Confirmación de compra, "Seguir comprando" lleva al Catálogo.
 
 
 ## Datos simulados
-La aplicación contiene datos de ejemplo para libros y perfiles de libreros en archivos TypeScript dentro de `src/datos`. Si `VITE_API_URL` está vacía, toda la aplicación funciona con esos datos; si está configurada, el catálogo, la sesión, el carrito y el checkout usan la API. Con la API, siguen siendo de ejemplo las reseñas de la ficha, los perfiles de libreros, los recomendados del Home y el newsletter. Algunas portadas de libros se cargan desde Open Library y otras son imágenes de relleno.
+La carpeta `src/datos` tiene datos de ejemplo para libros, libreros y reseñas. Se usan cuando `VITE_API_URL` está vacía; con la API configurada, los datos vienen de Backend.
+
+Con la API, algunas imágenes salen del diseño de Figma porque la API todavía no las entrega:
+- Las fotos de los libreros y de sus autores favoritos.
+- El video de la ficha, que es una imagen de ejemplo.
+
+Algunas portadas de libros se cargan desde Open Library; si no existen, se muestra una portada genérica.
 
 
 ## Licencia
