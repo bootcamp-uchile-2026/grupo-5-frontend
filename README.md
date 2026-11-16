@@ -147,16 +147,17 @@ Desde el header se puede acceder a:
 └─> Carrito; desde ahí se puede continuar al checkout si hay productos.
 
 Para llegar a la pantalla de compra exitosa:
-- En Inicio, Catálogo o la ficha, pulsa Comprar ahora en un libro; o agrégalo al carrito y desde el panel elige Pago seguro.
+- En Inicio, Catálogo o la ficha, pulsa Comprar ahora en un libro; o agrégalo al carrito y desde el panel elige Pagar ahora.
 - En el checkout, inicia sesión o pulsa "compra como invitado" e ingresa tu correo.
 - Elige despacho a domicilio y completa "Información de envío" (nombre, apellido, dirección, región, comuna y un celular como +56912345678), o elige retiro en tienda.
 - Si quieres, aplica un código de descuento de prueba, por ejemplo `BIENVENIDA10`.
 - Selecciona un método de pago y acepta los términos y condiciones.
 - Pulsa Pagar ahora: aparece "¡Tu próxima lectura está cerca!" mientras se crea el pedido y luego la confirmación. No basta con abrir directamente la ruta /confirmacion-compra: necesita los datos de un pedido recién realizado.
 
-Para acceder a la pantalla "¡Ya casi estás dentro!":
-└─> Selecciona el ícono de usuario en el header.
-└─> Pulsa **Crear cuenta**, completa y envía el formulario.
+Para ver la verificación del correo:
+└─> Selecciona el ícono de usuario en el header, pulsa **Regístrate aquí**, completa y envía el formulario: aparece "¡Ya casi estás dentro!".
+└─> El enlace del correo lleva a `/verificar-correo?token=<token>`, que muestra "¡Tu cuenta ya está lista!" o, si el enlace no es válido o venció, "No hemos podido verificar tu cuenta".
+└─> Con los datos de prueba (`VITE_API_URL` vacía) se pueden ver los dos resultados: `/verificar-correo?token=prueba` y `/verificar-correo?token=invalido`.
 
 Desde la Confirmación de compra, "Seguir comprando" lleva al Catálogo.
 

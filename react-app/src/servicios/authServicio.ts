@@ -10,7 +10,8 @@ import type { LoginRequest, LoginResponse, RegistroRequest } from "../tipos/chec
 import { ErrorApi, configurarRenovacion, solicitar, usarApi } from "./api";
 
 // Servicio de autenticación. Con API: POST /auth/login, POST /auth/registro,
-// GET /auth/me y POST /auth/refresh. Sin API (VITE_API_URL vacía):
+// GET /auth/me, POST /auth/refresh, POST /auth/verificar-email y
+// POST /auth/reenviar-verificacion. Sin API (VITE_API_URL vacía):
 // autenticación dummy.
 
 const pausa = () => new Promise((resolver) => setTimeout(resolver, 300));
@@ -55,6 +56,41 @@ export async function registrarse(solicitud: RegistroRequest): Promise<LoginResp
   return desdeAuthResponse(
     await solicitar<AuthResponseDto>("/auth/registro", { metodo: "POST", cuerpo }),
   );
+}
+
+// VERIFICACIÓN DEL CORREO
+// El correo que envía Backend al registrarse trae un enlace con un token.
+// La web lo recibe en /verificar-correo?token=<token> (paginas/verificar-correo.tsx).
+
+// POST /auth/verificar-email. Lanza un error si el enlace no es válido o venció.
+// Sin API, el token "invalido" simula un enlace vencido.
+export async function verificarCorreo(token: string): Promise<void> {
+  if (!usarApi) {
+    await pausa();
+    if (!token || token === "invalido") {
+      throw new ErrorApi({
+        statusCode: 400,
+        error: "ENLACE_INVALIDO",
+        message: "El enlace de verificación no es válido o ha expirado",
+      });
+    }
+    return;
+  }
+  await solicitar<unknown>("/auth/verificar-email", {
+    metodo: "POST",
+    cuerpo: { token },
+    conSesion: false,
+  });
+}
+
+// POST /auth/reenviar-verificacion. Requiere sesión: la API usa el correo de
+// la cuenta. Responde 409 si la cuenta ya está verificada.
+export async function reenviarVerificacion(): Promise<void> {
+  if (!usarApi) {
+    await pausa();
+    return;
+  }
+  await solicitar<unknown>("/auth/reenviar-verificacion", { metodo: "POST" });
 }
 
 // Token vencido: pide uno nuevo con el refreshToken (POST /auth/refresh) y

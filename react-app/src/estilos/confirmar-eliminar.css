@@ -1,0 +1,179 @@
+/* CONFIRMACIÓN PARA ELIMINAR UN PRODUCTO DEL CARRITO
+   Alta fidelidad (Figma, node 3416:25598): 576 px, degradado de blanco a
+   amarillo claro (brand-secondary-lighter), papelera roja de 108 px y
+   título Bree Serif 36. */
+.confirmar-eliminar-fondo {
+  position: fixed;
+  z-index: 2100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgb(20 20 20 / 40%);
+}
+
+.confirmar-eliminar {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  width: min(100%, 576px);
+  max-height: calc(100vh - 32px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 32px 72px;
+  border: var(--stroke-default) solid var(--color-neutral-0);
+  border-radius: var(--radius-3xl);
+  color: var(--color-neutral-950);
+  background: linear-gradient(to bottom, var(--color-neutral-0) 20%, var(--color-brand-secondary-lighter));
+  box-shadow: var(--shadow-3);
+  font-family: var(--fuente-body);
+  text-align: center;
+}
+
+.confirmar-eliminar-cerrar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.confirmar-eliminar-cerrar .icono {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: var(--radius-full);
+  color: var(--color-neutral-600);
+  background: rgb(241 241 241 / 40%);
+  font-size: 14px;
+}
+
+.confirmar-eliminar-icono {
+  width: 108px;
+  height: 108px;
+}
+
+.confirmar-eliminar-textos {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.confirmar-eliminar h2,
+.confirmar-eliminar p {
+  margin: 0;
+  background: transparent;
+}
+
+.confirmar-eliminar h2 {
+  color: var(--color-neutral-950);
+  font-family: var(--fuente-brand);
+  font-size: 36px;
+  font-weight: var(--peso-regular);
+  line-height: normal;
+}
+
+.confirmar-eliminar-textos p {
+  font-size: var(--tamano-fuente-body-md);
+  line-height: normal;
+}
+
+.confirmar-eliminar-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* Botones de 232 px: "Eliminar producto" oscuro y "Guardar en favoritos" con borde */
+.confirmar-eliminar-acciones {
+  display: flex;
+  width: min(100%, 232px);
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.confirmar-eliminar-principal,
+.confirmar-eliminar-secundario {
+  height: 48px;
+  padding: 12px;
+  border: var(--stroke-default) solid var(--color-neutral-900);
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-bold);
+  cursor: pointer;
+}
+
+.confirmar-eliminar-principal {
+  color: var(--color-neutral-0);
+  background: var(--color-neutral-900);
+}
+
+.confirmar-eliminar-principal:hover {
+  background: var(--color-neutral-950);
+}
+
+.confirmar-eliminar-secundario {
+  color: var(--color-neutral-900);
+  background: transparent;
+}
+
+.confirmar-eliminar-secundario:hover:not(:disabled) {
+  background: var(--color-neutral-0);
+}
+
+.confirmar-eliminar-secundario:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.confirmar-eliminar-cancelar {
+  align-self: center;
+  min-height: 40px;
+  margin-top: -8px;
+  padding: 0;
+  border: 0;
+  color: var(--color-neutral-900);
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--tamano-fuente-label-md);
+  font-weight: var(--peso-bold);
+  letter-spacing: -0.2px;
+  text-decoration: underline;
+  text-underline-position: from-font;
+  cursor: pointer;
+}
+
+.confirmar-eliminar-error {
+  color: var(--color-red-alert-600);
+  font-size: var(--tamano-fuente-body-sm);
+}
+
+@media (max-width: 560px) {
+  .confirmar-eliminar {
+    padding: 32px 20px;
+  }
+
+  .confirmar-eliminar-icono {
+    width: 80px;
+    height: 80px;
+  }
+
+  .confirmar-eliminar h2 {
+    font-size: var(--tamano-fuente-heading-md);
+  }
+}

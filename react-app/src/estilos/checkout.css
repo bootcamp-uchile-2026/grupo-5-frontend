@@ -319,7 +319,9 @@
   cursor: pointer;
 }
 
+/* "compra como invitado" va en blue-info-500, como en el diseño */
 .checkout-login-alternativas .checkout-enlace {
+  color: var(--color-blue-info-500);
   font-size: var(--tamano-fuente-body-sm);
 }
 
@@ -847,93 +849,6 @@
 .checkout-resumen > .checkout-error {
   margin-top: 8px;
   padding-left: 0;
-}
-
-/* MODAL ELIMINAR PRODUCTO */
-.checkout-modal-fondo {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.checkout-modal {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 400px;
-  padding: 36px 24px 24px;
-  border-radius: 20px;
-  background: var(--color-neutral-100);
-  text-align: center;
-}
-
-.checkout-modal-cerrar {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 36px;
-  height: 36px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--color-neutral-300);
-  cursor: pointer;
-}
-
-.checkout-modal-icono {
-  align-self: center;
-  color: var(--color-red-alert-700);
-  font-size: 44px;
-}
-
-.checkout-modal h2 {
-  margin: 16px 0 12px;
-  font-family: var(--fuente-brand);
-  font-size: 23px;
-  font-weight: 700;
-}
-
-.checkout-modal p {
-  margin: 0 0 20px;
-  font-size: 13px;
-}
-
-.checkout-modal-eliminar,
-.checkout-modal-favoritos {
-  align-self: center;
-  width: 150px;
-  padding: 8px 0;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.checkout-modal-eliminar {
-  border: var(--stroke-default) solid var(--color-neutral-700);
-  background: var(--color-neutral-700);
-  color: var(--color-neutral-0);
-}
-
-.checkout-modal-favoritos {
-  border: var(--stroke-default) solid var(--color-neutral-950);
-  background: var(--color-neutral-0);
-  color: var(--color-neutral-950);
-}
-
-.checkout-modal-cancelar {
-  align-self: center;
-  border: 0;
-  background: none;
-  font-size: 13px;
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 /* TABLET Y MÓVIL: una columna, el resumen debajo del formulario */
