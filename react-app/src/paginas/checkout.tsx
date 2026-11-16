@@ -5,6 +5,7 @@ import logoOnepay from "../assets/logos/onepay-transbank.png";
 import logoWebpay from "../assets/logos/webpay-transbank.svg";
 import logoMercadoPago from "../assets/logos/mercado-pago.png";
 import { CargandoCompra } from "../componentes/CargandoCompra";
+import { ConfirmarEliminar } from "../componentes/ConfirmarEliminar";
 import { Footer } from "../componentes/Footer";
 import { Icono } from "../componentes/Icono";
 import { Portada } from "../componentes/Portada";
@@ -15,7 +16,7 @@ import { REGIONES, comunasDe } from "../datos/regiones";
 import { resumenCarrito, useCarritoStore } from "../estado/carritoStore";
 import { useSesionStore } from "../estado/sesionStore";
 import { REGEX_EMAIL } from "../utils/validacion";
-import { quitarDelCarrito, vaciarCarrito } from "../servicios/carritoServicio";
+import { vaciarCarrito } from "../servicios/carritoServicio";
 import {
   cotizarEnvio,
   crearPedido,
@@ -805,55 +806,11 @@ function Checkout() {
         </div>
 
         {idPorEliminar !== null && (
-          <div
-            className="checkout-modal-fondo"
-            onClick={() => setIdPorEliminar(null)}
-            onKeyDown={(e) => e.key === "Escape" && setIdPorEliminar(null)}
-          >
-            <div
-              className="checkout-modal"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="titulo-eliminar"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                type="button"
-                className="checkout-modal-cerrar"
-                aria-label="Cerrar"
-                autoFocus
-                onClick={() => setIdPorEliminar(null)}
-              >
-                <Icono nombre="cerrar" />
-              </button>
-              <Icono nombre="papelera" className="checkout-modal-icono" />
-              <h2 id="titulo-eliminar">¿Quieres eliminar este producto?</h2>
-              <p>
-                Este producto se eliminará de tu carrito. Si todavía lo estás pensando, puedes
-                guardarlo en tus favoritos para después.
-              </p>
-              <button
-                type="button"
-                className="checkout-modal-eliminar"
-                onClick={() => {
-                  void quitarDelCarrito(idPorEliminar);
-                  setIdPorEliminar(null);
-                }}
-              >
-                Eliminar producto
-              </button>
-              <button type="button" className="checkout-modal-favoritos">
-                Guardar en favoritos
-              </button>
-              <button
-                type="button"
-                className="checkout-modal-cancelar"
-                onClick={() => setIdPorEliminar(null)}
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
+          <ConfirmarEliminar
+            idLibro={idPorEliminar}
+            titulo={items.find((item) => item.idLibro === idPorEliminar)?.titulo ?? ""}
+            onCerrar={() => setIdPorEliminar(null)}
+          />
         )}
       </main>
       <Footer />

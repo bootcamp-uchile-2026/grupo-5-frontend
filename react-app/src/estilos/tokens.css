@@ -58,6 +58,12 @@
   --color-red-alert-800: #771717;
   --color-red-alert-900: #5b1111;
 
+  /* Variables semánticas del UI Kit que usan los modales y el checkout
+     (blue-info y error/color-error-primary-light-bg) */
+  --color-blue-info-50: #e7f1fe;
+  --color-blue-info-500: #0d6ff0;
+  --color-error-primary-light-bg: #fff7f7;
+
   --color-yellow-warning-50: #fffce6;
   --color-yellow-warning-100: #fff6b0;
   --color-yellow-warning-200: #fff18a;

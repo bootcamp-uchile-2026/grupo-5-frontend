@@ -6,19 +6,17 @@ import { ModalInicioSesionRegistro } from "./componentes/InicioSesionRegistro";
 import { RutaProtegida } from "./componentes/RutaProtegida";
 import { VolverArriba } from "./componentes/VolverArriba";
 import { useAutenticacionStore } from "./estado/autenticacionStore";
-import Biblioteca from "./paginas/biblioteca";
 import Catalogo from "./paginas/catalogo";
 import Checkout from "./paginas/checkout";
 import Comunidad from "./paginas/comunidad";
 import ConfirmacionCompra from "./paginas/confirmacion-compra";
-import Descubrir from "./paginas/descubrir";
 import FichaLibro from "./paginas/ficha-libro";
 import Index from "./paginas/index";
 import MiCuenta from "./paginas/mi-cuenta";
 import MiPerfilLibrero from "./paginas/mi-perfil-librero";
 import NoEncontrada from "./paginas/no-encontrada";
 import PerfilLibrero from "./paginas/perfil-librero";
-import Recomendaciones from "./paginas/recomendaciones";
+import VerificarCorreo from "./paginas/verificar-correo";
 import { restaurarSesion } from "./servicios/authServicio";
 import { obtenerCarrito, vigilarSesionCarrito } from "./servicios/carritoServicio";
 import { obtenerFavoritos, vigilarSesionFavoritos } from "./servicios/favoritosServicio";
@@ -54,9 +52,6 @@ function App() {
         <Route path="/" element={<Index />} />
         <Route path="/catalogo" element={<Catalogo />} />
         <Route path="/comunidad" element={<Comunidad />} />
-        <Route path="/descubrir" element={<Descubrir />} />
-        <Route path="/recomendaciones" element={<Recomendaciones />} />
-        <Route path="/biblioteca" element={<Biblioteca />} />
         <Route
           path="/mi-cuenta"
           element={
@@ -76,6 +71,7 @@ function App() {
         <Route path="/perfil-librero" element={<PerfilLibrero />} />
         <Route path="/ficha-libro" element={<FichaLibro />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/verificar-correo" element={<VerificarCorreo />} />
         <Route
           path="/confirmacion-compra"
           element={<ConfirmacionCompra />}

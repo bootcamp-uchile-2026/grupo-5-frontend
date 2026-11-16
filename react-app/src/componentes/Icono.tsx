@@ -12,6 +12,8 @@ const iconos = {
   cerrar: "bi-x-lg",
   eliminar: "bi-x",
   papelera: "bi-trash",
+  menos: "bi-dash-lg",
+  mas: "bi-plus-lg",
   detallePedido: "bi-receipt",
   casaPuerta: "bi-house-door",
   confirmado: "bi-check-lg",
