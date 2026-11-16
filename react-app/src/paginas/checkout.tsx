@@ -1,11 +1,14 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../estilos/checkout.css";
 import logoOnepay from "../assets/logos/onepay-transbank.png";
 import logoWebpay from "../assets/logos/webpay-transbank.svg";
 import logoMercadoPago from "../assets/logos/mercado-pago.png";
+import { CargandoCompra } from "../componentes/CargandoCompra";
+import { Footer } from "../componentes/Footer";
 import { Icono } from "../componentes/Icono";
 import { Portada } from "../componentes/Portada";
+import { RutaNavegacion } from "../componentes/RutaNavegacion";
 import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
 import { REGIONES, comunasDe } from "../datos/regiones";
@@ -29,35 +32,77 @@ import type {
 import { formatearPrecio } from "../utils/formato";
 import { mensajeDeError } from "../utils/mensajesError";
 
+// Checkout en alta fidelidad (Figma, Versión 2). Tiene cinco variantes:
+// - Sin sesión: tarjeta de inicio de sesión (node 1651:17178).
+// - Sesión iniciada con dirección guardada (node 3059:46245) y con el
+//   formulario para agregar una nueva (node 3493:17045).
+// - Compra como invitado (node 3478:29140).
+// - Sesión iniciada sin dirección guardada (node 3639:38538).
+
 const METODOS_PAGO: { valor: MetodoPago; nombre: string; logo?: string }[] = [
   { valor: "onepay", nombre: "Onepay - Débito, crédito y prepago", logo: logoOnepay },
   { valor: "webpay", nombre: "Webpay - Débito, crédito y prepago", logo: logoWebpay },
-  { valor: "mercadopago", nombre: "Mercado pago - Débito, crédito y prepago", logo: logoMercadoPago },
+  { valor: "mercadopago", nombre: "Mercado pago", logo: logoMercadoPago },
   { valor: "transferencia", nombre: "Transferencia electrónica" },
 ];
+
+const RUTA = [{ texto: "Inicio", ruta: "/" }, { texto: "Carrito" }, { texto: "Check out" }];
 
 const REGEX_TELEFONO = /^\+?[0-9\s]{8,15}$/;
 // Celular chileno que exige la API para despachar (ej. +56912345678)
 const REGEX_CELULAR = /^(\+?56)?9\d{8}$/;
 
+// Tiempo mínimo (ms) de la pantalla "¡Tu próxima lectura está cerca!"
+const TIEMPO_MINIMO_ESPERA = 1500;
+
 type Errores = Record<string, string>;
+
+// Campo del formulario (Figma: form-label): etiqueta de 12px con asterisco
+// rojo si es obligatorio, campo de 48px y espacio para el error
+function Campo({
+  id,
+  etiqueta,
+  obligatorio = true,
+  error,
+  className,
+  children,
+}: {
+  id: string;
+  etiqueta: string;
+  obligatorio?: boolean;
+  error?: string;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={`checkout-campo${className ? ` ${className}` : ""}`}>
+      <label htmlFor={id}>
+        {etiqueta}
+        {obligatorio && <span className="checkout-obligatorio" aria-hidden="true"> *</span>}
+      </label>
+      {children}
+      {error && (
+        <span className="checkout-error" id={`${id}-error`}>
+          {error}
+        </span>
+      )}
+    </div>
+  );
+}
 
 function Checkout() {
   useTituloPagina("Checkout");
   const navegar = useNavigate();
   const items = useCarritoStore((e) => e.items);
-  const { usuario, invitado, iniciar, continuarComoInvitado, cerrar } =
-    useSesionStore();
+  const { usuario, invitado, iniciar, continuarComoInvitado } = useSesionStore();
 
   const [login, setLogin] = useState({ email: "", password: "" });
+  const [verPassword, setVerPassword] = useState(false);
   const [erroresLogin, setErroresLogin] = useState<Errores>({});
   const [cargandoLogin, setCargandoLogin] = useState(false);
-  const [datosInvitado, setDatosInvitado] = useState({
-    nombre: "",
-    apellido: "",
-    email: "",
-    telefono: "",
-  });
+  const [emailInvitado, setEmailInvitado] = useState("");
+  // Quien recibe el despacho (o quien retira, si compra como invitado)
+  const [contacto, setContacto] = useState({ nombre: "", apellido: "", telefono: "" });
 
   const [metodoEnvio, setMetodoEnvio] = useState<MetodoEnvio>("despacho");
   const [direccion, setDireccion] = useState({
@@ -66,7 +111,6 @@ function Checkout() {
     depto: "",
     region: "",
     comuna: "",
-    telefono: "",
   });
   const [metodoPago, setMetodoPago] = useState<MetodoPago>("onepay");
   const [terminos, setTerminos] = useState(false);
@@ -81,12 +125,16 @@ function Checkout() {
 
   const { subtotal, totalItems } = resumenCarrito(items);
   const montoDescuento = montoDelDescuento(descuento, subtotal);
-  const emailActual =
-    usuario?.email ?? (invitado ? datosInvitado.email : login.email);
-  const nombreInvitado = `${datosInvitado.nombre.trim()} ${datosInvitado.apellido.trim()}`.trim();
+  const esInvitado = invitado && !usuario;
+  const emailActual = usuario?.email ?? (invitado ? emailInvitado : login.email);
+  const nombreContacto = `${contacto.nombre.trim()} ${contacto.apellido.trim()}`.trim();
   const guardada = usuario?.direccionGuardada;
   const usandoGuardada = Boolean(guardada) && usarGuardada;
   const sesionLista = Boolean(usuario) || invitado;
+  // Con despacho a una dirección nueva se pide el formulario completo; el
+  // invitado que retira en tienda deja solo su nombre y teléfono
+  const pideDireccion = metodoEnvio === "despacho" && !usandoGuardada;
+  const pideDatosRetiro = metodoEnvio === "retiro" && esInvitado;
 
   // ENVÍO: se cotiza con el servicio (POST /envios/cotizar) al elegir
   // retiro, o región y comuna de despacho
@@ -122,6 +170,7 @@ function Checkout() {
     setCargandoLogin(true);
     try {
       iniciar(await iniciarSesion(login));
+      setErrores((e) => ({ ...e, sesion: "" }));
     } catch (err) {
       setErroresLogin({ general: (err as Error).message });
     } finally {
@@ -133,19 +182,6 @@ function Checkout() {
     setErroresLogin({});
     setErrores((e) => ({ ...e, sesion: "" }));
     continuarComoInvitado();
-  }
-
-  function cambiarALogin() {
-    setUsarGuardada(true);
-    setErrores((e) => ({
-      ...e,
-      nombreInvitado: "",
-      apellidoInvitado: "",
-      emailInvitado: "",
-      telefonoInvitado: "",
-      sesion: "",
-    }));
-    cerrar();
   }
 
   async function aplicarCodigo() {
@@ -165,12 +201,16 @@ function Checkout() {
     }
   }
 
-  function cambiarDireccion(campo: string, valor: string) {
+  function cambiarDireccion(campo: keyof typeof direccion, valor: string) {
     setDireccion((d) => ({
       ...d,
       [campo]: valor,
       ...(campo === "region" ? { comuna: "" } : {}),
     }));
+  }
+
+  function cambiarContacto(campo: keyof typeof contacto, valor: string) {
+    setContacto((c) => ({ ...c, [campo]: valor }));
   }
 
   async function pagar(e?: FormEvent<HTMLFormElement>) {
@@ -179,36 +219,37 @@ function Checkout() {
     if (!sesionLista) {
       nuevos.sesion = "Inicia sesión o continúa como invitado";
     }
-    if (invitado && !usuario) {
-      if (!datosInvitado.nombre.trim()) nuevos.nombreInvitado = "Campo obligatorio";
-      if (!datosInvitado.apellido.trim()) nuevos.apellidoInvitado = "Campo obligatorio";
-      if (!REGEX_EMAIL.test(datosInvitado.email)) nuevos.emailInvitado = "Correo inválido";
+    if (esInvitado && !REGEX_EMAIL.test(emailInvitado)) {
+      nuevos.emailInvitado = "Correo inválido";
+    }
+    if (pideDireccion || pideDatosRetiro) {
+      if (!contacto.nombre.trim()) nuevos.nombre = "Campo obligatorio";
+      if (!contacto.apellido.trim()) nuevos.apellido = "Campo obligatorio";
       // Para despachar, la API exige un celular chileno
-      if (metodoEnvio === "despacho") {
-        if (!REGEX_CELULAR.test(datosInvitado.telefono.replace(/\s/g, ""))) {
-          nuevos.telefonoInvitado = "Ingresa un celular válido, por ejemplo +56912345678";
+      if (pideDireccion) {
+        if (!REGEX_CELULAR.test(contacto.telefono.replace(/\s/g, ""))) {
+          nuevos.telefono = "Ingresa un celular válido, por ejemplo +56912345678";
         }
-      } else if (!REGEX_TELEFONO.test(datosInvitado.telefono)) {
-        nuevos.telefonoInvitado = "Ingresa un teléfono válido";
+      } else if (!REGEX_TELEFONO.test(contacto.telefono)) {
+        nuevos.telefono = "Ingresa un teléfono válido";
       }
     }
-    if (!items.length) nuevos.items = "Tu carrito está vacío";
-    if (metodoEnvio === "despacho" && !usandoGuardada) {
+    if (pideDireccion) {
       if (!direccion.direccion.trim()) nuevos.direccion = "Campo obligatorio";
       if (!direccion.numero.trim()) nuevos.numero = "Campo obligatorio";
       if (!direccion.depto.trim()) nuevos.depto = "Campo obligatorio";
       if (!direccion.region) nuevos.region = "Selecciona una región";
       if (!direccion.comuna) nuevos.comuna = "Selecciona una comuna";
-      if (usuario && !REGEX_CELULAR.test(direccion.telefono.replace(/\s/g, ""))) {
-        nuevos.telefono = "Ingresa un celular válido, por ejemplo +56912345678";
-      }
     }
+    if (!items.length) nuevos.items = "Tu carrito está vacío";
     if (metodoEnvio === "despacho" && errorEnvio) nuevos.comuna = errorEnvio;
     if (!terminos) nuevos.terminos = "Debes aceptar los términos";
     setErrores(nuevos);
     if (Object.keys(nuevos).length) return;
 
     setProcesando(true);
+    // La pantalla de espera parte desde arriba
+    window.scrollTo({ top: 0 });
     try {
       const itemsPedido = items.map((item) => ({ ...item }));
       const direccionEntrega =
@@ -223,26 +264,28 @@ function Checkout() {
               }
             : { ...direccion }
           : undefined;
-      const telefono =
-        invitado && !usuario
-          ? datosInvitado.telefono
-          : usandoGuardada
-            ? guardada?.telefono
-            : direccion.telefono;
+      const telefono = usandoGuardada ? guardada?.telefono : contacto.telefono || undefined;
       const nombreComprador = usuario
         ? `${usuario.nombre} ${usuario.apellido}`.trim()
-        : nombreInvitado;
-      const respuesta = await crearPedido({
-        email: emailActual,
-        nombre: nombreComprador,
-        nombreReceptor: nombreComprador,
-        telefono,
-        metodoEnvio,
-        ...(direccionEntrega ?? {}),
-        metodoPago,
-        codigoDescuento: descuento?.codigo,
-        items: items.map((i) => ({ idLibro: i.idLibro, cantidad: i.cantidad })),
-      });
+        : nombreContacto;
+      // Quien recibe el despacho es quien se escribió en el formulario
+      const nombreReceptor = pideDireccion ? nombreContacto : nombreComprador;
+      // La pantalla de espera se muestra al menos TIEMPO_MINIMO_ESPERA, para
+      // que no parpadee cuando la API responde muy rápido
+      const [respuesta] = await Promise.all([
+        crearPedido({
+          email: emailActual,
+          nombre: nombreComprador,
+          nombreReceptor,
+          telefono,
+          metodoEnvio,
+          ...(direccionEntrega ?? {}),
+          metodoPago,
+          codigoDescuento: descuento?.codigo,
+          items: items.map((i) => ({ idLibro: i.idLibro, cantidad: i.cantidad })),
+        }),
+        new Promise((resolver) => setTimeout(resolver, TIEMPO_MINIMO_ESPERA)),
+      ]);
       // Con la API, los montos son los que calculó Backend al crear el pedido
       const montos = respuesta.montos ?? {
         subtotal,
@@ -273,182 +316,224 @@ function Checkout() {
     }
   }
 
-  return (
-    <main className="checkout">
+  // Mientras se crea el pedido se muestra la pantalla de espera. Los datos
+  // del formulario siguen en este componente: si el pago falla, el
+  // formulario vuelve con todo lo escrito y el mensaje de error.
+  if (procesando) return <CargandoCompra />;
 
-      <div className="checkout-contenedor">
-        <form className="checkout-formulario" onSubmit={pagar} noValidate>
-          <nav className="checkout-breadcrumb" aria-label="Ruta de navegación">
-          <Link to="/">Inicio</Link>
-          <span aria-hidden="true">/</span>
-          <Link to="/catalogo">Carrito</Link>
-          <span aria-hidden="true">/</span>
-          <span aria-current="page">Check out</span>
-        </nav>
-          {/*INICIAR SESIÓN*/}
-          <section className={`checkout-tarjeta checkout-login-tarjeta${usuario ? " checkout-bienvenida" : ""}`}>
-            {!usuario && (
-              <>
-                <h2 className="checkout-titulo-invitado">
-                  {invitado ? (
-                    "Comprar como invitado"
-                  ) : (
-                    <>
-                      ¡Hola, <span>lector!</span>
-                    </>
-                  )}
-                </h2>
-                {!invitado && (
-                  <p className="checkout-subtitulo checkout-bienvenida-texto">
-                    Inicia sesión para descubrir buenas lecturas.
-                  </p>
-                )}
-              </>
-            )}
+  // Nombre, apellido y teléfono: van en el formulario de despacho y en
+  // "Datos de quien retira"
+  const camposContacto = {
+    nombre: (
+      <Campo id="checkout-nombre" etiqueta="Nombre" error={errores.nombre}>
+        <input
+          type="text"
+          id="checkout-nombre"
+          placeholder="Nombre"
+          autoComplete="given-name"
+          value={contacto.nombre}
+          onChange={(e) => cambiarContacto("nombre", e.target.value)}
+        />
+      </Campo>
+    ),
+    apellido: (
+      <Campo id="checkout-apellido" etiqueta="Primer apellido" error={errores.apellido}>
+        <input
+          type="text"
+          id="checkout-apellido"
+          placeholder="Primer apellido"
+          autoComplete="family-name"
+          value={contacto.apellido}
+          onChange={(e) => cambiarContacto("apellido", e.target.value)}
+        />
+      </Campo>
+    ),
+    telefono: (
+      <Campo id="checkout-telefono" etiqueta="Teléfono" error={errores.telefono}>
+        <input
+          type="tel"
+          id="checkout-telefono"
+          placeholder="+56912345678"
+          autoComplete="tel"
+          value={contacto.telefono}
+          onChange={(e) => cambiarContacto("telefono", e.target.value)}
+        />
+      </Campo>
+    ),
+  };
+
+  // Formulario de la dirección de despacho (Figma: Información de envío)
+  const formularioDireccion = (
+    <div className="checkout-formulario-direccion">
+      {camposContacto.nombre}
+      {camposContacto.apellido}
+      <div className="checkout-fila checkout-fila-direccion">
+        <Campo id="checkout-direccion" etiqueta="Dirección" error={errores.direccion}>
+          <input
+            type="text"
+            id="checkout-direccion"
+            placeholder="Dirección"
+            autoComplete="address-line1"
+            value={direccion.direccion}
+            onChange={(e) => cambiarDireccion("direccion", e.target.value)}
+          />
+        </Campo>
+        <Campo id="checkout-numero" etiqueta="Numeración" error={errores.numero}>
+          <input
+            type="text"
+            id="checkout-numero"
+            placeholder="Numeración"
+            value={direccion.numero}
+            onChange={(e) => cambiarDireccion("numero", e.target.value)}
+          />
+        </Campo>
+      </div>
+      <Campo id="checkout-depto" etiqueta="Depto, oficina, casa" error={errores.depto}>
+        <input
+          type="text"
+          id="checkout-depto"
+          placeholder="Depto, oficina, casa"
+          autoComplete="address-line2"
+          value={direccion.depto}
+          onChange={(e) => cambiarDireccion("depto", e.target.value)}
+        />
+      </Campo>
+      <Campo id="checkout-region" etiqueta="Región" error={errores.region}>
+        <select
+          id="checkout-region"
+          className={direccion.region ? undefined : "checkout-sin-valor"}
+          value={direccion.region}
+          onChange={(e) => cambiarDireccion("region", e.target.value)}
+        >
+          <option value="">Región</option>
+          {REGIONES.map((region) => (
+            <option key={region.codigo}>{region.nombre}</option>
+          ))}
+        </select>
+      </Campo>
+      <Campo id="checkout-comuna" etiqueta="Comuna" error={errores.comuna || errorEnvio}>
+        <select
+          id="checkout-comuna"
+          className={direccion.comuna ? undefined : "checkout-sin-valor"}
+          value={direccion.comuna}
+          disabled={!direccion.region}
+          onChange={(e) => cambiarDireccion("comuna", e.target.value)}
+        >
+          <option value="">Comuna</option>
+          {comunasDe(direccion.region).map((c) => (
+            <option key={c}>{c}</option>
+          ))}
+        </select>
+      </Campo>
+      {camposContacto.telefono}
+      <p className="checkout-nota-obligatorios">
+        Los campos marcados con (<span className="checkout-obligatorio">*</span>) son
+        obligatorios.
+      </p>
+    </div>
+  );
+
+  return (
+    <>
+      <main className="checkout">
+        <div className="checkout-contenedor">
+          <RutaNavegacion elementos={RUTA} className="checkout-ruta" />
+
+          <form className="checkout-formulario" onSubmit={pagar} noValidate>
+            {/*SESIÓN: bienvenida, inicio de sesión o compra como invitado*/}
             {usuario ? (
-              <p>
-                Ya puedes realizar tu compra, <strong>{usuario.nombre}</strong>{" "}
-                <button type="button" className="checkout-enlace" onClick={cambiarALogin}>
-                  Cerrar sesión
-                </button>
-              </p>
-            ) : invitado ? (
-              <>
-                <p className="checkout-subtitulo checkout-instruccion-invitado">
-                  Para comprar como <strong>invitado</strong> debes rellenar tus
-                  datos personales
+              <section className="checkout-bienvenida">
+                <p>
+                  Ya puedes realizar tu compra, <strong>{usuario.nombre}</strong>
                 </p>
-                {/* Nombre y apellido: la API los exige para el pedido de invitado */}
-                <div className="checkout-campo">
-                  <label htmlFor="checkout-nombre-invitado">Nombre*</label>
-                  <input
-                    type="text"
-                    id="checkout-nombre-invitado"
-                    autoComplete="given-name"
-                    value={datosInvitado.nombre}
-                    onChange={(e) =>
-                      setDatosInvitado({ ...datosInvitado, nombre: e.target.value })
-                    }
-                  />
-                  {errores.nombreInvitado && (
-                    <span className="checkout-error">{errores.nombreInvitado}</span>
-                  )}
+              </section>
+            ) : esInvitado ? (
+              <section className="checkout-tarjeta checkout-invitado" aria-labelledby="checkout-titulo-invitado">
+                <div className="checkout-encabezado-tarjeta">
+                  <h2 id="checkout-titulo-invitado">Comprar como invitado</h2>
+                  <p>
+                    Para comprar como <strong>invitado</strong> debes rellenar tus datos
+                    personales
+                  </p>
                 </div>
-                <div className="checkout-campo">
-                  <label htmlFor="checkout-apellido-invitado">Apellido*</label>
-                  <input
-                    type="text"
-                    id="checkout-apellido-invitado"
-                    autoComplete="family-name"
-                    value={datosInvitado.apellido}
-                    onChange={(e) =>
-                      setDatosInvitado({ ...datosInvitado, apellido: e.target.value })
-                    }
-                  />
-                  {errores.apellidoInvitado && (
-                    <span className="checkout-error">{errores.apellidoInvitado}</span>
-                  )}
-                </div>
-                <div className="checkout-campo">
-                  <label htmlFor="checkout-email-invitado">Dirección de correo*</label>
+                <Campo id="checkout-email-invitado" etiqueta="Correo electrónico" error={errores.emailInvitado}>
                   <input
                     type="email"
                     id="checkout-email-invitado"
+                    placeholder="ejemplo@gmail.com"
                     autoComplete="email"
-                    value={datosInvitado.email}
-                    onChange={(e) =>
-                      setDatosInvitado({ ...datosInvitado, email: e.target.value })
-                    }
+                    value={emailInvitado}
+                    onChange={(e) => setEmailInvitado(e.target.value)}
                   />
-                  {errores.emailInvitado && (
-                    <span className="checkout-error">{errores.emailInvitado}</span>
-                  )}
-                </div>
-                <div className="checkout-campo">
-                  <label htmlFor="checkout-telefono-invitado">Número de teléfono*</label>
-                  <input
-                    type="tel"
-                    id="checkout-telefono-invitado"
-                    autoComplete="tel"
-                    placeholder="+56912345678"
-                    value={datosInvitado.telefono}
-                    onChange={(e) =>
-                      setDatosInvitado({ ...datosInvitado, telefono: e.target.value })
-                    }
-                  />
-                  {errores.telefonoInvitado && (
-                    <span className="checkout-error">
-                      {errores.telefonoInvitado}
-                    </span>
-                  )}
-                </div>
-                <p className="checkout-login-ayuda">
-                  ¿Ya tienes cuenta?{" "}
-                  <button type="button" className="checkout-enlace" onClick={cambiarALogin}>
-                    INICIAR SESIÓN
-                  </button>
-                </p>
-              </>
+                </Campo>
+              </section>
             ) : (
-              <>
-                <div className="checkout-campo">
-                  <label htmlFor="checkout-email">Correo electrónico</label>
-                  <input
-                    type="email"
-                    id="checkout-email"
-                    placeholder="Correo electrónico"
-                    autoComplete="email"
-                    value={login.email}
-                    onChange={(e) => setLogin({ ...login, email: e.target.value })}
-                  />
-                  {erroresLogin.email && (
-                    <span className="checkout-error">{erroresLogin.email}</span>
-                  )}
+              <section className="checkout-login" aria-labelledby="checkout-titulo-login">
+                <div className="checkout-login-saludo">
+                  <h2 id="checkout-titulo-login">
+                    ¡Hola, <span>lector!</span>
+                  </h2>
+                  <p>Inicia sesión para descubrir buenas lecturas.</p>
                 </div>
-                <div className="checkout-campo">
-                  <label htmlFor="checkout-password">Contraseña</label>
-                  <input
-                    type="password"
-                    id="checkout-password"
-                    placeholder="Contraseña"
-                    autoComplete="current-password"
-                    value={login.password}
-                    onChange={(e) =>
-                      setLogin({ ...login, password: e.target.value })
-                    }
-                  />
-                  {erroresLogin.password && (
-                    <span className="checkout-error">
-                      {erroresLogin.password}
-                    </span>
-                  )}
+                <div className="checkout-login-campos">
+                  <div className="checkout-campo checkout-campo-redondo">
+                    <label htmlFor="checkout-email">Correo electrónico</label>
+                    <input
+                      type="email"
+                      id="checkout-email"
+                      placeholder="Correo electrónico"
+                      autoComplete="email"
+                      value={login.email}
+                      onChange={(e) => setLogin({ ...login, email: e.target.value })}
+                    />
+                    {erroresLogin.email && <span className="checkout-error">{erroresLogin.email}</span>}
+                  </div>
+                  <div className="checkout-campo checkout-campo-redondo">
+                    <label htmlFor="checkout-password">Contraseña</label>
+                    <div className="checkout-campo-con-boton">
+                      <input
+                        type={verPassword ? "text" : "password"}
+                        id="checkout-password"
+                        placeholder="Contraseña"
+                        autoComplete="current-password"
+                        value={login.password}
+                        onChange={(e) => setLogin({ ...login, password: e.target.value })}
+                      />
+                      <button
+                        type="button"
+                        aria-label={verPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                        aria-pressed={verPassword}
+                        onClick={() => setVerPassword((ver) => !ver)}
+                      >
+                        <Icono nombre={verPassword ? "ver" : "ocultar"} />
+                      </button>
+                    </div>
+                    {erroresLogin.password && (
+                      <span className="checkout-error">{erroresLogin.password}</span>
+                    )}
+                  </div>
+                  {erroresLogin.general && <span className="checkout-error">{erroresLogin.general}</span>}
+                  <p className="checkout-login-recuperar">
+                    <Link to="/mi-cuenta">¿Olvidaste tu contraseña?</Link>
+                  </p>
                 </div>
-                {erroresLogin.general && (
-                  <span className="checkout-error">{erroresLogin.general}</span>
-                )}
-                <p className="checkout-login-recuperar">
-                  <Link to="/mi-cuenta">¿Olvidaste tu contraseña?</Link>
-                </p>
-                <button
-                  type="button"
-                  className="checkout-boton-login"
-                  disabled={cargandoLogin}
-                  onClick={() => void manejarLogin()}
-                >
-                  {cargandoLogin ? "Ingresando..." : "Iniciar sesión"}
-                </button>
-                <p className="checkout-login-ayuda checkout-login-alternativas">
-                  ¿Aún no tienes cuenta?{" "}
-                  <Link to="/mi-cuenta">Regístrate aquí</Link>
-                  <span aria-hidden="true">o</span>
+                <div className="checkout-login-acciones">
                   <button
                     type="button"
-                    className="checkout-enlace"
-                    onClick={cambiarAInvitado}
+                    className="checkout-boton-principal"
+                    disabled={cargandoLogin}
+                    onClick={() => void manejarLogin()}
                   >
-                    compra como invitado
+                    {cargandoLogin ? "Ingresando..." : "Iniciar sesión"}
                   </button>
-                </p>
+                  <p className="checkout-login-alternativas">
+                    ¿Aún no tienes cuenta? <Link to="/mi-cuenta">Regístrate aquí</Link>
+                    <span aria-hidden="true">o</span>
+                    <button type="button" className="checkout-enlace" onClick={cambiarAInvitado}>
+                      compra como invitado
+                    </button>
+                  </p>
+                </div>
                 <div className="checkout-social-separador">
                   <span>O continúa con</span>
                 </div>
@@ -462,361 +547,317 @@ function Checkout() {
                     Continuar con Facebook
                   </button>
                 </div>
-              </>
+                {errores.sesion && <span className="checkout-error">{errores.sesion}</span>}
+              </section>
             )}
-            {errores.sesion && (
-              <span className="checkout-error">{errores.sesion}</span>
-            )}
-          </section>
 
-          {/*MÉTODO DE ENVÍO*/}
-          <section className="checkout-envio">
-            <h2 className="checkout-titulo-seccion">Método de envío</h2>
-            <div className="checkout-envio-opciones">
-              <label className="checkout-envio-opcion">
-                <input
-                  type="radio"
-                  name="metodo-envio"
-                  checked={metodoEnvio === "despacho"}
-                  onChange={() => setMetodoEnvio("despacho")}
-                />
-                <Icono nombre="envio" />
-                <span>Despacho a domicilio</span>
-              </label>
-              <label className="checkout-envio-opcion">
-                <input
-                  type="radio"
-                  name="metodo-envio"
-                  checked={metodoEnvio === "retiro"}
-                  onChange={() => setMetodoEnvio("retiro")}
-                />
-                <Icono nombre="tienda" />
-                <span>Retiro en tienda</span>
-              </label>
-            </div>
-          </section>
-
-          {/*INFORMACIÓN DE ENVÍO*/}
-          {metodoEnvio === "despacho" && usandoGuardada && guardada && usuario && (
-            <section className="checkout-tarjeta">
-              <h2>Información de envío</h2>
-              <p className="checkout-subtitulo">Dirección de entrega</p>
-              <label className="checkout-direccion-guardada">
-                <input type="radio" name="direccion-guardada" checked readOnly />
-                <span>
-                  <strong>{usuario.nombre} {usuario.apellido}</strong>
-                  <br />
-                  {guardada.direccion} {guardada.numero}, {guardada.comuna}, Chile, Tel: {guardada.telefono}
-                </span>
-              </label>
-              <button
-                type="button"
-                className="checkout-enlace checkout-nueva-direccion"
-                onClick={() => setUsarGuardada(false)}
-              >
-                Agrega una nueva dirección de envío
-              </button>
-            </section>
-          )}
-          {metodoEnvio === "despacho" && !usandoGuardada && (
-            <section className="checkout-tarjeta">
-              <h2>Información de envío</h2>
-              {guardada && (
-                <button
-                  type="button"
-                  className="checkout-enlace"
-                  onClick={() => setUsarGuardada(true)}
-                >
-                  Usar mi dirección guardada
-                </button>
-              )}
-              {(
-                [
-                  ["direccion", "Dirección*", "street-address"],
-                  ["numero", "Número*", "off"],
-                  ["depto", "Depto, oficina, casa*", "address-line2"],
-                ] as const
-              ).map(([campo, etiqueta, auto]) => (
-                <div className="checkout-campo" key={campo}>
-                  <label htmlFor={`checkout-${campo}`}>{etiqueta}</label>
+            {/*MÉTODO DE ENVÍO*/}
+            <section className="checkout-tarjeta" aria-labelledby="checkout-titulo-envio">
+              <h2 id="checkout-titulo-envio">Método de envío</h2>
+              <div className="checkout-envio-opciones">
+                <label className="checkout-envio-opcion">
                   <input
-                    type="text"
-                    id={`checkout-${campo}`}
-                    autoComplete={auto}
-                    value={direccion[campo]}
-                    onChange={(e) => cambiarDireccion(campo, e.target.value)}
+                    type="radio"
+                    name="metodo-envio"
+                    checked={metodoEnvio === "despacho"}
+                    onChange={() => setMetodoEnvio("despacho")}
                   />
-                  {errores[campo] && (
-                    <span className="checkout-error">{errores[campo]}</span>
-                  )}
-                </div>
-              ))}
-              <div className="checkout-campo">
-                <label htmlFor="checkout-region">Región*</label>
-                <select
-                  id="checkout-region"
-                  value={direccion.region}
-                  onChange={(e) => cambiarDireccion("region", e.target.value)}
-                >
-                  <option value="">Región</option>
-                  {REGIONES.map((region) => (
-                    <option key={region.codigo}>{region.nombre}</option>
-                  ))}
-                </select>
-                {errores.region && (
-                  <span className="checkout-error">{errores.region}</span>
-                )}
-              </div>
-              <div className="checkout-campo">
-                <label htmlFor="checkout-comuna">Comuna*</label>
-                <select
-                  id="checkout-comuna"
-                  value={direccion.comuna}
-                  disabled={!direccion.region}
-                  onChange={(e) => cambiarDireccion("comuna", e.target.value)}
-                >
-                  <option value="">Comuna</option>
-                  {comunasDe(direccion.region).map((c) => (
-                    <option key={c}>{c}</option>
-                  ))}
-                </select>
-                {(errores.comuna || errorEnvio) && (
-                  <span className="checkout-error">{errores.comuna || errorEnvio}</span>
-                )}
-              </div>
-              {/* Celular de contacto: la API lo exige para despachar (el
-                  invitado ya lo ingresa en sus datos personales) */}
-              {usuario && (
-                <div className="checkout-campo">
-                  <label htmlFor="checkout-telefono">Teléfono*</label>
+                  <Icono nombre="envio" />
+                  <span>Despacho a domicilio</span>
+                </label>
+                <label className="checkout-envio-opcion">
                   <input
-                    type="tel"
-                    id="checkout-telefono"
-                    autoComplete="tel"
-                    placeholder="+56912345678"
-                    value={direccion.telefono}
-                    onChange={(e) => cambiarDireccion("telefono", e.target.value)}
+                    type="radio"
+                    name="metodo-envio"
+                    checked={metodoEnvio === "retiro"}
+                    onChange={() => setMetodoEnvio("retiro")}
                   />
-                  {errores.telefono && (
-                    <span className="checkout-error">{errores.telefono}</span>
-                  )}
-                </div>
-              )}
+                  <Icono nombre="tienda" />
+                  <span>Retiro en tienda</span>
+                </label>
+              </div>
             </section>
-          )}
 
-          {/*MÉTODO DE PAGO*/}
-          <section className="checkout-tarjeta">
-            <h2 className="checkout-titulo-seccion">Método de pago</h2>
-            <p className="checkout-subtitulo">¿Cómo vas a efectuar el pago?</p>
-            <div className="checkout-pago-opciones">
-              {METODOS_PAGO.map((m) => (
-                <div className="checkout-pago-opcion" key={m.valor}>
-                  <label className="checkout-pago-fila">
+            {/*INFORMACIÓN DE ENVÍO: dirección guardada (con la opción de agregar una nueva) o formulario*/}
+            {metodoEnvio === "despacho" && guardada && usuario && (
+              <section className="checkout-tarjeta" aria-labelledby="checkout-titulo-direccion">
+                <div className="checkout-encabezado-tarjeta">
+                  <h2 id="checkout-titulo-direccion">Información de envío</h2>
+                  <p>Dirección de entrega</p>
+                </div>
+                <div className="checkout-direcciones">
+                  <label className="checkout-direccion-guardada">
                     <input
                       type="radio"
-                      name="metodo-pago"
-                      checked={metodoPago === m.valor}
-                      onChange={() => setMetodoPago(m.valor)}
+                      name="direccion-entrega"
+                      checked={usarGuardada}
+                      onChange={() => setUsarGuardada(true)}
                     />
-                    <span className="checkout-pago-nombre">{m.nombre}</span>
-                    {m.logo && (
-                      <span className="checkout-logo">
-                        <img src={m.logo} alt="" />
-                      </span>
-                    )}
+                    <span>
+                      <strong>
+                        {usuario.nombre} {usuario.apellido}
+                      </strong>
+                      {guardada.direccion} {guardada.numero}, {guardada.comuna}, Chile, Tel:{" "}
+                      {guardada.telefono}
+                    </span>
                   </label>
-                  {m.valor === "onepay" && (
-                    <div className="checkout-pago-detalle">
-                      <Link to="/mi-cuenta">Registra tu tarjeta aquí</Link>
+                  <button
+                    type="button"
+                    className="checkout-enlace checkout-nueva-direccion"
+                    aria-expanded={!usarGuardada}
+                    onClick={() => setUsarGuardada((usar) => !usar)}
+                  >
+                    Agrega una nueva dirección de envío
+                    <Icono nombre={usarGuardada ? "siguiente" : "abajo"} />
+                  </button>
+                </div>
+                {!usarGuardada && (
+                  <div className="checkout-tarjeta checkout-tarjeta-anidada">
+                    <h3>Información de envío</h3>
+                    {formularioDireccion}
+                  </div>
+                )}
+              </section>
+            )}
+            {pideDireccion && !guardada && (
+              <section className="checkout-tarjeta" aria-labelledby="checkout-titulo-direccion">
+                <h2 id="checkout-titulo-direccion">Información de envío</h2>
+                {formularioDireccion}
+              </section>
+            )}
+
+            {/*DATOS DE QUIEN RETIRA: el invitado que retira en tienda (sin diseño en Figma)*/}
+            {pideDatosRetiro && (
+              <section className="checkout-tarjeta" aria-labelledby="checkout-titulo-retiro">
+                <div className="checkout-encabezado-tarjeta">
+                  <h2 id="checkout-titulo-retiro">Datos de quien retira</h2>
+                  <p>Los pediremos al entregar tu compra en la tienda</p>
+                </div>
+                <div className="checkout-formulario-direccion">
+                  {camposContacto.nombre}
+                  {camposContacto.apellido}
+                  {camposContacto.telefono}
+                </div>
+              </section>
+            )}
+
+            {/*MÉTODO DE PAGO*/}
+            <section className="checkout-tarjeta" aria-labelledby="checkout-titulo-pago">
+              <div className="checkout-encabezado-tarjeta">
+                <h2 id="checkout-titulo-pago">Método de pago</h2>
+                <p>¿Cómo vas a efectuar el pago?</p>
+              </div>
+              <div className="checkout-pago-opciones">
+                {METODOS_PAGO.map((m) => (
+                  <div className="checkout-pago-opcion" key={m.valor}>
+                    <label className="checkout-pago-fila">
+                      <input
+                        type="radio"
+                        name="metodo-pago"
+                        checked={metodoPago === m.valor}
+                        onChange={() => setMetodoPago(m.valor)}
+                      />
+                      <span className="checkout-pago-nombre">{m.nombre}</span>
+                      {m.logo && <img className="checkout-logo" src={m.logo} alt="" />}
+                    </label>
+                    {m.valor === "onepay" && (
+                      <div className="checkout-pago-detalle">
+                        <Link to="/mi-cuenta">Registra tu tarjeta aquí</Link>
+                        <p>
+                          <Icono nombre="informacion" />
+                          Tus tarjetas se guardan de forma segura para que puedas reutilizar el
+                          método de pago
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          </form>
+
+          {/*RESUMEN DEL PEDIDO*/}
+          <aside className="checkout-resumen" aria-labelledby="checkout-titulo-resumen">
+            <div className="checkout-resumen-encabezado">
+              <h2 id="checkout-titulo-resumen">Resumen del pedido</h2>
+              <span>
+                {totalItems} {totalItems === 1 ? "elemento" : "elementos"}
+              </span>
+            </div>
+
+            {items.length === 0 && (
+              <p className="checkout-resumen-vacio">
+                Tu carrito está vacío. <Link to="/catalogo">Ir al catálogo</Link>
+              </p>
+            )}
+            {items.length > 0 && (
+              <ul className="checkout-resumen-items">
+                {items.map((item) => (
+                  <li className="checkout-resumen-item" key={item.idLibro}>
+                    <Portada className="checkout-resumen-foto" src={item.portada} alt="" />
+                    <div className="checkout-resumen-datos">
+                      <p className="checkout-resumen-titulo">{item.titulo}</p>
+                      {item.autor && <p className="checkout-resumen-autor">{item.autor}</p>}
                       <p>
-                        <Icono nombre="informacion" />
-                        Tus tarjetas se guardan de forma segura para que puedas
-                        reutilizar el método de pago
+                        {item.cantidad} {item.cantidad === 1 ? "unidad" : "unidades"}
                       </p>
                     </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        </form>
+                    <div className="checkout-resumen-precio">
+                      {montoDescuento > 0 && (
+                        <s>{formatearPrecio(item.precioUnitario * item.cantidad)}</s>
+                      )}
+                      <span className={montoDescuento > 0 ? "checkout-precio-oferta" : undefined}>
+                        {formatearPrecio(
+                          Math.round(
+                            item.precioUnitario *
+                              item.cantidad *
+                              (1 - montoDescuento / (subtotal || 1)),
+                          ),
+                        )}
+                      </span>
+                      <button
+                        type="button"
+                        className="checkout-resumen-eliminar"
+                        aria-label={`Eliminar ${item.titulo} del carrito`}
+                        onClick={() => setIdPorEliminar(item.idLibro)}
+                      >
+                        Eliminar
+                        <Icono nombre="papelera" />
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
 
-        {/*RESUMEN DEL PEDIDO*/}
-        <aside className="checkout-resumen" aria-label="Resumen del pedido">
-          <div className="checkout-resumen-tarjeta">
-          <div className="checkout-resumen-encabezado">
-            <h2>Resumen del pedido</h2>
-            <span className="checkout-resumen-cantidad">
-              {totalItems} {totalItems === 1 ? "elemento" : "elementos"}
-            </span>
-          </div>
-
-          {items.length === 0 && (
-            <p>
-              Tu carrito está vacío. <Link to="/catalogo">Ir al catálogo</Link>
-            </p>
-          )}
-          {items.map((item) => (
-            <div className="checkout-resumen-item" key={item.idLibro}>
-              {item.portada ? (
-                <Portada
-                  className="checkout-resumen-foto"
-                  src={item.portada}
-                  alt={item.titulo}
+            <div className="checkout-descuento">
+              <div className="checkout-descuento-campo">
+                <input
+                  type="text"
+                  placeholder="Código de descuento"
+                  aria-label="Código de descuento"
+                  value={codigo}
+                  onChange={(e) => setCodigo(e.target.value)}
                 />
-              ) : (
-                <div className="checkout-resumen-foto">Sin imagen</div>
-              )}
-              <div className="checkout-resumen-datos">
-                <p className="checkout-resumen-titulo">{item.titulo}</p>
-                {item.autor && <p>{item.autor}</p>}
-                <p>{item.cantidad} {item.cantidad === 1 ? "unidad" : "unidades"}</p>
+                <Icono nombre="cupon" />
               </div>
-              <span className={`checkout-resumen-precio${montoDescuento > 0 ? " checkout-precio-oferta" : ""}`}>
-                {montoDescuento > 0 && (
-                  <s className="checkout-precio-tachado">
-                    {formatearPrecio(item.precioUnitario * item.cantidad)}
-                  </s>
-                )}
-                {formatearPrecio(
-                  Math.round(
-                    item.precioUnitario * item.cantidad * (1 - montoDescuento / (subtotal || 1)),
-                  ),
-                )}
-                <button
-                  type="button"
-                  className="checkout-resumen-eliminar"
-                  aria-label={`Eliminar ${item.titulo} del carrito`}
-                  onClick={() => setIdPorEliminar(item.idLibro)}
-                >
-                  <Icono nombre="papelera" />
-                </button>
+              <button type="button" onClick={aplicarCodigo} disabled={!codigo.trim()}>
+                Aplicar
+              </button>
+            </div>
+            {errorCodigo && <span className="checkout-error">{errorCodigo}</span>}
+
+            <dl className="checkout-resumen-filas">
+              <div>
+                <dt>Subtotal</dt>
+                <dd>{formatearPrecio(subtotal)}</dd>
+              </div>
+              <div className={montoDescuento > 0 ? "checkout-resumen-descuento" : undefined}>
+                <dt>Descuento</dt>
+                <dd>-{formatearPrecio(montoDescuento)}</dd>
+              </div>
+              <div>
+                <dt>
+                  Envío
+                  {datosEnvio &&
+                    ` (llega en ${datosEnvio.diasEstimados} ${datosEnvio.diasEstimados === 1 ? "día" : "días"})`}
+                </dt>
+                <dd>{textoEnvio}</dd>
+              </div>
+            </dl>
+
+            <div className="checkout-total">
+              <span>Total</span>
+              <span className="checkout-total-monto">{formatearPrecio(total)}</span>
+            </div>
+
+            <label className="checkout-terminos">
+              <input
+                type="checkbox"
+                checked={terminos}
+                onChange={(e) => setTerminos(e.target.checked)}
+              />
+              <span>He leído y acepto los términos y condiciones.</span>
+            </label>
+            {errores.terminos && <span className="checkout-error">{errores.terminos}</span>}
+            {errores.items && <span className="checkout-error">{errores.items}</span>}
+            {errores.general && (
+              // Si el pago falla, el formulario vuelve desde la pantalla de
+              // espera: se lleva la vista al mensaje para que se vea
+              <span
+                className="checkout-error"
+                role="alert"
+                ref={(mensaje) => mensaje?.scrollIntoView({ block: "center" })}
+              >
+                {errores.general}
               </span>
-            </div>
-          ))}
-
-          <div className="checkout-descuento">
-            <input
-              type="text"
-              placeholder="Código de descuento"
-              aria-label="Código de descuento"
-              value={codigo}
-              onChange={(e) => setCodigo(e.target.value)}
-            />
-            <button type="button" onClick={aplicarCodigo} disabled={!codigo.trim()}>
-              Aplicar
-            </button>
-          </div>
-          {errorCodigo && <span className="checkout-error">{errorCodigo}</span>}
-
-          <hr className="checkout-separador" />
-
-          <div className="checkout-resumen-filas">
-            <div className="checkout-resumen-fila">
-              <span>Subtotal</span>
-              <span>{formatearPrecio(subtotal)}</span>
-            </div>
-            <div className="checkout-resumen-fila">
-              <span>Descuento</span>
-              <span>-{formatearPrecio(montoDescuento)}</span>
-            </div>
-            <div className="checkout-resumen-fila">
-              <span>
-                Envío
-                {datosEnvio &&
-                  ` (llega en ${datosEnvio.diasEstimados} ${datosEnvio.diasEstimados === 1 ? "día" : "días"})`}
-              </span>
-              <span>{textoEnvio}</span>
-            </div>
-          </div>
-
-          <hr className="checkout-separador" />
-
-          <div className="checkout-total">
-            <span>Total</span>
-            <span className="checkout-total-monto">{formatearPrecio(total)}</span>
-          </div>
-
-          <label className="checkout-terminos">
-            <input
-              type="checkbox"
-              checked={terminos}
-              onChange={(e) => setTerminos(e.target.checked)}
-            />
-            <span>He leído y acepto los términos y condiciones</span>
-          </label>
-          {errores.terminos && (
-            <span className="checkout-error">{errores.terminos}</span>
-          )}
-          {errores.items && <span className="checkout-error">{errores.items}</span>}
-          {errores.general && (
-            <span className="checkout-error">{errores.general}</span>
-          )}
-          <button
-            className="checkout-pagar"
-            type="button"
-            disabled={procesando}
-            onClick={() => void pagar()}
-          >
-            {procesando ? "Procesando..." : "Pagar ahora"}
-          </button>
-          </div>
-        </aside>
-      </div>
-
-      {idPorEliminar !== null && (
-        <div
-          className="checkout-modal-fondo"
-          onClick={() => setIdPorEliminar(null)}
-          onKeyDown={(e) => e.key === "Escape" && setIdPorEliminar(null)}
-        >
-          <div
-            className="checkout-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="titulo-eliminar"
-            onClick={(e) => e.stopPropagation()}
-          >
+            )}
+            {/* En el diseño, el botón queda gris hasta aceptar los términos */}
             <button
+              className="checkout-boton-principal checkout-pagar"
               type="button"
-              className="checkout-modal-cerrar"
-              aria-label="Cerrar"
-              autoFocus
-              onClick={() => setIdPorEliminar(null)}
+              disabled={procesando || !terminos}
+              onClick={() => void pagar()}
             >
-              <Icono nombre="cerrar" />
+              {procesando ? "Procesando..." : "Pagar ahora"}
             </button>
-            <Icono nombre="papelera" className="checkout-modal-icono" />
-            <h2 id="titulo-eliminar">¿Quieres eliminar este producto?</h2>
-            <p>
-              Este producto se eliminará de tu carrito. Si todavía lo estás
-              pensando, puedes guardarlo en tus favoritos para después.
-            </p>
-            <button
-              type="button"
-              className="checkout-modal-eliminar"
-              onClick={() => {
-                void quitarDelCarrito(idPorEliminar);
-                setIdPorEliminar(null);
-              }}
-            >
-              Eliminar producto
-            </button>
-            <button type="button" className="checkout-modal-favoritos">
-              Guardar en favoritos
-            </button>
-            <button
-              type="button"
-              className="checkout-modal-cancelar"
-              onClick={() => setIdPorEliminar(null)}
-            >
-              Cancelar
-            </button>
-          </div>
+          </aside>
         </div>
-      )}
-    </main>
+
+        {idPorEliminar !== null && (
+          <div
+            className="checkout-modal-fondo"
+            onClick={() => setIdPorEliminar(null)}
+            onKeyDown={(e) => e.key === "Escape" && setIdPorEliminar(null)}
+          >
+            <div
+              className="checkout-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="titulo-eliminar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="checkout-modal-cerrar"
+                aria-label="Cerrar"
+                autoFocus
+                onClick={() => setIdPorEliminar(null)}
+              >
+                <Icono nombre="cerrar" />
+              </button>
+              <Icono nombre="papelera" className="checkout-modal-icono" />
+              <h2 id="titulo-eliminar">¿Quieres eliminar este producto?</h2>
+              <p>
+                Este producto se eliminará de tu carrito. Si todavía lo estás pensando, puedes
+                guardarlo en tus favoritos para después.
+              </p>
+              <button
+                type="button"
+                className="checkout-modal-eliminar"
+                onClick={() => {
+                  void quitarDelCarrito(idPorEliminar);
+                  setIdPorEliminar(null);
+                }}
+              >
+                Eliminar producto
+              </button>
+              <button type="button" className="checkout-modal-favoritos">
+                Guardar en favoritos
+              </button>
+              <button
+                type="button"
+                className="checkout-modal-cancelar"
+                onClick={() => setIdPorEliminar(null)}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        )}
+      </main>
+      <Footer />
+    </>
   );
 }
 

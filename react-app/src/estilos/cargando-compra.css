@@ -1,0 +1,94 @@
+/* PANTALLA DE ESPERA DE LA COMPRA
+   Alta fidelidad (Figma: loading-book, node 3495:18208): título Bree Serif
+   heading-sm a 206px del header y anillo de carga de 200px, 66px más abajo. */
+.cargando-compra {
+  display: flex;
+  min-height: calc(100vh - 112px);
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  gap: 66px;
+  padding: 206px 24px 120px;
+  background: var(--color-neutral-0);
+  text-align: center;
+}
+
+.cargando-compra h1 {
+  margin: 0;
+  color: var(--color-neutral-950);
+  background: transparent;
+  font-family: var(--fuente-brand);
+  font-size: var(--tamano-fuente-heading-sm);
+  font-weight: var(--peso-regular);
+  line-height: var(--interlineado-heading-sm);
+  letter-spacing: var(--espaciado-heading-sm);
+}
+
+/* Anillo de 200px y 16,67px de grosor: degradado angular de transparente a
+   violeta, con el extremo redondeado, girando */
+.cargando-compra-anillo {
+  --grosor-anillo: 16.67px;
+  position: relative;
+  flex: 0 0 auto;
+  width: 200px;
+  height: 200px;
+  animation: cargando-compra-giro 1.2s linear infinite;
+}
+
+.cargando-compra-anillo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-full);
+  background: conic-gradient(from 90deg, transparent, var(--color-brand-primary-basic));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--grosor-anillo)), #000 calc(100% - var(--grosor-anillo) + 0.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--grosor-anillo)), #000 calc(100% - var(--grosor-anillo) + 0.5px));
+}
+
+/* Extremo redondeado del anillo, a la derecha */
+.cargando-compra-anillo::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - var(--grosor-anillo));
+  right: 0;
+  width: var(--grosor-anillo);
+  height: var(--grosor-anillo);
+  border-radius: var(--radius-full);
+  background: var(--color-brand-primary-basic);
+}
+
+.cargando-compra-texto-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@keyframes cargando-compra-giro {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Con movimiento reducido el anillo gira más lento */
+@media (prefers-reduced-motion: reduce) {
+  .cargando-compra-anillo {
+    animation-duration: 4s;
+  }
+}
+
+@media (max-width: 560px) {
+  .cargando-compra {
+    gap: 48px;
+    padding-top: 120px;
+  }
+
+  .cargando-compra-anillo {
+    --grosor-anillo: 12px;
+    width: 144px;
+    height: 144px;
+  }
+}
