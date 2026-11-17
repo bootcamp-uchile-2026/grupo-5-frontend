@@ -419,6 +419,174 @@
   font-weight: var(--peso-semibold);
 }
 
+/* ¿CÓMO QUIERES CONTINUAR? (video de UX): título y dos desplegables */
+.checkout-continuar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.checkout-continuar-encabezado {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checkout-continuar-encabezado h2 {
+  font-size: var(--tamano-fuente-heading-sm);
+  font-weight: var(--peso-bold);
+  line-height: var(--interlineado-heading-sm);
+  letter-spacing: var(--espaciado-heading-sm);
+}
+
+.checkout-continuar-encabezado p {
+  margin: 0;
+  font-size: var(--tamano-fuente-body-sm);
+  font-weight: var(--peso-light);
+}
+
+/* Desplegable: blanco con borde neutral-500; abierto, borde violeta y el
+   título separado del contenido por una línea */
+.checkout-acordeon {
+  overflow: hidden;
+  border: var(--stroke-default) solid var(--color-neutral-500);
+  border-radius: var(--radius-2xl);
+  background: var(--color-neutral-0);
+  box-shadow: var(--shadow-1);
+}
+
+.checkout-acordeon:has(> .desplegable-encabezado [aria-expanded="true"]) {
+  border-color: var(--color-brand-primary-basic);
+}
+
+.checkout .checkout-acordeon .desplegable-encabezado {
+  font-size: inherit;
+}
+
+.checkout-acordeon .desplegable-boton {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 24px;
+  border: 0;
+  color: var(--color-neutral-950);
+  background: transparent;
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-regular);
+  line-height: 24px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.checkout-acordeon .desplegable-boton[aria-expanded="true"] {
+  border-bottom: var(--stroke-default) solid var(--color-brand-primary-basic);
+}
+
+.checkout-acordeon .desplegable-boton:focus-visible {
+  outline: var(--stroke-focus) solid var(--color-violet-400);
+  outline-offset: -4px;
+}
+
+.checkout-acordeon .desplegable-boton strong {
+  font-weight: var(--peso-bold);
+}
+
+.checkout-acordeon .desplegable-boton .icono {
+  flex: 0 0 auto;
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+
+/* Abierto, la flecha apunta hacia arriba */
+.checkout-acordeon .desplegable-boton[aria-expanded="true"] .icono {
+  transform: rotate(180deg);
+}
+
+/* Dentro del desplegable, el inicio de sesión no lleva tarjeta propia */
+.checkout-acordeon .checkout-login {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.checkout-login-saludo h3 {
+  font-size: var(--tamano-fuente-heading-sm);
+  font-weight: var(--peso-bold);
+  line-height: var(--interlineado-heading-sm);
+  letter-spacing: var(--espaciado-heading-sm);
+}
+
+.checkout-login-saludo h3 span {
+  color: var(--color-brand-primary);
+}
+
+/* COMPRAR COMO INVITADO: correo y botón "Enviar" turquesa en una fila */
+.checkout-invitado {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 32px 32px;
+}
+
+.checkout-invitado .checkout-login-saludo {
+  gap: 4px;
+}
+
+.checkout-invitado .checkout-login-saludo strong {
+  font-weight: var(--peso-bold);
+}
+
+.checkout-invitado-correo {
+  display: flex;
+  gap: 8px;
+}
+
+.checkout-boton-enviar {
+  flex: 0 0 auto;
+  height: 48px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-lg);
+  color: var(--color-neutral-0);
+  background: var(--color-brand-tertiary-dark);
+  font-family: inherit;
+  font-size: var(--tamano-fuente-body-sm);
+  font-weight: var(--peso-bold);
+  cursor: pointer;
+}
+
+.checkout-boton-enviar:hover {
+  background: var(--color-turquoise-800);
+}
+
+.checkout-boton-enviar:focus-visible {
+  outline: var(--stroke-focus) solid var(--color-violet-400);
+  outline-offset: 2px;
+}
+
+/* Dos campos del mismo ancho en una fila (apellidos, ciudad y código postal) */
+.checkout-fila-mitades {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+/* RETIRO EN TIENDA: la única tienda, ya elegida */
+.checkout-tienda {
+  cursor: default;
+}
+
+.checkout-tienda > .icono {
+  flex: 0 0 auto;
+  margin-right: 8px;
+  font-size: 22px;
+}
+
 /* MÉTODO DE ENVÍO: dos botones de 75px */
 .checkout-envio-opciones {
   display: grid;
@@ -889,6 +1057,20 @@
 
   .checkout-bienvenida p {
     font-size: var(--tamano-fuente-body-md);
+    overflow-wrap: anywhere;
+  }
+
+  .checkout-acordeon .desplegable-boton {
+    padding: 12px 16px;
+  }
+
+  .checkout-invitado {
+    padding: 20px;
+  }
+
+  .checkout-fila-mitades {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
   }
 
   .checkout-envio-opciones {
