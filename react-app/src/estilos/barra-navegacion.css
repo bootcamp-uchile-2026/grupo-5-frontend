@@ -213,9 +213,32 @@
 }
 
 .barra-navegacion .header-icono-carrito {
+  position: relative;
   width: 48px;
   height: 48px;
   color: var(--color-neutral-900);
+}
+
+/* Cantidad de libros: insignia pequeña sobre la esquina del carro */
+.barra-navegacion .header-carrito-contador {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border: var(--stroke-focus) solid var(--color-neutral-0);
+  border-radius: var(--radius-full);
+  color: var(--color-neutral-0);
+  background-color: var(--color-brand-primary);
+  font-size: var(--tamano-fuente-label-sm);
+  font-weight: var(--peso-bold);
+  line-height: 1;
+  pointer-events: none;
 }
 
 .barra-navegacion .header-icono:hover {
