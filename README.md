@@ -16,9 +16,9 @@ La aplicación está desarrollada con React, TypeScript y Vite. Sigue el diseño
 - Perfiles de libreros y recomendados del Home.
 - Carrito, favoritos y newsletter.
 - Inicio de sesión con renovación automática, registro y acceso según perfil.
-- Código de descuento, cotización de envío y compra con cuenta o como invitado.
+- Código de descuento, cotización de envío y compra con cuenta o como invitado, con despacho o retiro en tienda.
 
-**Pendiente para la Entrega Final:** el pago con tarjeta, la sesión con cookies HttpOnly (depende de Backend), "Dejar una reseña", "Mi cuenta" y las secciones de Comunidad. El detalle está en la [wiki](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Funcionalidades-y-pendientes).
+**Pendiente para la Entrega Final:** la sesión con cookies HttpOnly (depende de Backend), "Dejar una reseña", "Mi cuenta" y las secciones de Comunidad. Conectar Webpay o Mercado Pago en su ambiente de pruebas queda como posible desarrollo, sin compromiso. El detalle está en la [wiki](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Funcionalidades-y-pendientes).
 
 
 ## Documentación
