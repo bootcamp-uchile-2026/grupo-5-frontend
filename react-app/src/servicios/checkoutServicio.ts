@@ -1,10 +1,11 @@
-import { codigoDeRegion } from "../datos/regiones";
+import { codigoDeRegion, nombreDeRegion } from "../datos/regiones";
 import { useSesionStore } from "../estado/sesionStore";
 import type {
   CheckoutRequest,
   CheckoutResponse,
   CotizacionEnvio,
   DescuentoResponse,
+  DireccionGuardada,
   MetodoEnvio,
 } from "../tipos/checkout";
 import type {
@@ -14,6 +15,7 @@ import type {
   CrearPedidoRequestDto,
   CuponAplicadoDto,
   DireccionDto,
+  DireccionGuardadaDto,
   MetodoEnvioApi,
   PedidoInvitadoResponseDto,
   PedidoResponseDto,
@@ -99,10 +101,33 @@ export async function cotizarEnvio(datos: {
   return { costo, diasEstimados, gratis };
 }
 
-// Dirección de despacho en el formato de la API (solo si es despacho)
+// Direcciones guardadas de la cuenta. Con API: GET /direcciones (la
+// predeterminada primero). Sin API: la dirección dummy de la sesión.
+export async function obtenerDirecciones(): Promise<DireccionGuardada[]> {
+  const usuario = useSesionStore.getState().usuario;
+  if (!usuario) return [];
+  if (!usarApi) return usuario.direccionGuardada ? [usuario.direccionGuardada] : [];
+  const direcciones = await solicitar<DireccionGuardadaDto[]>("/direcciones");
+  return direcciones.map((d) => ({
+    id: d.id,
+    nombreReceptor: d.nombreReceptor,
+    direccion: d.calle,
+    numero: "",
+    depto: "",
+    region: nombreDeRegion(d.region),
+    comuna: d.comuna,
+    telefono: d.telefono,
+  }));
+}
+
+// Texto opcional: sin espacios sobrantes, o undefined si quedó vacío
+const opcional = (texto?: string) => texto?.trim() || undefined;
+
+// Dirección de despacho en el formato de la API (solo si es despacho y no se
+// usa una dirección guardada)
 function direccionApi(solicitud: CheckoutRequest): DireccionDto | undefined {
   const region = solicitud.region ? codigoDeRegion(solicitud.region) : undefined;
-  if (solicitud.metodoEnvio !== "despacho" || !region) return undefined;
+  if (solicitud.metodoEnvio !== "despacho" || solicitud.direccionId || !region) return undefined;
   return {
     nombreReceptor: solicitud.nombreReceptor ?? "",
     calle: [`${solicitud.direccion ?? ""} ${solicitud.numero ?? ""}`.trim(), solicitud.depto?.trim()]
@@ -111,6 +136,9 @@ function direccionApi(solicitud: CheckoutRequest): DireccionDto | undefined {
     comuna: solicitud.comuna ?? "",
     region,
     telefono: (solicitud.telefono ?? "").replace(/\s/g, ""),
+    rut: opcional(solicitud.rut),
+    ciudad: opcional(solicitud.ciudad),
+    codigoPostal: opcional(solicitud.codigoPostal),
   };
 }
 
@@ -140,7 +168,15 @@ export async function crearPedido(solicitud: CheckoutRequest): Promise<CheckoutR
     codigoDescuento: solicitud.codigoDescuento,
   };
   if (useSesionStore.getState().usuario?.token) {
-    return desdePedido(await solicitar<PedidoResponseDto>("/pedidos", { metodo: "POST", cuerpo }));
+    const despacho = solicitud.metodoEnvio === "despacho";
+    const cuerpoCuenta: CrearPedidoRequestDto = {
+      ...cuerpo,
+      direccionId: despacho ? solicitud.direccionId : undefined,
+      guardarDireccion: despacho && cuerpo.direccion && solicitud.guardarDireccion ? true : undefined,
+    };
+    return desdePedido(
+      await solicitar<PedidoResponseDto>("/pedidos", { metodo: "POST", cuerpo: cuerpoCuenta }),
+    );
   }
   const cuerpoInvitado: CrearPedidoInvitadoRequestDto = {
     ...cuerpo,

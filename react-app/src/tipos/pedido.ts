@@ -46,17 +46,38 @@ export type DireccionDto = {
   region: Region;
   // Celular chileno, por ejemplo +56912345678
   telefono: string;
+  // Opcionales: RUT con o sin puntos (la API revisa el dígito verificador),
+  // ciudad y código postal de 7 dígitos
+  rut?: string;
+  ciudad?: string;
+  codigoPostal?: string;
 };
 
-// Request de POST /pedidos (el pedido se arma con el carrito de la cuenta)
+// Response de GET /direcciones (la predeterminada primero)
+export type DireccionGuardadaDto = DireccionDto & {
+  id: string;
+  alias: string;
+  predeterminada: boolean;
+  creadoEn: string;
+};
+
+// Request de POST /pedidos (el pedido se arma con el carrito de la cuenta).
+// Con una dirección guardada se envía direccionId en vez de direccion;
+// guardarDireccion guarda la dirección enviada ("Guardar mis datos").
 export type CrearPedidoRequestDto = {
   metodoEnvio: MetodoEnvioApi;
   direccion?: DireccionDto;
   codigoDescuento?: string;
+  direccionId?: string;
+  guardarDireccion?: boolean;
 };
 
 // Request de POST /pedidos/invitado (sin cuenta: los libros van en el body)
-export type CrearPedidoInvitadoRequestDto = CrearPedidoRequestDto & {
+// (direccionId y guardarDireccion necesitan una cuenta)
+export type CrearPedidoInvitadoRequestDto = Omit<
+  CrearPedidoRequestDto,
+  "direccionId" | "guardarDireccion"
+> & {
   email: string;
   nombre: string;
   items: { libroId: string; cantidad: number }[];

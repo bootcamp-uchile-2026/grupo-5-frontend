@@ -52,8 +52,9 @@ export type BuscarLibrosRequest = {
   q?: string;
   genero?: string;
   autores?: string[];
-  editorial?: string;
-  subgenero?: string;
+  // Una o varias (desde la API v0.4.0): ?editoriales=A&editoriales=B
+  editoriales?: string[];
+  subgeneros?: string[];
   enOferta?: boolean;
   formato?: FormatoLibro;
   estado?: EstadoLibro;

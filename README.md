@@ -13,10 +13,10 @@ La aplicación está desarrollada con React, TypeScript y Vite. Sigue el diseño
 **Con datos reales de la API:**
 - Catálogo, búsqueda y filtros.
 - Ficha de libro, con reseñas, recomendaciones de libreros y libros relacionados.
-- Perfiles de libreros y recomendados del Home.
+- Perfiles de libreros, recomendados del Home y preguntas al librero ("¿No sabes qué leer?").
 - Carrito, favoritos y newsletter.
 - Inicio de sesión con renovación automática, registro y acceso según perfil.
-- Código de descuento, cotización de envío y compra con cuenta o como invitado, con despacho o retiro en tienda.
+- Código de descuento, cotización de envío y compra con cuenta o como invitado, con despacho o retiro en tienda y direcciones guardadas.
 
 **Pendiente para la Entrega Final:** la sesión con cookies HttpOnly (depende de Backend), "Dejar una reseña", "Mi cuenta" y las secciones de Comunidad. Conectar Webpay o Mercado Pago en su ambiente de pruebas queda como posible desarrollo, sin compromiso. El detalle está en la [wiki](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Funcionalidades-y-pendientes).
 

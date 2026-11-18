@@ -86,5 +86,9 @@ export const REGIONES: RegionChile[] = [
 export const codigoDeRegion = (nombre: string) =>
   REGIONES.find((region) => region.nombre === nombre)?.codigo;
 
+// Nombre de una región para el código de la API (p. ej. "V" → "Valparaíso")
+export const nombreDeRegion = (codigo: string) =>
+  REGIONES.find((region) => region.codigo === codigo)?.nombre ?? codigo;
+
 export const comunasDe = (nombre: string) =>
   REGIONES.find((region) => region.nombre === nombre)?.comunas ?? [];

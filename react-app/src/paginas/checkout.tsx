@@ -23,6 +23,7 @@ import {
   crearPedido,
   iniciarSesion,
   montoDelDescuento,
+  obtenerDirecciones,
   validarDescuento,
 } from "../servicios/checkoutServicio";
 import type {
@@ -116,8 +117,8 @@ function Checkout() {
   // Correo que escribe el invitado y el que ya confirmó con "Enviar"
   const [emailInvitado, setEmailInvitado] = useState("");
   const [correoInvitado, setCorreoInvitado] = useState("");
-  // Quien recibe el despacho o quien retira en tienda. Segundo apellido y
-  // RUT se piden como en el diseño, aunque la API todavía no los recibe.
+  // Quien recibe el despacho o quien retira en tienda. El segundo apellido
+  // va dentro de nombreReceptor y el RUT, en la dirección de despacho.
   const [contacto, setContacto] = useState({
     nombre: usuario?.nombre ?? "",
     apellido: usuario?.apellido ?? "",
@@ -127,7 +128,6 @@ function Checkout() {
   });
 
   const [metodoEnvio, setMetodoEnvio] = useState<MetodoEnvio>("despacho");
-  // Ciudad y código postal tampoco los recibe la API todavía
   const [direccion, setDireccion] = useState({
     direccion: "",
     numero: "",
@@ -143,6 +143,10 @@ function Checkout() {
   const [procesando, setProcesando] = useState(false);
 
   const [usarGuardada, setUsarGuardada] = useState(true);
+  // Dirección guardada elegida (por defecto, la predeterminada) y la casilla
+  // "Guardar mis datos para próximos envíos" del formulario nuevo
+  const [idElegida, setIdElegida] = useState<string | undefined>();
+  const [guardarDatos, setGuardarDatos] = useState(false);
   const [idPorEliminar, setIdPorEliminar] = useState<string | null>(null);
   const [codigo, setCodigo] = useState("");
   const [descuento, setDescuento] = useState<DescuentoResponse | null>(null);
@@ -158,7 +162,13 @@ function Checkout() {
     .map((parte) => parte.trim())
     .filter(Boolean)
     .join(" ");
-  const guardada = usuario?.direccionGuardada;
+  // Direcciones guardadas de la cuenta (GET /direcciones)
+  const direcciones = usePeticion(
+    () => (usuario ? obtenerDirecciones() : Promise.resolve([])),
+    usuario?.email ?? "",
+  );
+  const guardadas = usuario ? (direcciones.datos ?? []) : [];
+  const guardada = guardadas.find((d) => d.id === idElegida) ?? guardadas[0];
   const usandoGuardada = Boolean(guardada) && usarGuardada;
   const sesionLista = Boolean(usuario) || esInvitado;
   // Con despacho a una dirección nueva se pide el formulario completo; al
@@ -312,7 +322,6 @@ function Checkout() {
                 comuna: guardada.comuna,
               }
             : {
-                // Ciudad y código postal no van: la API todavía no los recibe
                 direccion: direccion.direccion,
                 numero: direccion.numero,
                 depto: direccion.depto,
@@ -324,8 +333,11 @@ function Checkout() {
       const nombreComprador = usuario
         ? `${usuario.nombre} ${usuario.apellido}`.trim()
         : nombreContacto;
-      // Quien recibe el despacho es quien se escribió en el formulario
-      const nombreReceptor = pideDireccion ? nombreContacto : nombreComprador;
+      // Quien recibe el despacho es quien se escribió en el formulario (con
+      // el segundo apellido) o el de la dirección guardada
+      const nombreReceptor = pideDireccion
+        ? nombreContacto
+        : (guardada?.nombreReceptor ?? nombreComprador);
       // La pantalla de espera se muestra al menos TIEMPO_MINIMO_ESPERA, para
       // que no parpadee cuando la API responde muy rápido
       const [respuesta] = await Promise.all([
@@ -336,6 +348,15 @@ function Checkout() {
           telefono,
           metodoEnvio,
           ...(direccionEntrega ?? {}),
+          ...(pideDireccion
+            ? {
+                rut: contacto.rut,
+                ciudad: direccion.ciudad,
+                codigoPostal: direccion.codigoPostal,
+                guardarDireccion: Boolean(usuario) && guardarDatos,
+              }
+            : {}),
+          direccionId: metodoEnvio === "despacho" && usandoGuardada ? guardada?.id : undefined,
           metodoPago,
           codigoDescuento: descuento?.codigo,
           items: items.map((i) => ({ idLibro: i.idLibro, cantidad: i.cantidad })),
@@ -547,6 +568,17 @@ function Checkout() {
       </div>
       {camposContacto.telefono}
       {notaObligatorios}
+      {/* Solo con cuenta: la API guarda la dirección (guardarDireccion) */}
+      {usuario && (
+        <label className="checkout-terminos checkout-guardar-datos">
+          <input
+            type="checkbox"
+            checked={guardarDatos}
+            onChange={(e) => setGuardarDatos(e.target.checked)}
+          />
+          <span>Guardar mis datos para próximos envíos (opcional).</span>
+        </label>
+      )}
     </div>
   );
 
@@ -750,21 +782,26 @@ function Checkout() {
                       <p>Dirección de entrega</p>
                     </div>
                     <div className="checkout-direcciones">
-                      <label className="checkout-direccion-guardada">
-                        <input
-                          type="radio"
-                          name="direccion-entrega"
-                          checked={usarGuardada}
-                          onChange={() => setUsarGuardada(true)}
-                        />
-                        <span>
-                          <strong>
-                            {usuario.nombre} {usuario.apellido}
-                          </strong>
-                          {guardada.direccion} {guardada.numero}, {guardada.comuna}, Chile, Tel:{" "}
-                          {guardada.telefono}
-                        </span>
-                      </label>
+                      {guardadas.map((d, indice) => (
+                        <label className="checkout-direccion-guardada" key={d.id ?? indice}>
+                          <input
+                            type="radio"
+                            name="direccion-entrega"
+                            checked={usarGuardada && d === guardada}
+                            onChange={() => {
+                              setIdElegida(d.id);
+                              setUsarGuardada(true);
+                            }}
+                          />
+                          <span>
+                            <strong>
+                              {d.nombreReceptor ?? `${usuario.nombre} ${usuario.apellido}`}
+                            </strong>
+                            {[`${d.direccion} ${d.numero}`.trim(), d.comuna, "Chile"].join(", ")}, Tel:{" "}
+                            {d.telefono}
+                          </span>
+                        </label>
+                      ))}
                       <button
                         type="button"
                         className="checkout-enlace checkout-nueva-direccion"

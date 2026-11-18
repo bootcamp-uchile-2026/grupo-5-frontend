@@ -78,3 +78,17 @@ export type LibreroPerfilDto = {
   // Solo con token: si el usuario sigue a este librero
   siguiendo: boolean | null;
 };
+
+// Request de POST /libreros/{slug}/preguntas ("¿No sabes qué leer?").
+// La pregunta tiene entre 10 y 1000 caracteres.
+export type CrearPreguntaLibreroDto = {
+  nombre: string;
+  email: string;
+  pregunta: string;
+};
+
+// Response de POST /libreros/{slug}/preguntas
+export type PreguntaEnviadaDto = {
+  id: string;
+  mensaje: string;
+};
