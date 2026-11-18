@@ -103,7 +103,15 @@ function ConfirmacionCompra() {
           {
             icono: "ubicacion" as const,
             titulo: "Dirección de entrega",
-            valor: `${direccion.direccion} ${direccion.numero}${direccion.depto ? `, ${direccion.depto}` : ""}, ${direccion.comuna}, ${direccion.region}`,
+            // Una dirección guardada trae la calle completa en "direccion"
+            valor: [
+              `${direccion.direccion} ${direccion.numero}`.trim(),
+              direccion.depto,
+              direccion.comuna,
+              direccion.region,
+            ]
+              .filter(Boolean)
+              .join(", "),
           },
         ]
       : []),

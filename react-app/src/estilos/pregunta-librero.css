@@ -95,13 +95,58 @@
 	outline-offset: 2px;
 }
 
-.pregunta-librero-campo .bi {
+/* El lápiz del diseño es el botón que envía la pregunta */
+.pregunta-librero-formulario {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: min(100%, 560px);
+}
+
+.pregunta-librero-enviar {
 	position: absolute;
-	right: 16px;
-	bottom: 12px;
+	right: 8px;
+	bottom: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-full);
 	color: var(--color-neutral-900);
+	background: transparent;
 	font-size: 22px;
-	pointer-events: none;
+}
+
+.pregunta-librero-enviar:hover:not(:disabled) {
+	color: var(--color-brand-primary-basic);
+	background: var(--color-violet-50);
+}
+
+.pregunta-librero-enviar:disabled {
+	cursor: progress;
+	opacity: 0.6;
+}
+
+.pregunta-librero-error,
+.pregunta-librero-confirmacion {
+	margin: 8px 0 0;
+	font-size: var(--tamano-fuente-body-sm);
+	line-height: var(--interlineado-body-sm);
+}
+
+.pregunta-librero-error {
+	color: var(--color-error);
+}
+
+.pregunta-librero-confirmacion {
+	color: var(--color-exito);
+}
+
+.pregunta-librero-confirmacion:empty {
+	display: none;
 }
 
 .pregunta-librero-nota {

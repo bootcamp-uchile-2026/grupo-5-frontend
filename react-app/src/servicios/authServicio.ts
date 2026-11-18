@@ -10,7 +10,7 @@ import type { LoginRequest, LoginResponse, RegistroRequest } from "../tipos/chec
 import { ErrorApi, configurarRenovacion, solicitar, usarApi } from "./api";
 
 // Servicio de autenticación. Con API: POST /auth/login, POST /auth/registro,
-// GET /auth/me, POST /auth/refresh, POST /auth/verificar-email y
+// GET /auth/me, POST /auth/refresh, POST /auth/logout, POST /auth/verificar-email y
 // POST /auth/reenviar-verificacion. Sin API (VITE_API_URL vacía):
 // autenticación dummy.
 
@@ -113,6 +113,22 @@ async function renovarSesion(): Promise<boolean> {
 }
 
 configurarRenovacion(renovarSesion);
+
+// Cerrar sesión: POST /auth/logout invalida el refreshToken en la API y borra
+// sus cookies. La sesión del navegador se cierra aunque la API no responda.
+export async function cerrarSesion(): Promise<void> {
+  const sesion = useSesionStore.getState().usuario;
+  useSesionStore.getState().cerrar();
+  if (!usarApi || !sesion) return;
+  try {
+    const cuerpo: Partial<RefreshTokenRequestDto> = sesion.refreshToken
+      ? { refreshToken: sesion.refreshToken }
+      : {};
+    await solicitar<null>("/auth/logout", { metodo: "POST", cuerpo, conSesion: false });
+  } catch {
+    // Siempre responde 204; si falla la conexión, el token vence solo
+  }
+}
 
 // Al cargar la app: valida el token guardado con GET /auth/me y actualiza
 // los datos del usuario. Si venció, se renueva; si no se puede, cierra la

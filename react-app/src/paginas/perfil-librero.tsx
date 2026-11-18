@@ -307,7 +307,7 @@ export function PerfilContenido({ librero }: { librero: Librero }) {
 					</Carrusel>
 				</div>
 
-				<PreguntaLibrero nombre={librero.nombre.split(" ")[0]} />
+				<PreguntaLibrero librero={librero} />
 			</main>
 			{/*PIE DE PAGINA*/}
 			<Footer />

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSesionStore } from "../estado/sesionStore";
+import { cerrarSesion } from "../servicios/authServicio";
 import { Icono } from "./Icono";
 import { useDesplegable } from "./useDesplegable";
 
@@ -12,7 +13,6 @@ type MenuUsuarioProps = {
 
 export function MenuUsuario({ onAbrirAutenticacion }: MenuUsuarioProps) {
   const usuario = useSesionStore((estado) => estado.usuario);
-  const cerrarSesion = useSesionStore((estado) => estado.cerrar);
   const { abierto, alternar, cerrar, contenedorRef } = useDesplegable();
 
   if (!usuario) {
@@ -65,7 +65,7 @@ export function MenuUsuario({ onAbrirAutenticacion }: MenuUsuarioProps) {
             <button
               type="button"
               onClick={() => {
-                cerrarSesion();
+                void cerrarSesion();
                 cerrar();
               }}
             >

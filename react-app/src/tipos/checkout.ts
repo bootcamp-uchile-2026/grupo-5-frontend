@@ -15,7 +15,12 @@ export type RegistroRequest = {
   password: string;
   recibirNovedades: boolean;
 };
+// Dirección guardada de la cuenta. Con la API viene de GET /direcciones:
+// "id" se envía como direccionId y la calle completa llega en "direccion"
+// (numero y depto quedan vacíos). Sin API es la dirección dummy de la sesión.
 export type DireccionGuardada = {
+  id?: string;
+  nombreReceptor?: string;
   direccion: string;
   numero: string;
   depto: string;
@@ -59,6 +64,13 @@ export type CheckoutRequest = {
   depto?: string;
   region?: string;
   comuna?: string;
+  // Opcionales de la dirección de despacho
+  rut?: string;
+  ciudad?: string;
+  codigoPostal?: string;
+  // Con sesión: usar una dirección guardada o guardar la nueva
+  direccionId?: string;
+  guardarDireccion?: boolean;
   metodoPago: MetodoPago;
   codigoDescuento?: string;
   items: { idLibro: string; cantidad: number }[];

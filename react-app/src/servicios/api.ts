@@ -96,9 +96,12 @@ export async function solicitar<T>(
 
   let respuesta: Response;
   try {
+    // credentials: la API envía y lee las cookies de sesión (lcn_refresh).
+    // Funcionan cuando la API usa HTTPS; mientras tanto sigue el Bearer.
     respuesta = await fetch(url, {
       method: metodo,
       headers: encabezados,
+      credentials: "include",
       body: cuerpo === undefined ? undefined : JSON.stringify(cuerpo),
     });
   } catch {

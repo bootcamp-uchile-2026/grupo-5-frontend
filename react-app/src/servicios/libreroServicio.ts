@@ -10,17 +10,20 @@ import {
   type Librero,
 } from "../datos/libreros";
 import { RESENAS_LIBREROS } from "../datos/resenas";
+import { useSesionStore } from "../estado/sesionStore";
 import type { BuscarResenasRequest, ResenaResponseDto, ResenasPaginadasDto } from "../tipos/comunidad";
 import type {
   ColeccionResponseDto,
+  CrearPreguntaLibreroDto,
   LibreroPerfilDto,
   LibreroResumenDto,
+  PreguntaEnviadaDto,
   RecomendacionLibreroResponseDto,
 } from "../tipos/librero";
 import { ErrorApi, solicitar, usarApi } from "./api";
 
 // Servicio de libreros. Con API: GET /libreros, GET /libreros/{slug},
-// GET /libreros/yo, GET /recomendaciones/destacadas,
+// GET /libreros/yo, POST /libreros/{slug}/preguntas, GET /recomendaciones/destacadas,
 // GET /libros/{id}/recomendaciones-libreros y
 // GET /libros/{id}/resenas?tipo=LIBRERO. Sin API (VITE_API_URL vacía):
 // datos dummy de datos/libreros.ts y datos/resenas.ts.
@@ -111,6 +114,34 @@ export async function obtenerLibrero(slug: string | null): Promise<Librero> {
 export async function obtenerMiPerfilLibrero(): Promise<Librero> {
   if (!usarApi) return LIBREROS[0];
   return desdePerfilApi(await solicitar<LibreroPerfilDto>("/libreros/yo"));
+}
+
+// "¿NO SABES QUÉ LEER?"
+
+// Envía la pregunta al librero con el nombre y el correo de la sesión, para
+// que pueda responder. Devuelve el mensaje de confirmación de la API.
+export async function enviarPreguntaLibrero(
+  librero: Pick<Librero, "id" | "nombre">,
+  pregunta: string,
+): Promise<string> {
+  const usuario = useSesionStore.getState().usuario;
+  if (!usuario) {
+    throw new ErrorApi({ statusCode: 401, error: "NO_AUTENTICADO", message: "Inicia sesión" });
+  }
+  if (!usarApi) {
+    await pausa();
+    return `${librero.nombre.split(" ")[0]} recibió tu pregunta y te responderá a ${usuario.email}`;
+  }
+  const cuerpo: CrearPreguntaLibreroDto = {
+    nombre: `${usuario.nombre} ${usuario.apellido}`.trim(),
+    email: usuario.email,
+    pregunta: pregunta.trim(),
+  };
+  const respuesta = await solicitar<PreguntaEnviadaDto>(
+    `/libreros/${encodeURIComponent(librero.id)}/preguntas`,
+    { metodo: "POST", cuerpo },
+  );
+  return respuesta.mensaje;
 }
 
 // MENÚ "DESCUBRE CON NOSOTROS"

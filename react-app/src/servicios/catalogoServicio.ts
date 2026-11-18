@@ -22,9 +22,8 @@ export const LIBROS_POR_PAGINA = 12;
 // Máximo de libros por página que acepta GET /libros
 const LIMITE_API = 50;
 
-// Filtros del Catálogo. Todos los resuelve la API (GET /libros), salvo cuando
-// se marcan varias editoriales o varios subgéneros: la API acepta solo uno de
-// cada uno, así que en ese caso se filtra aquí sobre los libros recibidos.
+// Filtros del Catálogo. Todos los resuelve la API (GET /libros), incluidas
+// varias editoriales y varios subgéneros a la vez.
 export type FiltrosCatalogo = {
   q?: string;
   genero?: string;
@@ -84,17 +83,17 @@ function desdeApi(dto: LibroResponseDto): Libro {
   };
 }
 
-// Valor único de un filtro de casillas (la API recibe uno solo)
-const unico = (valores: string[] = []) => (valores.length === 1 ? valores[0] : undefined);
+// Casillas marcadas, o undefined si no hay ninguna
+const marcadas = (valores: string[] = []) => (valores.length ? valores : undefined);
 
 // Filtros que se envían a GET /libros
 function aRequest(filtros: FiltrosCatalogo): BuscarLibrosRequest {
   return {
     q: filtros.q,
     genero: filtros.genero ? generoEnApi(filtros.genero) : undefined,
-    autores: filtros.autores?.length ? filtros.autores : undefined,
-    editorial: unico(filtros.editoriales),
-    subgenero: unico(filtros.subgeneros),
+    autores: marcadas(filtros.autores),
+    editoriales: marcadas(filtros.editoriales),
+    subgeneros: marcadas(filtros.subgeneros),
     enOferta: filtros.soloOfertas || undefined,
     formato: filtros.formato,
     enStock: filtros.soloEnStock || undefined,
@@ -102,20 +101,6 @@ function aRequest(filtros: FiltrosCatalogo): BuscarLibrosRequest {
     precioMax: filtros.precioMax,
     orden: filtros.orden,
   };
-}
-
-// Varias editoriales o varios subgéneros: la API no puede filtrarlos
-const usaFiltroLocal = (filtros: FiltrosCatalogo) =>
-  (filtros.editoriales?.length ?? 0) > 1 || (filtros.subgeneros?.length ?? 0) > 1;
-
-// Editoriales y subgéneros marcados, sobre los libros ya recibidos
-function aplicarFiltroLocal(libros: Libro[], filtros: FiltrosCatalogo) {
-  const { subgeneros = [], editoriales = [] } = filtros;
-  return libros.filter(
-    (libro) =>
-      (!subgeneros.length || subgeneros.includes(libro.subgenero ?? "")) &&
-      (!editoriales.length || editoriales.includes(libro.editorial)),
-  );
 }
 
 function paginar(libros: Libro[], pagina: number): PaginaLibros {
@@ -163,14 +148,14 @@ const COMPARAR: Partial<Record<OrdenLibros, (a: Libro, b: Libro) => number>> = {
 
 // Versión dummy de GET /libros (mismas reglas que la API)
 function filtrarDummy(request: BuscarLibrosRequest): Libro[] {
-  const { autores = [] } = request;
+  const { autores = [], editoriales = [], subgeneros = [] } = request;
   const resultado = LIBROS.filter(
     (libro) =>
       (!request.q || contiene(`${libro.titulo} ${libro.autor} ${libro.isbn ?? ""}`, request.q)) &&
       (!request.genero || minusculas(generoEnApi(libro.genero)) === minusculas(request.genero)) &&
       (!autores.length || autores.some((autor) => contiene(libro.autor, autor))) &&
-      (!request.editorial || contiene(libro.editorial, request.editorial)) &&
-      (!request.subgenero || minusculas(libro.subgenero ?? "") === minusculas(request.subgenero)) &&
+      (!editoriales.length || editoriales.includes(libro.editorial)) &&
+      (!subgeneros.length || subgeneros.includes(libro.subgenero ?? "")) &&
       (!request.enOferta || enOferta(libro)) &&
       (!request.formato || (libro.formato ?? "FISICO") === request.formato) &&
       (!request.enStock || libro.enStock) &&
@@ -192,8 +177,8 @@ export async function buscarLibros(
   filtros: FiltrosCatalogo,
   pagina = 1,
 ): Promise<PaginaLibros> {
-  // Caso habitual: la API filtra y pagina en una sola petición
-  if (usarApi && !usaFiltroLocal(filtros)) {
+  // La API filtra y pagina en una sola petición
+  if (usarApi) {
     const respuesta = await solicitar<PaginadoDto<LibroResponseDto>>("/libros", {
       parametros: { ...aRequest(filtros), page: pagina, limit: LIBROS_POR_PAGINA },
     });
@@ -204,10 +189,9 @@ export async function buscarLibros(
       totalPaginas: respuesta.totalPages,
     };
   }
-  // Varias editoriales o subgéneros (o sin API): se piden todos los libros
-  // que cumplen el resto de los filtros y se termina de filtrar aquí
-  const libros = await todosLosLibros(aRequest(filtros));
-  return paginar(aplicarFiltroLocal(libros, filtros), pagina);
+  // Sin API: los libros dummy, filtrados con las mismas reglas
+  await pausa();
+  return paginar(filtrarDummy(aRequest(filtros)), pagina);
 }
 
 // Subgéneros, autores, editoriales y precios de una búsqueda y un género.
