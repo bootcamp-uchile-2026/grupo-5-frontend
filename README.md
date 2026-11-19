@@ -35,6 +35,7 @@ La documentación técnica está en la [wiki del repositorio](https://github.com
 
 - Diseño en Figma: <https://www.figma.com/design/JzdqSyqXuavHa5hV3zJIIT/Versi%C3%B3n-2---Figma>
 - Documentación de la API (Swagger): <http://3.131.220.134:3000/docs>
+- Repositorio de Backend (API): <https://github.com/bootcamp-uchile-2026/grupo-5-backend>
 
 
 ## Tecnologías
@@ -55,7 +56,9 @@ La aplicación está en la carpeta `react-app`:
 
 ```
 react-app/
-├─ .env.example          URL de la API (VITE_API_URL)
+├─ .env.development      URL de la API para pnpm dev (se sube al repositorio)
+├─ .env.production       URL de la API para pnpm build (se sube al repositorio)
+├─ .env.example          Variables documentadas y ejemplo del modo dummy
 └─ src/
    ├─ App.tsx            Rutas, barra de navegación, carrito y modal de sesión
    ├─ paginas/           Una vista por ruta
@@ -77,7 +80,7 @@ El detalle de cada carpeta está en [Arquitectura y decisiones técnicas](https:
 - Páginas en `paginas/` con nombres en minúsculas y guiones (ej. `ficha-libro.tsx`); componentes en `componentes/` con PascalCase (ej. `TarjetaProducto.tsx`); hooks con el prefijo `use` (ej. `usePeticion.ts`).
 - Cada vista y componente principal tiene su hoja de estilos en `estilos/` con el mismo nombre (ej. `catalogo.css`).
 - Los tokens del UI Kit (colores, tipografía, radios y sombras) están en `estilos/tokens.css` y deben coincidir con las variables de Figma.
-- Las páginas no llaman a la API directamente: lo hacen a través de los servicios de `servicios/`, y la URL de la API se configura solo en `.env`.
+- Las páginas no llaman a la API directamente: lo hacen a través de los servicios de `servicios/`, y la URL de la API se configura solo en los archivos `.env` de `react-app`.
 
 
 ## Cómo ejecutar el proyecto
@@ -87,7 +90,7 @@ Requiere Node.js 20.19 o 22.12 en adelante (lo pide Vite 8) y pnpm. El equipo tr
   1. Abrir la carpeta del proyecto en VS Code.
   2. Dirigirse a la carpeta react-app
   3. Instalar las dependencias: **pnpm install**
-  4. Crear el archivo `.env` copiando `.env.example`: **cp .env.example .env**. Ahí va la URL de la API (`VITE_API_URL`); este archivo no se sube al repositorio.
+  4. No hace falta configurar nada: la URL de la API ya viene en `react-app/.env.development`.
   5. Efectuar el comando en la terminal: **pnpm run dev**
   6. Clic izquierdo y presionar Ctrl sobre la url del Localhost (http://localhost:5173).
 
@@ -99,7 +102,21 @@ Otros comandos, también desde `react-app`:
 | `pnpm preview` | Muestra en local la versión generada con `pnpm build` |
 | `pnpm lint` | Revisa el código con Oxlint |
 
-Si `VITE_API_URL` queda vacía (o no se crea el `.env`), la aplicación funciona completa con datos de prueba locales. Sirve para trabajar cuando la API no está disponible y para probar sin crear datos en la base compartida. Vite solo lee el `.env` al arrancar: si se cambia, hay que volver a ejecutar `pnpm run dev`.
+### Conexión con la API de Backend
+
+La aplicación no incluye el código de Backend. Consume la API que el equipo de Backend tiene desplegada en `http://3.131.220.134:3000`; su código está en el repositorio [grupo-5-backend](https://github.com/bootcamp-uchile-2026/grupo-5-backend) y no es necesario clonarlo para usar la web.
+
+| Archivo | Se sube | Para qué sirve |
+| --- | --- | --- |
+| `react-app/.env.development` | Sí | URL de la API para `pnpm dev` |
+| `react-app/.env.production` | Sí | URL de la API para `pnpm build` y `pnpm preview` |
+| `react-app/.env.development.local` | No | Cambiar la URL solo en tu equipo; tiene prioridad sobre `.env.development` |
+| `react-app/.env.example` | Sí | Variables documentadas y ejemplo |
+
+- **La URL es pública:** Swagger está abierto, así que no es un secreto y se puede versionar.
+- **Modo dummy:** con `VITE_API_URL=` vacía en `react-app/.env.development.local`, la aplicación funciona completa con datos de prueba locales. Sirve cuando la API no está disponible y para probar sin crear datos en la base compartida. Crea el archivo desde VS Code: si se crea con PowerShell (`Set-Content`), puede quedar con BOM y Vite no lee la variable.
+- **Si ya tenías un `react-app/.env`:** `.env.development` tiene prioridad sobre él. Para mantener tu propia URL o el modo dummy, pasa el valor a `.env.development.local`.
+- Vite solo lee estos archivos al arrancar: si se cambian, hay que volver a ejecutar `pnpm run dev`.
 
 La documentación de la API (Swagger) está en la ruta `/docs` de la URL configurada en `VITE_API_URL`.
 
@@ -157,7 +174,7 @@ Para llegar a la pantalla de compra exitosa:
 Para ver la verificación del correo:
 └─> Selecciona el ícono de usuario en el header, pulsa **Regístrate aquí**, completa y envía el formulario: aparece "¡Ya casi estás dentro!".
 └─> El enlace del correo lleva a `/verificar-correo?token=<token>`, que muestra "¡Tu cuenta ya está lista!" o, si el enlace no es válido o venció, "No hemos podido verificar tu cuenta".
-└─> Con los datos de prueba (`VITE_API_URL` vacía) se pueden ver los dos resultados: `/verificar-correo?token=prueba` y `/verificar-correo?token=invalido`.
+└─> En el modo dummy (`VITE_API_URL` vacía) se pueden ver los dos resultados: `/verificar-correo?token=prueba` y `/verificar-correo?token=invalido`.
 
 Desde la Confirmación de compra, "Seguir comprando" lleva al Catálogo.
 
