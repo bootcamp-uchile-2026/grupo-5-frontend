@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useEffectEvent, useState, type FormEvent, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import iconoCorreo from "../assets/iconos/14-correo.svg";
 import iconoCuentaLista from "../assets/iconos/13-check-circulo.svg";
@@ -120,6 +120,10 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 		onCerrar();
 	};
 
+	// Escape cierra con la versión actual de cerrarModal. Como evento de efecto,
+	// no es dependencia: el efecto se ejecuta solo al abrir o cerrar el modal
+	const alPresionarEscape = useEffectEvent(() => cerrarModal());
+
 	// CIERRE CON ESCAPE Y BLOQUEO DEL SCROLL
 	useEffect(() => {
 		if (!abierto) return;
@@ -128,7 +132,7 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 		useCarritoStore.getState().cerrar();
 		const overflowAnterior = document.body.style.overflow;
 		const cerrarConEscape = (evento: KeyboardEvent) => {
-			if (evento.key === "Escape") cerrarModal();
+			if (evento.key === "Escape") alPresionarEscape();
 		};
 
 		document.body.style.overflow = "hidden";
@@ -138,7 +142,7 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 			document.body.style.overflow = overflowAnterior;
 			window.removeEventListener("keydown", cerrarConEscape);
 		};
-	}, [abierto, cerrarModal]);
+	}, [abierto]);
 
 	if (!abierto) return null;
 

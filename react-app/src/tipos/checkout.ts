@@ -28,17 +28,15 @@ export type DireccionGuardada = {
   comuna: string;
   telefono: string;
 };
-// Sesión del usuario (se guarda en sesionStore). "token" es el accessToken
-// de la API y "refreshToken" sirve para renovarlo; id, rol y refreshToken
-// solo existen con la API.
+// Sesión del usuario (se guarda en sesionStore): solo los datos que muestra
+// la interfaz. Los tokens viajan en las cookies HttpOnly de la API y el
+// navegador no los guarda. id y rol solo existen con la API.
 export type LoginResponse = {
   id?: string;
   rol?: Rol;
   email: string;
   nombre: string;
   apellido: string;
-  token: string;
-  refreshToken?: string;
   direccionGuardada?: DireccionGuardada;
 };
 
