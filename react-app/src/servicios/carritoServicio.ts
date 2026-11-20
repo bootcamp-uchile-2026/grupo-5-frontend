@@ -18,7 +18,7 @@ import { ErrorApi, solicitar, usarApi } from "./api";
 // Las funciones devuelven true si el cambio se guardó; si falla, el mensaje
 // queda en el aviso del panel del carrito.
 
-const conCarritoApi = () => usarApi && Boolean(useSesionStore.getState().usuario?.token);
+const conCarritoApi = () => usarApi && Boolean(useSesionStore.getState().usuario);
 
 // CarritoResponseDto (API) → ítems que muestran las pantallas
 const desdeApi = (respuesta: CarritoResponseDto): CarritoItemDto[] =>
@@ -140,13 +140,13 @@ async function pasarCarritoInvitadoACuenta() {
 
 // Conecta el carrito con la sesión: al iniciarla pasa el carrito del invitado
 // a la cuenta; al cerrarla vacía la copia local (el de la cuenta queda en
-// Backend). Reacciona solo al entrar o salir: cuando el token se renueva, la
-// sesión sigue abierta y el carrito no cambia. Devuelve la función para
+// Backend). Reacciona solo al entrar o salir: cuando la sesión se renueva,
+// sigue abierta y el carrito no cambia. Devuelve la función para
 // dejar de escuchar.
 export function vigilarSesionCarrito() {
   return useSesionStore.subscribe((estado, anterior) => {
-    const conSesion = Boolean(estado.usuario?.token);
-    if (!usarApi || conSesion === Boolean(anterior.usuario?.token)) return;
+    const conSesion = Boolean(estado.usuario);
+    if (!usarApi || conSesion === Boolean(anterior.usuario)) return;
     if (conSesion) void pasarCarritoInvitadoACuenta();
     else useCarritoStore.getState().vaciar();
   });

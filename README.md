@@ -15,10 +15,10 @@ La aplicación está desarrollada con React, TypeScript y Vite. Sigue el diseño
 - Ficha de libro, con reseñas, recomendaciones de libreros y libros relacionados.
 - Perfiles de libreros, recomendados del Home y preguntas al librero ("¿No sabes qué leer?").
 - Carrito, favoritos y newsletter.
-- Inicio de sesión con renovación automática, registro y acceso según perfil.
+- Inicio de sesión con cookies HttpOnly y renovación automática, registro y acceso según perfil.
 - Código de descuento, cotización de envío y compra con cuenta o como invitado, con despacho o retiro en tienda y direcciones guardadas.
 
-**Pendiente para la Entrega Final:** la sesión con cookies HttpOnly (depende de Backend), "Dejar una reseña", "Mi cuenta" y las secciones de Comunidad. Conectar Webpay o Mercado Pago en su ambiente de pruebas queda como posible desarrollo, sin compromiso. El detalle está en la [wiki](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Funcionalidades-y-pendientes).
+**Pendiente para la Entrega Final:** "Dejar una reseña", "Mi cuenta" y las secciones de Comunidad. Conectar Webpay o Mercado Pago en su ambiente de pruebas queda como posible desarrollo, sin compromiso. El detalle está en la [wiki](https://github.com/bootcamp-uchile-2026/grupo-5-frontend/wiki/Funcionalidades-y-pendientes).
 
 
 ## Documentación
@@ -56,8 +56,9 @@ La aplicación está en la carpeta `react-app`:
 
 ```
 react-app/
-├─ .env.development      URL de la API para pnpm dev (se sube al repositorio)
-├─ .env.production       URL de la API para pnpm build (se sube al repositorio)
+├─ .env.development      URL de la API y del proxy para pnpm dev (se sube al repositorio)
+├─ .env.production       URL de la API y del proxy para pnpm build y preview (se sube)
+├─ vite.config.ts        Proxy /api hacia la API (sesión con cookies HttpOnly)
 ├─ .env.example          Variables documentadas y ejemplo del modo dummy
 └─ src/
    ├─ App.tsx            Rutas, barra de navegación, carrito y modal de sesión
@@ -108,17 +109,18 @@ La aplicación no incluye el código de Backend. Consume la API que el equipo de
 
 | Archivo | Se sube | Para qué sirve |
 | --- | --- | --- |
-| `react-app/.env.development` | Sí | URL de la API para `pnpm dev` |
-| `react-app/.env.production` | Sí | URL de la API para `pnpm build` y `pnpm preview` |
+| `react-app/.env.development` | Sí | `VITE_API_URL=/api` y la URL de la API (`API_DESTINO`) para `pnpm dev` |
+| `react-app/.env.production` | Sí | Los mismos valores para `pnpm build` y `pnpm preview` |
 | `react-app/.env.development.local` | No | Cambiar la URL solo en tu equipo; tiene prioridad sobre `.env.development` |
 | `react-app/.env.example` | Sí | Variables documentadas y ejemplo |
 
 - **La URL es pública:** Swagger está abierto, así que no es un secreto y se puede versionar.
+- **Proxy de Vite:** la app llama a `/api/...` en `localhost` y Vite reenvía esas llamadas a la API (`vite.config.ts`). Para el navegador, la API queda en el mismo sitio, así que guarda y envía las cookies HttpOnly de la sesión aunque la API use HTTP. El proxy funciona con `pnpm dev` y `pnpm preview`; si la web se publica en un servidor, este debe hacer lo mismo o la API debe usar HTTPS.
 - **Modo dummy:** con `VITE_API_URL=` vacía en `react-app/.env.development.local`, la aplicación funciona completa con datos de prueba locales. Sirve cuando la API no está disponible y para probar sin crear datos en la base compartida. Crea el archivo desde VS Code: si se crea con PowerShell (`Set-Content`), puede quedar con BOM y Vite no lee la variable.
-- **Si ya tenías un `react-app/.env`:** `.env.development` tiene prioridad sobre él. Para mantener tu propia URL o el modo dummy, pasa el valor a `.env.development.local`.
+- **Si ya tenías un `react-app/.env` o un `.env.development.local` con la URL de la API:** `.env.development` tiene prioridad sobre el `.env`, pero el `.local` tiene prioridad sobre todos. Si ahí está la URL completa (`http://3.131.220.134:3000`), las llamadas no pasan por el proxy y la sesión no funciona: bórrala o deja `VITE_API_URL=/api`.
 - Vite solo lee estos archivos al arrancar: si se cambian, hay que volver a ejecutar `pnpm run dev`.
 
-La documentación de la API (Swagger) está en la ruta `/docs` de la URL configurada en `VITE_API_URL`.
+La documentación de la API (Swagger) está en <http://3.131.220.134:3000/docs>.
 
 
 ## Cómo probar

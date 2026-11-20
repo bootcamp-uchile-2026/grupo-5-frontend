@@ -2,7 +2,6 @@ import { useSesionStore } from "../estado/sesionStore";
 import type {
   AuthResponseDto,
   LoginRequestDto,
-  RefreshTokenRequestDto,
   RegistroRequestDto,
   UsuarioResponseDto,
 } from "../tipos/auth";
@@ -13,14 +12,18 @@ import { ErrorApi, configurarRenovacion, solicitar, usarApi } from "./api";
 // GET /auth/me, POST /auth/refresh, POST /auth/logout, POST /auth/verificar-email y
 // POST /auth/reenviar-verificacion. Sin API (VITE_API_URL vacía):
 // autenticación dummy.
+//
+// Sesión con cookies HttpOnly: login, registro y refresh dejan los tokens en
+// las cookies lcn_access y lcn_refresh, que el navegador envía solo. La web
+// no lee ni guarda los tokens del body (los usa Mobile); solo el usuario.
 
 const pausa = () => new Promise((resolver) => setTimeout(resolver, 300));
 
 // La API entrega nombre y apellido por separado. Las cuentas anteriores al
 // Hito 3 tienen apellido null y todo en "nombre": ahí se separa el texto
 // para que el saludo "Hola, Nombre" muestre solo el nombre
-function aSesion(usuario: UsuarioResponseDto, token: string): LoginResponse {
-  const base = { id: usuario.id, rol: usuario.rol, email: usuario.email, token };
+function aSesion(usuario: UsuarioResponseDto): LoginResponse {
+  const base = { id: usuario.id, rol: usuario.rol, email: usuario.email };
   if (usuario.apellido !== null) {
     return { ...base, nombre: usuario.nombre, apellido: usuario.apellido };
   }
@@ -28,10 +31,7 @@ function aSesion(usuario: UsuarioResponseDto, token: string): LoginResponse {
   return { ...base, nombre, apellido: apellido.join(" ") };
 }
 
-const desdeAuthResponse = (respuesta: AuthResponseDto) => ({
-  ...aSesion(respuesta.usuario, respuesta.accessToken),
-  refreshToken: respuesta.refreshToken,
-});
+const desdeAuthResponse = (respuesta: AuthResponseDto) => aSesion(respuesta.usuario);
 
 export async function iniciarSesion(solicitud: LoginRequest): Promise<LoginResponse> {
   if (!usarApi) return iniciarSesionDummy(solicitud);
@@ -93,16 +93,15 @@ export async function reenviarVerificacion(): Promise<void> {
   await solicitar<unknown>("/auth/reenviar-verificacion", { metodo: "POST" });
 }
 
-// Token vencido: pide uno nuevo con el refreshToken (POST /auth/refresh) y
-// actualiza la sesión. api.ts la llama al recibir un 401 y repite la petición.
+// Sesión vencida: POST /auth/refresh, sin body, toma el refreshToken de la
+// cookie lcn_refresh y deja cookies nuevas. api.ts la llama al recibir un 401
+// y repite la petición.
 async function renovarSesion(): Promise<boolean> {
   const sesion = useSesionStore.getState().usuario;
-  if (!usarApi || !sesion?.refreshToken) return false;
+  if (!usarApi || !sesion) return false;
   try {
-    const cuerpo: RefreshTokenRequestDto = { refreshToken: sesion.refreshToken };
     const respuesta = await solicitar<AuthResponseDto>("/auth/refresh", {
       metodo: "POST",
-      cuerpo,
       conSesion: false,
     });
     useSesionStore.getState().iniciar({ ...sesion, ...desdeAuthResponse(respuesta) });
@@ -114,34 +113,32 @@ async function renovarSesion(): Promise<boolean> {
 
 configurarRenovacion(renovarSesion);
 
-// Cerrar sesión: POST /auth/logout invalida el refreshToken en la API y borra
-// sus cookies. La sesión del navegador se cierra aunque la API no responda.
+// Cerrar sesión: POST /auth/logout, sin body, toma el refreshToken de la
+// cookie, lo invalida y borra las cookies. La sesión del navegador se cierra
+// aunque la API no responda.
 export async function cerrarSesion(): Promise<void> {
   const sesion = useSesionStore.getState().usuario;
   useSesionStore.getState().cerrar();
   if (!usarApi || !sesion) return;
   try {
-    const cuerpo: Partial<RefreshTokenRequestDto> = sesion.refreshToken
-      ? { refreshToken: sesion.refreshToken }
-      : {};
-    await solicitar<null>("/auth/logout", { metodo: "POST", cuerpo, conSesion: false });
+    await solicitar<null>("/auth/logout", { metodo: "POST", conSesion: false });
   } catch {
     // Siempre responde 204; si falla la conexión, el token vence solo
   }
 }
 
-// Al cargar la app: valida el token guardado con GET /auth/me y actualiza
+// Al cargar la app: valida la cookie de sesión con GET /auth/me y actualiza
 // los datos del usuario. Si venció, se renueva; si no se puede, cierra la
 // sesión sin avisar.
 export async function restaurarSesion(): Promise<void> {
-  if (!usarApi || !useSesionStore.getState().usuario?.token) return;
+  if (!usarApi || !useSesionStore.getState().usuario) return;
   try {
     const actual = await solicitar<UsuarioResponseDto>("/auth/me", {
       avisarSesionVencida: false,
     });
-    // Se lee de nuevo la sesión: el token pudo renovarse durante la petición
+    // Se lee de nuevo la sesión: pudo renovarse o cerrarse durante la petición
     const sesion = useSesionStore.getState().usuario;
-    if (sesion) useSesionStore.getState().iniciar({ ...sesion, ...aSesion(actual, sesion.token) });
+    if (sesion) useSesionStore.getState().iniciar({ ...sesion, ...aSesion(actual) });
   } catch (error) {
     if (error instanceof ErrorApi && error.statusCode === 401) {
       useSesionStore.getState().cerrar();
@@ -162,7 +159,6 @@ async function iniciarSesionDummy(solicitud: LoginRequest): Promise<LoginRespons
     email: solicitud.email,
     nombre: nombreDesdeCorreo(solicitud.email),
     apellido: "Ejemplo",
-    token: "token-dummy",
     direccionGuardada: {
       direccion: "Avenida siempre viva",
       numero: "555",
@@ -180,6 +176,5 @@ async function registrarseDummy(solicitud: RegistroRequest): Promise<LoginRespon
     email: solicitud.email,
     nombre: solicitud.nombre,
     apellido: solicitud.apellido,
-    token: "token-dummy",
   };
 }

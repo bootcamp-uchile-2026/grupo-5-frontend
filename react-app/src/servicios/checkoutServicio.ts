@@ -167,7 +167,7 @@ export async function crearPedido(solicitud: CheckoutRequest): Promise<CheckoutR
     direccion: direccionApi(solicitud),
     codigoDescuento: solicitud.codigoDescuento,
   };
-  if (useSesionStore.getState().usuario?.token) {
+  if (useSesionStore.getState().usuario) {
     const despacho = solicitud.metodoEnvio === "despacho";
     const cuerpoCuenta: CrearPedidoRequestDto = {
       ...cuerpo,

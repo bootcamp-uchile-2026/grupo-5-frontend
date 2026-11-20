@@ -21,14 +21,27 @@ export const useSesionStore = create<SesionState>()(
       continuarComoInvitado: () => set({ invitado: true }),
       cerrar: () => set({ usuario: null, invitado: false }),
     }),
-    { name: "sesion" },
+    {
+      name: "sesion",
+      // Versión 1: la sesión viaja en cookies HttpOnly y el navegador ya no
+      // guarda tokens. Se borran los que dejó la versión anterior.
+      version: 1,
+      migrate: (guardado) => {
+        const estado = guardado as { usuario?: Record<string, unknown> | null };
+        if (estado.usuario) {
+          delete estado.usuario.token;
+          delete estado.usuario.refreshToken;
+        }
+        return estado as SesionState;
+      },
+    },
   ),
 );
 
-// El cliente de la API envía el token de la sesión y, si la API responde 401
-// (token vencido o inválido), se cierra la sesión y se abre el inicio de sesión
+// Con un usuario en el store, el cliente de la API intenta renovar la sesión
+// ante un 401; si no puede, se cierra la sesión y se abre el inicio de sesión
 configurarSesion({
-  obtenerToken: () => useSesionStore.getState().usuario?.token,
+  haySesion: () => Boolean(useSesionStore.getState().usuario),
   alVencerSesion: () => {
     useSesionStore.getState().cerrar();
     useAutenticacionStore.getState().abrir();

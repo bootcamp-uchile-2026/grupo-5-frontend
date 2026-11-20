@@ -3,7 +3,8 @@ import { mensajePorCodigo } from "../utils/mensajesError";
 
 // Cliente de la API de LeeConNos: es el único módulo que conoce la URL base.
 // Los servicios lo usan cuando hay API configurada (VITE_API_URL en .env);
-// si no, siguen con sus datos dummy.
+// si no, siguen con sus datos dummy. VITE_API_URL es /api: el proxy de Vite
+// reenvía esas llamadas a la API (ver vite.config.ts).
 const URL_BASE = (import.meta.env.VITE_API_URL ?? "").trim().replace(/\/$/, "");
 
 export const usarApi = URL_BASE !== "";
@@ -29,20 +30,22 @@ export class ErrorApi extends Error {
   }
 }
 
-// La sesión se conecta desde fuera para que este módulo no dependa del store
-let obtenerToken: () => string | undefined = () => undefined;
+// La sesión viaja en las cookies HttpOnly de la API (lcn_access y
+// lcn_refresh): el navegador las envía solo y el JavaScript no puede leerlas.
+// La sesión se conecta desde fuera para que este módulo no dependa del store.
+let haySesion: () => boolean = () => false;
 let alVencerSesion: () => void = () => {};
 let renovarToken: () => Promise<boolean> = async () => false;
 
 export function configurarSesion(opciones: {
-  obtenerToken: () => string | undefined;
+  haySesion: () => boolean;
   alVencerSesion: () => void;
 }) {
-  obtenerToken = opciones.obtenerToken;
+  haySesion = opciones.haySesion;
   alVencerSesion = opciones.alVencerSesion;
 }
 
-// Cómo renovar el token vencido (authServicio.ts, con POST /auth/refresh).
+// Cómo renovar la sesión vencida (authServicio.ts, con POST /auth/refresh).
 // Devuelve true si la sesión quedó renovada.
 export function configurarRenovacion(renovar: () => Promise<boolean>) {
   renovarToken = renovar;
@@ -67,9 +70,9 @@ type OpcionesSolicitud = {
   // false para no abrir el inicio de sesión ante un 401 (p. ej. al restaurar
   // la sesión al cargar la app)
   avisarSesionVencida?: boolean;
-  // false para no enviar el token ni intentar renovarlo (POST /auth/refresh)
+  // false para no intentar renovar la sesión ante un 401 (POST /auth/refresh)
   conSesion?: boolean;
-  // Uso interno: la petición ya se repitió con un token renovado
+  // Uso interno: la petición ya se repitió con la sesión renovada
   renovada?: boolean;
 };
 
@@ -79,7 +82,8 @@ export async function solicitar<T>(
 ): Promise<T> {
   const { metodo = "GET", cuerpo, parametros, avisarSesionVencida = true, conSesion = true } =
     opciones;
-  const url = new URL(`${URL_BASE}${ruta}`);
+  // URL_BASE es relativa (/api): se completa con el origen de la página
+  const url = new URL(`${URL_BASE}${ruta}`, window.location.origin);
   Object.entries(parametros ?? {}).forEach(([nombre, valor]) => {
     const valores = Array.isArray(valor) ? valor : [valor];
     valores.forEach((actual) => {
@@ -89,15 +93,14 @@ export async function solicitar<T>(
     });
   });
 
-  const token = conSesion ? obtenerToken() : undefined;
+  const sesionAbierta = conSesion && haySesion();
   const encabezados: Record<string, string> = { Accept: "application/json" };
   if (cuerpo !== undefined) encabezados["Content-Type"] = "application/json";
-  if (token) encabezados.Authorization = `Bearer ${token}`;
 
   let respuesta: Response;
   try {
-    // credentials: la API envía y lee las cookies de sesión (lcn_refresh).
-    // Funcionan cuando la API usa HTTPS; mientras tanto sigue el Bearer.
+    // credentials: el navegador envía las cookies de sesión y guarda las que
+    // la API entrega al iniciar sesión, renovarla o cerrarla
     respuesta = await fetch(url, {
       method: metodo,
       headers: encabezados,
@@ -117,9 +120,9 @@ export async function solicitar<T>(
   const datos: unknown = await respuesta.json().catch(() => null);
 
   if (!respuesta.ok) {
-    // Token vencido o inválido: se intenta renovar una vez y se repite la
+    // Sesión vencida o inválida: se intenta renovar una vez y se repite la
     // petición. Si no se puede, se cierra la sesión y se pide iniciarla de nuevo
-    if (respuesta.status === 401 && token) {
+    if (respuesta.status === 401 && sesionAbierta) {
       if (!opciones.renovada && (await renovarUnaVez())) {
         return solicitar<T>(ruta, { ...opciones, renovada: true });
       }

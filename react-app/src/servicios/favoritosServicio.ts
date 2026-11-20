@@ -8,7 +8,7 @@ import { solicitar, usarApi } from "./api";
 
 const RUTA_FAVORITOS = "/listas-deseos/favoritos";
 
-const conSesionEnApi = () => usarApi && Boolean(useSesionStore.getState().usuario?.token);
+const conSesionEnApi = () => usarApi && Boolean(useSesionStore.getState().usuario);
 
 // Trae los favoritos de la cuenta (al cargar la app y al iniciar sesión)
 export async function obtenerFavoritos(): Promise<void> {
@@ -47,8 +47,8 @@ export async function alternarFavorito(idLibro: string): Promise<void> {
 // vacían, para que el siguiente usuario no vea los del anterior
 export function vigilarSesionFavoritos() {
   return useSesionStore.subscribe((estado, anterior) => {
-    const conSesion = Boolean(estado.usuario?.token);
-    if (!usarApi || conSesion === Boolean(anterior.usuario?.token)) return;
+    const conSesion = Boolean(estado.usuario);
+    if (!usarApi || conSesion === Boolean(anterior.usuario)) return;
     if (conSesion) void obtenerFavoritos();
     else useFavoritosStore.getState().reemplazar([]);
   });
