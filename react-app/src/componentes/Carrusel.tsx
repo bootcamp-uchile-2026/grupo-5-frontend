@@ -4,6 +4,7 @@ import { Icono } from "./Icono";
 
 const estilos = {
   recomendaciones: "carrusel-recomendaciones",
+  autores: "carrusel-autores",
   "mas-vendidos": "carrusel-mas-vendidos",
   lanzamiento: "carrusel-lanzamiento",
   comentados: "carrusel-comentados",
@@ -19,6 +20,8 @@ type CarruselProps = {
   mostrarVerMas?: boolean;
   // Muestra también las flechas junto a "Ver más" (encabezado)
   flechasEncabezado?: boolean;
+  // Muestra también flechas a los lados de las tarjetas (Autores favoritos)
+  flechasLaterales?: boolean;
   className?: string;
 };
 
@@ -29,6 +32,7 @@ export function Carrusel({
   hrefVerMas = "/catalogo",
   mostrarVerMas = true,
   flechasEncabezado = false,
+  flechasLaterales = false,
   className,
 }: CarruselProps) {
   const idTitulo = useId();
@@ -138,6 +142,40 @@ export function Carrusel({
       </header>
 
       <div className={`${claseBase}-contenedor`}>
+        {flechasLaterales ? (
+          <div className="carrusel-flechas-laterales">
+            <button
+              type="button"
+              aria-label={`Anterior: ${titulo}`}
+              onClick={() => desplazar(-1)}
+              disabled={!puedeIrAtras}
+            >
+              <Icono nombre="anterior" />
+            </button>
+          <div
+            ref={viewportRef}
+            className="carrusel-viewport"
+            role="region"
+            aria-roledescription="carrusel"
+            aria-label={titulo}
+            tabIndex={0}
+          >
+            <div ref={trackRef} className="coleccion-tarjetas">
+              {Children.map(children, (child) => (
+                <div className="carrusel-item">{child}</div>
+              ))}
+            </div>
+          </div>
+            <button
+              type="button"
+              aria-label={`Siguiente: ${titulo}`}
+              onClick={() => desplazar(1)}
+              disabled={!puedeIrAdelante}
+            >
+              <Icono nombre="siguiente" />
+            </button>
+          </div>
+        ) : (
         <div
           ref={viewportRef}
           className="carrusel-viewport"
@@ -152,6 +190,7 @@ export function Carrusel({
             ))}
           </div>
         </div>
+        )}
 
         <div className="controles-carrusel" role="group" aria-label={`Controles de ${titulo}`}>
           <button

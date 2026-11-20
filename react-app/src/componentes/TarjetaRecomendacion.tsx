@@ -4,6 +4,8 @@ import "../estilos/tarjeta-recomendacion.css";
 
 // Tarjeta "card-recomended" (Figma: Componentes Global, node 2039:6606)
 export type TarjetaRecomendacionProps = {
+  // Con API la tarjeta lleva a la ficha de ese libro
+  idLibro?: string;
   nombreLibrero: string;
   imagenLibrero: string;
   portada: string;
@@ -14,6 +16,7 @@ export type TarjetaRecomendacionProps = {
 };
 
 export function TarjetaRecomendacion({
+  idLibro,
   nombreLibrero,
   imagenLibrero,
   portada,
@@ -22,6 +25,8 @@ export function TarjetaRecomendacion({
   calificacion,
   opiniones,
 }: TarjetaRecomendacionProps) {
+  const rutaFicha = idLibro ? `/ficha-libro?libro=${encodeURIComponent(idLibro)}` : "/ficha-libro";
+
   return (
     <article className="tarjeta-recomendacion">
       <div className="tarjeta-recomendacion-librero">
@@ -29,14 +34,14 @@ export function TarjetaRecomendacion({
         <span>{nombreLibrero}</span>
       </div>
 
-      <Link to="/ficha-libro" tabIndex={-1} aria-hidden="true">
+      <Link to={rutaFicha} tabIndex={-1} aria-hidden="true">
         <img className="tarjeta-recomendacion-portada" src={portada} alt="" />
       </Link>
 
       <div className="tarjeta-recomendacion-info">
         <div className="tarjeta-recomendacion-textos">
           <h4>
-            <Link to="/ficha-libro">{titulo}</Link>
+            <Link to={rutaFicha}>{titulo}</Link>
           </h4>
           <p>{autor}</p>
         </div>

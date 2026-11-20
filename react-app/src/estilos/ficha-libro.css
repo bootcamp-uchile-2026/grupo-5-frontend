@@ -1,156 +1,120 @@
 /* FICHA DE LIBRO
-   Distribución según wireframe Ficha de libro (Figma: Wireframes Desktop,
-   node 1547:6140); se mantienen los colores del sitio. La tarjeta de
-   "Te podría interesar" tiene sus estilos en tarjeta-producto.css. */
+   Ficha de producto de alta fidelidad (Figma, node 3516:27850). La columna
+   es la de 1200px del diseño; "Míralo de cerca" y la calificación ocupan
+   todo el ancho. La tarjeta de "Te podría interesar" tiene sus estilos en
+   tarjeta-producto.css y el carrusel, en index.css (como en la Home). */
 .ficha {
   box-sizing: border-box;
   width: 100%;
-  max-width: calc(var(--ancho-contenido) + 48px);
+  max-width: calc(var(--ancho-columna) + 48px);
   margin: 0 auto;
   padding: 0 24px;
   font-family: var(--fuente-body);
   color: var(--color-neutral-950);
 }
 
-/* RUTA DE NAVEGACIÓN (estilos en ruta-navegacion.css): alineadas con el borde
-   izquierdo de la imagen (a la izquierda queda la flecha: 40px + 12px) */
+/* RUTA DE NAVEGACIÓN (estilos en ruta-navegacion.css) */
 .ficha-ruta ol {
-  margin: 48px 0 24px 52px;
+  margin: 53px 0 0 66px;
 }
 
 .ficha-cargando {
   margin: 0;
   padding: 120px 0;
-  font-size: var(--tamano-fuente-small);
+  font-size: var(--tamano-fuente-body-sm);
   text-align: center;
 }
 
-/* PRODUCTO: galería a la izquierda y datos a la derecha */
+/* PRODUCTO: portada de 526 × 640 y datos a 60px */
 .ficha-producto {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 56px;
+  grid-template-columns: minmax(0, 526px) minmax(0, 467px);
+  gap: 60px;
   align-items: start;
+  margin-top: 44px;
+  padding-left: 16px;
 }
 
-.ficha-galeria {
-  display: grid;
-  grid-template-columns: 40px 434px 40px;
-  gap: 16px 12px;
+.ficha-portada {
+  margin-top: 8px;
 }
 
-.ficha-galeria-principal {
-  display: contents;
-}
-
-.ficha-galeria-principal img {
+.ficha-portada img {
   display: block;
   width: 100%;
-  aspect-ratio: 434 / 614;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-neutral-100);
-  object-fit: cover;
-}
-
-.ficha-galeria-flecha {
-  align-self: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-neutral-950);
-  font-size: 28px;
-}
-
-.ficha-galeria-flecha:hover {
-  color: var(--color-primario-darker);
-}
-
-.ficha-miniaturas {
-  grid-column: 2;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 13px;
-}
-
-.ficha-miniaturas button {
-  padding: 0;
-  overflow: hidden;
-  border: 2px solid transparent;
-  border-radius: var(--radius-md);
-  background: none;
-}
-
-.ficha-miniaturas button[aria-pressed="true"] {
-  border-color: var(--color-primario-darker);
-}
-
-.ficha-miniaturas img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
+  aspect-ratio: 526 / 640;
+  border-radius: var(--radius-xl);
+  object-fit: contain;
 }
 
 /* DATOS DEL LIBRO */
+.ficha-datos {
+  max-width: 467px;
+}
+
 .ficha-datos h1 {
+  max-width: 350px;
   margin: 0;
   font-family: var(--fuente-display);
-  font-weight: 400;
-  font-size: var(--tamano-fuente-heading-xl);
-  line-height: 40px;
-  color: var(--color-primario-darker);
+  font-weight: var(--peso-regular);
+  font-size: var(--tamano-fuente-heading-md);
+  line-height: var(--interlineado-heading-md);
+  letter-spacing: var(--espaciado-heading-md);
+  color: var(--color-neutral-950);
   background-color: transparent;
 }
 
 .ficha-autor {
-  margin: 4px 0 28px;
-  font-size: var(--tamano-fuente-small);
+  margin: 8px 0 24px;
+  font-size: var(--tamano-fuente-body-sm);
+  font-weight: 300;
+  line-height: normal;
 }
 
 .ficha-precios {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 24px;
+  align-items: center;
+  gap: 8px 16px;
 }
 
 .ficha-precio {
   font-size: 36px;
-  font-weight: 500;
-  line-height: 44px;
+  font-weight: var(--peso-regular);
+  line-height: normal;
 }
 
 .ficha-precios s {
-  font-size: var(--tamano-fuente-small);
-  color: var(--color-neutral-dark);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: 300;
 }
 
 .ficha-descuento {
-  font-size: var(--tamano-fuente-small);
-  font-weight: 700;
+  padding: 0 5px;
+  border: 1.33px solid var(--color-red-alert-500);
+  border-radius: 5px;
+  font-size: var(--tamano-fuente-body-md);
+  line-height: 21px;
+  color: var(--color-red-alert-500);
 }
 
 .ficha-stock {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin: 12px 0 28px;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  background-color: var(--color-neutral-lighter);
-  font-size: var(--tamano-fuente-caption);
+  margin: 8px 0 24px;
+  padding: 2px 8px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-neutral-200);
+  font-size: var(--tamano-fuente-body-sm);
+  line-height: normal;
 }
 
 .ficha-stock::before {
   content: "";
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
   background-color: var(--color-green-success-500);
 }
 
@@ -158,37 +122,47 @@
   background-color: var(--color-red-alert-500);
 }
 
+/* Contador de 140 × 48 (componente "Counter" del UI Kit) */
 .ficha-cantidad label {
   display: block;
   margin-bottom: 8px;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-body-sm);
 }
 
 .ficha-cantidad-control {
-  display: inline-flex;
-  border: var(--stroke-default) solid var(--color-neutral-darker);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 140px;
+  height: 48px;
+  overflow: hidden;
+  border: var(--stroke-default) solid var(--color-neutral-950);
+  border-radius: var(--radius-md);
 }
 
 .ficha-cantidad-control button {
-  width: 32px;
-  height: 48px;
+  width: 30px;
+  height: 100%;
   padding: 0;
   border: 0;
-  background-color: var(--color-neutral-100);
+  background: transparent;
   font-size: 18px;
   color: var(--color-neutral-950);
 }
 
 .ficha-cantidad-control button:disabled {
-  color: var(--color-neutral-light);
+  color: var(--color-neutral-400);
   cursor: default;
 }
 
 .ficha-cantidad-control input {
-  width: 76px;
+  width: 60px;
   border: 0;
+  background: transparent;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-small);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: 300;
   text-align: center;
   appearance: textfield;
 }
@@ -199,17 +173,20 @@
   appearance: none;
 }
 
+/* Botones: "Agregar al carrito" (280px) con el corazón, y "Comprar ahora" */
 .ficha-botones {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 32px;
+  width: 350px;
+  max-width: 100%;
+  margin-top: 36px;
 }
 
 .ficha-botones-fila {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
 }
 
 .ficha-agregar,
@@ -217,29 +194,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  width: 216px;
+  gap: 8px;
+  box-sizing: border-box;
   height: 48px;
+  padding: 12px;
   border-radius: var(--radius-lg);
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-bold);
 }
 
 .ficha-agregar {
-  border: var(--stroke-default) solid var(--color-violet-800);
-  color: var(--color-violet-800);
+  width: 280px;
+  border: var(--stroke-default) solid var(--color-brand-tertiary-dark);
+  color: var(--color-brand-tertiary-dark);
   background-color: transparent;
 }
 
+.ficha-agregar .icono {
+  font-size: 20px;
+}
+
 .ficha-agregar:hover {
-  background-color: var(--color-violet-50);
+  background-color: var(--color-turquoise-50);
 }
 
 .ficha-comprar {
+  width: 100%;
   border: 0;
   color: var(--color-neutral-0);
-  background-color: var(--color-turquoise-700);
-  font-weight: 700;
+  background-color: var(--color-brand-tertiary-dark);
 }
 
 .ficha-comprar:hover {
@@ -249,12 +233,13 @@
 /* Libro sin stock: botones de compra deshabilitados */
 .ficha-agregar:disabled,
 .ficha-comprar:disabled {
-  border-color: var(--color-neutral-light);
-  color: var(--color-neutral-dark);
-  background-color: var(--color-neutral-100);
+  border-color: var(--color-neutral-300);
+  color: var(--color-neutral-600);
+  background-color: var(--color-neutral-200);
   cursor: not-allowed;
 }
 
+/* Corazón de 48px sin fondo, como en el diseño */
 .ficha-favorito {
   display: flex;
   align-items: center;
@@ -264,37 +249,45 @@
   padding: 0;
   border: 0;
   border-radius: var(--radius-full);
-  background-color: var(--color-neutral-0);
-  box-shadow: 0 1px 3px rgb(20 20 20 / 15%);
-  color: var(--color-neutral-950);
-  font-size: 24px;
+  background: transparent;
+  color: var(--color-neutral-900);
+  font-size: 28px;
+}
+
+.ficha-favorito:hover {
+  background-color: var(--color-violet-50);
 }
 
 .ficha-favorito[aria-pressed="true"] {
-  color: var(--color-primario-darker);
+  color: var(--color-brand-primary-dark);
 }
 
+/* Calcular envío | Retiro en tienda */
 .ficha-envio {
   display: flex;
-  gap: 12px;
-  margin-top: 16px;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
 }
 
 .ficha-envio a {
-  font-size: var(--tamano-fuente-caption);
-  font-weight: 700;
+  font-size: var(--tamano-fuente-body-sm);
+  font-weight: var(--peso-semibold);
+  line-height: 30px;
   color: var(--color-neutral-950);
 }
 
 .ficha-envio a + a {
-  padding-left: 12px;
-  border-left: var(--stroke-default) solid var(--color-neutral-darker);
+  padding-left: 16px;
+  border-left: var(--stroke-default) solid var(--color-neutral-950);
+  line-height: 25px;
 }
 
+/* Ficha técnica: etiqueta SemiBold y valor Light, 20px */
 .ficha-especificaciones {
-  margin: 24px 0 20px;
-  font-size: var(--tamano-fuente-small);
-  line-height: 24px;
+  margin: 32px 0 16px;
+  font-size: 20px;
+  line-height: 30px;
 }
 
 .ficha-especificaciones dt,
@@ -305,35 +298,48 @@
 
 .ficha-especificaciones dt {
   margin-right: 6px;
-  font-weight: 700;
+  font-weight: var(--peso-semibold);
+}
+
+.ficha-especificaciones dd {
+  font-weight: 300;
 }
 
 .ficha-etiquetas p {
   margin: 0 0 8px;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: 300;
+  line-height: 24px;
 }
 
-/* Etiquetas en una sola línea */
 .ficha-etiquetas ul {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .ficha-etiquetas li {
-  padding: 2px 10px;
+  padding: 2px 12px;
   white-space: nowrap;
-  border: var(--stroke-default) solid var(--color-neutral-darker);
+  border: var(--stroke-default) solid var(--color-neutral-950);
   border-radius: var(--radius-lg);
-  font-size: var(--tamano-fuente-caption);
+  background-color: var(--color-neutral-100);
+  font-size: var(--tamano-fuente-body-sm);
+  font-weight: 300;
+  line-height: 20px;
 }
 
-/* SECCIONES PLEGABLES (Descripción y reseñas) */
+/* SECCIONES PLEGABLES ("accordion" del UI Kit): título Bree Serif 18,
+   flecha de 24px en 48px y línea gris debajo */
 .ficha-seccion {
-  margin-top: 72px;
+  margin-top: 64px;
+}
+
+.ficha-producto + .ficha-seccion {
+  margin-top: 89px;
 }
 
 .ficha .ficha-seccion h2 {
@@ -346,34 +352,45 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 0 8px;
+  height: 50px;
+  padding: 0;
   border: 0;
-  border-bottom: var(--stroke-default) solid var(--color-neutral-950);
+  border-bottom: var(--stroke-default) solid var(--color-neutral-500);
   background: transparent;
-  font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body);
-  font-weight: 700;
+  font-family: var(--fuente-display);
+  font-size: var(--tamano-fuente-body-lg);
+  font-weight: var(--peso-regular);
+  line-height: var(--interlineado-body-lg);
   color: var(--color-neutral-950);
   text-align: left;
 }
 
 .ficha-seccion h2 button .icono {
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+  transform: rotate(180deg);
   transition: transform 160ms ease;
 }
 
-.ficha-seccion h2 button[aria-expanded="true"] .icono {
-  transform: rotate(180deg);
+.ficha-seccion h2 button[aria-expanded="false"] .icono {
+  transform: none;
 }
 
+/* "(2 reseñas)" en Lexend, junto al título */
 .ficha-seccion-detalle {
-  font-weight: 400;
+  margin-left: 12px;
+  font-family: var(--fuente-body);
 }
 
 .ficha-descripcion {
   margin: 0;
-  padding: 24px 60px 0;
-  font-size: var(--tamano-fuente-small);
+  padding: 22px 102px 10px;
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: 300;
   line-height: 24px;
 }
 
@@ -384,41 +401,60 @@
   flex: 0 0 auto;
   width: 72px;
   height: 72px;
-  border-radius: 50%;
-  background-color: var(--color-neutral-300);
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-400);
   color: var(--color-neutral-0);
   font-size: 40px;
 }
 
-/* RESEÑAS DE LIBREROS */
+/* RECOMENDACIONES DE LIBREROS: columna de 998px centrada */
 .ficha-libreros {
-  margin: 0;
-  padding: 32px 60px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 998px;
+  margin: 0 auto;
+  padding: 48px 0 0;
   list-style: none;
 }
 
 .ficha-libreros li {
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
-  gap: 32px;
-  margin-bottom: 48px;
+  grid-template-columns: 85px minmax(0, 1fr);
+  gap: 55px;
 }
 
 .ficha-librero-perfil {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  font-size: var(--tamano-fuente-caption);
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--tamano-fuente-body-sm);
+  font-weight: 300;
+  line-height: normal;
+}
+
+.ficha-librero-foto {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 6px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
 }
 
 .ficha-librero-perfil a {
+  font-weight: var(--peso-regular);
   color: var(--color-neutral-950);
+}
+
+.ficha-librero-texto {
+  max-width: 857px;
 }
 
 .ficha-librero-texto p {
   margin: 0;
-  font-size: var(--tamano-fuente-small);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: 300;
   line-height: 24px;
 }
 
@@ -426,162 +462,272 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 4px;
+  margin-bottom: 12px;
+  font-weight: var(--peso-bold);
+  line-height: normal;
 }
 
 .ficha-librero-nombre [role="img"] {
   display: inline-flex;
-  gap: 4px;
+  gap: 8px;
   font-size: 18px;
-  color: var(--color-secundario-dark);
+  color: var(--color-neutral-950);
 }
 
 .ficha-ver-mas {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 8px auto 0;
+  gap: 4px;
+  margin: 32px auto 0;
   padding: 0;
   border: 0;
   background: transparent;
   font-family: var(--fuente-body);
-  font-size: 18px;
+  font-size: var(--tamano-fuente-label-md);
   color: var(--color-neutral-950);
   text-decoration: underline;
 }
 
 .ficha-ver-mas .icono {
-  font-size: 14px;
+  font-size: 20px;
 }
 
-/* MÍRALO DE CERCA */
+/* MÍRALO DE CERCA: franja amarilla de 312px; el video (588 × 380) sobresale
+   34px por arriba y por abajo */
 .ficha-video {
+  margin: 201px 0 0;
+  background-color: var(--color-brand-secondary);
+}
+
+.ficha-video-contenido {
   display: grid;
-  grid-template-columns: minmax(0, 588px) minmax(0, 1fr);
-  gap: 68px;
+  grid-template-columns: minmax(0, 588px) minmax(0, 488px);
+  justify-content: space-between;
   align-items: center;
-  margin: 96px 0;
+  box-sizing: border-box;
+  max-width: calc(var(--ancho-columna) + 48px);
+  min-height: 312px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .ficha-video-reproductor {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: -34px 0 -34px -2px;
   aspect-ratio: 588 / 380;
-  border-radius: var(--radius-2xl);
-  background-color: var(--color-primario-light);
-  color: var(--color-neutral-0);
-  font-size: 96px;
+  overflow: hidden;
+  border-radius: var(--radius-3xl);
+  box-shadow: 0 25px 50px -12px rgb(20 20 20 / 30%);
 }
 
-.ficha .ficha-video-texto h2 {
-  margin: 0 0 4px;
-  font-family: var(--fuente-body);
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 44px;
-  color: var(--color-primario-darker);
+.ficha-video-imagen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Velo negro al 30% y triángulo blanco apuntando a la derecha */
+.ficha-video-reproductor::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgb(0 0 0 / 30%);
+}
+
+.ficha-video-boton {
+  position: relative;
+  z-index: 1;
+  width: 79px;
+  height: auto;
+  transform: rotate(90deg);
+}
+
+.ficha-video-texto {
+  color: var(--color-neutral-950);
+}
+
+.ficha .ficha-video-texto h2,
+.ficha-video-texto h2 {
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: var(--tamano-fuente-heading-xl);
+  font-weight: var(--peso-regular);
+  line-height: var(--interlineado-heading-xl);
+  letter-spacing: var(--espaciado-heading-xl);
+  color: var(--color-neutral-950);
   background-color: transparent;
 }
 
 .ficha-video-texto p {
-  max-width: 380px;
+  max-width: 384px;
   margin: 0;
-  font-size: var(--tamano-fuente-small);
-  line-height: 20px;
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: 300;
+  line-height: 24px;
 }
 
 .ficha-video-texto .ficha-video-etiqueta {
-  margin-bottom: 24px;
-  font-weight: 700;
+  margin: 4px 0 24px;
+  font-size: var(--tamano-fuente-body-lg);
+  font-weight: var(--peso-regular);
+  line-height: 28px;
 }
 
-/* CALIFICACIÓN (banda a todo el ancho) */
+/* CALIFICACIÓN: tarjeta de 480 × 528 sobre una franja de 437px con logos */
 .ficha-calificacion {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 40px 24px 56px;
-  background-color: var(--color-violet-50);
+  justify-content: center;
+  margin-top: 225px;
+  padding: 0 24px;
   font-family: var(--fuente-body);
   color: var(--color-neutral-950);
   text-align: center;
 }
 
-.ficha-calificacion img {
-  width: 80px;
+/* Fondo de logos en contorno gris, girados como en el diseño */
+.ficha-calificacion::before {
+  content: "";
+  position: absolute;
+  top: 46px;
+  right: 0;
+  left: 0;
+  height: 437px;
+  background: url("../assets/imagenes/patron-logos.svg") repeat center / 96px 72px;
+}
+
+.ficha-calificacion-tarjeta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 480px;
+  max-width: 100%;
+  min-height: 528px;
+  padding: 0 64px;
+  border: var(--stroke-default) solid var(--color-neutral-400);
+  border-radius: var(--radius-5xl);
+  background-color: var(--color-neutral-50);
+  box-shadow:
+    0 20px 25px -5px var(--color-elevacion-10),
+    0 8px 10px -6px var(--color-elevacion-10);
+}
+
+.ficha-calificacion-logo {
+  width: 105px;
   height: auto;
 }
 
 .ficha-calificacion-estrellas {
   display: flex;
-  gap: 4px;
-  font-size: 20px;
-  color: var(--color-secundario-dark);
+  gap: 8px;
+  margin-top: 22px;
+  font-size: 18px;
+  color: var(--color-brand-primary-dark);
 }
 
+/* Nota en Bree Serif 120 con degradado gris, entre dos laureles */
 .ficha-calificacion .ficha-calificacion-nota {
-  margin: 0;
-  font-size: 96px;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 149px;
+  margin: 12px 0 0;
+}
+
+.ficha-calificacion-nota img {
+  width: auto;
+  height: 82px;
+}
+
+.ficha-calificacion-nota .ficha-calificacion-laurel-derecho {
+  transform: scaleX(-1);
+}
+
+.ficha-calificacion-nota span {
+  font-family: var(--fuente-display);
+  font-size: 120px;
   line-height: 1;
-  color: var(--color-primario-darker);
+  background: linear-gradient(to top, var(--color-neutral-950), var(--color-neutral-600));
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 4px rgb(0 0 0 / 25%));
 }
 
 .ficha-calificacion h2 {
-  margin: 16px 0 0;
+  margin: 19px 0 0;
   font-family: var(--fuente-body);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 24px;
-  color: var(--color-neutral-950);
+  font-size: 20px;
+  font-weight: var(--peso-bold);
+  line-height: 21px;
+  color: var(--color-brand-primary-dark);
   background-color: transparent;
 }
 
 .ficha-calificacion p {
-  margin: 0;
-  font-size: var(--tamano-fuente-small);
-  line-height: 20px;
+  margin: 19px 0 0;
+  font-size: var(--tamano-fuente-body-md);
+  line-height: 24px;
 }
 
 .ficha-calificacion button {
-  margin-top: 16px;
+  margin-top: 24px;
   padding: 0;
   border: 0;
   background: transparent;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-small);
+  font-size: var(--tamano-fuente-body-md);
+  line-height: 24px;
   color: var(--color-neutral-950);
   text-decoration: underline;
 }
 
 .ficha-calificacion .ficha-calificacion-ayuda {
-  max-width: 420px;
-  color: var(--color-neutral-darker);
+  max-width: 350px;
+  margin-top: 12px;
+  font-size: var(--tamano-fuente-body-sm);
+  color: var(--color-neutral-800);
 }
 
-/* RESEÑAS DE OTROS LECTORES */
+/* RESEÑAS DE OTROS LECTORES: dos columnas de 481px */
 .ficha-final .ficha-seccion {
-  margin-top: 72px;
+  margin-top: 64px;
 }
 
 .ficha-lectores {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 48px 96px;
+  grid-template-columns: repeat(2, minmax(0, 481px));
+  justify-content: space-between;
+  gap: 48px 24px;
   margin: 0;
   padding: 32px 0 0;
   list-style: none;
 }
 
 .ficha-lectores li {
-  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .ficha-lector-perfil {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+/* Foto de 64px con las estrellas 12px más abajo */
+.ficha-lector-avatar {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
@@ -591,47 +737,52 @@
   font-size: 34px;
 }
 
-.ficha-lector-perfil div {
+.ficha-lector-avatar [role="img"] {
+  display: inline-flex;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-neutral-950);
+}
+
+.ficha-lector-datos {
   display: flex;
   flex-direction: column;
-  font-size: var(--tamano-fuente-caption);
+  gap: 16px;
+  font-size: var(--tamano-fuente-body-sm);
 }
 
-.ficha-lector-perfil strong {
-  font-size: var(--tamano-fuente-small);
+.ficha-lector-datos > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: var(--interlineado-body-sm);
 }
 
-.ficha-lector-perfil span {
-  color: var(--color-neutral-dark);
+.ficha-lector-datos strong {
+  font-weight: var(--peso-semibold);
+}
+
+.ficha-lector-datos span {
+  font-weight: 300;
+  color: var(--color-neutral-500);
+}
+
+.ficha-lector-datos .ficha-lector-fecha {
+  font-weight: var(--peso-regular);
+  line-height: 15px;
 }
 
 .ficha-lectores p {
   margin: 0;
-  font-size: var(--tamano-fuente-small);
-  line-height: 20px;
-}
-
-.ficha-lectores .ficha-lector-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 8px 0;
-  font-size: var(--tamano-fuente-caption);
-  color: var(--color-neutral-dark);
-}
-
-.ficha-lector-meta [role="img"] {
-  display: inline-flex;
-  gap: 2px;
-  font-size: 12px;
-  color: var(--color-secundario-dark);
+  font-size: var(--tamano-fuente-body-sm);
+  line-height: 21px;
 }
 
 .ficha-lectores-acciones {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  margin-top: 48px;
+  margin-top: 64px;
 }
 
 .ficha-lectores-acciones .ficha-ver-mas {
@@ -640,60 +791,58 @@
 
 .ficha-dejar-reseña {
   justify-self: start;
-  padding: 10px 16px;
-  border: var(--stroke-default) solid var(--color-violet-800);
-  border-radius: var(--radius-md);
+  height: 48px;
+  padding: 12px;
+  border: var(--stroke-default) solid var(--color-brand-tertiary-dark);
+  border-radius: var(--radius-lg);
   background: transparent;
   font-family: var(--fuente-body);
-  font-size: 18px;
-  color: var(--color-violet-800);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-bold);
+  color: var(--color-brand-tertiary-dark);
 }
 
 .ficha-dejar-reseña:hover {
-  background-color: var(--color-violet-50);
+  background-color: var(--color-turquoise-50);
 }
 
 .ficha-aviso {
   margin: 16px 0 0;
-  font-size: var(--tamano-fuente-small);
-  color: var(--color-neutral-darker);
+  font-size: var(--tamano-fuente-body-sm);
+  color: var(--color-neutral-800);
 }
 
-/* TE PODRÍA INTERESAR */
-.ficha-relacionados {
-  margin: 96px 0 120px;
+/* TE PODRÍA INTERESAR: mismo carrusel que la Home (index.css), 160px bajo
+   las reseñas y 128px antes del footer */
+.ficha section.inicio-productos.ficha-relacionados {
+  padding: 160px 0 128px;
 }
 
-.ficha .ficha-relacionados h2 {
-  margin: 0 0 40px;
-  padding-bottom: 12px;
-  border-bottom: var(--stroke-default) solid var(--color-neutral-950);
-  font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-body);
-  font-weight: 700;
-  color: var(--color-neutral-950);
-  background-color: transparent;
-}
-
-.ficha-relacionados-grilla {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 282px));
-  justify-content: space-between;
-  gap: 48px 24px;
+/* Sin recomendaciones de libreros o sin reseñas de lectores */
+.ficha-sin-resenas {
+  margin: 0;
+  padding: 24px 0;
+  font-size: var(--tamano-fuente-body-sm);
 }
 
 @media (max-width: 1100px) {
   .ficha-producto {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    padding-left: 0;
   }
 
-  .ficha-video {
-    grid-template-columns: 1fr;
+  .ficha-portada {
+    max-width: 526px;
+  }
+
+  .ficha-video-contenido {
+    grid-template-columns: minmax(0, 1fr);
     gap: 32px;
+    padding: 0 24px 40px;
   }
 
-  .ficha-relacionados-grilla {
-    grid-template-columns: repeat(3, minmax(0, 282px));
+  .ficha-video-reproductor {
+    margin: -34px 0 0;
   }
 }
 
@@ -703,43 +852,66 @@
   }
 
   .ficha-ruta ol {
-    margin-left: 36px;
+    margin-left: 0;
   }
 
-  .ficha-galeria {
-    grid-template-columns: 32px minmax(0, 1fr) 32px;
-    gap: 12px 4px;
+  .ficha-botones,
+  .ficha-agregar {
     width: 100%;
   }
 
-  .ficha-descripcion,
-  .ficha-libreros {
-    padding-left: 0;
-    padding-right: 0;
+  .ficha-botones-fila {
+    gap: 12px;
+  }
+
+  .ficha-especificaciones {
+    font-size: var(--tamano-fuente-body-md);
+    line-height: 26px;
+  }
+
+  .ficha-descripcion {
+    padding: 22px 0 10px;
   }
 
   .ficha-libreros li {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
 
   .ficha-librero-perfil {
     flex-direction: row;
-    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .ficha-video-texto h2 {
+    font-size: var(--tamano-fuente-heading-md);
+    line-height: var(--interlineado-heading-md);
+  }
+
+  .ficha-video {
+    margin-top: 120px;
+  }
+
+  .ficha-calificacion {
+    margin-top: 96px;
+  }
+
+  .ficha-calificacion-nota span {
+    font-size: 88px;
   }
 
   .ficha-lectores {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .ficha-lectores-acciones {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     justify-items: start;
     gap: 16px;
   }
 
-  .ficha-relacionados-grilla {
-    grid-template-columns: minmax(0, 320px);
-    justify-content: center;
+  .ficha section.inicio-productos.ficha-relacionados {
+    padding: 96px 0;
   }
 }

@@ -2,8 +2,8 @@
    Medidas: componente "Header" (Componentes Global, node 1996:9439).
    Colores: wireframe Home (Wireframes Desktop, node 1839:7011). */
 .barra-navegacion {
-  --barra-color-primario: #6200ee;
-  --barra-color-placeholder: #959595;
+  --barra-color-primario: var(--color-brand-primary);
+  --barra-color-placeholder: var(--color-neutral-500);
   --barra-sombra-buscador: 0 1px 3px rgb(20 20 20 / 15%);
 }
 
@@ -27,7 +27,7 @@
   margin: 0;
   font-family: var(--fuente-body);
   font-weight: 400;
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
   color: var(--color-neutral-0);
   white-space: nowrap;
 }
@@ -51,7 +51,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 28px;
-  max-width: var(--ancho-contenido);
+  /* Columna de la Home; en Figma (Nav-bar) el contenido va 5px hacia
+     adentro: el carrito termina en 1315px y la columna en 1320px */
+  max-width: calc(var(--ancho-columna) - 10px);
   margin: 0 auto;
   padding: 16px 24px;
   font-family: var(--fuente-body);
@@ -91,7 +93,7 @@
   align-items: center;
   gap: 4px;
   height: 48px;
-  font-size: var(--tamano-fuente-label);
+  font-size: var(--tamano-fuente-label-md);
   font-weight: 500;
   color: var(--color-neutral-950);
   text-decoration: none;
@@ -138,7 +140,7 @@
   border: 0;
   outline: 0;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-caption);
+  font-size: var(--tamano-fuente-caption-sm);
   color: var(--color-neutral-950);
   background: transparent;
 }
@@ -179,7 +181,7 @@
 .barra-navegacion .header-saludo {
   max-width: 93px;
   overflow: hidden;
-  font-size: var(--tamano-fuente-label);
+  font-size: var(--tamano-fuente-label-md);
   font-weight: 300;
   line-height: 1;
   color: var(--color-neutral-950);
@@ -203,7 +205,7 @@
 .barra-navegacion .header-icono-usuario {
   width: 40px;
   height: 40px;
-  color: var(--color-neutral-800);
+  color: var(--color-neutral-900);
 }
 
 .barra-navegacion .header-icono-usuario-activo {
@@ -211,9 +213,32 @@
 }
 
 .barra-navegacion .header-icono-carrito {
+  position: relative;
   width: 48px;
   height: 48px;
-  color: var(--color-neutral-800);
+  color: var(--color-neutral-900);
+}
+
+/* Cantidad de libros: insignia pequeña sobre la esquina del carro */
+.barra-navegacion .header-carrito-contador {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border: var(--stroke-focus) solid var(--color-neutral-0);
+  border-radius: var(--radius-full);
+  color: var(--color-neutral-0);
+  background-color: var(--color-brand-primary);
+  font-size: var(--tamano-fuente-label-sm);
+  font-weight: var(--peso-bold);
+  line-height: 1;
+  pointer-events: none;
 }
 
 .barra-navegacion .header-icono:hover {
@@ -291,7 +316,7 @@
   border: 0;
   background: transparent;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-label);
+  font-size: var(--tamano-fuente-label-md);
   font-weight: 300;
   line-height: 20px;
   color: var(--color-neutral-950);
@@ -301,6 +326,6 @@
 
 .menu-usuario-panel a:hover,
 .menu-usuario-panel button:hover {
-  color: var(--color-violet-800);
+  color: var(--color-violet-700);
   background-color: var(--color-violet-50);
 }

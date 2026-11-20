@@ -1,2 +1,13 @@
-# Agrega aquí los archivos y directorios que no deben incorporarse al repositorio.
-# Adapta este archivo a las tecnologías elegidas por el equipo.
+# Dependencias y archivos generados
+node_modules/
+dist/
+
+# Variables de entorno (la plantilla es react-app/.env.example)
+.env
+.env.local
+
+# Registros y archivos del sistema o del editor
+*.log
+.DS_Store
+Thumbs.db
+.idea/

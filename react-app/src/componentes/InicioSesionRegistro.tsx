@@ -1,9 +1,23 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { Icono } from "./Icono";
+import { useEffect, useEffectEvent, useState, type FormEvent, type ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import iconoCorreo from "../assets/iconos/14-correo.svg";
+import iconoCuentaLista from "../assets/iconos/13-check-circulo.svg";
+import iconoVerificacionFallida from "../assets/iconos/15-x-circulo.svg";
+import { useAutenticacionStore } from "../estado/autenticacionStore";
+import { useCarritoStore } from "../estado/carritoStore";
 import { useSesionStore } from "../estado/sesionStore";
+import { ErrorApi } from "../servicios/api";
+import { reenviarVerificacion } from "../servicios/authServicio";
 import { iniciarSesion, registrarse } from "../servicios/checkoutServicio";
 import { LARGO_MINIMO_CONTRASENA, REGEX_EMAIL } from "../utils/validacion";
+import { Icono } from "./Icono";
 import "../estilos/modal-autenticacion.css";
+
+// Modal de inicio de sesión y registro en alta fidelidad (Figma: login-card,
+// node 3408:8870, y su estado de error, node 3408:8940). Después de crear la
+// cuenta muestra "¡Ya casi estás dentro!", y al volver del enlace del correo,
+// "¡Tu cuenta ya está lista!" o "No hemos podido verificar tu cuenta"
+// (estado/autenticacionStore.ts).
 
 type ModalInicioSesionRegistroProps = {
 	abierto: boolean;
@@ -43,22 +57,62 @@ function validar(campos: Campos, esRegistro: boolean): Errores {
 	return errores;
 }
 
+// "camila.rojas@gmail.com" -> "****jas@gmail.com", como en el diseño
+function enmascararCorreo(correo: string) {
+	const [usuario, dominio] = correo.split("@");
+	if (!dominio) return correo;
+	return `****${usuario.slice(-3)}@${dominio}`;
+}
+
+// Mensajes de la verificación del correo (Figma: nodes 3263:40035, 3262:39965
+// y 3263:39974). Comparten el formato: ícono de 108 px, título Bree Serif 36,
+// texto y acciones de texto subrayado.
+function MensajeAutenticacion({
+	variante,
+	icono,
+	titulo,
+	children,
+	acciones,
+}: {
+	variante: "correo" | "exito" | "error";
+	icono: string;
+	titulo: string;
+	children: ReactNode;
+	acciones: ReactNode;
+}) {
+	return (
+		<div className={`autenticacion-mensaje autenticacion-mensaje-${variante}`} aria-live="polite">
+			<img className="autenticacion-mensaje-icono" src={icono} alt="" />
+			<h2 id="autenticacion-titulo">{titulo}</h2>
+			<div className="autenticacion-mensaje-texto">{children}</div>
+			<div className="autenticacion-mensaje-acciones">{acciones}</div>
+		</div>
+	);
+}
+
 export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesionRegistroProps) {
+	const navegar = useNavigate();
+	const vista = useAutenticacionStore((estado) => estado.vista);
+	const correoVerificacion = useAutenticacionStore((estado) => estado.correo);
+	const mostrar = useAutenticacionStore((estado) => estado.mostrar);
+	const conSesion = useSesionStore((estado) => Boolean(estado.usuario));
+	const iniciar = useSesionStore((estado) => estado.iniciar);
+
 	// ESTADO DEL FORMULARIO ACTUAL
 	const [modo, setModo] = useState<ModoAutenticacion>("inicio");
 	const [campos, setCampos] = useState(CAMPOS_VACIOS);
 	const [errores, setErrores] = useState<Errores>({});
 	const [enviando, setEnviando] = useState(false);
-	const [registroExitoso, setRegistroExitoso] = useState(false);
-	const [correoConfirmacion, setCorreoConfirmacion] = useState("");
-	const iniciar = useSesionStore((estado) => estado.iniciar);
+	const [verContrasena, setVerContrasena] = useState(false);
+	// Resultado de "Reenviar correo"
+	const [reenvio, setReenvio] = useState<{ estado: "enviando" | "enviado" | "error"; texto: string } | null>(null);
 
 	const resetearModal = () => {
 		setModo("inicio");
 		setCampos(CAMPOS_VACIOS);
 		setErrores({});
-		setRegistroExitoso(false);
-		setCorreoConfirmacion("");
+		setVerContrasena(false);
+		setReenvio(null);
 	};
 
 	const cerrarModal = () => {
@@ -66,13 +120,19 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 		onCerrar();
 	};
 
+	// Escape cierra con la versión actual de cerrarModal. Como evento de efecto,
+	// no es dependencia: el efecto se ejecuta solo al abrir o cerrar el modal
+	const alPresionarEscape = useEffectEvent(() => cerrarModal());
+
 	// CIERRE CON ESCAPE Y BLOQUEO DEL SCROLL
 	useEffect(() => {
 		if (!abierto) return;
 
+		// El carrito se cierra para que no quede abierto detrás del modal
+		useCarritoStore.getState().cerrar();
 		const overflowAnterior = document.body.style.overflow;
 		const cerrarConEscape = (evento: KeyboardEvent) => {
-			if (evento.key === "Escape") cerrarModal();
+			if (evento.key === "Escape") alPresionarEscape();
 		};
 
 		document.body.style.overflow = "hidden";
@@ -82,7 +142,7 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 			document.body.style.overflow = overflowAnterior;
 			window.removeEventListener("keydown", cerrarConEscape);
 		};
-	}, [abierto, cerrarModal]);
+	}, [abierto]);
 
 	if (!abierto) return null;
 
@@ -96,9 +156,9 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 	function cambiarModo() {
 		setModo(esRegistro ? "inicio" : "registro");
 		setErrores({});
+		setVerContrasena(false);
 	}
 
-	// ENVIO AL SERVICIO DUMMY DE AUTENTICACION (la sesión queda en Zustand)
 	async function enviarFormulario(evento: FormEvent<HTMLFormElement>) {
 		evento.preventDefault();
 		const nuevos = validar(campos, esRegistro);
@@ -118,15 +178,19 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 					})
 				: await iniciarSesion({ email: correo, password: campos.contrasena });
 			iniciar(usuario);
+			resetearModal();
 			if (esRegistro) {
-				setCorreoConfirmacion(correo);
-				setRegistroExitoso(true);
-				setCampos(CAMPOS_VACIOS);
+				mostrar("verificacion-enviada", correo);
 				return;
 			}
-			setCampos(CAMPOS_VACIOS);
-			cerrarModal();
+			onCerrar();
 		} catch (error) {
+			// Credenciales incorrectas: ambos campos en rojo y el mensaje bajo el
+			// correo (Figma: estado de error, node 3408:8940)
+			if (!esRegistro && error instanceof ErrorApi && error.statusCode === 401) {
+				setErrores({ correo: "Correo electrónico o contraseña no coinciden.", contrasena: " " });
+				return;
+			}
 			setErrores({
 				general: error instanceof Error ? error.message : "No pudimos procesar tu solicitud",
 			});
@@ -135,17 +199,312 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 		}
 	}
 
+	// "Reenviar correo": la API lo envía al correo de la cuenta con sesión
+	async function reenviarCorreo() {
+		if (!conSesion) {
+			setReenvio({ estado: "error", texto: "Inicia sesión para que te enviemos un nuevo correo." });
+			return;
+		}
+		setReenvio({ estado: "enviando", texto: "Enviando…" });
+		try {
+			await reenviarVerificacion();
+			setReenvio({ estado: "enviado", texto: "Te enviamos un nuevo correo." });
+		} catch (error) {
+			const yaVerificada = error instanceof ErrorApi && error.statusCode === 409;
+			setReenvio({
+				estado: yaVerificada ? "enviado" : "error",
+				texto: yaVerificada
+					? "Tu cuenta ya está verificada."
+					: error instanceof Error
+						? error.message
+						: "No pudimos reenviar el correo.",
+			});
+		}
+	}
+
 	// Atributos de accesibilidad y mensaje de error de cada campo
 	const estadoCampo = (campo: keyof Campos) => ({
 		"aria-invalid": Boolean(errores[campo]) || undefined,
-		"aria-describedby": errores[campo] ? `error-${campo}` : undefined,
+		"aria-describedby": errores[campo]?.trim() ? `error-${campo}` : undefined,
 	});
 	const mensajeError = (campo: keyof Campos) =>
-		errores[campo] && (
+		errores[campo]?.trim() && (
 			<span className="autenticacion-error" id={`error-${campo}`}>
 				{errores[campo]}
 			</span>
 		);
+
+	// Botón "Reenviar correo" y su resultado
+	const botonReenviar = (
+		<button
+			type="button"
+			className="autenticacion-texto-boton"
+			disabled={reenvio?.estado === "enviando"}
+			onClick={() => void reenviarCorreo()}
+		>
+			Reenviar correo
+		</button>
+	);
+	const estadoReenvio = reenvio && (
+		<p className={`autenticacion-reenvio autenticacion-reenvio-${reenvio.estado}`} role="status">
+			{reenvio.texto}
+		</p>
+	);
+
+	let contenido: ReactNode;
+	if (vista === "verificacion-enviada") {
+		contenido = (
+			<MensajeAutenticacion
+				variante="correo"
+				icono={iconoCorreo}
+				titulo="¡Ya casi estás dentro!"
+				acciones={
+					<>
+						{botonReenviar}
+						<button type="button" className="autenticacion-texto-boton" onClick={cerrarModal}>
+							Continuar
+							<Icono nombre="flechaDerecha" />
+						</button>
+					</>
+				}
+			>
+				<p>
+					Te enviamos un correo a {enmascararCorreo(correoVerificacion)} para verificar
+					tu cuenta. Solo tienes que abrirlo y hacer clic en el enlace.
+				</p>
+				<p>
+					<strong>¿No lo encuentras?</strong>
+					<br />
+					Revisa tu bandeja de spam o promociones
+				</p>
+				{estadoReenvio}
+			</MensajeAutenticacion>
+		);
+	} else if (vista === "cuenta-lista") {
+		contenido = (
+			<MensajeAutenticacion
+				variante="exito"
+				icono={iconoCuentaLista}
+				titulo="¡Tu cuenta ya está lista!"
+				acciones={
+					<button
+						type="button"
+						className="autenticacion-texto-boton autenticacion-texto-boton-marca"
+						onClick={() => {
+							cerrarModal();
+							navegar("/catalogo");
+						}}
+					>
+						Comenzar a explorar
+					</button>
+				}
+			>
+				<p>
+					Tu cuenta fue verificada correctamente.
+					<br />
+					Ya puedes descubrir nuevas lecturas, guardar tus favoritos y recibir recomendaciones
+				</p>
+			</MensajeAutenticacion>
+		);
+	} else if (vista === "verificacion-fallida") {
+		contenido = (
+			<MensajeAutenticacion
+				variante="error"
+				icono={iconoVerificacionFallida}
+				titulo="No hemos podido verificar tu cuenta"
+				acciones={botonReenviar}
+			>
+				<p>
+					El enlace de verificación no es válido o ha expirado.
+					<br />
+					Solicita un nuevo correo para continuar con la activación de tu cuenta.
+				</p>
+				{estadoReenvio}
+			</MensajeAutenticacion>
+		);
+	} else {
+		contenido = (
+			<div className="autenticacion-tarjeta">
+				{/*SALUDO*/}
+				<header className="autenticacion-encabezado">
+					<h2 id="autenticacion-titulo">
+						{esRegistro ? (
+							"Crea tu cuenta"
+						) : (
+							<>
+								¡Hola, <span>lector!</span>
+							</>
+						)}
+					</h2>
+					<p>
+						{esRegistro
+							? "Guarda tus favoritos y recibe recomendaciones de nuestros libreros."
+							: "Inicia sesión para descubrir buenas lecturas."}
+					</p>
+				</header>
+
+				{/*FORMULARIO DE INICIO DE SESION O REGISTRO*/}
+				<form className="autenticacion-formulario" onSubmit={enviarFormulario} noValidate>
+					{esRegistro && (
+						<div className="autenticacion-campos-dobles">
+							<div className="autenticacion-campo">
+								<label htmlFor="autenticacion-nombre">Nombre</label>
+								<input
+									id="autenticacion-nombre"
+									type="text"
+									name="nombre"
+									placeholder="Nombre"
+									autoComplete="given-name"
+									required
+									value={campos.nombre}
+									onChange={(evento) => actualizar("nombre", evento.target.value)}
+									{...estadoCampo("nombre")}
+								/>
+								{mensajeError("nombre")}
+							</div>
+							<div className="autenticacion-campo">
+								<label htmlFor="autenticacion-apellido">Apellido</label>
+								<input
+									id="autenticacion-apellido"
+									type="text"
+									name="apellido"
+									placeholder="Apellido"
+									autoComplete="family-name"
+									required
+									value={campos.apellido}
+									onChange={(evento) => actualizar("apellido", evento.target.value)}
+									{...estadoCampo("apellido")}
+								/>
+								{mensajeError("apellido")}
+							</div>
+						</div>
+					)}
+
+					<div className="autenticacion-campo">
+						<label htmlFor="autenticacion-correo">Correo electrónico</label>
+						<input
+							id="autenticacion-correo"
+							type="email"
+							name="correo"
+							placeholder="Correo electrónico"
+							autoComplete="email"
+							required
+							value={campos.correo}
+							onChange={(evento) => actualizar("correo", evento.target.value)}
+							{...estadoCampo("correo")}
+						/>
+						{mensajeError("correo")}
+					</div>
+
+					<div className="autenticacion-campo">
+						<label htmlFor="autenticacion-contrasena">Contraseña</label>
+						<div className="autenticacion-campo-con-boton">
+							<input
+								id="autenticacion-contrasena"
+								type={verContrasena ? "text" : "password"}
+								name="contrasena"
+								placeholder="Contraseña"
+								autoComplete={esRegistro ? "new-password" : "current-password"}
+								minLength={LARGO_MINIMO_CONTRASENA}
+								required
+								value={campos.contrasena}
+								onChange={(evento) => actualizar("contrasena", evento.target.value)}
+								{...estadoCampo("contrasena")}
+							/>
+							<button
+								type="button"
+								aria-label={verContrasena ? "Ocultar contraseña" : "Mostrar contraseña"}
+								aria-pressed={verContrasena}
+								onClick={() => setVerContrasena((ver) => !ver)}
+							>
+								<Icono nombre={verContrasena ? "ver" : "ocultar"} />
+							</button>
+						</div>
+						{mensajeError("contrasena")}
+					</div>
+
+					{esRegistro ? (
+						<>
+							<div className="autenticacion-campo">
+								<label htmlFor="autenticacion-confirmar">Confirmar contraseña</label>
+								<input
+									id="autenticacion-confirmar"
+									type={verContrasena ? "text" : "password"}
+									name="confirmar-contrasena"
+									placeholder="Confirmar contraseña"
+									autoComplete="new-password"
+									required
+									value={campos.confirmar}
+									onChange={(evento) => actualizar("confirmar", evento.target.value)}
+									{...estadoCampo("confirmar")}
+								/>
+								{mensajeError("confirmar")}
+							</div>
+							<label className="autenticacion-checkbox">
+								<input
+									type="checkbox"
+									name="terminos"
+									required
+									checked={campos.terminos}
+									onChange={(evento) => actualizar("terminos", evento.target.checked)}
+									{...estadoCampo("terminos")}
+								/>
+								<span>Acepto los términos de servicio y la política de privacidad.</span>
+							</label>
+							{mensajeError("terminos")}
+							<label className="autenticacion-checkbox">
+								<input
+									type="checkbox"
+									name="novedades"
+									checked={campos.novedades}
+									onChange={(evento) => actualizar("novedades", evento.target.checked)}
+								/>
+								<span>Quiero recibir novedades y recomendaciones por correo.</span>
+							</label>
+						</>
+					) : (
+						// Diseñado; la recuperación de contraseña aún no tiene pantalla
+						<p className="autenticacion-recuperar">
+							<button type="button">¿Olvidaste tu contraseña?</button>
+						</p>
+					)}
+
+					{errores.general && (
+						<p className="autenticacion-error autenticacion-error-general" role="alert">
+							{errores.general}
+						</p>
+					)}
+
+					<div className="autenticacion-acciones">
+						<button className="autenticacion-enviar" type="submit" disabled={enviando}>
+							{enviando ? "Enviando..." : esRegistro ? "Crear cuenta" : "Iniciar sesión"}
+						</button>
+						<p className="autenticacion-cambiar">
+							{esRegistro ? "¿Ya tienes una cuenta?" : "¿Aún no tienes cuenta?"}
+							<button type="button" onClick={cambiarModo}>
+								{esRegistro ? "Inicia sesión" : "Regístrate aquí"}
+							</button>
+						</p>
+					</div>
+				</form>
+
+				{/*ACCESO CON GOOGLE O FACEBOOK (diseñado; falta la configuración en Backend)*/}
+				<div className="autenticacion-separador">
+					<span>O continúa con</span>
+				</div>
+				<div className="autenticacion-social">
+					<button type="button">
+						<Icono nombre="google" />
+						Continuar con Google
+					</button>
+					<button type="button">
+						<Icono nombre="facebook" />
+						Continuar con Facebook
+					</button>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div
@@ -155,204 +514,16 @@ export function ModalInicioSesionRegistro({ abierto, onCerrar }: ModalInicioSesi
 				if (evento.target === evento.currentTarget) cerrarModal();
 			}}
 		>
-			{/*VENTANA SUPERPUESTA DEL MODAL*/}
-			{/*CONTENEDOR DEL DIALOGO*/}
 			<section
-				className="autenticacion-dialogo"
+				className={`autenticacion-dialogo${vista === "formulario" ? "" : " autenticacion-dialogo-mensaje"}`}
 				role="dialog"
 				aria-modal="true"
 				aria-labelledby="autenticacion-titulo"
 			>
-				{/*BOTON PARA CERRAR EL MODAL*/}
-				<button
-					className="autenticacion-cerrar"
-					type="button"
-					aria-label="Cerrar ventana"
-					onClick={cerrarModal}
-				>
+				<button className="autenticacion-cerrar" type="button" aria-label="Cerrar ventana" onClick={cerrarModal}>
 					<Icono nombre="cerrar" />
 				</button>
-
-				{registroExitoso ? (
-					<div className="autenticacion-confirmacion" aria-live="polite">
-						<div className="autenticacion-confirmacion-icono" aria-hidden="true">
-							<svg viewBox="0 0 64 64" focusable="false">
-								<path d="M14 22.5h36a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4v-18a4 4 0 0 1 4-4Zm0 0 18 14 18-14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-							</svg>
-						</div>
-						<h2 id="autenticacion-titulo">¡Ya casi estás dentro!</h2>
-						<p>
-							Te enviamos un correo a <span className="autenticacion-confirmacion-correo">{correoConfirmacion}</span>
-							<br />
-							para verificar tu cuenta. Solo tienes que abrirlo y hacer clic en el enlace.
-						</p>
-						<div className="autenticacion-confirmacion-acciones">
-							<button type="button" className="autenticacion-confirmacion-secondary">
-								Reenviar correo
-							</button>
-							<button type="button" className="autenticacion-confirmacion-primary" onClick={cerrarModal}>
-								Continuar
-							</button>
-						</div>
-						<p className="autenticacion-confirmacion-ayuda">
-							¿No lo encuentras? <br />
-							Revisa tu bandeja de spam o promociones
-						</p>
-					</div>
-				) : (
-					<>
-						{/*TITULO Y CAMBIO ENTRE INICIO DE SESION Y REGISTRO*/}
-						<header className="autenticacion-encabezado">
-							<h2 id="autenticacion-titulo">{esRegistro ? "Crear cuenta" : "Iniciar sesión"}</h2>
-							<p>
-								{esRegistro ? "¿Ya tienes una cuenta? " : "¿Nuevo en LeeConNos? "}
-								{/*BOTON PARA CAMBIAR DE FORMULARIO*/}
-								<button
-									className="autenticacion-cambiar-modo"
-									type="button"
-									onClick={cambiarModo}
-								>
-									{esRegistro ? "Inicia sesión" : "Crear cuenta"}
-								</button>
-							</p>
-						</header>
-
-						{/*FORMULARIO DE INICIO DE SESION O REGISTRO*/}
-						<form className="autenticacion-formulario" onSubmit={enviarFormulario} noValidate>
-							{/*CAMPOS DE NOMBRE Y APELLIDO PARA REGISTRO*/}
-							{esRegistro && (
-								<div className="autenticacion-campos-dobles">
-									<label>
-										Nombre
-										<input
-											type="text"
-											name="nombre"
-											placeholder="Nombre"
-											autoComplete="given-name"
-											required
-											value={campos.nombre}
-											onChange={(evento) => actualizar("nombre", evento.target.value)}
-											{...estadoCampo("nombre")}
-										/>
-										{mensajeError("nombre")}
-									</label>
-									<label>
-										Apellido
-										<input
-											type="text"
-											name="apellido"
-											placeholder="Apellido"
-											autoComplete="family-name"
-											required
-											value={campos.apellido}
-											onChange={(evento) => actualizar("apellido", evento.target.value)}
-											{...estadoCampo("apellido")}
-										/>
-										{mensajeError("apellido")}
-									</label>
-								</div>
-							)}
-
-							{/*CAMPO DE CORREO ELECTRONICO*/}
-							<label>
-								Correo electrónico
-								<input
-									type="email"
-									name="correo"
-									placeholder="Correo electrónico"
-									autoComplete="email"
-									required
-									value={campos.correo}
-									onChange={(evento) => actualizar("correo", evento.target.value)}
-									{...estadoCampo("correo")}
-								/>
-								{mensajeError("correo")}
-							</label>
-							{/*CAMPO DE CONTRASENA*/}
-							<label>
-								Contraseña
-								<input
-									type="password"
-									name="contrasena"
-									placeholder="Contraseña"
-									autoComplete={esRegistro ? "new-password" : "current-password"}
-									minLength={LARGO_MINIMO_CONTRASENA}
-									required
-									value={campos.contrasena}
-									onChange={(evento) => actualizar("contrasena", evento.target.value)}
-									{...estadoCampo("contrasena")}
-								/>
-								{mensajeError("contrasena")}
-							</label>
-
-							{/*CAMPOS DE REGISTRO O RECUPERACION DE CONTRASENA*/}
-							{esRegistro ? (
-								<>
-									{/*CONFIRMACION DE CONTRASENA*/}
-									<label>
-										Confirmar contraseña
-										<input
-											type="password"
-											name="confirmar-contrasena"
-											placeholder="Confirmar contraseña"
-											autoComplete="new-password"
-											required
-											value={campos.confirmar}
-											onChange={(evento) => actualizar("confirmar", evento.target.value)}
-											{...estadoCampo("confirmar")}
-										/>
-										{mensajeError("confirmar")}
-									</label>
-									{/*ACEPTACION DE TERMINOS Y PRIVACIDAD*/}
-									<label className="autenticacion-checkbox">
-										<input
-											type="checkbox"
-											name="terminos"
-											required
-											checked={campos.terminos}
-											onChange={(evento) => actualizar("terminos", evento.target.checked)}
-											{...estadoCampo("terminos")}
-										/>
-										<span>Acepto los términos de servicio y la política de privacidad.</span>
-									</label>
-									{mensajeError("terminos")}
-									{/*SUSCRIPCION A NOVEDADES*/}
-									<label className="autenticacion-checkbox">
-										<input
-											type="checkbox"
-											name="novedades"
-											checked={campos.novedades}
-											onChange={(evento) => actualizar("novedades", evento.target.checked)}
-										/>
-										<span>Quiero recibir novedades y recomendaciones por correo.</span>
-									</label>
-								</>
-							) : (
-								<button className="autenticacion-recuperar" type="button">
-									Olvidé mi contraseña
-								</button>
-							)}
-
-							{/*BOTON PRINCIPAL DEL FORMULARIO*/}
-							{errores.general && (
-								<p className="autenticacion-error" role="alert">
-									{errores.general}
-								</p>
-							)}
-							<button className="autenticacion-enviar" type="submit" disabled={enviando}>
-								{enviando ? "Enviando..." : esRegistro ? "Crear cuenta" : "Iniciar sesión"}
-							</button>
-						</form>
-
-						{/*SEPARADOR DE ACCESO ALTERNATIVO*/}
-						<div className="autenticacion-separador"><span>o continuar con</span></div>
-						{/*BOTONES DE ACCESO SOCIAL*/}
-						<div className="autenticacion-social">
-							<button type="button"><Icono nombre="google" />Google</button>
-							<button type="button"><Icono nombre="facebook" />Facebook</button>
-						</div>
-					</>
-				)}
+				{contenido}
 			</section>
 		</div>
 	);

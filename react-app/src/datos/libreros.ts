@@ -1,8 +1,24 @@
-// Datos dummy de los perfiles de libreros (sin Backend aún).
+import fotoClara from "../assets/imagenes/librero-clara-del-valle.png";
+import fotoGregorio from "../assets/imagenes/librero-gregorio-samsa.png";
+import portadaGregorio from "../assets/imagenes/librero-gregorio-samsa-portada.jpg";
+import autorKafka from "../assets/imagenes/autor-kafka.jpg";
+import autorKang from "../assets/imagenes/autor-kang.jpg";
+import autorKundera from "../assets/imagenes/autor-kundera.jpg";
+import autorOrwell from "../assets/imagenes/autor-orwell.jpg";
+
+// Datos dummy de los perfiles de libreros (cuando VITE_API_URL está vacía).
 // Contenido de los wireframes "Perfiles de libreros" (Figma: Wireframes
 // Desktop, nodes 1547:4321, 1547:4583, 1547:4849 y 1584:4835).
 
-export type LibroLibrero = { titulo: string; autor: string };
+// Con API, las recomendaciones traen además el libro del catálogo
+export type LibroLibrero = {
+  titulo: string;
+  autor: string;
+  idLibro?: string;
+  portada?: string;
+  calificacion?: number;
+  opiniones?: number;
+};
 
 export type Coleccion = {
   titulo: string;
@@ -21,8 +37,8 @@ export type Librero = {
   estilos: string[];
   autores: string[];
   colecciones: Coleccion[];
-  // Se muestra al pulsar "Ver más" en Colecciones
-  coleccionExtra: Coleccion;
+  // Se muestran al pulsar "Ver más" en Colecciones
+  coleccionesExtra: Coleccion[];
   ultimasRecomendaciones: LibroLibrero[];
 };
 
@@ -68,11 +84,13 @@ export const LIBREROS: Librero[] = [
         fecha: "Enero 09, 2026",
       },
     ],
-    coleccionExtra: {
-      titulo: "Lecturas para noches largas",
-      descripcion: "Libros que siguen contigo después de cerrar la última página",
-      fecha: "Octubre 18, 2025",
-    },
+    coleccionesExtra: [
+      {
+        titulo: "Lecturas para noches largas",
+        descripcion: "Libros que siguen contigo después de cerrar la última página",
+        fecha: "Octubre 18, 2025",
+      },
+    ],
     ultimasRecomendaciones: [
       { titulo: "Piranesi", autor: "Susanna Clarke" },
       { titulo: "Klara y el Sol", autor: "Kazuo Ishiguro" },
@@ -121,11 +139,13 @@ export const LIBREROS: Librero[] = [
         fecha: "Enero 09, 2026",
       },
     ],
-    coleccionExtra: {
-      titulo: "Cartas que nunca enviamos",
-      descripcion: "Novelas sobre todo lo que no se dijo a tiempo.",
-      fecha: "Octubre 18, 2025",
-    },
+    coleccionesExtra: [
+      {
+        titulo: "Cartas que nunca enviamos",
+        descripcion: "Novelas sobre todo lo que no se dijo a tiempo.",
+        fecha: "Octubre 18, 2025",
+      },
+    ],
     ultimasRecomendaciones: [
       { titulo: "La edad de la inocencia", autor: "Edith Wharton" },
       { titulo: "Los días del abandono", autor: "Elena Ferrante" },
@@ -175,11 +195,13 @@ export const LIBREROS: Librero[] = [
         fecha: "Enero 09, 2026",
       },
     ],
-    coleccionExtra: {
-      titulo: "No leas esto un lunes",
-      descripcion: "Libros que te van a quitar las ganas de volver a la oficina.",
-      fecha: "Octubre 18, 2025",
-    },
+    coleccionesExtra: [
+      {
+        titulo: "No leas esto un lunes",
+        descripcion: "Libros que te van a quitar las ganas de volver a la oficina.",
+        fecha: "Octubre 18, 2025",
+      },
+    ],
     ultimasRecomendaciones: [
       { titulo: "El hombre rebelde", autor: "Albert Camus" },
       { titulo: "Menos que cero", autor: "Bret Easton Ellis" },
@@ -234,11 +256,13 @@ export const LIBREROS: Librero[] = [
         fecha: "Enero 09, 2026",
       },
     ],
-    coleccionExtra: {
-      titulo: "Historias de sobremesa",
-      descripcion: "Relatos que se heredan de generación en generación.",
-      fecha: "Octubre 18, 2025",
-    },
+    coleccionesExtra: [
+      {
+        titulo: "Historias de sobremesa",
+        descripcion: "Relatos que se heredan de generación en generación.",
+        fecha: "Octubre 18, 2025",
+      },
+    ],
     ultimasRecomendaciones: [
       { titulo: "Eva Luna", autor: "Isabel Allende" },
       { titulo: "Del amor y otros demonios", autor: "Gabriel García Márquez" },
@@ -257,3 +281,85 @@ export function rutaDeLibrero(nombre: string) {
   const librero = LIBREROS.find((actual) => actual.nombre === nombre);
   return librero ? `/perfil-librero?librero=${librero.id}` : "/perfil-librero";
 }
+
+// "Recomendados de nuestros libreros" del Home (dummy)
+export const RECOMENDADOS_INICIO = [
+  {
+    nombreLibrero: "Gregorio S.",
+    titulo: "El Principito",
+    autor: "Antoine de Saint-Exupéry",
+    calificacion: 5,
+    opiniones: 12,
+  },
+  {
+    nombreLibrero: "Tyler D.",
+    titulo: "Cien años de soledad",
+    autor: "Gabriel García Márquez",
+    calificacion: 4.5,
+    opiniones: 28,
+  },
+  {
+    nombreLibrero: "Clara V.",
+    titulo: "Don Quijote de la Mancha",
+    autor: "Miguel de Cervantes",
+    calificacion: 4,
+    opiniones: 9,
+  },
+  {
+    nombreLibrero: "Ana K.",
+    titulo: "1984",
+    autor: "George Orwell",
+    calificacion: 4.5,
+    opiniones: 31,
+  },
+  {
+    nombreLibrero: "Lisbeth S.",
+    titulo: "Rayuela",
+    autor: "Julio Cortázar",
+    calificacion: 4,
+    opiniones: 15,
+  },
+  {
+    nombreLibrero: "Aureliano B.",
+    titulo: "Pedro Páramo",
+    autor: "Juan Rulfo",
+    calificacion: 5,
+    opiniones: 22,
+  },
+  {
+    nombreLibrero: "Gregorio S.",
+    titulo: "La metamorfosis",
+    autor: "Franz Kafka",
+    calificacion: 4.5,
+    opiniones: 18,
+  },
+  {
+    nombreLibrero: "Clara V.",
+    titulo: "La casa de los espíritus",
+    autor: "Isabel Allende",
+    calificacion: 4,
+    opiniones: 11,
+  },
+];
+
+// Fotos de los libreros del diseño (Figma: avatar-booksellers), por slug.
+// La API aún no tiene fotos (fotoUrl llega null).
+export const FOTOS_LIBREROS: Record<string, string> = {
+  "gregorio-samsa": fotoGregorio,
+  "clara-del-valle": fotoClara,
+};
+
+// Foto grande de la cabecera del perfil, por slug. En Figma solo está la de
+// Gregorio (Perfil librero, node 3516:27619); el resto muestra la franja oscura.
+export const PORTADAS_LIBREROS: Record<string, string> = {
+  "gregorio-samsa": portadaGregorio,
+};
+
+// Fotos de "Autores favoritos", por nombre. La API solo entrega los nombres;
+// los autores sin foto muestran sus iniciales.
+export const FOTOS_AUTORES: Record<string, string> = {
+  "Franz Kafka": autorKafka,
+  "Milan Kundera": autorKundera,
+  "Han Kang": autorKang,
+  "George Orwell": autorOrwell,
+};

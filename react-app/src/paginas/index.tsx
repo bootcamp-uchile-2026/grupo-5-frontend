@@ -1,91 +1,39 @@
 import "../estilos/index.css";
 import "../estilos/base.css";
 import { Carrusel } from "../componentes/Carrusel";
+import { ComunidadLectora } from "../componentes/ComunidadLectora";
 import { Footer } from "../componentes/Footer";
-import { Link } from "react-router-dom";
 import { Newsletter } from "../componentes/Newsletter";
 import { TarjetaProducto } from "../componentes/TarjetaProducto";
-import {
-  TarjetaRecomendacion,
-  type TarjetaRecomendacionProps,
-} from "../componentes/TarjetaRecomendacion";
+import { TarjetaRecomendacion } from "../componentes/TarjetaRecomendacion";
 import { EstadoCarga } from "../componentes/EstadoCarga";
-import { Icono } from "../componentes/Icono";
 import { MensajeError } from "../componentes/MensajeError";
 import { usePeticion } from "../componentes/usePeticion";
 import { useTituloPagina } from "../componentes/useTituloPagina";
 import { obtenerLibrosInicio } from "../servicios/catalogoServicio";
+import { obtenerRecomendadosInicio } from "../servicios/libreroServicio";
 import { propsDeTarjeta } from "../utils/libros";
-import { IMAGENES_RELLENO } from "../datos/imagenes";
+import imagenHero from "../assets/imagenes/home-hero-libreros.png";
+import iconoLibros from "../assets/iconos/07-libro-abierto.svg";
+import iconoCuradores from "../assets/iconos/08-lapiz.svg";
+import iconoComunidad from "../assets/iconos/09-mensaje-chat-cuadrado.svg";
 
-// Datos dummy de "Recomendados de nuestros libreros" (sin Backend aún)
-
-const librosRecomendados: TarjetaRecomendacionProps[] = [
+// Características del hero (Figma: Home de alta fidelidad)
+const CARACTERISTICAS = [
+  { icono: iconoLibros, titulo: "Libros", texto: "Encuentra tu próximo favorito" },
   {
-    nombreLibrero: "Gregorio S.",
-    titulo: "El Principito",
-    autor: "Antoine de Saint-Exupéry",
-    calificacion: 5,
-    opiniones: 12,
+    icono: iconoCuradores,
+    titulo: "Curadores expertos",
+    texto: "Descubre libros recomendados por quienes más saben.",
   },
-  {
-    nombreLibrero: "Tyler D.",
-    titulo: "Cien años de soledad",
-    autor: "Gabriel García Márquez",
-    calificacion: 4.5,
-    opiniones: 28,
-  },
-  {
-    nombreLibrero: "Clara V.",
-    titulo: "Don Quijote de la Mancha",
-    autor: "Miguel de Cervantes",
-    calificacion: 4,
-    opiniones: 9,
-  },
-  {
-    nombreLibrero: "Ana K.",
-    titulo: "1984",
-    autor: "George Orwell",
-    calificacion: 4.5,
-    opiniones: 31,
-  },
-  {
-    nombreLibrero: "Lisbeth S.",
-    titulo: "Rayuela",
-    autor: "Julio Cortázar",
-    calificacion: 4,
-    opiniones: 15,
-  },
-  {
-    nombreLibrero: "Aureliano B.",
-    titulo: "Pedro Páramo",
-    autor: "Juan Rulfo",
-    calificacion: 5,
-    opiniones: 22,
-  },
-  {
-    nombreLibrero: "Gregorio S.",
-    titulo: "La metamorfosis",
-    autor: "Franz Kafka",
-    calificacion: 4.5,
-    opiniones: 18,
-  },
-  {
-    nombreLibrero: "Clara V.",
-    titulo: "La casa de los espíritus",
-    autor: "Isabel Allende",
-    calificacion: 4,
-    opiniones: 11,
-  },
-].map((libro) => ({
-  ...libro,
-  imagenLibrero: IMAGENES_RELLENO.avatar,
-  portada: IMAGENES_RELLENO.portadaHorizontal,
-}));
+  { icono: iconoComunidad, titulo: "Comunidad", texto: "Comparte y conecta con otros lectores." },
+];
 
 function Index() {
   useTituloPagina("Inicio");
   const inicio = usePeticion(obtenerLibrosInicio, "inicio");
+  // "Recomendados de nuestros libreros" (GET /recomendaciones/destacadas)
+  const recomendados = usePeticion(() => obtenerRecomendadosInicio(), "recomendados");
 
   // Carruseles de productos (libros del catálogo; ver obtenerLibrosInicio)
   const carruselesProductos = [
@@ -109,103 +57,63 @@ function Index() {
   return (
     <>
       <main>
-        {/* HERO */}
-        <section className="hero">
-          {/* HERO CONTENEDOR */}
+        {/* HERO (Figma: Home de alta fidelidad, node 3173:28808) */}
+        <section className="hero" aria-labelledby="hero-titulo">
           <div className="hero-contenedor">
-            {/* HERO CONTENIDO */}
             <div className="hero-contenido">
-              {/* HERO TÍTULO */}
               <div className="hero-titulo">
-                <h2>Encuentra ese libro que aún no conoces</h2>
-              </div>
-
-              {/* HERO PIE */}
-              <div className="hero-pie">
-                <p>
+                <h2 id="hero-titulo">
+                  <span className="hero-titulo-destacado">Encuentra ese libro </span>
+                  que aún no conoces
+                </h2>
+                <p className="hero-pie">
                   Descubre tu próxima lectura y conecta con una comunidad de
-                  lectores como tú
+                  lectores como tú.
                 </p>
               </div>
 
-              {/* HERO BOTONES */}
-              <div className="hero-botones">
-                <button className="boton">Botón 1</button>
-                <button className="boton boton-secundario">Botón 2</button>
-              </div>
-
-              {/* HERO CARACTERÍSTICAS */}
-              <div className="hero-caracteristicas">
-                <div className="hero-caracteristicas-contenedor">
-                  <Icono nombre="estadoVacio" className="hero-caracteristica-icono" />
-                  <h3>Libros</h3>
-                  <p>Encuentra tu próximo favorito</p>
-                </div>
-
-                <div className="hero-caracteristicas-contenedor">
-                  <Icono nombre="estadoVacio" className="hero-caracteristica-icono" />
-                  <h3>Curadores expertos</h3>
-                  <p>Encuentra tu próximo favorito</p>
-                </div>
-
-                <div className="hero-caracteristicas-contenedor">
-                  <Icono nombre="estadoVacio" className="hero-caracteristica-icono" />
-                  <h3>Comunidad</h3>
-                  <p>Encuentra tu próximo favorito</p>
-                </div>
-              </div>
+              <ul className="hero-caracteristicas">
+                {CARACTERISTICAS.map(({ icono, titulo, texto }) => (
+                  <li key={titulo} className="hero-caracteristica">
+                    <span className="hero-caracteristica-icono">
+                      <span>
+                        <img src={icono} alt="" width="24" height="24" />
+                      </span>
+                    </span>
+                    <h3>{titulo}</h3>
+                    <p>{texto}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* HERO IMAGEN */}
-            <div className="hero-imagen">
-              <img src={IMAGENES_RELLENO.hero} alt="" />
-            </div>
+            <img
+              className="hero-imagen"
+              src={imagenHero}
+              alt="Libreros de Leeconnos con sus libros recomendados"
+              width="714"
+              height="608"
+            />
           </div>
         </section>
 
-        <Carrusel
-          titulo="Recomendados de nuestros libreros"
-          variante="recomendaciones"
-          className="inicio-recomendados carrusel-tarjetas-recomendacion"
-          flechasEncabezado
-        >
-          {librosRecomendados.map((libro) => (
-            <TarjetaRecomendacion key={libro.titulo} {...libro} />
-          ))}
-        </Carrusel>
+        {Boolean(recomendados.error) && (
+          <MensajeError error={recomendados.error} onReintentar={recomendados.reintentar} />
+        )}
+        {recomendados.cargando && <EstadoCarga texto="Cargando recomendaciones..." />}
+        {recomendados.datos && (
+          <Carrusel
+            titulo="Recomendados de nuestros libreros"
+            variante="recomendaciones"
+            className="inicio-recomendados carrusel-tarjetas-recomendacion"
+          >
+            {recomendados.datos.map((libro) => (
+              <TarjetaRecomendacion key={`${libro.nombreLibrero}-${libro.titulo}`} {...libro} />
+            ))}
+          </Carrusel>
+        )}
 
-        {/* COMUNIDAD LECTORA */}
-        <section className="comunidad-lectora">
-          {/* CONTENEDOR */}
-          <div className="comunidad-lectora-contenedor">
-            {/* COMUNIDAD LECTORA CONTENIDO */}
-            <div className="comunidad-lectora-contenido">
-              {/* COMUNIDAD LECTORA TÍTULO */}
-              <div className="comunidad-lectora-titulo">
-                <h2>Únete a nuestra comunidad lectora</h2>
-              </div>
-
-              {/* COMUNIDAD LECTORA PIE */}
-              <div className="comunidad-lectora-pie">
-                <p>
-                  Comparte reseñas y descubre recomendaciones de la comunidad
-                </p>
-              </div>
-
-              {/* COMUNIDAD LECTORA BOTONES */}
-              <div className="comunidad-lectora-botones">
-                <Link className="boton" to="/comunidad">
-                  Ir a la comunidad
-                </Link>
-              </div>
-            </div>
-
-            {/* COMUNIDAD LECTORA IMAGEN */}
-            <div className="comunidad-lectora-imagen">
-              <img src={IMAGENES_RELLENO.comunidad} alt="" />
-            </div>
-          </div>
-        </section>
+        <ComunidadLectora />
 
         {Boolean(inicio.error) && (
           <MensajeError error={inicio.error} onReintentar={inicio.reintentar} />

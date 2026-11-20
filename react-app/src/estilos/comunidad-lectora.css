@@ -1,0 +1,176 @@
+/* BANNER DE LA COMUNIDAD LECTORA
+   "community-banner" de la Home de alta fidelidad (Figma, node 3172:28763):
+   bloque morado de 510px, franja de colores de 14px y foto de 676px. */
+.comunidad-lectora {
+  box-sizing: border-box;
+  width: min(var(--ancho-columna), 100% - 48px);
+  margin: 96px auto 0;
+}
+
+.comunidad-lectora-contenedor {
+  display: grid;
+  grid-template-columns: minmax(0, 510fr) 14px minmax(0, 676fr);
+  min-height: 360px;
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+  background-color: var(--color-brand-primary-dark);
+}
+
+.comunidad-lectora-contenido {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 56px 64px;
+}
+
+/* 36px e interlineado 1.15 según el diseño (no es un estilo del UI Kit) */
+.comunidad-lectora-titulo {
+  margin: 0 0 16px;
+  background-color: transparent;
+  color: var(--color-neutral-50);
+  font-family: var(--fuente-display);
+  font-size: 36px;
+  font-weight: var(--peso-regular);
+  line-height: 1.15;
+  text-align: left;
+}
+
+.comunidad-lectora-pie {
+  max-width: 245px;
+  margin: 0 0 24px;
+  padding: 0;
+  background-color: transparent;
+  color: var(--color-neutral-50);
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-regular);
+  line-height: 1.15;
+  text-align: left;
+}
+
+.comunidad-lectora-boton {
+  display: inline-flex;
+  box-sizing: border-box;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border: var(--stroke-default) solid var(--color-neutral-0);
+  border-radius: var(--radius-lg);
+  background-color: transparent;
+  color: var(--color-neutral-0);
+  font-family: var(--fuente-body);
+  font-size: var(--tamano-fuente-body-md);
+  font-weight: var(--peso-bold);
+  text-decoration: none;
+}
+
+.comunidad-lectora-boton:hover,
+.comunidad-lectora-boton:focus-visible {
+  background-color: var(--color-neutral-0);
+  color: var(--color-brand-primary-dark);
+}
+
+.comunidad-lectora-separador {
+  grid-column: 2;
+  grid-row: 1;
+  background: linear-gradient(
+    to bottom,
+    var(--color-brand-tertiary) 0 88px,
+    var(--color-brand-secondary) 88px 221px,
+    var(--color-brand-primary) 221px 100%
+  );
+}
+
+.comunidad-lectora-imagen {
+  grid-column: 3;
+  grid-row: 1;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.comunidad-lectora-foto {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Logo sobre la foto, con el velo negro al 20% del diseño */
+.comunidad-lectora-marca {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(0 0 0 / 20%);
+}
+
+.comunidad-lectora-marca img {
+  display: block;
+  width: auto;
+  height: 68px;
+}
+
+.comunidad-lectora-marca .comunidad-lectora-logo-texto {
+  height: 88px;
+  margin-left: -10px;
+  filter: brightness(0) invert(1);
+}
+
+@media (max-width: 760px) {
+  .comunidad-lectora-contenedor {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 10px minmax(220px, auto);
+    min-height: 0;
+  }
+
+  .comunidad-lectora-contenido {
+    padding: 36px 32px;
+  }
+
+  .comunidad-lectora-separador {
+    grid-column: 1;
+    grid-row: 2;
+    background: linear-gradient(
+      to right,
+      var(--color-brand-tertiary) 0 24%,
+      var(--color-brand-secondary) 24% 62%,
+      var(--color-brand-primary) 62% 100%
+    );
+  }
+
+  .comunidad-lectora-imagen {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
+
+@media (max-width: 480px) {
+  .comunidad-lectora {
+    width: calc(100% - 32px);
+  }
+
+  .comunidad-lectora-contenido {
+    padding: 32px 24px;
+  }
+
+  .comunidad-lectora-titulo {
+    font-size: 28px;
+    line-height: 34px;
+  }
+
+  .comunidad-lectora-marca img {
+    height: 48px;
+  }
+
+  .comunidad-lectora-marca .comunidad-lectora-logo-texto {
+    height: 68px;
+  }
+}

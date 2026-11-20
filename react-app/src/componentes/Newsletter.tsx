@@ -1,15 +1,28 @@
 import { useState, type FormEvent } from "react";
+import { suscribirNewsletter } from "../servicios/newsletterServicio";
+import { mensajeDeError } from "../utils/mensajesError";
 import "../estilos/newsletter.css";
 
+// Suscripción al newsletter (POST /newsletter/suscripciones)
 export function Newsletter() {
   const [correo, setCorreo] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [enviando, setEnviando] = useState(false);
 
-  function enviar(evento: FormEvent<HTMLFormElement>) {
+  async function enviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault();
-    setMensaje(
-      "La suscripción aún no está disponible porque el servicio no está conectado.",
-    );
+    if (enviando) return;
+    setEnviando(true);
+    setMensaje("");
+    try {
+      await suscribirNewsletter(correo);
+      setMensaje("¡Listo! Te enviaremos recomendaciones y novedades a tu correo.");
+      setCorreo("");
+    } catch (error) {
+      setMensaje(mensajeDeError(error));
+    } finally {
+      setEnviando(false);
+    }
   }
 
   return (
@@ -19,9 +32,9 @@ export function Newsletter() {
       </h2>
 
       <p className="newsletter-pie">
-        Si quieres enterarte de
+        Entérate de recomendaciones,
         <br />
-        recomendaciones, novedades y más
+        novedades y más
       </p>
 
       <form className="newsletter-formulario" onSubmit={enviar}>
@@ -40,7 +53,7 @@ export function Newsletter() {
         />
 
         {/* Oculto a la vista como en el wireframe; se envía con Enter */}
-        <button className="newsletter-boton" type="submit">
+        <button className="newsletter-boton" type="submit" disabled={enviando}>
           Suscribirme
         </button>
       </form>

@@ -46,12 +46,69 @@ export type DireccionDto = {
   region: Region;
   // Celular chileno, por ejemplo +56912345678
   telefono: string;
+  // Opcionales: RUT con o sin puntos (la API revisa el dígito verificador),
+  // ciudad y código postal de 7 dígitos
+  rut?: string;
+  ciudad?: string;
+  codigoPostal?: string;
 };
 
-// Request de POST /pedidos (el pedido se arma con el carrito de la cuenta)
+// Response de GET /direcciones (la predeterminada primero)
+export type DireccionGuardadaDto = DireccionDto & {
+  id: string;
+  alias: string;
+  predeterminada: boolean;
+  creadoEn: string;
+};
+
+// Request de POST /pedidos (el pedido se arma con el carrito de la cuenta).
+// Con una dirección guardada se envía direccionId en vez de direccion;
+// guardarDireccion guarda la dirección enviada ("Guardar mis datos").
 export type CrearPedidoRequestDto = {
   metodoEnvio: MetodoEnvioApi;
   direccion?: DireccionDto;
+  codigoDescuento?: string;
+  direccionId?: string;
+  guardarDireccion?: boolean;
+};
+
+// Request de POST /pedidos/invitado (sin cuenta: los libros van en el body)
+// (direccionId y guardarDireccion necesitan una cuenta)
+export type CrearPedidoInvitadoRequestDto = Omit<
+  CrearPedidoRequestDto,
+  "direccionId" | "guardarDireccion"
+> & {
+  email: string;
+  nombre: string;
+  items: { libroId: string; cantidad: number }[];
+};
+
+// Response de POST /pedidos/invitado. tokenPedido permite consultar y pagar
+// el pedido sin sesión (header X-Pedido-Token)
+export type PedidoInvitadoResponseDto = {
+  pedido: PedidoResponseDto;
+  tokenPedido: string;
+};
+
+// Request de POST /cupones/validar (no consume el cupón)
+export type ValidarCuponRequestDto = {
+  codigo: string;
+  subtotal: number;
+  email?: string;
+};
+
+export type TipoCupon = "PORCENTAJE" | "MONTO_FIJO";
+
+// Response de POST /cupones/validar
+export type CuponAplicadoDto = {
+  codigo: string;
+  descripcion: string;
+  tipo: TipoCupon;
+  // Porcentaje o monto en pesos, según el tipo
+  valor: number;
+  subtotal: number;
+  descuento: number;
+  subtotalConDescuento: number;
 };
 
 export type PedidoItemResponseDto = {
@@ -70,6 +127,8 @@ export type PedidoResponseDto = {
   metodoEnvio: MetodoEnvioApi;
   items: PedidoItemResponseDto[];
   subtotal: number;
+  descuento: number;
+  codigoDescuento: string | null;
   costoEnvio: number;
   total: number;
   diasEstimados: number;

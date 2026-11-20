@@ -1,30 +1,48 @@
-/* PIE DE PÁGINA
-   Estructura y medidas: footer del wireframe (Figma: Componentes Global,
-   node 2169:10344 y wireframe Home). Se mantienen los colores del sitio.
-   Todos los estilos del footer están en este archivo. */
+/* FOOTER
+   "Footer" de la Home de alta fidelidad (Figma, node 2574:18269): franja de
+   300px con el logo y cuatro columnas, y franja legal de 50px. */
 .footer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background-color: var(--color-violet-800);
+  overflow: hidden;
+  background-color: var(--color-brand-primary-dark);
   color: var(--color-neutral-0);
 }
 
-.footer .footer-contenedor {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 48px;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: calc(var(--ancho-contenido) + 48px);
-  padding: 72px 24px;
+/* Logo de fondo en blanco al 5%, girado como en el diseño */
+.footer::before {
+  position: absolute;
+  top: -84px;
+  left: -126px;
+  width: 652px;
+  height: 557px;
+  background-image: url("../assets/logos/06-Imagen-Contorno-Blanco.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  content: "";
+  opacity: 0.05;
+  pointer-events: none;
+  transform: rotate(-14.12deg);
 }
 
-/* LOGO (wireframe: ícono en contorno blanco + "Leeconnos_" en blanco).
-   El SVG del texto trae margen interno: con 48px de alto el texto mide
-   ~144 × 19 px visibles, igual que en Figma. */
+.footer .footer-contenedor {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 92px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 300px;
+  padding: 40px 24px;
+}
+
+/* Logo blanco (ícono de 30px y texto, separados por 8px) y lema centrado */
 .footer .footer-logo {
   display: flex;
   flex-direction: column;
@@ -34,6 +52,8 @@
 .footer .footer-marca {
   display: flex;
   align-items: center;
+  height: 48px;
+  padding: 0 8px;
 }
 
 .footer .footer-marca img {
@@ -44,21 +64,21 @@
 
 .footer .footer-marca .footer-marca-texto {
   height: 48px;
-  margin-left: -8px;
+  margin-left: -7px;
   filter: brightness(0) invert(1);
 }
 
 .footer .footer-lema {
-  margin: 4px 0 0;
+  margin: 0;
   padding: 0;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-caption);
-  line-height: 16px;
+  font-size: var(--tamano-fuente-body-xsm);
+  line-height: normal;
+  text-align: center;
   color: var(--color-neutral-0);
   background-color: transparent;
 }
 
-/* COLUMNAS */
 .footer .footer-columnas {
   display: flex;
   gap: 72px;
@@ -71,50 +91,63 @@
 }
 
 .footer .footer-columna:nth-child(1) {
-  min-width: 155px;
+  width: 155px;
 }
 
 .footer .footer-columna:nth-child(2) {
-  min-width: 164px;
+  width: 164px;
 }
 
 .footer .columna-encabezado {
   margin: 0;
   font-family: var(--fuente-display);
-  font-weight: 400;
-  font-size: var(--tamano-fuente-heading-lg);
+  font-weight: var(--peso-regular);
+  font-size: var(--tamano-fuente-heading-sm);
   line-height: 1.15;
   white-space: nowrap;
   color: var(--color-neutral-0);
   background-color: transparent;
 }
 
+/* Cada enlace ocupa 48px de alto (componente "label" del UI Kit) */
 .footer .columna-lista {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .footer .columna-lista a,
 .footer .columna-lista span {
+  display: flex;
+  align-items: center;
+  height: 48px;
+}
+
+.footer .columna-lista a,
+.footer .columna-lista span,
+.footer .footer-contacto a,
+.footer .footer-direccion {
   font-family: var(--fuente-body);
-  font-weight: 400;
-  font-size: var(--tamano-fuente-small);
-  line-height: 20px;
+  font-weight: var(--peso-regular);
+  font-size: var(--tamano-fuente-label-md);
+  line-height: var(--interlineado-body-sm);
+  white-space: nowrap;
   color: var(--color-neutral-0);
   text-decoration: none;
 }
 
 .footer .columna-lista a:hover,
-.footer .columna-lista a:focus-visible {
-  color: var(--color-yellow-200);
+.footer .columna-lista a:focus-visible,
+.footer .footer-contacto a:hover,
+.footer .footer-contacto a:focus-visible {
+  color: var(--color-brand-secondary);
   text-decoration: underline;
 }
 
+/* Íconos de 24px, 17px entre ellos y 31px bajo el título */
 .footer .iconos-contenedor {
   display: flex;
   gap: 17px;
-  padding-top: 2px;
+  margin: 9px 0 0 2px;
 }
 
 .footer .iconos-contenedor img {
@@ -123,63 +156,97 @@
   height: 24px;
 }
 
-.footer .footer-direccion {
+.footer .footer-contacto {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  max-width: 190px;
-  font-family: var(--fuente-body);
-  font-style: normal;
-  font-size: var(--tamano-fuente-small);
-  line-height: 20px;
-  color: var(--color-neutral-0);
+  align-items: flex-start;
+  gap: 16px;
+  padding-top: 14px;
 }
 
-/* FRANJA LEGAL: mismo degradado que el banner superior */
+.footer .footer-contacto .footer-telefono {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 21px;
+}
+
+.footer .footer-telefono img {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.footer .footer-direccion {
+  width: 190px;
+  margin: 24px 0 0;
+  font-style: normal;
+  white-space: normal;
+}
+
 .footer .footer-legal {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  background-image: var(--degradado-banner);
+  background-color: var(--color-brand-primary-darker);
 }
 
 .footer .footer-legal p {
   margin: 0;
-  padding: 12px 16px;
+  padding: 7px 16px;
   font-family: var(--fuente-body);
-  font-size: var(--tamano-fuente-small);
-  line-height: 24px;
+  font-size: var(--tamano-fuente-body-sm);
+  line-height: 36px;
   text-align: center;
+  white-space: pre-wrap;
   color: var(--color-neutral-0);
   background-color: transparent;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .footer .footer-contenedor {
     flex-direction: column;
     align-items: flex-start;
+    gap: 32px;
+    width: calc(100% - 48px);
+    min-height: auto;
+    padding: 40px 0;
   }
 
   .footer .footer-columnas {
     flex-wrap: wrap;
-    gap: 32px 48px;
+    gap: 32px 56px;
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   .footer .footer-contenedor {
-    padding: 48px 20px;
+    width: calc(100% - 40px);
   }
 
   .footer .footer-columnas {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px 24px;
+    gap: 32px 20px;
   }
 
   .footer .footer-columna:nth-child(n) {
+    width: auto;
     min-width: 0;
+  }
+
+  .footer .columna-lista a,
+  .footer .columna-lista span,
+  .footer .footer-contacto a {
+    white-space: normal;
+  }
+
+  .footer .footer-direccion {
+    width: auto;
   }
 
   .footer .footer-legal p {
     line-height: 20px;
+    padding: 12px 16px;
   }
 }
